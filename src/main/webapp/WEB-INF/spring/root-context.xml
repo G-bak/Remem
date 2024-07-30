@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:util="http://www.springframework.org/schema/util"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:context="http://www.springframework.org/schema/context"
+
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- Bean 객체로 등록 -->
+	<!-- UserDAO userDAO = new UserDAOImpl(); -->
+	<!-- <bean id="userDAO" class="com.app.dao.user.impl.UserDAOImpl"></bean> -->
+
+	<!-- UserService userService = new UserServiceImpl(userDAO); -->
+	<!-- <bean id="userService" class="com.app.service.user.impl.UserServiceImpl"> -->
+	<!-- 생성자를 통한 의존성 주입 -->
+	<!-- <constructor-arg ref="userDAO"></constructor-arg> -->
+	<!-- setter 를 통한 의존성 주입 -->
+	<!-- <property name="userDAO" ref="userDAO"></property> -->
+	<!-- </bean> -->
+
+	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="data_source">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property name="dataSource" ref="data_source"></property>
+		<property name="mapperLocations" value="/WEB-INF/mybatis/mapper/**/*_mapper.xml"></property>
+		<property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml"></property>
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+<!-- 	<context:component-scan base-package="com.app.service"></context:component-scan> -->
+<!-- 	<context:component-scan base-package="com.app.dao"></context:component-scan> -->
+	
+	
+	
+	
+<!-- 	<bean id="sampleScheduler" class="com.app.scheduler.DailySalesScheduler" /> -->
+<!-- 	<task:scheduler id="mainScheduler" pool-size="10" /> -->
+<!-- 	<task:executor id="mainTaskExecutor" pool-size="10" /> -->
+<!-- 	<task:annotation-driven executor="mainTaskExecutor" scheduler="mainScheduler" /> -->
+
+</beans>
