@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="./css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>마이페이지</title>
+</head>
+
+<body>
+    <header id="header">
+        <span>#오늘 일기</span>
+        <div class="icon-container">
+            <a href=""><i class="far fa-user-circle"></i></a>
+            <a href=""><i class="fas fa-user-plus"></i></a>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-leftslide">
+                    <button class="menu-btn" data-target="#content-diary">일기장</button>
+                    <button class="menu-btn" data-target="#content-todo">오늘할일</button>
+                    <button class="menu-btn" data-target="#content-budget">가계부</button>
+                    <button class="menu-btn" data-target="#content-capsule">타임캡슐</button>
+                </div>
+                <div class="swiper-rightslide" id="content-diary">일기장</div>
+
+                <div class="swiper-rightslide" id="content-todo">
+
+
+                    <div class="wrapper">
+                        <header>오늘 할 일</header>  
+                        
+                        <div class="input-container">
+                            <input type="text" id="todoInput" placeholder="할 일을 입력하세용">
+                            <button id="addTodoButton"><i class="fa-solid fa-check"></i></button>
+                        </div>
+                        <ul id="todoList"></ul>
+                    </div>
+                        
+
+                    </div>
+
+                    <script src="script/listlist.js"></script>
+                    </div>
+
+                <div class="swiper-rightslide" id="content-budget">가계부</div>
+                <div class="swiper-rightslide" id="content-capsule">타임캡슐</div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <span>© 2024 #오늘 일기</span>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('.menu-btn').on('click', function() {
+                $('.swiper-rightslide').hide();
+                $($(this).data('target')).show();
+            });
+        });
+    </script>
+</body>
+
+</html>
