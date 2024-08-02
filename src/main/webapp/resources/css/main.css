@@ -1,0 +1,555 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Gaegu", sans-serif;
+    font-size: 20px;
+}
+
+#header {
+    height: 45px;
+    background-color: #f3e073;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+
+span {
+    color: #7c531d;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: -2px 2px 0 #ffffff;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    display: block;
+}
+
+.fa-user-circle, .fa-user-plus {
+    color: #7c531d;
+    font-size: 26px;
+    margin-right: 10px;
+}
+
+.fa-user-plus {
+    font-size: 21px;
+    margin-right: 0;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 40%; 
+    max-width: 500px; 
+    padding: 20px;
+    height: 400px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Modify-btn {
+    padding: 10px 20px;
+    background: #f3e073;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#open-accountModify-popup {
+    background-color: #f3e073;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px;
+}
+
+.popup-content h2 {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.close-btn {
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.photo {
+    width: 25%;
+    height: 80px;
+    border-radius: 20px;
+    background-color: #7c531d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.profile-container p {
+    margin-right: 15px;
+}
+
+.follower, .following {
+    color: #a34c24cb;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.profile-introduce {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 30px 25px;
+}
+
+.nickname {
+    font-weight: bold;
+}
+
+.profile-id {
+    color: gray;
+}
+
+.ModifyPage {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nicknameModify, .passwordModify {
+    width: 45%;
+    height: 40px;
+    font-size: 22px;
+    background-color: #f3e073;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.section {
+    height: 823px;
+}
+
+.swiper-container {
+    height: 100%;
+}
+
+.swiper-leftslide {
+    width: 200px;
+    background-color: #F4F4F9;
+}
+
+.swiper-rightslide {
+    display: none;
+    width: calc(100% - 200px);
+    background-color: white;
+    padding: 20px;
+}
+
+.menu-btn {
+    background-color: #F4F4F9;
+    width: 100%;
+    height: 50px;
+    padding: 30px;
+    font-size: 1.1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+    background-color: #2e3a4d56;
+}
+
+.accountModify-popup-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date {
+    margin: 10px;
+    display: block;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid rgb(82, 82, 82);
+    border-radius: 8px ;
+}
+
+.date-btn {
+    border: none;
+    background-color: #f3e073;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.account-book-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.account-book-content {
+    width: 30%;
+    height: 600px;
+    margin-top: 30px;
+    background-color: #faf9f8;
+    border: 3px solid #7c531d;
+}
+
+.total-income {
+    margin-top: 25px;
+}
+
+.total-income i {
+    margin-top: 3px;
+}
+
+.total-income p {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.total-income input {
+    border: none;
+    height: 30px;
+    width: 50%;
+}
+
+.income-item {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.account-book-container h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 10px;
+    text-decoration: underline;
+    text-underline-offset: 12px;
+}
+
+.income-items {
+    display: flex;
+    justify-content: space-evenly;
+    color: red;
+}
+
+#footer {
+    height: 38px;
+    background-color: #f3e073;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: auto;
+    font-size: 20px;
+}
+
+#footer span {
+    color: #7c531d;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: -2px 2px 0 #ffffff;
+}
+
+/* 정민파트 */
+
+.addfriend-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.addfriend-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 40%;
+    max-width: 500px;
+    padding: 20px;
+    height: 400px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.diary-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.diary-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 40%;
+    height: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.diary-content h2 {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.diary-content .diary-close-btn,
+.diary-content .save-btn {
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.addfriend-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px lightgray;
+}
+
+#search-btn {
+    border: none;
+    background-color: white;
+}
+
+table {
+    margin: 20px auto;
+}
+
+.image {
+    width: 40px;
+    height: 40px;
+    color: gray;
+    background-color: gray;
+    border-radius: 15px;
+    margin: 5px;
+    margin-right: 10px;
+}
+
+table .fa-user-plus,
+#search-icon {
+    color: black;
+    margin: 10px;
+    font-size: 20px;
+}
+
+#diary-title,
+#diary-content {
+    margin: 10px;
+}
+
+.diary-entry {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 960px;
+}
+
+.diary-entry h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+}
+
+.diary-entry p {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.diary-entry .date {
+    font-size: 0.9em;
+    color: #666;
+    margin: 10px;
+    
+}
+
+.diary-date{
+    font-size: 0.8em;
+}
+
+.diary-footer{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 10px
+}
+
+.diary-header button {
+	width: 80px;
+	height : 40px;
+	border: none;
+	border-radius: 8px;
+}
+
+#modify-diary, #remove-diary, #view-diary{
+    width: 100px;
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    margin: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+/*혜민 파트*/
+
+body{
+    height: 100vh;
+    width: 100%;
+    /* background: linear-gradient(to bottom, #E6E6FA 0%, #FFF0F5); */
+    
+}
+.wrapper{
+    /* margin: 120px auto; */
+    width: 800px;
+    background: wheat;
+    padding: 25px;
+    border-radius: 6px;
+    margin-left: 50px;
+}
+.wrapper header{
+    margin-bottom: 30px;
+    font-size: 50px;
+    font-weight: 700;
+    letter-spacing: 15px;
+    text-align: center;
+    font-family: "Gaegu", sans-serif;
+}
+
+.wrapper .Todolist{
+    display: flex;
+}
+
+.input-container{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.input-container input[type="text"]{
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#addTodoButton {
+    padding: 10px;
+    border: none;
+    background-color: #dcb381;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checked button:hover {
+    background-color: #2b81dd;
+}
+
+ul {
+    list-style: none;
+    padding: 10px;
+}
+
+li {
+    display: flex;
+    padding: 8px;
+    border-bottom: 1px solid #dcb381;
+    justify-content: space-between;
+    /* margin-top: 10px; */
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+.remove-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px; 
+    border: none; 
+    background: none;
+    font-size: 16px; 
+    cursor: pointer; 
+    padding: 0; 
+    text-align: center;
+}
+button.remove-btn:hover {
+    background-color: #c82333;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+li.checked {
+    text-decoration: line-through;
+    color: #ac1616;
+}
