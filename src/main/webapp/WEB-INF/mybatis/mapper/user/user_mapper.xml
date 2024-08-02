@@ -5,7 +5,66 @@
 
 
 <mapper namespace="user_mapper">
-
+	<select id="findUserById" parameterType="String" resultType="User">
+		SELECT user_id, username, address FROM USERS WHERE USER_ID = #{serchUserId}
+	</select>
+	
+	<insert id="joinFriendById" parameterType="HashMap">
+		INSERT INTO REQUESTFRIEND
+		VALUES (#{friendId}, #{myId})
+	</insert>
+	
+	
+	<select id="selectFriendRequest" parameterType="String" resultType="User">
+		SELECT user_id, username FROM USERS
+		WHERE user_id IN (SELECT FRIEND_ID FROM REQUESTFRIEND
+		WHERE USER_ID = #{confirmId} )
+	</select>
+	
+	<delete id="deleteRequestFriend" parameterType="HashMap">
+		DELETE FROM REQUESTFRIEND
+		WHERE USER_ID = #{myId} AND FRIEND_ID = #{acceptUserId}
+	</delete>
+	
+	<insert id="makeFriend" parameterType="HashMap">
+		INSERT INTO FRIENDSHIPS
+		VALUES (#{myId}, #{acceptUserId})
+	</insert>
+	
+	
+	<select id="selectAllMyFriend" parameterType="String" resultType="User">
+		SELECT USER_ID, USERNAME
+		FROM USERS
+		WHERE USER_ID IN (SELECT FRIEND_ID FROM FRIENDSHIPS
+							WHERE USER_ID = #{myId})
+	</select>
+	
+	
+	<select id="findFriendRecommend" parameterType="String" resultType="User">
+		SELECT u.user_id, u.username
+	FROM users u
+	WHERE (SUBSTR(
+	        u.ADDRESS,
+	        INSTR(u.ADDRESS, ' ', 1, 1) + 1,
+	        INSTR(u.ADDRESS, ' ', 1, 2) - INSTR(u.ADDRESS, ' ', 1, 1) - 1
+	    )) = (SELECT 
+	                SUBSTR(
+	                    ADDRESS,
+	                    INSTR(ADDRESS, ' ', 1, 1) + 1,
+	                    INSTR(ADDRESS, ' ', 1, 2) - INSTR(ADDRESS, ' ', 1, 1) - 1
+	                ) AS 시뽑기
+	            FROM USERS
+	            WHERE user_id = #{myId})
+	AND u.user_id != #{myId}
+	AND u.user_id NOT IN (SELECT friend_id FROM FRIENDSHIPS WHERE user_id = #{myId})
+	AND u.user_id NOT IN (SELECT user_id FROM FRIENDSHIPS WHERE friend_id = #{myId})
+	</select>
+	
+	<select id="checkMyFriend" parameterType="HashMap" resultType="String">
+		SELECT CASE WHEN COUNT(*) > 0  THEN 'true' ELSE 'false' END
+		FROM FRIENDSHIPS
+		WHERE user_id = #{myId} AND friend_id = #{friendId}
+	</select>
 	
 	
 </mapper>					
