@@ -156,22 +156,32 @@ public class HomeController {
 		return "user/friendDetail";
 	}
 
+	@GetMapping("/startpage")
+	public String startpage() {
+		return "startpage";
+	}
+	
 	@GetMapping("/signup")
 	public String signup() {
-		return "user/signup";
+		return "signup";
+	}
+	
+	@GetMapping("/signin")
+	public String signin() {
+		return "signin";
 	}
 
-	@PostMapping("/signup")
-	public String signupAction(@RequestParam HashMap<String, String> paramMap) {
-
-		User user = new User();
-		user.setUserId(paramMap.get("userId"));
-		user.setUserName(paramMap.get("userName"));
-		user.setAddress(paramMap.get("userAddress"));
-
-		//System.out.println(user);
-
-		return "";
-	}
+//	@PostMapping("/signup")
+//	public String signupAction(@RequestParam HashMap<String, String> paramMap) {
+//
+//		User user = new User();
+//		user.setUserId(paramMap.get("userId"));
+//		user.setUserName(paramMap.get("userName"));
+//		user.setAddress(paramMap.get("userAddress"));
+//
+//		//System.out.println(user);
+//
+//		return "";
+//	}
 
 }

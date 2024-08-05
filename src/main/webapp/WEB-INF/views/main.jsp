@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/css/main.css" rel="stylesheet">
     <title>마이페이지</title>
 </head>
@@ -133,7 +134,6 @@
                         <div class="accountModify-popup-content">
                             <form action="">
                                 <input type="date" class="date" id="input_date">
-                                <button class="date-bring-btn" type="submit">불러오기</button>
                             </form>
                             <button class="date-btn" type="submit">저장</button>
                         </div>
