@@ -1,4 +1,4 @@
-package com.app.controller;
+package com.app.controller.user;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.dto.user.User;
-import com.app.service.UserService;
+import com.app.service.user.UserService;
 
 @Controller
 public class HomeController {
@@ -26,7 +27,13 @@ public class HomeController {
 	UserService userService;
 
 	@GetMapping("/main")
-	public String home() {
+	public String home(HttpSession session, Model model) {
+		session.setAttribute("loginUserId", "1");
+		
+		model.addAttribute("loginUserId", session.getAttribute("loginUserId"));
+		
+		System.out.println(session.getAttribute("loginUserId"));
+		
 		return "main";
 	}
 
@@ -156,32 +163,31 @@ public class HomeController {
 		return "user/friendDetail";
 	}
 
-	@GetMapping("/startpage")
-	public String startpage() {
-		return "startpage";
-	}
-	
 	@GetMapping("/signup")
 	public String signup() {
-		return "signup";
-	}
-	
-	@GetMapping("/signin")
-	public String signin() {
-		return "signin";
+		return "user/signup";
 	}
 
-//	@PostMapping("/signup")
-//	public String signupAction(@RequestParam HashMap<String, String> paramMap) {
-//
-//		User user = new User();
-//		user.setUserId(paramMap.get("userId"));
-//		user.setUserName(paramMap.get("userName"));
-//		user.setAddress(paramMap.get("userAddress"));
-//
-//		//System.out.println(user);
-//
-//		return "";
-//	}
+	@PostMapping("/signup")
+	public String signupAction(@RequestParam HashMap<String, String> paramMap) {
+
+		User user = new User();
+		user.setUserId(paramMap.get("userId"));
+		user.setUserName(paramMap.get("userName"));
+		user.setAddress(paramMap.get("userAddress"));
+
+		//System.out.println(user);
+
+		return "";
+	}
+	
+	
+	
+	@ResponseBody
+	@PostMapping("/todoList/checked")
+	public String todoListCheckedAction(@RequestParam String todoListId) {
+		System.out.println("todoListId");
+		return todoListId;
+	}
 
 }

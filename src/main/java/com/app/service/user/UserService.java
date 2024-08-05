@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.user;
 
 import java.util.HashMap;
 import java.util.List;

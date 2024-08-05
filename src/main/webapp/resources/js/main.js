@@ -1,49 +1,198 @@
 $(document).ready(function() {
+	
+	console.log(loginUserId);
+	
+	// 오늘 할일 전체 조회하는 ajax
+	fetchTodoList();
+
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
 		$('.swiper-rightslide').hide();
-		$($(this).data('target')).show();
+		const target = $($(this).data('target'));
+		target.show();
 	});
 
 	// 팝업 설정 함수
-	function setupPopup(triggerId, popupId, closeId) {
-		$(triggerId).on('click', function(event) {
-			event.preventDefault();
-			$(popupId).fadeIn();
-		});
-
-		$(closeId).on('click', function() {
-			$(popupId).fadeOut();
-		});
-
-		$(popupId).on('click', function(event) {
-			if ($(event.target).is(popupId)) {
-				$(popupId).fadeOut();
-			}
-		});
-	}
-
-	// 기존 팝업 설정
 	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
 	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
 
-	//날짜 입력값 변경 이벤트
+	// 날짜 입력값 변경 이벤트
 	$('#input_date').on('change', function(event) {
 		console.log('input_date change event');
 		console.log(event.target.value);
 
-		//Ajax  2024-08-20 data로 담아서 -> 서버 자료 요청
-
-		//서버 param 2024-08-20  -> DB select * from date -> 사용자 전달
-
-		//Ajax 전달받은 값을 확인 -> 각 input 요소에 value로 세팅
+		// Ajax 2024-08-20 data로 담아서 -> 서버 자료 요청
+		// 서버 param 2024-08-20  -> DB select * from date -> 사용자 전달
+		// Ajax 전달받은 값을 확인 -> 각 input 요소에 value로 세팅
 	});
 
-	//저장 버튼을 눌렀을때!
-	// 입력값 모아서 (json) -> 서버 저장 -> 서버 저장 -> ok , no -> 
-	// javascript 전달받은값 화면에 세팅
+	// 저장 버튼을 눌렀을 때!
+	$('#addTodoButton').on('click', addTodo);
 
+	// 입력값을 Enter 키로 추가
+	$('#todoInput').on('keypress', function(event) {
+		if (event.key === 'Enter') {
+			$('#addTodoButton').click(); // Enter 누르면 button 입력한 것과 동일하게 처리
+		}
+	});
 });
+
+
+// 전체 할 일 조회 Ajax 요청
+function fetchTodoList() {
+	$.ajax({
+		url: "/todoList/viewAll",
+		type: "POST",
+		data: { loginUserId: loginUserId },
+		dataType: "json",
+		success: function(response) {
+			const todoList = $('#todoList');
+			todoList.empty(); // 기존 리스트를 비움
+
+			response.forEach(todo => {
+				const li = $('<li>').attr('id', todo.todolistId);
+				const checkbox = $('<input>', { type: 'checkbox' }).prop('checked', todo.todolistStatus === 'cmp');
+
+				if (checkbox.prop('checked')) li.addClass('checked');
+
+				checkbox.on('change', function() {
+					handleCheckboxChange(this, li);
+				});
+
+				const textNode = document.createTextNode(todo.todolistContents);
+				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
+					if (confirm("삭제하시겠습니까?")) {
+						removeTodoItem(li);
+					}
+				});
+
+				li.append(checkbox, textNode, removeButton);
+				todoList.append(li);
+				$('#todoInput').val('');
+			});
+		},
+		error: function() {
+			alert("투두리스트 select 에러 발생");
+		}
+	});
+}
+
+// 체크박스 상태 변경 처리
+function handleCheckboxChange(checkbox, li) {
+	const status = $(checkbox).prop('checked') ? 'cmp' : 'reg';
+	$.ajax({
+		url: "/todoList/checkedOn",
+		type: "POST",
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			todoListId: li.attr('id'),
+			todoListStatus: status
+		}),
+		contentType: 'application/json; charset=utf-8',
+		success: function() {
+			alert(`db 테이블 todoList_status 상태 ${status} 변경`);
+			li.toggleClass('checked', $(checkbox).prop('checked'));
+		},
+		error: function() {
+			alert("체크박스 상태 변경 에러 발생");
+		}
+	});
+}
+
+// 할 일 추가 처리
+function addTodo() {
+	const todoText = $('#todoInput').val().trim();
+	if (todoText === '') {
+		alert('할 일을 입력해주세용~');
+		return;
+	}
+	//추가만하고 전체 조회하는 함수를 호출
+	$.ajax({
+		url: "/todoList/register",
+		type: "POST",
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			todoText: todoText
+		}),
+		success: function(response) {
+//			if (response > 0) {
+//				const li = $('<li>').attr('id', response);
+//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
+//					handleCheckboxChange(this, li);
+//				});
+//
+//				const textNode = document.createTextNode(todoText);
+//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
+//
+//					if (confirm("삭제하시겠습니까?")) {
+//						removeTodoItem(li);
+//					}
+//
+//				});
+//
+//				li.append(checkbox, textNode, removeButton);
+//				$('#todoList').append(li);
+//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
+//			}
+		fetchTodoList();
+		},
+		error: function() {
+			alert("에러 발생");
+		}
+	});
+}
+
+// 할 일 삭제 처리
+function removeTodoItem(li) {
+	// TODO: 삭제 Ajax 요청 필요
+	console.log(li.attr('id')); //li의 id 값 가져오는 방법
+
+	$.ajax({
+		url: "/todoList/remove",
+		type: "POST",
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({
+			todoListId: li.attr('id'),
+			loginUserId: loginUserId
+		}),
+		success: function(response) {
+			//if (response > 0) {
+				li.remove();
+			//}
+		},
+		error: function() {
+			alert("todoList 삭제 에러 발생");
+		}
+
+	});
+
+}
+
+// 팝업 설정 함수
+function setupPopup(triggerId, popupId, closeId) {
+	$(triggerId).on('click', function(event) {
+		event.preventDefault();
+		$(popupId).fadeIn();
+	});
+
+	$(closeId).on('click', function() {
+		$(popupId).fadeOut();
+	});
+
+	$(popupId).on('click', function(event) {
+		if ($(event.target).is(popupId)) {
+			$(popupId).fadeOut();
+		}
+	});
+}
+
+
+
+
+
+
+
 
 //정민 파트
 $(document).ready(function() {
@@ -197,57 +346,14 @@ function filterFriends() {
 	}
 }
 
-//혜민 파트
+//혜민 파트 ****************************************************
 
-document.addEventListener('DOMContentLoaded', () => {
-    const addButton = document.getElementById('addTodoButton');
-    const inputField = document.getElementById('todoInput');
-    const todoList = document.getElementById('todoList');
+/* 버튼 클릭 없이도 할일 조회 */
 
-    addButton.addEventListener('click', () => {
-        const todoText = inputField.value.trim();
 
-        if (todoText === '') {
-            alert('할 일을 입력해주세용~');
-            return;
-        }
 
-        const li = document.createElement('li');
 
-        // Create checkbox
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                li.classList.add('checked');
-            } else {
-                li.classList.remove('checked');
-            }
-        });
 
-        // Create text node
-        const textNode = document.createTextNode(todoText);
 
-        // Create remove button
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'x';
-        removeButton.classList.add('remove-btn');
-        removeButton.addEventListener('click', () => {
-            todoList.removeChild(li);
-        });
 
-        li.appendChild(checkbox);
-        li.appendChild(textNode);
-        li.appendChild(removeButton);
-        todoList.appendChild(li);
-
-        inputField.value = '';
-    });
-
-    inputField.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            addButton.click();
-        }
-    });
-});
 

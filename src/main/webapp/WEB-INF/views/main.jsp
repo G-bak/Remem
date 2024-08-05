@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/css/main.css" rel="stylesheet">
     <title>마이페이지</title>
 </head>
@@ -134,6 +133,7 @@
                         <div class="accountModify-popup-content">
                             <form action="">
                                 <input type="date" class="date" id="input_date">
+                                <button class="date-bring-btn" type="submit">불러오기</button>
                             </form>
                             <button class="date-btn" type="submit">저장</button>
                         </div>
@@ -185,7 +185,12 @@
             <a href="" class="logout">로그아웃</a>
         </div>
     </footer>
-
+	
+	<script type="text/javascript">
+        // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
+        var loginUserId = '${loginUserId}';
+    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/main.js"></script>
 </body>
 
