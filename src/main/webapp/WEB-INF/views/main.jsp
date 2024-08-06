@@ -132,8 +132,9 @@
                 <div class="swiper-rightslide" id="content-budget">
                     <div class="accountModify" id="accountModify">
                         <div class="accountModify-popup-content">
-                            <form action="">
+                            <form action="" class="date_form">
                                 <input type="date" class="date" id="input_date">
+                                <button class="date_search" type="submit">불러오기</button>
                             </form>
                             <button class="date-btn" type="submit">저장</button>
                         </div>

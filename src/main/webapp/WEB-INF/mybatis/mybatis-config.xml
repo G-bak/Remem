@@ -10,7 +10,8 @@
 							
 	<typeAliases>						
 		<typeAlias type="com.app.dto.user.User" alias="User"/>					
-		
+		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
+		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
 	</typeAliases>						
 							
 </configuration>							

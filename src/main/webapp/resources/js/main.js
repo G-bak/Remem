@@ -31,9 +31,11 @@ $(document).ready(function() {
 	$('#input_date').on('change', function(event) {
 		console.log('input_date change event');
 		console.log(event.target.value);
+		
+		
 
 		//Ajax  2024-08-20 data로 담아서 -> 서버 자료 요청
-
+		
 		//서버 param 2024-08-20  -> DB select * from date -> 사용자 전달
 
 		//Ajax 전달받은 값을 확인 -> 각 input 요소에 value로 세팅
