@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	
+
 	console.log(loginUserId);
-	
+
 	// 오늘 할일 전체 조회하는 ajax
 	fetchTodoList();
 
@@ -15,6 +15,17 @@ $(document).ready(function() {
 	// 팝업 설정 함수
 	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
 	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+
+
+
+
+
+	// 팝업의 닫기 버튼 클릭 시 팝업 닫기
+	$('#popupfriendRequestCloseBtn').click(function() {
+		$('#friendRequestPopup').hide();
+	});
+
+
 
 	// 날짜 입력값 변경 이벤트
 	$('#input_date').on('change', function(event) {
@@ -36,6 +47,73 @@ $(document).ready(function() {
 		}
 	});
 });
+
+
+
+
+
+$('#requestFriend').click(function() {
+	$.ajax({
+		url: "/confirmRequestFriend",
+		type: "POST",
+		//contentType: 'application/json; charset=utf-8',
+		data: {
+			loginUserId: loginUserId
+		},
+		success: function(response) {
+
+			checkReceivedFriendRequests(response);
+
+			$('#friendRequestPopup').show();
+
+		},
+		error: function() {
+			alert("에러발생");
+		}
+
+	});
+
+});
+
+
+function checkReceivedFriendRequests(response) {
+	var $friendRequestList = $('.friend-request-list'); //ul
+	$friendRequestList.empty();
+
+	if (response != null && response != '') {
+		response.forEach((requestFriend) => {
+			let $listItem = $('<li class="friend-request-item"></li>');
+			$listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
+			$listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
+
+
+			$friendRequestList.append($listItem);
+		});
+
+	}
+}
+
+
+function receiveFriendRequest(friendId) {
+	$.ajax({
+		url: "/receiveFriendRequest",
+		type: "POST",
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			friendId: friendId
+		}),
+		success: function(response) {
+			alert("친구받기완료!");
+			checkReceivedFriendRequests(response); //친구신청함 비우고 다시 그리기
+		},
+		error: function() {
+			alert("에러발생");
+		}
+
+	});
+}
+
 
 
 // 전체 할 일 조회 Ajax 요청
@@ -116,26 +194,26 @@ function addTodo() {
 			todoText: todoText
 		}),
 		success: function(response) {
-//			if (response > 0) {
-//				const li = $('<li>').attr('id', response);
-//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
-//					handleCheckboxChange(this, li);
-//				});
-//
-//				const textNode = document.createTextNode(todoText);
-//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
-//
-//					if (confirm("삭제하시겠습니까?")) {
-//						removeTodoItem(li);
-//					}
-//
-//				});
-//
-//				li.append(checkbox, textNode, removeButton);
-//				$('#todoList').append(li);
-//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
-//			}
-		fetchTodoList();
+			//			if (response > 0) {
+			//				const li = $('<li>').attr('id', response);
+			//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
+			//					handleCheckboxChange(this, li);
+			//				});
+			//
+			//				const textNode = document.createTextNode(todoText);
+			//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
+			//
+			//					if (confirm("삭제하시겠습니까?")) {
+			//						removeTodoItem(li);
+			//					}
+			//
+			//				});
+			//
+			//				li.append(checkbox, textNode, removeButton);
+			//				$('#todoList').append(li);
+			//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
+			//			}
+			fetchTodoList();
 		},
 		error: function() {
 			alert("에러 발생");
@@ -158,7 +236,7 @@ function removeTodoItem(li) {
 		}),
 		success: function(response) {
 			//if (response > 0) {
-				li.remove();
+			li.remove();
 			//}
 		},
 		error: function() {
@@ -327,24 +405,117 @@ $(document).ready(function() {
 	});
 });
 
+
+
+
+
+
+
+
+
+
+
 // 친구 추가 팝업창 필터
 function filterFriends() {
-	const input = document.getElementById('name-input').value.toLowerCase();
-	const table = document.getElementById('addfriend-list');
-	const rows = table.getElementsByTagName('tr');
+	const input = document.getElementById('name-input').value.toLowerCase(); // 입력된 값을 소문자로 변환하여 저장
+	const table = document.getElementById('addfriend-list'); // 친구 목록 테이블을 가져옴
 
-	for (let i = 0; i < rows.length; i++) {
-		const td = rows[i].getElementsByTagName('td')[0];
-		if (td) {
-			const textValue = td.textContent || td.innerText;
-			if (textValue.toLowerCase().indexOf(input) > -1) {
-				rows[i].style.display = "";
-			} else {
-				rows[i].style.display = "none";
-			}
+
+	if (input.length === 0) {
+		$('#addfriend-list').empty(); // 입력이 없으면 테이블을 비움
+		return;
+	}
+
+	$.ajax({
+		url: "/searchFriend",
+		type: "POST",
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			userInput: input
+		}), //사용자 아이디, 사용자 input
+		contentType: 'application/json; charset=utf-8',
+		success: function(response) {
+			displayFriends(response);
+			console.log(response);
+		},
+		error: function(error) {
+			alert('에러:', error);
 		}
+	});
+
+
+	//const rows = table.getElementsByTagName('tr'); // 테이블의 각 행(tr)을 가져옴
+
+	//	for (let i = 0; i < rows.length; i++) { // 테이블의 각 행을 순회
+	//		const td = rows[i].getElementsByTagName('td')[0]; // 각 행의 첫 번째 열(td)을 가져옴
+	//		if (td) {
+	//			const textValue = td.textContent || td.innerText; // 텍스트 값을 가져옴
+	//			if (textValue.toLowerCase().indexOf(input) > -1) { // 텍스트 값에 입력된 값이 포함되는지 확인
+	//				rows[i].style.display = ""; // 포함되면 행을 표시
+	//			} else {
+	//				rows[i].style.display = "none"; // 포함되지 않으면 행을 숨김
+	//			}
+	//		}
+	//	}
+
+
+}
+
+
+
+
+function displayFriends(friends) {
+	const table = $('#addfriend-list');
+	table.empty(); // 기존의 목록을 비움
+
+	friends.forEach(friend => {
+
+		//console.log(friend);
+
+
+		const addFriendButton =
+			friend.friend ? `` : `<td><a href="#" id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></a></td>`;
+
+		const row = `
+                <tr>
+                    <th>
+                        <div class="image"></div>
+                    </th>
+                    <td>${friend.userId}</td>
+                    ${addFriendButton}
+                </tr>
+            `;
+		table.append(row);
+	});
+}
+
+
+
+
+function addFriend(friendId) {
+	if (confirm(friendId + '님에게 친구신청을 하시겠습니까?')) {
+		$.ajax({
+			url: '/joinRequestFriend',
+			type: "POST",
+			data: JSON.stringify({
+				loginUserId: loginUserId,
+				friendId: friendId
+			}),
+			contentType: 'application/json; charset=utf-8',
+			success: function(result) {
+				if (result > 0) {
+					alert(friendId + "님에게 친구신청 완료!");
+					location.href = '/main';
+				}
+			},
+			error: function(error) {
+				alert('에러:', error);
+			}
+		});
 	}
 }
+
+
 
 //혜민 파트 ****************************************************
 

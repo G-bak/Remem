@@ -28,7 +28,7 @@ public class HomeController {
 
 	@GetMapping("/main")
 	public String home(HttpSession session, Model model) {
-		session.setAttribute("loginUserId", "1");
+		session.setAttribute("loginUserId", "user1");
 		
 		model.addAttribute("loginUserId", session.getAttribute("loginUserId"));
 		
@@ -36,7 +36,8 @@ public class HomeController {
 		
 		return "main";
 	}
-
+	
+	//친구추천
 	@GetMapping("/usermain")
 	public String userMain(HttpSession session, Model model) {
 		// model.addAttribute("userId", "1");
@@ -79,7 +80,8 @@ public class HomeController {
 		
 		return "user/userMain";
 	}
-
+	
+	//친구검색
 	@PostMapping("/usermain")
 	public String userMainAction(@RequestParam String serchUserId, Model model, HttpSession session) {
 
@@ -99,7 +101,8 @@ public class HomeController {
 
 		return "user/userMain";
 	}
-
+	
+	//친구추가
 	@GetMapping("/join/friend")
 	public String joinFriend(@RequestParam HashMap<String, String> paramMap) {
 		paramMap.get("myId");
@@ -183,11 +186,11 @@ public class HomeController {
 	
 	
 	
-	@ResponseBody
-	@PostMapping("/todoList/checked")
-	public String todoListCheckedAction(@RequestParam String todoListId) {
-		System.out.println("todoListId");
-		return todoListId;
-	}
+//	@ResponseBody
+//	@PostMapping("/todoList/checked")
+//	public String todoListCheckedAction(@RequestParam String todoListId) {
+//		System.out.println("todoListId");
+//		return todoListId;
+//	}
 
 }
