@@ -10,20 +10,23 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/main.js"></script>
     <link href="/css/main.css" rel="stylesheet">
     <title>마이페이지</title>
 </head>
 
 <body>
-    <header id="header">
-        <span>#오늘 일기</span>
-        <div class="icon-container">
-            <a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
-            <a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
-        </div>
-    </header>
+  <header id="header">
+     <span>#오늘 일기</span>
+      <div class="icon-container">
+          <a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
+          <a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
+      </div>
+  </header>
 
     <div class="popup" id="profile-popup">
         <div class="popup-content">
@@ -40,22 +43,62 @@
                 </div>
             </div>
             <div class="profile-introduce">
-                <p class="nickname">홍길동</p>
-                <p class="profile-id">@아이디</p>
+                <p class="nickname">${user.userName}</p>
+                <p class="profile-id">@ ${user.userId}</p>
                 <p>반가워! 나는 상큼한 자두같은 아이야</p>
             </div>
             <div class="ModifyPage">
-                <a href="#" class="nicknameModify">주소 수정</a>
-                <a href="#" class="passwordModify">비밀번호 수정</a>
+                <a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
+                <a href="#" class="passwordModify" id="open-password-popup">비밀번호 수정</a>
             </div>
             <button class="close-btn" id="close-profile-popup">닫기</button>
         </div>
     </div>
+    
+     <div class="address-popup" id="address-popup">
+    	<div class="address-content">
+    	 	<h2>주소 수정 팝업창</h2>
+    	 	<form action="/user/modifyAddress" method="post"  id="frm-modifyAddress">
+    	 		<div class="frm-modifyAddress-body">
+    	 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
+					<input type="text" id="sample6_address" name ="userAddress" value="${user.userAddress}"><br>
+					<i class="fa-solid fa-magnifying-glass" id="search-icon"  onclick="sample6_execDaumPostcode()"></i></input><br>
+					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
+					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+    	 		</div>
+    	 		<div class="frm-modifyAddress-footer">
+    	 			<button type="submit" class="address">수정</button>
+    	 		</div>
+    	 	</form>
+    		
+    		<button class="close-btn" id="close-address-popup">닫기</button>
+    		
+    	</div>
+    	
+    </div>
+    
+    <div class="password-popup" id="password-popup">
+    	<div class="password-content">
+    		<h2>비밀번호 수정 팝업창</h2>
+    		<form action="/user/modifyPassword" method="post" id="frm-modifyPassword">
+	    		<div class="frm-modifyPassword-body">
+					<input type="text" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
+					<input type="text" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
+				</div>
+				<div class="frm-modifyPassword-footer">
+	    	 		<button type="submit" class="password">수정</button>
+	    	 	</div>
+    	 	</form>
+    	 	
+	    	<button class="close-btn" id="close-password-popup">닫기</button>
 
+    	</div>
+    </div>
+    
+   
     <div class="addfriend-popup" id="addfriend-popup">
         <div class="addfriend-content">
             <h2>친구추가 팝업창</h2>
-            <p>여기에는 친구추가 관련 정보를 넣을 수 있습니다.</p>
 
             <form onsubmit="return false;" id="frm-addfriend">
                 <input type="text" id="name-input" placeholder="닉네임 입력" oninput="filterFriends()">
@@ -181,12 +224,17 @@
     <footer id="footer">
         <span>© 2024 #오늘 일기</span>
         <div class="footer-main">
-            <a href="" class="account-deletion">회원탈퇴</a>
-            <a href="" class="logout">로그아웃</a>
+            <a href="/user/removeUser" class="account-deletion">회원탈퇴</a>
+            <a href="/user/logout" class="logout" >로그아웃</a>
         </div>
     </footer>
-
-    <script src="/js/main.js"></script>
+	
+	<script type="text/javascript">
+        // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
+        var loginUserId = '${loginUserId}';
+    </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="/js/main.js"></script>
 </body>
 
 </html>
