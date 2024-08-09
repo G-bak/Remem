@@ -378,7 +378,7 @@ a {
 	width: 40%;
 	max-width: 500px;
 	padding: 20px;
-	height: 400px;
+	height: 750px;
 	border-radius: 8px;
 	text-align: center;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -423,8 +423,18 @@ a {
 }
 
 .addfriend-list {
+	height: 150px;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
+	flex-direction: column;
+	align-items: center;
+	border: 1px lightgray;
+}
+
+.recommendfriend-list {
+	height: 200px;
+	display: flex;
+	justify-content: flex-start;
 	flex-direction: column;
 	align-items: center;
 	border: 1px lightgray;
@@ -433,6 +443,14 @@ a {
 #search-btn {
 	border: none;
 	background-color: white;
+}
+
+#recommend-search-btn{
+	border: none;
+	background-color: white;
+	cursor: pointer;
+/* 	align-self: flex-end; */
+/* 	margin-left: auto;  */
 }
 
 table {

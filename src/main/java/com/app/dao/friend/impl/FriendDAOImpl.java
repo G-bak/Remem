@@ -13,32 +13,28 @@ import com.app.dto.friend.UserSearch;
 import com.app.dto.user.User;
 
 @Repository
-public class FriendDAOImpl implements FriendDAO{
-	
-	
+public class FriendDAOImpl implements FriendDAO {
+
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-	
-	
+
 	@Override
 	public List<UserSearch> searchFriend(SearchFriend searchFriend) {
 		List<UserSearch> searchedFriendList = sqlSessionTemplate.selectList("friend_mapper.searchFriend", searchFriend);
 		return searchedFriendList;
 	}
 
-
 	@Override
 	public boolean checkIfFriendOrNot(FriendStatusDTO friendStatusDTO) {
 		int result = sqlSessionTemplate.selectOne("friend_mapper.checkIfFriendOrNot", friendStatusDTO);
-		
-		if(result > 0){
+
+		if (result > 0) {
 			return true;
 		} else {
 			return false;
 		}
-		
-	}
 
+	}
 
 	@Override
 	public int joinRequestFriend(FriendStatusDTO friendStatusDTO) {
@@ -46,13 +42,11 @@ public class FriendDAOImpl implements FriendDAO{
 		return result;
 	}
 
-
 	@Override
 	public List<User> confirmRequestFriend(String loginUserId) {
 		List<User> requestFriendList = sqlSessionTemplate.selectList("friend_mapper.confirmRequestFriend", loginUserId);
 		return requestFriendList;
 	}
-
 
 	@Override
 	public int deleteRequestFriend(FriendStatusDTO friendStatusDTO) {
@@ -60,18 +54,23 @@ public class FriendDAOImpl implements FriendDAO{
 		return deleteResult;
 	}
 
-
 	@Override
 	public int makeFriendsOneWay(FriendStatusDTO friendStatusDTO) {
 		int insertResult = sqlSessionTemplate.insert("friend_mapper.makeFriendsOneWay", friendStatusDTO);
 		return insertResult;
 	}
 
-
 	@Override
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO) {
 		int insertResult = sqlSessionTemplate.insert("friend_mapper.makeFriendsTwoWay", friendStatusDTO);
 		return insertResult;
+	}
+
+	@Override
+	public List<User> viewRecommendList(String loginUserId) {
+		List<User> recommendList = sqlSessionTemplate.selectList("friend_mapper.viewRecommendList", loginUserId);
+
+		return recommendList;
 	}
 
 }

@@ -5,6 +5,17 @@ $(document).ready(function() {
 	// 오늘 할일 전체 조회하는 ajax
 	fetchTodoList();
 
+
+
+	// 친구 추천 목록
+	viewRecommendList();
+
+
+
+
+
+
+
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
 		$('.swiper-rightslide').hide();
@@ -49,9 +60,55 @@ $(document).ready(function() {
 });
 
 
+//친구 추천 목록 조회 함수
+function viewRecommendList() {
+	$.ajax({
+		url: "/viewRecommendList",
+		type: "POST",
+//		contentType: 'application/json; charset=utf-8',
+		data: {
+			loginUserId: loginUserId
+		},
+		dataType: "json",
+		success: function(recommendList) {
+			const recommendFriendListTable = $(".recommendfriend-list");
+			recommendFriendListTable.empty();
+
+			if (recommendList != null && recommendList != '') {
+				//tr동적 
+				recommendList.forEach((recommend) => {
+
+					const row = `
+					                <tr>
+					                    <th>
+					                        <div class="image"></div>
+					                    </th>
+					                    <td>${recommend.userId} ${recommend.userName}</td>
+					                    <td><button id="${recommend.userId}" onclick=addFriend('${recommend.userId}')><i class="fas fa-user-plus"></i></button></td>
+					                </tr>
+					            `;
+					recommendFriendListTable.append(row);
+				});
+			}
+
+
+		},
+		error: function() {
+			alert("친구추천 에러 발생");
+		}
+	});
+}
 
 
 
+//친구 추천 목록 갱신
+function refreshRecommendFriendList(){
+	viewRecommendList();
+}
+
+
+
+//친구 신청함 버튼 클릭
 $('#requestFriend').click(function() {
 	$.ajax({
 		url: "/confirmRequestFriend",
@@ -62,9 +119,9 @@ $('#requestFriend').click(function() {
 		},
 		success: function(response) {
 
-			checkReceivedFriendRequests(response);
+			checkReceivedFriendRequests(response); //친구 신청 불러오는 함수
 
-			$('#friendRequestPopup').show();
+			$('#friendRequestPopup').show(); //친구신청 팝업 띄움
 
 		},
 		error: function() {
@@ -75,25 +132,25 @@ $('#requestFriend').click(function() {
 
 });
 
-
+//친구 신청함 확인
 function checkReceivedFriendRequests(response) {
-	var $friendRequestList = $('.friend-request-list'); //ul
-	$friendRequestList.empty();
+	var friendRequestList = $('.friend-request-list'); //ul
+	friendRequestList.empty();
 
 	if (response != null && response != '') {
 		response.forEach((requestFriend) => {
-			let $listItem = $('<li class="friend-request-item"></li>');
-			$listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
-			$listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
+			let listItem = $('<li class="friend-request-item"></li>');
+			listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
+			listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
 
 
-			$friendRequestList.append($listItem);
+			friendRequestList.append(listItem);
 		});
 
 	}
 }
 
-
+//친구 받기 함수 호출
 function receiveFriendRequest(friendId) {
 	$.ajax({
 		url: "/receiveFriendRequest",
@@ -474,7 +531,7 @@ function displayFriends(friends) {
 
 
 		const addFriendButton =
-			friend.friend ? `` : `<td><a href="#" id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></a></td>`;
+			friend.friend ? `` : `<td><button id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></button></td>`;
 
 		const row = `
                 <tr>
@@ -505,7 +562,7 @@ function addFriend(friendId) {
 			success: function(result) {
 				if (result > 0) {
 					alert(friendId + "님에게 친구신청 완료!");
-					location.href = '/main';
+					$(`button[id="${friendId}"]`).closest('td').remove();
 				}
 			},
 			error: function(error) {

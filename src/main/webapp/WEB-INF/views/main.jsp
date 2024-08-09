@@ -89,27 +89,22 @@
 			<!--             </form> -->
 			<table class="addfriend-list" id="addfriend-list">
 				<!--             js에서 친구목록 동적 생성 -->
-				<!--                 <tr> -->
-				<!--                     <th> -->
-				<!--                         <div class="image"></div> 프로필 이미지 -->
-				<!--                     </th>  -->
-				<!--                     <td>닉네임</td> 사용자 아이디 -->
-				<!--                     <td><a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a></td> 친구 추가 아이콘 -->
-				<!--                 </tr> -->
-				<!--                 <tr> -->
-				<!--                     <th> -->
-				<!--                         <div class="image"></div> -->
-				<!--                     </th> -->
-				<!--                     <td>닉네임1</td> -->
-				<!--                     <td><a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a></td> -->
-				<!--                 </tr> -->
-				<!--                 <tr> -->
-				<!--                     <th> -->
-				<!--                         <div class="image"></div> -->
-				<!--                     </th> -->
-				<!--                     <td>닉네임2</td> -->
-				<!--                     <td><a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a></td> -->
-				<!--                 </tr> -->
+				
+			</table>
+<!-- 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
+			
+			
+			<h2>친구 추천</h2>
+			<p>친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.</p>
+
+			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
+			
+			<button type="submit" id="recommend-search-btn" onclick="refreshRecommendFriendList()">
+				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+			</button>
+			<!--             </form> -->
+			<table class="recommendfriend-list" id="recommendfriend-list">
+<!-- 				동적으로 친구 추천 목록 생성 -->
 			</table>
 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button>
 		</div>

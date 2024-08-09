@@ -13,19 +13,16 @@ import com.app.dto.user.User;
 import com.app.service.friend.FriendService;
 
 @Service
-public class FriendServiceImpl implements FriendService{
-	
-	
+public class FriendServiceImpl implements FriendService {
+
 	@Autowired
-	FriendDAO friendDAO;  
-	
-	
+	FriendDAO friendDAO;
+
 	@Override
 	public List<UserSearch> searchFriend(SearchFriend searchFriend) {
 		List<UserSearch> searchedFriendList = friendDAO.searchFriend(searchFriend);
 		return searchedFriendList;
 	}
-
 
 	@Override
 	public boolean checkIfFriendOrNot(FriendStatusDTO friendStatusDTO) {
@@ -33,13 +30,11 @@ public class FriendServiceImpl implements FriendService{
 		return isFriend;
 	}
 
-
 	@Override
 	public int joinRequestFriend(FriendStatusDTO friendStatusDTO) {
 		int result = friendDAO.joinRequestFriend(friendStatusDTO);
 		return result;
 	}
-
 
 	@Override
 	public List<User> confirmRequestFriend(String loginUserId) {
@@ -47,13 +42,11 @@ public class FriendServiceImpl implements FriendService{
 		return requestFriendList;
 	}
 
-
 	@Override
 	public int deleteRequestFriend(FriendStatusDTO friendStatusDTO) {
 		int deleteResult = friendDAO.deleteRequestFriend(friendStatusDTO);
 		return deleteResult;
 	}
-
 
 	@Override
 	public int makeFriendsOneWay(FriendStatusDTO friendStatusDTO) {
@@ -61,11 +54,17 @@ public class FriendServiceImpl implements FriendService{
 		return insertResult;
 	}
 
-
 	@Override
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO) {
 		int insertResult = friendDAO.makeFriendsTwoWay(friendStatusDTO);
 		return insertResult;
+	}
+
+	@Override
+	public List<User> viewRecommendList(String loginUserId) {
+		List<User> recommendList = friendDAO.viewRecommendList(loginUserId);
+
+		return recommendList;
 	}
 
 }

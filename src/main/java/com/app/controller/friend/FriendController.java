@@ -82,5 +82,23 @@ public class FriendController {
 		
 		return requestFriendList;
 	}
+	
+	
+	
+	
+	
+	
+	@PostMapping("/viewRecommendList")
+	@ResponseBody
+	public List<User> viewRecommendList(@RequestParam String loginUserId){
+		List<User> recommendList = friendService.viewRecommendList(loginUserId);
+		
+		return recommendList;
+	}
+	
+	
+	
+	
+	
 
 }

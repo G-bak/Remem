@@ -22,5 +22,7 @@ public interface FriendDAO {
 	
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO);
 	
+	public List<User> viewRecommendList(String loginUserId);
+	
 	
 }

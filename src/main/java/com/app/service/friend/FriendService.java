@@ -2,6 +2,8 @@ package com.app.service.friend;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.friend.SearchFriend;
 import com.app.dto.friend.UserSearch;
@@ -21,6 +23,8 @@ public interface FriendService {
 	public int makeFriendsOneWay(FriendStatusDTO friendStatusDTO);
 	
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO);
+	
+	public List<User> viewRecommendList(String loginUserId);
 	
 	
 	

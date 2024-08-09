@@ -78,15 +78,49 @@
 	</delete>
 
 	<insert id="makeFriendsOneWay" parameterType="FriendStatusDTO">
-		INSERT INTO FRIENDSHIPS
+		INSERT INTO
+		FRIENDSHIPS
 		VALUES (#{loginUserId}, #{friendId})
 	</insert>
 
 
 	<insert id="makeFriendsTwoWay" parameterType="FriendStatusDTO">
-		INSERT INTO FRIENDSHIPS
+		INSERT INTO
+		FRIENDSHIPS
 		VALUES (#{friendId}, #{loginUserId})
 	</insert>
+
+
+
+
+	<select id="viewRecommendList" parameterType="String" resultType="User">
+		SELECT u.user_id,
+		u.user_name
+		FROM users u
+		WHERE (SUBSTR(
+		u.user_address,
+		INSTR(u.user_address, ' ', 1, 1) + 1,
+		INSTR(u.user_address, ' ', 1, 2) - INSTR(u.user_address, ' ', 1, 1) - 1
+		)) = (SELECT
+		SUBSTR(
+		user_address,
+		INSTR(user_address, ' ', 1, 1) + 1,
+		INSTR(user_address, ' ', 1, 2) - INSTR(user_address, ' ', 1, 1) - 1
+		)
+		FROM USERS
+		WHERE user_id = #{loginUserId})
+		AND u.user_id != #{loginUserId}
+		AND u.user_id NOT IN (SELECT friend_id FROM FRIENDSHIPS WHERE user_id =
+		#{loginUserId})
+		AND u.user_id NOT IN (SELECT user_id FROM FRIENDSHIPS WHERE friend_id =
+		#{loginUserId})
+		AND u.user_id NOT IN (SELECT friend_id FROM REQUESTFRIEND WHERE user_id =
+		#{loginUserId})
+		AND u.user_id NOT IN (SELECT user_id FROM REQUESTFRIEND WHERE friend_id =
+		#{loginUserId})
+		ORDER BY DBMS_RANDOM.VALUE
+		FETCH FIRST 5 ROWS ONLY
+	</select>
 
 </mapper>					
 
