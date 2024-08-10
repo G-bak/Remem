@@ -19,10 +19,10 @@
 		alt="Background Image">
 	<h1>#오늘 일기</h1>
 	<h2>회원가입</h2>
-	<form action="/user/signup" method="post">
-		<input type="text" id="username" name ="userName" placeholder="너의 이름이 뭐야?" required><br />
-		<input type="text" id="id" name="userId" placeholder="아이디를 입력해줘!" required><br />
-		<input type="text" id="pw" name="userPassword" placeholder="비밀번호를 입력해줘!" required><br />
+	<form action="/user/signup" method="post" id="frm_signup">
+		<input type="text" id="userName" name ="userName" placeholder="너의 이름이 뭐야?" required><br />
+		<input type="text" id="userId" name="userId" placeholder="아이디를 입력해줘!" required><br />
+		<input type="text" id="userPassword" name="userPassword" placeholder="비밀번호를 입력해줘!" required><br />
 		<input type="hidden" id="sample6_postcode" placeholder="우편번호"> 
 		<input type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
 		<input type="button" onclick="sample6_execDaumPostcode()" value="찾기"><br>
@@ -35,6 +35,45 @@
 	</form>
 	
 	<script>
+	
+	const frm_signup =  document.querySelector('#frm_signup')
+	
+	frm_signup.addEventlistener('submit',(e)=>{
+		e.preventDefault();
+		
+		let userName = userName.value.trim();
+		let userId = userId.value.trim();
+		let userPassword = userPassword.value.trim();
+		let sample6_address = sample6_address.value.trim();
+		
+		if(userName.value.trim() == '' || userName.value.trim() == null){
+			alert('Name은 필수 입력입니다.');
+			userName.focus();
+			return false;
+		}
+		
+		if(userId.value.trim() == '' || userId.value.trim() == null){
+			alert('Id는 필수 입력입니다.');
+			userId.focus();
+			return false;
+		}
+		
+		if(userPassword.value.trim() == '' || userPassword.value.trim() == null){
+			alert('Password는 필수 입력입니다.');
+			userPassword.focus();
+			return false;
+		}
+		
+		if(sample6_address.value.trim() == '' || sample6_address.value.trim() == null){
+			alert('Address는 필수 입력입니다.');
+			sample6_address.focus();
+			return false;
+		}
+		
+		frm_member.submit();
+	}
+	
+	
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
