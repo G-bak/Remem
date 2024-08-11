@@ -20,7 +20,8 @@
 </head>
 
 <body>
-  <header id="header">
+	<div class="container">
+		<header id="header">
      <span>#오늘 일기</span>
       <div class="icon-container">
           <a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
@@ -143,7 +144,7 @@
                 </div>
                 <div class="swiper-rightslide" id="content-diary">
                     <div class="diary-header">
-                        <button class="insert-btn"> <i class="fa-regular fa-pen-to-square"></i> </button>
+                        <button type="button" class="insert-btn" onclick="location.href='/diaryWrite'"> <i class="fa-regular fa-pen-to-square"></i> </button>
                         <button class="chatbot-btn"> <i class="fa-regular fa-comments"></i> </button>
                     </div>
                     <div class="diary-container">
@@ -224,10 +225,11 @@
     <footer id="footer">
         <span>© 2024 #오늘 일기</span>
         <div class="footer-main">
-            <a href="/user/removeUser" class="account-deletion">회원탈퇴</a>
-            <a href="/user/logout" class="logout" >로그아웃</a>
+            <a href="/user/removeUser" class="account-deletion">&nbsp;회원탈퇴</a><a href="/user/logout" class="logout" >로그아웃</a>
         </div>
     </footer>
+	</div>
+  
 	
 	<script type="text/javascript">
         // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당

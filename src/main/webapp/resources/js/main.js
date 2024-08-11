@@ -119,7 +119,7 @@ $(document).ready(function() {
 	});
 	
 	//일기추가 팝업창
-	$('.insert-btn').on('click', function(event) {
+	/*$('.insert-btn').on('click', function(event) {
 		event.preventDefault();
 		$('#frm-diary')[0].reset();
 		$('#save-diary-popup').show();
@@ -136,7 +136,7 @@ $(document).ready(function() {
 		if ($(event.target).is('#diary-popup')) {
 			$('#diary-popup').fadeOut();
 		}
-	});
+	});*/
 
 	// 일기 추가 및 수정
 	$('#save-diary-popup').on('click', function(event) {
