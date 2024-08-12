@@ -28,6 +28,12 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 15px;
+	height: 45px;
+	background-color: #f3e073;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 15px;
 }
 
 span {
@@ -35,9 +41,15 @@ span {
 	font-size: 25px;
 	font-weight: bold;
 	text-shadow: -2px 2px 0 #ffffff;
+	color: #7c531d;
+	font-size: 25px;
+	font-weight: bold;
+	text-shadow: -2px 2px 0 #ffffff;
 }
 
 .icon-container {
+	display: flex;
+	align-items: center;
 	display: flex;
 	align-items: center;
 }
@@ -54,14 +66,27 @@ a {
 	color: #7c531d;
 	font-size: 26px;
 	margin-right: 10px;
+	color: #7c531d;
+	font-size: 26px;
+	margin-right: 10px;
 }
 
 .fa-user-plus {
 	font-size: 21px;
 	margin-right: 0;
+	font-size: 21px;
+	margin-right: 0;
 }
 
 .popup {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
 	display: none;
 	position: fixed;
 	top: 0;
@@ -94,9 +119,22 @@ a {
 	border-radius: 5px;
 	cursor: pointer;
 	font-size: 1em;
+	padding: 10px 20px;
+	background: #f3e073;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1em;
 }
 
 #open-accountModify-popup {
+	background-color: #f3e073;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 1em;
+	margin: 10px;
 	background-color: #f3e073;
 	border: none;
 	border-radius: 8px;
@@ -109,6 +147,8 @@ a {
 .popup-content h2 {
 	margin: 0;
 	padding: 10px 0;
+	margin: 0;
+	padding: 10px 0;
 }
 
 .close-btn, .save-btn {
@@ -119,13 +159,74 @@ a {
 	cursor: pointer;
 	margin-top: 30px;
 }
-
-.input_timecapsule {
-    width: 300px;
-    height: 200px;
+/*친구신청 확인 팝업 시작*/
+.popupfriendRequest {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
+.popup-friendRequest-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    max-height: 80%;
+    overflow-y: auto;
+    position: relative;
+    text-align: center; /* 가운데 정렬을 위해 추가 */
+}
+
+.popup-friendRequest-close {
+    color: #aaa;
+    background: none;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px; /* 목록과 버튼 사이에 간격 추가 */
+}
+
+.popup-friendRequest-close:hover, .popup-friendRequest-close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.friend-request-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.friend-request-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.friend-request-item:last-child {
+    border-bottom: none;
+}
+
+.friend-request-item p {
+    margin: 0;
+}
+/*친구신청 확인 팝업 끝*/
 .photo {
+	width: 25%;
+	height: 80px;
+	border-radius: 20px;
+	background-color: #7c531d;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 25%;
 	height: 80px;
 	border-radius: 20px;
@@ -139,13 +240,20 @@ a {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 .profile-container p {
 	margin-right: 15px;
+	margin-right: 15px;
 }
 
 .follower, .following {
+	color: #a34c24cb;
+	font-size: 25px;
+	font-weight: bold;
 	color: #a34c24cb;
 	font-size: 25px;
 	font-weight: bold;
@@ -156,17 +264,26 @@ a {
 	flex-direction: column;
 	align-items: flex-start;
 	margin: 30px 25px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 30px 25px;
 }
 
 .nickname {
+	font-weight: bold;
 	font-weight: bold;
 }
 
 .profile-id {
 	color: gray;
+	color: gray;
 }
 
 .ModifyPage {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -186,18 +303,26 @@ a {
 
 .section {
 	height: 823px;
+	height: 823px;
 }
 
 .swiper-container {
+	height: 100%;
 	height: 100%;
 }
 
 .swiper-leftslide {
 	width: 200px;
 	background-color: #F4F4F9;
+	width: 200px;
+	background-color: #F4F4F9;
 }
 
 .swiper-rightslide {
+	display: none;
+	width: calc(100% - 200px);
+	background-color: white;
+	padding: 20px;
 	display: none;
 	width: calc(100% - 200px);
 	background-color: white;
@@ -218,13 +343,30 @@ a {
 	border: none;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	background-color: #F4F4F9;
+	width: 100%;
+	height: 50px;
+	padding: 30px;
+	font-size: 1.1rem;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
 }
 
 .menu-btn:hover {
 	background-color: #2e3a4d56;
+	background-color: #2e3a4d56;
 }
 
 .accountModify-popup-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -263,9 +405,16 @@ a {
 .account-book-container {
 	display: flex;
 	justify-content: space-evenly;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .account-book-content {
+	width: 30%;
+	height: 600px;
+	margin-top: 30px;
+	background-color: #faf9f8;
+	border: 3px solid #7c531d;
 	width: 30%;
 	height: 600px;
 	margin-top: 30px;
@@ -275,13 +424,17 @@ a {
 
 .total-income {
 	margin-top: 25px;
+	margin-top: 25px;
 }
 
 .total-income i {
 	margin-top: 3px;
+	margin-top: 3px;
 }
 
 .total-income p {
+	font-size: 25px;
+	margin-bottom: 15px;
 	font-size: 25px;
 	margin-bottom: 15px;
 }
@@ -290,9 +443,14 @@ a {
 	border: none;
 	height: 30px;
 	width: 50%;
+	border: none;
+	height: 30px;
+	width: 50%;
 }
 
 .income-item {
+	display: flex;
+	justify-content: space-evenly;
 	display: flex;
 	justify-content: space-evenly;
 }
@@ -303,9 +461,17 @@ a {
 	margin-top: 10px;
 	text-decoration: underline;
 	text-underline-offset: 12px;
+	text-align: center;
+	font-size: 30px;
+	margin-top: 10px;
+	text-decoration: underline;
+	text-underline-offset: 12px;
 }
 
 .income-items {
+	display: flex;
+	justify-content: space-evenly;
+	color: red;
 	display: flex;
 	justify-content: space-evenly;
 	color: red;
@@ -326,6 +492,10 @@ a {
 }
 
 #footer span {
+	color: #7c531d;
+	font-size: 20px;
+	font-weight: bold;
+	text-shadow: -2px 2px 0 #ffffff;
 	color: #7c531d;
 	font-size: 20px;
 	font-weight: bold;
@@ -384,19 +554,18 @@ a {
 }
 
 .addfriend-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    width: 40%;
-    max-width: 380px;
-    padding: 20px;
-    height: 370px;
-    border-radius: 8px;
-    text-align: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	max-width: 500px;
+	padding: 20px;
+	height: 750px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
  .password-content h2, .address-content h2, .addfriend-content h2, .diary-content h2 {
@@ -462,6 +631,17 @@ button{
 	border-radius: 8px;
 	text-align: center;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	height: 400px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .diary-content .diary-close-btn, .diary-content .diary-save-btn {
@@ -473,8 +653,19 @@ button{
 }
 
 .addfriend-list {
+	height: 150px;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
+	flex-direction: column;
+	align-items: center;
+	border: 1px lightgray;
+}
+
+.recommendfriend-list {
+	height: 200px;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
 	align-items: center;
 	border: 1px lightgray;
 }
@@ -482,6 +673,14 @@ button{
 #search-btn {
 	border: none;
 	background-color: white;
+}
+
+#recommend-search-btn{
+	border: none;
+	background-color: white;
+	cursor: pointer;
+/* 	align-self: flex-end; */
+/* 	margin-left: auto;  */
 }
 
 table {
@@ -498,6 +697,10 @@ table {
 	margin-right: 10px;
 }
 
+table .fa-user-plus, #search-icon {
+	color: black;
+	margin: 10px;
+	font-size: 20px;
 table .fa-user-plus, #search-icon {
 	color: black;
 	margin: 10px;
@@ -536,9 +739,14 @@ table .fa-user-plus, #search-icon {
 .diary-entry h3 {
 	margin: 0 0 10px;
 	font-size: 1.2em;
+	margin: 0 0 10px;
+	font-size: 1.2em;
 }
 
 .diary-entry p {
+	margin: 0;
+	font-size: 1em;
+	line-height: 1.5em;
 	margin: 0;
 	font-size: 1em;
 	line-height: 1.5em;
@@ -548,12 +756,22 @@ table .fa-user-plus, #search-icon {
 	font-size: 0.9em;
 	color: #666;
 	margin: 10px;
+	font-size: 0.9em;
+	color: #666;
+	margin: 10px;
 }
 
 .diary-date {
 	font-size: 0.8em;
+.diary-date {
+	font-size: 0.8em;
 }
 
+.diary-footer {
+	display: flex;
+	justify-content: right;
+	align-items: center;
+	margin-top: 10px
 .diary-footer {
 	display: flex;
 	justify-content: right;
@@ -564,11 +782,21 @@ table .fa-user-plus, #search-icon {
 .diary-header button {
 	width: 80px;
 	height: 40px;
+	height: 40px;
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
 }
 
+#modify-diary, #remove-diary, #view-diary {
+	width: 100px;
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	margin: 10px;
+	padding: 5px 10px;
+	cursor: pointer;
+	font-size: 0.7rem;
 #modify-diary, #remove-diary, #view-diary {
 	width: 100px;
 	background: #ccc;
@@ -585,7 +813,19 @@ body {
 	height: 100vh;
 	width: 100%;
 	/* background: linear-gradient(to bottom, #E6E6FA 0%, #FFF0F5); */
+body {
+	height: 100vh;
+	width: 100%;
+	/* background: linear-gradient(to bottom, #E6E6FA 0%, #FFF0F5); */
 }
+
+.wrapper {
+	/* margin: 120px auto; */
+	width: 800px;
+	background: wheat;
+	padding: 25px;
+	border-radius: 6px;
+	margin-left: 50px;
 
 .wrapper {
 	/* margin: 120px auto; */
@@ -603,8 +843,18 @@ body {
 	letter-spacing: 15px;
 	text-align: center;
 	font-family: "Gaegu", sans-serif;
+
+.wrapper header {
+	margin-bottom: 30px;
+	font-size: 50px;
+	font-weight: 700;
+	letter-spacing: 15px;
+	text-align: center;
+	font-family: "Gaegu", sans-serif;
 }
 
+.wrapper .Todolist {
+	display: flex;
 .wrapper .Todolist {
 	display: flex;
 }
@@ -612,8 +862,16 @@ body {
 .input-container {
 	display: flex;
 	margin-bottom: 20px;
+.input-container {
+	display: flex;
+	margin-bottom: 20px;
 }
 
+.input-container input[type="text"] {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
 .input-container input[type="text"] {
 	flex: 1;
 	padding: 10px;
@@ -627,13 +885,21 @@ body {
 	background-color: #dcb381;
 	border-radius: 4px;
 	cursor: pointer;
+	padding: 10px;
+	border: none;
+	background-color: #dcb381;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 .checked button:hover {
 	background-color: #2b81dd;
+	background-color: #2b81dd;
 }
 
 ul {
+	list-style: none;
+	padding: 10px;
 	list-style: none;
 	padding: 10px;
 }
@@ -644,9 +910,15 @@ li {
 	border-bottom: 1px solid #dcb381;
 	justify-content: space-between;
 	/* margin-top: 10px; */
+	display: flex;
+	padding: 8px;
+	border-bottom: 1px solid #dcb381;
+	justify-content: space-between;
+	/* margin-top: 10px; */
 }
 
 li:last-child {
+	border-bottom: none;
 	border-bottom: none;
 }
 
@@ -662,17 +934,34 @@ li:last-child {
 	cursor: pointer;
 	padding: 0;
 	text-align: center;
+.remove-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: none;
+	background: none;
+	font-size: 16px;
+	cursor: pointer;
+	padding: 0;
+	text-align: center;
 }
 
+
 button.remove-btn:hover {
+	background-color: #c82333;
 	background-color: #c82333;
 }
 
 input[type="checkbox"] {
 	margin-right: 10px;
+	margin-right: 10px;
 }
 
 li.checked {
+	text-decoration: line-through;
+	color: #ac1616;
 	text-decoration: line-through;
 	color: #ac1616;
 }

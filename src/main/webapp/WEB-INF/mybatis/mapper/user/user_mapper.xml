@@ -7,6 +7,7 @@
 <mapper namespace="user_mapper">
 
 
+
 	
 	<insert id="saveUser" parameterType="User">
 		INSERT INTO users (USER_ID, USER_NAME, USER_PASSWORD, USER_ADDRESS)
@@ -44,6 +45,11 @@
     </update>
     
     
+
+	
+	
+	
+
 </mapper>					
 
 

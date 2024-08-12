@@ -23,14 +23,33 @@
 </head>
 
 <body>
-	<div class="container">
-		<header id="header">
-     <span>#오늘 일기</span>
-      <div class="icon-container">
-          <a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
-          <a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
-      </div>
-  </header>
+	<header id="header">
+		<span>#오늘 일기</span>
+		<div class="icon-container">
+			<a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
+			<a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
+			<button id="requestFriend">친구신청확인</button>
+		</div>
+	</header>
+
+
+	<div id="friendRequestPopup" class="popupfriendRequest">
+		<div class="popup-friendRequest-content">
+			<p>친구 신청이 확인되었습니다!</p>
+            <ul class="friend-request-list">
+<!--                 <li class="friend-request-item"><p>친구 신청 1</p></li> -->
+<!--                 <li class="friend-request-item"><p>친구 신청 2</p></li> -->
+<!--                 <li class="friend-request-item"><p>친구 신청 3</p></li> -->
+            </ul>
+            <button class="popup-friendRequest-close" id="popupfriendRequestCloseBtn">닫기</button>
+		</div>
+	</div>
+
+
+
+
+
+
 
     <div class="popup" id="profile-popup">
         <div class="popup-content">
@@ -103,39 +122,33 @@
     <div class="addfriend-popup" id="addfriend-popup">
         <div class="addfriend-content">
             <h2>친구추가 팝업창</h2>
+            <p>여기에는 친구추가 관련 정보를 넣을 수 있습니다.</p>
 
-			<form onsubmit="return false;" id="frm-addfriend">
-				<input type="text" id="name-input" placeholder="닉네임 입력"
-					oninput="filterFriends()">
-				<button type="submit" id="search-btn">
-					<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-				</button>
-			</form>
+			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
+			<input type="text" id="name-input" placeholder="아이디 입력"
+				oninput="filterFriends()">
+			<button type="submit" id="search-btn">
+				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+			</button>
+			<!--             </form> -->
 			<table class="addfriend-list" id="addfriend-list">
-				<tr>
-					<th>
-						<div class="image"></div>
-					</th>
-					<td>닉네임</td>
-					<td><a href="#" id="addfriend-icon"><i
-							class="fas fa-user-plus"></i></a></td>
-				</tr>
-				<tr>
-					<th>
-						<div class="image"></div>
-					</th>
-					<td>닉네임1</td>
-					<td><a href="#" id="addfriend-icon"><i
-							class="fas fa-user-plus"></i></a></td>
-				</tr>
-				<tr>
-					<th>
-						<div class="image"></div>
-					</th>
-					<td>닉네임2</td>
-					<td><a href="#" id="addfriend-icon"><i
-							class="fas fa-user-plus"></i></a></td>
-				</tr>
+				<!--             js에서 친구목록 동적 생성 -->
+				
+			</table>
+<!-- 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
+			
+			
+			<h2>친구 추천</h2>
+			<p>친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.</p>
+
+			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
+			
+			<button type="submit" id="recommend-search-btn" onclick="refreshRecommendFriendList()">
+				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
+			</button>
+			<!--             </form> -->
+			<table class="recommendfriend-list" id="recommendfriend-list">
+<!-- 				동적으로 친구 추천 목록 생성 -->
 			</table>
 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button>
 		</div>
@@ -328,13 +341,14 @@
 
 	
 	<script type="text/javascript">
-        // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
-        var loginUserId = '${loginUserId}';
-    </script>
-
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="/js/main.js"></script>
-
+		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
+		var loginUserId = '${loginUserId}';
+	</script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="/js/main.js"></script>
 </body>
 
 </html>

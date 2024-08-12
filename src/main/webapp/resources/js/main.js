@@ -1,9 +1,20 @@
 $(document).ready(function() {
-	
+
 	console.log(loginUserId);
-	
+
 	// 오늘 할일 전체 조회하는 ajax
 	fetchTodoList();
+
+
+
+	// 친구 추천 목록
+	viewRecommendList();
+
+
+
+
+
+
 
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
@@ -15,6 +26,17 @@ $(document).ready(function() {
 	// 팝업 설정 함수
 	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
 	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+
+
+
+
+
+	// 팝업의 닫기 버튼 클릭 시 팝업 닫기
+	$('#popupfriendRequestCloseBtn').click(function() {
+		$('#friendRequestPopup').hide();
+	});
+
+
 
 	// 날짜 입력값 변경 이벤트
 	$('#input_date').on('change', function(event) {
@@ -36,6 +58,119 @@ $(document).ready(function() {
 		}
 	});
 });
+
+
+//친구 추천 목록 조회 함수
+function viewRecommendList() {
+	$.ajax({
+		url: "/viewRecommendList",
+		type: "POST",
+//		contentType: 'application/json; charset=utf-8',
+		data: {
+			loginUserId: loginUserId
+		},
+		dataType: "json",
+		success: function(recommendList) {
+			const recommendFriendListTable = $(".recommendfriend-list");
+			recommendFriendListTable.empty();
+
+			if (recommendList != null && recommendList != '') {
+				//tr동적 
+				recommendList.forEach((recommend) => {
+
+					const row = `
+					                <tr>
+					                    <th>
+					                        <div class="image"></div>
+					                    </th>
+					                    <td>${recommend.userId} ${recommend.userName}</td>
+					                    <td><button id="${recommend.userId}" onclick=addFriend('${recommend.userId}')><i class="fas fa-user-plus"></i></button></td>
+					                </tr>
+					            `;
+					recommendFriendListTable.append(row);
+				});
+			}
+
+
+		},
+		error: function() {
+			alert("친구추천 에러 발생");
+		}
+	});
+}
+
+
+
+//친구 추천 목록 갱신
+function refreshRecommendFriendList(){
+	viewRecommendList();
+}
+
+
+
+//친구 신청함 버튼 클릭
+$('#requestFriend').click(function() {
+	$.ajax({
+		url: "/confirmRequestFriend",
+		type: "POST",
+		//contentType: 'application/json; charset=utf-8',
+		data: {
+			loginUserId: loginUserId
+		},
+		success: function(response) {
+
+			checkReceivedFriendRequests(response); //친구 신청 불러오는 함수
+
+			$('#friendRequestPopup').show(); //친구신청 팝업 띄움
+
+		},
+		error: function() {
+			alert("에러발생");
+		}
+
+	});
+
+});
+
+//친구 신청함 확인
+function checkReceivedFriendRequests(response) {
+	var friendRequestList = $('.friend-request-list'); //ul
+	friendRequestList.empty();
+
+	if (response != null && response != '') {
+		response.forEach((requestFriend) => {
+			let listItem = $('<li class="friend-request-item"></li>');
+			listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
+			listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
+
+
+			friendRequestList.append(listItem);
+		});
+
+	}
+}
+
+//친구 받기 함수 호출
+function receiveFriendRequest(friendId) {
+	$.ajax({
+		url: "/receiveFriendRequest",
+		type: "POST",
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			friendId: friendId
+		}),
+		success: function(response) {
+			alert("친구받기완료!");
+			checkReceivedFriendRequests(response); //친구신청함 비우고 다시 그리기
+		},
+		error: function() {
+			alert("에러발생");
+		}
+
+	});
+}
+
 
 
 // 전체 할 일 조회 Ajax 요청
@@ -116,26 +251,26 @@ function addTodo() {
 			todoText: todoText
 		}),
 		success: function(response) {
-//			if (response > 0) {
-//				const li = $('<li>').attr('id', response);
-//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
-//					handleCheckboxChange(this, li);
-//				});
-//
-//				const textNode = document.createTextNode(todoText);
-//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
-//
-//					if (confirm("삭제하시겠습니까?")) {
-//						removeTodoItem(li);
-//					}
-//
-//				});
-//
-//				li.append(checkbox, textNode, removeButton);
-//				$('#todoList').append(li);
-//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
-//			}
-		fetchTodoList();
+			//			if (response > 0) {
+			//				const li = $('<li>').attr('id', response);
+			//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
+			//					handleCheckboxChange(this, li);
+			//				});
+			//
+			//				const textNode = document.createTextNode(todoText);
+			//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
+			//
+			//					if (confirm("삭제하시겠습니까?")) {
+			//						removeTodoItem(li);
+			//					}
+			//
+			//				});
+			//
+			//				li.append(checkbox, textNode, removeButton);
+			//				$('#todoList').append(li);
+			//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
+			//			}
+			fetchTodoList();
 		},
 		error: function() {
 			alert("에러 발생");
@@ -158,7 +293,7 @@ function removeTodoItem(li) {
 		}),
 		success: function(response) {
 			//if (response > 0) {
-				li.remove();
+			li.remove();
 			//}
 		},
 		error: function() {
@@ -501,73 +636,117 @@ $(document).ready(function() {
 	});
 });
 
+
+
+
+
+
+
+
+
+
+
 // 친구 추가 팝업창 필터
 function filterFriends() {
-	const input = document.getElementById('name-input').value.toLowerCase();
-	const table = document.getElementById('addfriend-list');
-	const rows = table.getElementsByTagName('tr');
+	const input = document.getElementById('name-input').value.toLowerCase(); // 입력된 값을 소문자로 변환하여 저장
+	const table = document.getElementById('addfriend-list'); // 친구 목록 테이블을 가져옴
 
-	for (let i = 0; i < rows.length; i++) {
-		const td = rows[i].getElementsByTagName('td')[0];
-		if (td) {
-			const textValue = td.textContent || td.innerText;
-			if (textValue.toLowerCase().indexOf(input) > -1) {
-				rows[i].style.display = "";
-			} else {
-				rows[i].style.display = "none";
-			}
+
+	if (input.length === 0) {
+		$('#addfriend-list').empty(); // 입력이 없으면 테이블을 비움
+		return;
+	}
+
+	$.ajax({
+		url: "/searchFriend",
+		type: "POST",
+		data: JSON.stringify({
+			loginUserId: loginUserId,
+			userInput: input
+		}), //사용자 아이디, 사용자 input
+		contentType: 'application/json; charset=utf-8',
+		success: function(response) {
+			displayFriends(response);
+			console.log(response);
+		},
+		error: function(error) {
+			alert('에러:', error);
 		}
+	});
+
+
+	//const rows = table.getElementsByTagName('tr'); // 테이블의 각 행(tr)을 가져옴
+
+	//	for (let i = 0; i < rows.length; i++) { // 테이블의 각 행을 순회
+	//		const td = rows[i].getElementsByTagName('td')[0]; // 각 행의 첫 번째 열(td)을 가져옴
+	//		if (td) {
+	//			const textValue = td.textContent || td.innerText; // 텍스트 값을 가져옴
+	//			if (textValue.toLowerCase().indexOf(input) > -1) { // 텍스트 값에 입력된 값이 포함되는지 확인
+	//				rows[i].style.display = ""; // 포함되면 행을 표시
+	//			} else {
+	//				rows[i].style.display = "none"; // 포함되지 않으면 행을 숨김
+	//			}
+	//		}
+	//	}
+
+
+}
+
+
+
+
+function displayFriends(friends) {
+	const table = $('#addfriend-list');
+	table.empty(); // 기존의 목록을 비움
+
+	friends.forEach(friend => {
+
+		//console.log(friend);
+
+
+		const addFriendButton =
+			friend.friend ? `` : `<td><button id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></button></td>`;
+
+		const row = `
+                <tr>
+                    <th>
+                        <div class="image"></div>
+                    </th>
+                    <td>${friend.userId}</td>
+                    ${addFriendButton}
+                </tr>
+            `;
+		table.append(row);
+	});
+}
+
+
+
+
+function addFriend(friendId) {
+	if (confirm(friendId + '님에게 친구신청을 하시겠습니까?')) {
+		$.ajax({
+			url: '/joinRequestFriend',
+			type: "POST",
+			data: JSON.stringify({
+				loginUserId: loginUserId,
+				friendId: friendId
+			}),
+			contentType: 'application/json; charset=utf-8',
+			success: function(result) {
+				if (result > 0) {
+					alert(friendId + "님에게 친구신청 완료!");
+					$(`button[id="${friendId}"]`).closest('td').remove();
+				}
+			},
+			error: function(error) {
+				alert('에러:', error);
+			}
+		});
 	}
 }
 
-// 주소 변경
-function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
-                
-                } else {
-                    document.getElementById("sample6_extraAddress").value = '';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
-            }
-        }).open();
-    }
 
 //혜민 파트 ****************************************************
 
