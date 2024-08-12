@@ -13,7 +13,13 @@
 							
 	<typeAliases>						
 		<typeAlias type="com.app.dto.user.User" alias="User"/>					
+
 		<typeAlias type="com.app.dto.diary.UserDiary" alias="UserDiary"/>
+
+		<typeAlias type="com.app.dto.todolist.TodoList" alias="TodoList"/>
+		<typeAlias type="com.app.dto.todolist.TodoListUpdate" alias="TodoListUpdate"/>
+		<typeAlias type="com.app.dto.todolist.TodoListRemove" alias="TodoListRemove"/>
+
 	</typeAliases>						
 
 							
