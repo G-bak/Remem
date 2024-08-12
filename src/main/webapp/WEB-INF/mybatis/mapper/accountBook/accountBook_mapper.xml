@@ -1,11 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC 
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	"Http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="accountBook_mapper">
-	<select id="viewAccountBook" parameterType="AccountBookSearch" resultType="AccountBook">
+	<select id="viewAccountBook" parameterType="AccountBookSearch"
+		resultType="AccountBook">
 		SELECT * FROM ACCOUNTBOOK
-		WHERE user_id = #{userId} AND ab_date = #{date}
+		WHERE user_id = #{userId} AND
+		account_date = #{accountDate}
 	</select>
+
+	<insert id="saveAccountBook" parameterType="AccountBook">
+		INSERT INTO ACCOUNTBOOK (
+		account_book_id,
+		user_id,
+		account_date,
+		salary,
+		side_job,
+		saving,
+		income_total,
+		food_expenses,
+		traffic,
+		culture,
+		clothing,
+		beauty,
+		telecom,
+		membership_fee,
+		daily_necessity,
+		occasions,
+		spending_total,
+		income_spending_total
+		) VALUES (
+		(SELECT NVL(COUNT(*) , 0)+1 FROM ACCOUNTBOOK),
+		#{userId},
+		#{accountDate},
+		#{salary},
+		#{sideJob},
+		#{saving},
+		#{salary} + #{sideJob} + #{saving},
+		#{foodExpenses},
+		#{traffic},
+		#{culture},
+		#{clothing},
+		#{beauty},
+		#{telecom},
+		#{membershipFee},
+		#{dailyNecessity},
+		#{occasions},
+		#{foodExpenses} + #{traffic} + #{culture} + #{clothing} + #{beauty} + #{telecom} +
+		#{membershipFee} + #{dailyNecessity} + #{occasions},
+		(#{salary} + #{sideJob} + #{saving}) - (#{foodExpenses} + #{traffic} +
+		#{culture} + #{clothing} + #{beauty} + #{telecom} + #{membershipFee} +
+		#{dailyNecessity} + #{occasions})
+		)
+	</insert>
+
+	<update id="modifyAccountBook"  parameterType="AccountBook">
+		UPDATE accountBook
+		SET
+	    SALARY = #{salary},
+	    SIDE_JOB = #{sideJob},
+	    SAVING = #{saving},
+	    INCOME_TOTAL = #{salary} + #{sideJob} + #{saving},
+	    FOOD_EXPENSES = #{foodExpenses},
+	    TRAFFIC = #{traffic},
+	    CULTURE = #{culture},
+	    CLOTHING = #{clothing},
+	    BEAUTY = #{beauty},
+	    TELECOM = #{telecom},
+	    MEMBERSHIP_FEE = #{membershipFee},
+	    DAILY_NECESSITY = #{dailyNecessity},
+	    OCCASIONS = #{occasions},
+	    SPENDING_TOTAL = #{foodExpenses} + #{traffic} + #{culture} + #{clothing} + #{beauty} + #{telecom} +
+			#{membershipFee} + #{dailyNecessity} + #{occasions},
+	    INCOME_SPENDING_TOTAL = (#{salary} + #{sideJob} + #{saving}) - (#{foodExpenses} + #{traffic} +
+			#{culture} + #{clothing} + #{beauty} + #{telecom} + #{membershipFee} +
+			#{dailyNecessity} + #{occasions})
+		WHERE user_id = #{userId} AND account_date = #{accountDate}
+	</update>
 </mapper>

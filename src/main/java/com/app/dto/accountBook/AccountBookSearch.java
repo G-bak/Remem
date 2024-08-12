@@ -6,5 +6,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AccountBookSearch {
 	String userId;
-	String date;
+	String accountDate;
 }

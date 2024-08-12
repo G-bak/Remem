@@ -20,4 +20,18 @@ public class AccountBookServiceImpl implements AccountBookService{
 		AccountBook acb = accountBookDAO.viewAccountBook(abs);
 		return acb;
 	}
+
+	@Override
+	public int saveAccountBook(AccountBook accountBook) {
+		// TODO Auto-generated method stub
+		int saveAccountBook = accountBookDAO.saveAccountBook(accountBook);
+		return saveAccountBook;
+	}
+
+	@Override
+	public int modifyAccountBook(AccountBook accountBook) {
+		// TODO Auto-generated method stub
+		int modifyAccountBook = accountBookDAO.modifyAccountBook(accountBook);
+		return modifyAccountBook;
+	}
 }
