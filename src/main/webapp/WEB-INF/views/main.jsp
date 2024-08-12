@@ -3,23 +3,28 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<<<<<<< HEAD
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="/js/main.js"></script>
-=======
->>>>>>> ft-todoListImpl
-    <link href="/css/main.css" rel="stylesheet">
-    <title>마이페이지</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+	integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/main.js"></script>
+
+
+<link href="/css/main.css" rel="stylesheet">
+<title>마이페이지</title>
 </head>
 
 <body>
@@ -36,12 +41,13 @@
 	<div id="friendRequestPopup" class="popupfriendRequest">
 		<div class="popup-friendRequest-content">
 			<p>친구 신청이 확인되었습니다!</p>
-            <ul class="friend-request-list">
-<!--                 <li class="friend-request-item"><p>친구 신청 1</p></li> -->
-<!--                 <li class="friend-request-item"><p>친구 신청 2</p></li> -->
-<!--                 <li class="friend-request-item"><p>친구 신청 3</p></li> -->
-            </ul>
-            <button class="popup-friendRequest-close" id="popupfriendRequestCloseBtn">닫기</button>
+			<ul class="friend-request-list">
+				<!--                 <li class="friend-request-item"><p>친구 신청 1</p></li> -->
+				<!--                 <li class="friend-request-item"><p>친구 신청 2</p></li> -->
+				<!--                 <li class="friend-request-item"><p>친구 신청 3</p></li> -->
+			</ul>
+			<button class="popup-friendRequest-close"
+				id="popupfriendRequestCloseBtn">닫기</button>
 		</div>
 	</div>
 
@@ -51,78 +57,84 @@
 
 
 
-    <div class="popup" id="profile-popup">
-        <div class="popup-content">
-            <h2>프로필 팝업창</h2>
-            <div class="profile-container">
-                <div class="photo">사진</div>
-                <div>
-                    <p>팔로워</p>
-                    <p class="follower">63</p>
-                </div>
-                <div>
-                    <p>팔로잉</p>
-                    <p class="following">63</p>
-                </div>
-            </div>
-            <div class="profile-introduce">
-                <p class="nickname">${user.userName}</p>
-                <p class="profile-id">@ ${user.userId}</p>
-                <p>반가워! 나는 상큼한 자두같은 아이야</p>
-            </div>
-            <div class="ModifyPage">
-                <a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
-                <a href="#" class="passwordModify" id="open-password-popup">비밀번호 수정</a>
-            </div>
-            <button class="close-btn" id="close-profile-popup">닫기</button>
-        </div>
-    </div>
-    
-     <div class="address-popup" id="address-popup">
-    	<div class="address-content">
-    	 	<h2>주소 수정 팝업창</h2>
-    	 	<form action="/user/modifyAddress" method="post"  id="frm-modifyAddress">
-    	 		<div class="frm-modifyAddress-body">
-    	 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
-					<input type="text" id="sample6_address" name ="userAddress" value="${user.userAddress}"><br>
-					<i class="fa-solid fa-magnifying-glass" id="search-icon"  onclick="sample6_execDaumPostcode()"></i></input><br>
-					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
+	<div class="popup" id="profile-popup">
+		<div class="popup-content">
+			<h2>프로필 팝업창</h2>
+			<div class="profile-container">
+				<div class="photo">사진</div>
+				<div>
+					<p>팔로워</p>
+					<p class="follower">63</p>
+				</div>
+				<div>
+					<p>팔로잉</p>
+					<p class="following">63</p>
+				</div>
+			</div>
+			<div class="profile-introduce">
+				<p class="nickname">${user.userName}</p>
+				<p class="profile-id">@ ${user.userId}</p>
+				<p>반가워! 나는 상큼한 자두같은 아이야</p>
+			</div>
+			<div class="ModifyPage">
+				<a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
+				<a href="#" class="passwordModify" id="open-password-popup">비밀번호
+					수정</a>
+			</div>
+			<button class="close-btn" id="close-profile-popup">닫기</button>
+		</div>
+	</div>
+
+	<div class="address-popup" id="address-popup">
+		<div class="address-content">
+			<h2>주소 수정 팝업창</h2>
+			<form action="/user/modifyAddress" method="post"
+				id="frm-modifyAddress">
+				<div class="frm-modifyAddress-body">
+					<input type="hidden" id="sample6_postcode" placeholder="우편번호">
+					<input type="text" id="sample6_address" name="userAddress"
+						value="${user.userAddress}"><br> <i
+						class="fa-solid fa-magnifying-glass" id="search-icon"
+						onclick="sample6_execDaumPostcode()"></i></input><br> <input
+						type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-    	 		</div>
-    	 		<div class="frm-modifyAddress-footer">
-    	 			<button type="submit" class="address">수정</button>
-    	 		</div>
-    	 	</form>
-    		
-    		<button class="close-btn" id="close-address-popup">닫기</button>
-    		
-    	</div>
-    	
-    </div>
-    
-    <div class="password-popup" id="password-popup">
-    	<div class="password-content">
-    		<h2>비밀번호 수정 팝업창</h2>
-    		<form action="/user/modifyPassword" method="post" id="frm-modifyPassword">
-	    		<div class="frm-modifyPassword-body">
-					<input type="text" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
-					<input type="text" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
+				</div>
+				<div class="frm-modifyAddress-footer">
+					<button type="submit" class="address">수정</button>
+				</div>
+			</form>
+
+			<button class="close-btn" id="close-address-popup">닫기</button>
+
+		</div>
+
+	</div>
+
+	<div class="password-popup" id="password-popup">
+		<div class="password-content">
+			<h2>비밀번호 수정 팝업창</h2>
+			<form action="/user/modifyPassword" method="post"
+				id="frm-modifyPassword">
+				<div class="frm-modifyPassword-body">
+					<input type="text" id="pw" name="currentPassword"
+						placeholder="현재 비밀번호 입력"><br /> <input type="text"
+						id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br />
 				</div>
 				<div class="frm-modifyPassword-footer">
-	    	 		<button type="submit" class="password">수정</button>
-	    	 	</div>
-    	 	</form>
-    	 	
-	    	<button class="close-btn" id="close-password-popup">닫기</button>
+					<button type="submit" class="password">수정</button>
+				</div>
+			</form>
 
-    	</div>
-    </div>
-    
-   
-    <div class="addfriend-popup" id="addfriend-popup">
-        <div class="addfriend-content">
-            <h2>친구추가 팝업창</h2>
-            <p>여기에는 친구추가 관련 정보를 넣을 수 있습니다.</p>
+			<button class="close-btn" id="close-password-popup">닫기</button>
+
+		</div>
+	</div>
+
+
+	<div class="addfriend-popup" id="addfriend-popup">
+		<div class="addfriend-content">
+			<h2>친구추가 팝업창</h2>
+			<p>여기에는 친구추가 관련 정보를 넣을 수 있습니다.</p>
 
 			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
 			<input type="text" id="name-input" placeholder="아이디 입력"
@@ -133,22 +145,25 @@
 			<!--             </form> -->
 			<table class="addfriend-list" id="addfriend-list">
 				<!--             js에서 친구목록 동적 생성 -->
-				
+
 			</table>
-<!-- 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
-			
-			
+			<!-- 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
+
+
 			<h2>친구 추천</h2>
-			<p>친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.</p>
+			<p>
+				친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.
+			</p>
 
 			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
-			
-			<button type="submit" id="recommend-search-btn" onclick="refreshRecommendFriendList()">
+
+			<button type="submit" id="recommend-search-btn"
+				onclick="refreshRecommendFriendList()">
 				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
 			</button>
 			<!--             </form> -->
 			<table class="recommendfriend-list" id="recommendfriend-list">
-<!-- 				동적으로 친구 추천 목록 생성 -->
+				<!-- 				동적으로 친구 추천 목록 생성 -->
 			</table>
 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button>
 		</div>
@@ -165,9 +180,9 @@
 				</div>
 				<div class="swiper-rightslide" id="content-diary">
 					<div class="diary-header">
-						<button class="insert-btn">
-							<i class="fa-regular fa-pen-to-square"></i>
-						</button>
+						<a href="/diaryWrite"><button class="insert-btn">
+								<i class="fa-regular fa-pen-to-square"></i>
+							</button></a>
 						<button class="chatbot-btn">
 							<i class="fa-regular fa-comments"></i>
 						</button>
@@ -181,7 +196,8 @@
 								<input type="date" id="diary-date" name="diaryDate"
 									placeholder="날짜"> <input type="text" id="diary-title"
 									name="diaryTitle" placeholder="제목">
-								<textarea rows="5" cols="45" id="diary-content" name="diaryContent" placeholder="내용"></textarea>
+								<textarea rows="5" cols="45" id="diary-content"
+									name="diaryContent" placeholder="내용"></textarea>
 								<button class="diary-close-btn" id="close-diary-popup">닫기</button>
 								<button type="submit" class="diary-save-btn"
 									id="save-diary-popup">저장</button>
@@ -312,13 +328,14 @@
 					</div>
 				</div>
 				<div class="swiper-rightslide" id="content-capsule">
-				
-					<a href="#" id="icon_timecapsule"><i class="fa-brands fa-creative-commons-sampling"></i></a>
-				
+
+					<a href="#" id="icon_timecapsule"><i
+						class="fa-brands fa-creative-commons-sampling"></i></a>
+
 					<div class="popup" id="popup_timecapsule">
 						<div class="popup-content">
-							<input type="date" class="date_timecapsule">
-							<input type="text" class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br/>
+							<input type="date" class="date_timecapsule"> <input
+								type="text" class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br />
 							<button class="save-btn" id="save_popup_timecapsule">저장</button>
 							<button class="close-btn" id="close_popup_timecapsule">닫기</button>
 						</div>
@@ -328,21 +345,23 @@
 		</div>
 	</section>
 
-    <footer id="footer">
-        <span>© 2024 #오늘 일기</span>
-        <div class="footer-main">
-            <a href="/user/removeUser" class="account-deletion">&nbsp;회원탈퇴</a><a href="/user/logout" class="logout" >로그아웃</a>
-        </div>
-    </footer>
+	<footer id="footer">
+		<span>© 2024 #오늘 일기</span>
+		<div class="footer-main">
+			<a href="/user/removeUser" class="account-deletion">&nbsp;회원탈퇴</a><a
+				href="/user/logout" class="logout">로그아웃</a>
+		</div>
+	</footer>
 
 	</div>
-  
 
 
-	
+
+
 	<script type="text/javascript">
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
-		var loginUserId = '${loginUserId}';
+		var loginUserId = '${user.userId}';
+		console.log(loginUserId+"123456");
 	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.dto.user.User;
-import com.app.service.UserService;
+import com.app.service.user.UserService;
 
 @Controller
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserService userService; 
 
     // 정규식 패턴
     private static final String verifyId = "^[a-zA-Z0-9]{4,20}$"; // 4~20글자, 영어 및 숫자만 가능
@@ -34,6 +34,7 @@ public class UserController {
 
     @GetMapping("/main")
     public String main() {
+    	System.out.println("들어옴");
         return "main";
     }
 

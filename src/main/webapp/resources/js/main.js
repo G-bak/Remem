@@ -23,11 +23,14 @@ $(document).ready(function() {
 		target.show();
 	});
 
-	// 팝업 설정 함수
-	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
-	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+//	// 팝업 설정 함수
+//	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
+//	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
 
-
+ // 기존 팝업 설정
+    setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
+    setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+    setupPopup('#icon_timecapsule', '#popup_timecapsule', '#close_popup_timecapsule');
 
 
 
@@ -322,11 +325,8 @@ function setupPopup(triggerId, popupId, closeId) {
 	});
 }
 
-    // 기존 팝업 설정
-    setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
-    setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
-    setupPopup('#icon_timecapsule', '#popup_timecapsule', '#close_popup_timecapsule');
-});
+   
+
 
 
 $(document).ready(function() {
@@ -338,7 +338,7 @@ $(document).ready(function() {
             url: "/view/AccountBook",
             type: "POST",
             data: JSON.stringify({
-                userId: 'user2',
+                userId: loginUserId,
                 accountDate: $('#input-date').val()
             }),
             contentType: "application/json; charset=utf-8",
