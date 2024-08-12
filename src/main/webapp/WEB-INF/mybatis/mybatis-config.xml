@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>							
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"							
-					"http://mybatis.org/dtd/mybatis-3-config.dtd">									
+					"Http://mybatis.org/dtd/mybatis-3-config.dtd">									
 <configuration>							
 	
 <!-- 	<settings>						 -->
@@ -8,10 +8,10 @@
 <!-- 				_ 표시 -> CamelCase  userType  맵핑	 --> 
 <!-- 	</settings>						 -->
 							
-<!-- 	<typeAliases>						 -->
-<!-- 		<typeAlias type="com.app.dto.user.User" alias="User"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.room.Room" alias="Room"/> -->
-<!-- 	</typeAliases>						 -->
+	<typeAliases>						
+		<typeAlias type="com.app.dto.user.User" alias="User"/>					
+		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
+		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
+	</typeAliases>						
 							
 </configuration>							
