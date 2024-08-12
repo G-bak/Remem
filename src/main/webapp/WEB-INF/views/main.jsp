@@ -20,7 +20,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/js/main.js"></script>
+
 
 
 <link href="/css/main.css" rel="stylesheet">
@@ -361,13 +361,15 @@
 	<script type="text/javascript">
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
 		var loginUserId = '${user.userId}';
-		console.log(loginUserId+"123456");
+		console.log(loginUserId);
 	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="/js/main.js"></script>
+	<script src="/js/accountBook.js"></script>
+	<script src="/js/followFriendAndTodoList.js"></script>
+	<script src="/js/userManage.js"></script>
 </body>
 
 </html>

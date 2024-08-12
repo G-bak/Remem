@@ -32,7 +32,7 @@ public class TodoListController {
 	@ResponseBody
 	@PostMapping("/todoList/register")
 	public int todoListRegisterAjax(@RequestBody HashMap<String, String> paramMap) {
-			
+		System.out.println(paramMap);	
 		
 		int result = todoListService.insertTodoList(paramMap);
 		int todoListId = 0;

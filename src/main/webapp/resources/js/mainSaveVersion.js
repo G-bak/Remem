@@ -23,14 +23,14 @@ $(document).ready(function() {
 		target.show();
 	});
 
-//	// 팝업 설정 함수
-//	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
-//	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+	//	// 팝업 설정 함수
+	//	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
+	//	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
 
- // 기존 팝업 설정
-    setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
-    setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
-    setupPopup('#icon_timecapsule', '#popup_timecapsule', '#close_popup_timecapsule');
+	// 기존 팝업 설정
+	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
+	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
+	setupPopup('#icon_timecapsule', '#popup_timecapsule', '#close_popup_timecapsule');
 
 
 
@@ -42,25 +42,35 @@ $(document).ready(function() {
 
 
 	// 날짜 입력값 변경 이벤트
-	$('#input_date').on('change', function(event) {
-		console.log('input_date change event');
-		console.log(event.target.value);
+//	$('#input_date').on('change', function(event) {
+//		console.log('input_date change event');
+//		console.log(event.target.value);
+//
+//		// Ajax 2024-08-20 data로 담아서 -> 서버 자료 요청
+//		// 서버 param 2024-08-20  -> DB select * from date -> 사용자 전달
+//		// Ajax 전달받은 값을 확인 -> 각 input 요소에 value로 세팅
+//	});
 
-		// Ajax 2024-08-20 data로 담아서 -> 서버 자료 요청
-		// 서버 param 2024-08-20  -> DB select * from date -> 사용자 전달
-		// Ajax 전달받은 값을 확인 -> 각 input 요소에 value로 세팅
-	});
 
-	// 저장 버튼을 눌렀을 때!
-	$('#addTodoButton').on('click', addTodo);
-
-	// 입력값을 Enter 키로 추가
-	$('#todoInput').on('keypress', function(event) {
-		if (event.key === 'Enter') {
-			$('#addTodoButton').click(); // Enter 누르면 button 입력한 것과 동일하게 처리
-		}
-	});
 });
+
+
+
+
+
+// 저장 버튼을 눌렀을 때!
+$('#addTodoButton').on('click', addTodo);
+
+// 입력값을 Enter 키로 추가
+$('#todoInput').on('keypress', function(event) {
+	if (event.key === 'Enter') {
+		$('#addTodoButton').click(); // Enter 누르면 button 입력한 것과 동일하게 처리
+	}
+});
+
+
+
+
 
 
 //친구 추천 목록 조회 함수
@@ -68,7 +78,7 @@ function viewRecommendList() {
 	$.ajax({
 		url: "/viewRecommendList",
 		type: "POST",
-//		contentType: 'application/json; charset=utf-8',
+		//		contentType: 'application/json; charset=utf-8',
 		data: {
 			loginUserId: loginUserId
 		},
@@ -105,7 +115,7 @@ function viewRecommendList() {
 
 
 //친구 추천 목록 갱신
-function refreshRecommendFriendList(){
+function refreshRecommendFriendList() {
 	viewRecommendList();
 }
 
@@ -237,7 +247,7 @@ function handleCheckboxChange(checkbox, li) {
 	});
 }
 
-// 할 일 추가 처리
+// 오늘 할 일 추가 처리
 function addTodo() {
 	const todoText = $('#todoInput').val().trim();
 	if (todoText === '') {
@@ -254,25 +264,7 @@ function addTodo() {
 			todoText: todoText
 		}),
 		success: function(response) {
-			//			if (response > 0) {
-			//				const li = $('<li>').attr('id', response);
-			//				const checkbox = $('<input>', { type: 'checkbox' }).on('change', function() {
-			//					handleCheckboxChange(this, li);
-			//				});
-			//
-			//				const textNode = document.createTextNode(todoText);
-			//				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
-			//
-			//					if (confirm("삭제하시겠습니까?")) {
-			//						removeTodoItem(li);
-			//					}
-			//
-			//				});
-			//
-			//				li.append(checkbox, textNode, removeButton);
-			//				$('#todoList').append(li);
-			//				$('#todoInput').val(''); // 저장 하려는 input clean 처리
-			//			}
+			
 			fetchTodoList();
 		},
 		error: function() {
@@ -325,153 +317,153 @@ function setupPopup(triggerId, popupId, closeId) {
 	});
 }
 
-   
+
 
 
 
 $(document).ready(function() {
-    $('#input-date').on('change', function(event) {
-        console.log('input_date change event');
-        console.log(event.target.value);
+	$('#input-date').on('change', function(event) {
+		console.log('input_date change event');
+		console.log(event.target.value);
 
-        $.ajax({
-            url: "/view/AccountBook",
-            type: "POST",
-            data: JSON.stringify({
-                userId: loginUserId,
-                accountDate: $('#input-date').val()
-            }),
-            contentType: "application/json; charset=utf-8",
-            success: function(ab) {
-                console.log(ab+"123131");
-                const accountContainer = $('.accountModify-popup-content');
+		$.ajax({
+			url: "/view/AccountBook",
+			type: "POST",
+			data: JSON.stringify({
+				userId: loginUserId,
+				accountDate: $('#input-date').val()
+			}),
+			contentType: "application/json; charset=utf-8",
+			success: function(ab) {
+				console.log(ab + "123131");
+				const accountContainer = $('.accountModify-popup-content');
 
-                // 기존 버튼 제거
-                accountContainer.find('button').remove();
+				// 기존 버튼 제거
+				accountContainer.find('button').remove();
 
-                if (ab == null || ab =='') {
-                    accountContainer.append('<button id="btn_account_save">저장</button>');
-                    registerSaveButtonHandler(); // 저장 버튼 핸들러 등록
-                } else {
-                    accountContainer.append('<button id="btn_account_modify">수정</button>');
-                    registerModifyButtonHandler(); // 수정 버튼 핸들러 등록
-                }
+				if (ab == null || ab == '') {
+					accountContainer.append('<button id="btn_account_save">저장</button>');
+					registerSaveButtonHandler(); // 저장 버튼 핸들러 등록
+				} else {
+					accountContainer.append('<button id="btn_account_modify">수정</button>');
+					registerModifyButtonHandler(); // 수정 버튼 핸들러 등록
+				}
 
-                const accountbook = ab || {};
-                $('#salary').val(accountbook.salary || '');
-                $('#side-job').val(accountbook.sideJob || '');
-                $('#saving').val(accountbook.saving || '');
-                $('.income-total').text((accountbook.incomeTotal || 0) + ' 원');
+				const accountbook = ab || {};
+				$('#salary').val(accountbook.salary || '');
+				$('#side-job').val(accountbook.sideJob || '');
+				$('#saving').val(accountbook.saving || '');
+				$('.income-total').text((accountbook.incomeTotal || 0) + ' 원');
 
-                $('#food-expenses').val(accountbook.foodExpenses || '');
-                $('#traffic').val(accountbook.traffic || '');
-                $('#culture').val(accountbook.culture || '');
-                $('#clothing').val(accountbook.clothing || '');
-                $('#beauty').val(accountbook.beauty || '');
-                $('#telecom').val(accountbook.telecom || '');
-                $('#membership-fee').val(accountbook.membershipFee || '');
-                $('#daily-necessity').val(accountbook.dailyNecessity || '');
-                $('#occasions').val(accountbook.occasions || '');
-                $('.spending-total').text((accountbook.spendingTotal || 0) + ' 원');
-                $('#income-spending-total').text((accountbook.incomeSpendingTotal || 0) + ' 원');
-            },
-            error: function() {
-                alert('잘못됐어! 다시해줘');
-            }
-        });
-    });
+				$('#food-expenses').val(accountbook.foodExpenses || '');
+				$('#traffic').val(accountbook.traffic || '');
+				$('#culture').val(accountbook.culture || '');
+				$('#clothing').val(accountbook.clothing || '');
+				$('#beauty').val(accountbook.beauty || '');
+				$('#telecom').val(accountbook.telecom || '');
+				$('#membership-fee').val(accountbook.membershipFee || '');
+				$('#daily-necessity').val(accountbook.dailyNecessity || '');
+				$('#occasions').val(accountbook.occasions || '');
+				$('.spending-total').text((accountbook.spendingTotal || 0) + ' 원');
+				$('#income-spending-total').text((accountbook.incomeSpendingTotal || 0) + ' 원');
+			},
+			error: function() {
+				alert('잘못됐어! 다시해줘');
+			}
+		});
+	});
 
-    function saveOrUpdateAccountBook(url, callback) {
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({
-                userId: 'user2',
-                accountDate: $('#input-date').val(),
-                salary: parseFloat($('#salary').val()) || 0,
-                sideJob: parseFloat($('#side-job').val()) || 0,
-                saving: parseFloat($('#saving').val()) || 0,
-                incomeTotal: parseFloat($('.income-total').text()) || 0,
-                foodExpenses: parseFloat($('#food-expenses').val()) || 0,
-                traffic: parseFloat($('#traffic').val()) || 0,
-                culture: parseFloat($('#culture').val()) || 0,
-                clothing: parseFloat($('#clothing').val()) || 0,
-                beauty: parseFloat($('#beauty').val()) || 0,
-                telecom: parseFloat($('#telecom').val()) || 0,
-                membershipFee: parseFloat($('#membership-fee').val()) || 0,
-                dailyNecessity: parseFloat($('#daily-necessity').val()) || 0,
-                occasions: parseFloat($('#occasions').val()) || 0,
-                spendingTotal: parseFloat($('.spending-total').text()) || 0,
-                incomeSpendingTotal: parseFloat($('#income-spending-total').text()) || 0
-            }),
-            contentType: "application/json; charset=utf-8",
-            success: function(savedAccountBook) {
-                console.log("Server response:", savedAccountBook);
+	function saveOrUpdateAccountBook(url, callback) {
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({
+				userId: 'user2',
+				accountDate: $('#input-date').val(),
+				salary: parseFloat($('#salary').val()) || 0,
+				sideJob: parseFloat($('#side-job').val()) || 0,
+				saving: parseFloat($('#saving').val()) || 0,
+				incomeTotal: parseFloat($('.income-total').text()) || 0,
+				foodExpenses: parseFloat($('#food-expenses').val()) || 0,
+				traffic: parseFloat($('#traffic').val()) || 0,
+				culture: parseFloat($('#culture').val()) || 0,
+				clothing: parseFloat($('#clothing').val()) || 0,
+				beauty: parseFloat($('#beauty').val()) || 0,
+				telecom: parseFloat($('#telecom').val()) || 0,
+				membershipFee: parseFloat($('#membership-fee').val()) || 0,
+				dailyNecessity: parseFloat($('#daily-necessity').val()) || 0,
+				occasions: parseFloat($('#occasions').val()) || 0,
+				spendingTotal: parseFloat($('.spending-total').text()) || 0,
+				incomeSpendingTotal: parseFloat($('#income-spending-total').text()) || 0
+			}),
+			contentType: "application/json; charset=utf-8",
+			success: function(savedAccountBook) {
+				console.log("Server response:", savedAccountBook);
 
-                const abs = savedAccountBook || {};
-                const incomeTotal = abs.salary + abs.sideJob + abs.saving; 
-                const spendingTotal = abs.foodExpenses + abs.traffic + abs.culture + abs.clothing + abs.beauty +
-                                        abs.telecom + abs.membershipFee + abs.dailyNecessity + abs.occasions;
-                const incomeSpendingTotal = incomeTotal - spendingTotal;
+				const abs = savedAccountBook || {};
+				const incomeTotal = abs.salary + abs.sideJob + abs.saving;
+				const spendingTotal = abs.foodExpenses + abs.traffic + abs.culture + abs.clothing + abs.beauty +
+					abs.telecom + abs.membershipFee + abs.dailyNecessity + abs.occasions;
+				const incomeSpendingTotal = incomeTotal - spendingTotal;
 
-                $('#salary').val(abs.salary || '');
-                $('#side-job').val(abs.sideJob || '');
-                $('#saving').val(abs.saving || '');
-                $('.income-total').text((incomeTotal || 0) + ' 원');
+				$('#salary').val(abs.salary || '');
+				$('#side-job').val(abs.sideJob || '');
+				$('#saving').val(abs.saving || '');
+				$('.income-total').text((incomeTotal || 0) + ' 원');
 
-                $('#food-expenses').val(abs.foodExpenses || '');
-                $('#traffic').val(abs.traffic || '');
-                $('#culture').val(abs.culture || '');
-                $('#clothing').val(abs.clothing || '');
-                $('#beauty').val(abs.beauty || '');
-                $('#telecom').val(abs.telecom || '');
-                $('#membership-fee').val(abs.membershipFee || '');
-                $('#daily-necessity').val(abs.dailyNecessity || '');
-                $('#occasions').val(abs.occasions || '');
-                $('.spending-total').text((spendingTotal || 0) + ' 원');
-                $('#income-spending-total').text((incomeSpendingTotal || 0) + ' 원');
+				$('#food-expenses').val(abs.foodExpenses || '');
+				$('#traffic').val(abs.traffic || '');
+				$('#culture').val(abs.culture || '');
+				$('#clothing').val(abs.clothing || '');
+				$('#beauty').val(abs.beauty || '');
+				$('#telecom').val(abs.telecom || '');
+				$('#membership-fee').val(abs.membershipFee || '');
+				$('#daily-necessity').val(abs.dailyNecessity || '');
+				$('#occasions').val(abs.occasions || '');
+				$('.spending-total').text((spendingTotal || 0) + ' 원');
+				$('#income-spending-total').text((incomeSpendingTotal || 0) + ' 원');
 
-                alert("저장완료");
+				alert("저장완료");
 
-                // 콜백 함수 호출 (예: 저장 후 수정 버튼으로 변경)
-                if (typeof callback === 'function') {
-                    callback();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX Error:");
-                console.error("Status:", status);
-                console.error("Error:", error);
-                console.error("Response:", xhr.responseText);
-                alert('저장에 실패했습니다. 다시 시도해주세요.');
-            }
-        });
-    }
+				// 콜백 함수 호출 (예: 저장 후 수정 버튼으로 변경)
+				if (typeof callback === 'function') {
+					callback();
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error("AJAX Error:");
+				console.error("Status:", status);
+				console.error("Error:", error);
+				console.error("Response:", xhr.responseText);
+				alert('저장에 실패했습니다. 다시 시도해주세요.');
+			}
+		});
+	}
 
-    function registerSaveButtonHandler() {
-        $('#btn_account_save').off('click').on('click', function(event) {
-            console.log('btn_account_save click');
-            saveOrUpdateAccountBook("/save/AccountBook", function() {
-                // 저장 후에는 수정 버튼으로 변경
-                $('#btn_account_save').remove();
-                $('.accountModify-popup-content').append('<button id="btn_account_modify">수정</button>');
-                registerModifyButtonHandler();
-            });
-        });
-    }
+	function registerSaveButtonHandler() {
+		$('#btn_account_save').off('click').on('click', function(event) {
+			console.log('btn_account_save click');
+			saveOrUpdateAccountBook("/save/AccountBook", function() {
+				// 저장 후에는 수정 버튼으로 변경
+				$('#btn_account_save').remove();
+				$('.accountModify-popup-content').append('<button id="btn_account_modify">수정</button>');
+				registerModifyButtonHandler();
+			});
+		});
+	}
 
-    function registerModifyButtonHandler() {
-        $('#btn_account_modify').off('click').on('click', function(event) {
-            console.log('btn_account_modify click');
-            saveOrUpdateAccountBook("/modify/AccountBook");
-        });
-    }
+	function registerModifyButtonHandler() {
+		$('#btn_account_modify').off('click').on('click', function(event) {
+			console.log('btn_account_modify click');
+			saveOrUpdateAccountBook("/modify/AccountBook");
+		});
+	}
 });
 
 //정민 파트
 $(document).ready(function() {
 	let currentDiaryEntry = null;
-	
+
 	//프로필 팝업창
 	$('.menu-btn').on('click', function() {
 		$('.swiper-rightslide').hide();
@@ -492,7 +484,7 @@ $(document).ready(function() {
 			$('#profile-popup').fadeOut();
 		}
 	});
-	
+
 	//주소 팝업창
 	$('#open-address-popup').on('click', function(event) {
 		event.preventDefault();
@@ -508,7 +500,7 @@ $(document).ready(function() {
 			$('#address-popup').fadeOut();
 		}
 	});
-	
+
 	//비밀번호 팝업창
 	$('#open-password-popup').on('click', function(event) {
 		event.preventDefault();
@@ -524,7 +516,7 @@ $(document).ready(function() {
 			$('#password-popup').fadeOut();
 		}
 	});
-	
+
 	//친구추가 팝업창
 	$('#addfriend-icon').on('click', function(event) {
 		event.preventDefault();
@@ -540,7 +532,7 @@ $(document).ready(function() {
 			$('#addfriend-popup').fadeOut();
 		}
 	});
-	
+
 	//일기추가 팝업창
 	/*$('.insert-btn').on('click', function(event) {
 		event.preventDefault();

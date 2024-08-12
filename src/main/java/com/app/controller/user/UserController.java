@@ -41,6 +41,7 @@ public class UserController {
     // 회원가입
     @GetMapping("/user/signup")
     public String signup() {
+    	
         return "signup";
     }
 
@@ -85,7 +86,8 @@ public class UserController {
 
     // 로그인
     @GetMapping("/user/signin")
-    public String signin() {
+    public String signin(HttpSession session) {
+    	System.out.println(session.getAttribute("user"));
         return "signin";
     }
 
@@ -96,11 +98,13 @@ public class UserController {
             if (loginUser == null) {
                 throw new Exception("아이디 또는 비밀번호가 올바르지 않습니다.");
             }
-
+            
             session.setAttribute("user", loginUser);
+            System.out.println(session.getAttribute("user")+"정상");
             return "redirect:/main";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
+            System.out.println(session.getAttribute("user")+"오류");
             return "signin";
         }
     }
