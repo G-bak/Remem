@@ -48,7 +48,7 @@ a {
 }
 
 .popup {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -109,11 +109,23 @@ a {
 .photo {
     width: 25%;
     height: 80px;
-    border-radius: 20px;
-    background-color: #7c531d;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 99;
+}
+
+.profile {
+	position: absolute;
+	top: 15%;
+	left: 12%;
+	width: 80px;
+	height: 80px;
+	border-radius: 20px;
+    background-color: #7c531d;
+    z-index: 100;
+    background-size: cover; /* 이미지가 요소를 덮도록 설정 */
+    background-position: center; /* 이미지가 중앙에 위치하도록 설정 */
 }
 
 .profile-container {
@@ -136,7 +148,10 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 30px 25px;
+    margin-top: 40px; 
+    margin-bottom: 30px; 
+    margin-left: 25px; 
+    margin-right: 25px;    
 }
 
 .nickname {
@@ -552,4 +567,8 @@ input[type="checkbox"] {
 li.checked {
     text-decoration: line-through;
     color: #ac1616;
+}
+
+.btn-file{
+	
 }

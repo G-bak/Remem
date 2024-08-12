@@ -42,6 +42,8 @@
 		<beans:property name="suffix" value=".jsp"></beans:property>
 	</beans:bean>
 
+
+	<resources location="file:///d:/uploads/" mapping="/uploads/**" ></resources>
 	<resources location="/resources/" mapping="/**"></resources>
 	
 	

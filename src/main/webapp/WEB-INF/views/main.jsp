@@ -24,11 +24,23 @@
         </div>
     </header>
 
-    <div class="popup" id="profile-popup">
+    <div class="popup" id="profile-popup" style="display: none;">
         <div class="popup-content">
             <h2>프로필 팝업창</h2>
             <div class="profile-container">
-                <div class="photo">사진</div>
+                <div class="photo">
+                <div class="profile" style="background-image: url('${filePath}');"></div>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+        			<input type="file" name="file" 
+        				style="font-size: 0.7rem; position: absolute; right: 11%; top: 38%;" />
+        			<button type="submit"
+        				style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 10%; top: 38%;">Upload</button>
+   				 </form>
+   				 </div>
+   				 
+               <!--  <input type="file" name="uploadImage" id="input-image">--> 
+                
+                
                 <div>
                     <p>팔로워</p>
                     <p class="follower">63</p>

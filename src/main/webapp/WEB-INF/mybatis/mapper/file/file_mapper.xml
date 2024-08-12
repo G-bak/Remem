@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+			"-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+			
+<mapper namespace="file_mapper">
+
+    <!-- SQL Mapping to insert FileInfo into the database -->
+    <insert id="saveFileInfo" parameterType="FileInfo">
+    	insert into file_info (file_id, user_id, file_name, url_file_path)
+		values (NVL((SELECT MAX(file_id) FROM file_info), 0) + 1, #{userId, jdbcType=VARCHAR}, #{fileName, jdbcType=VARCHAR}, #{urlFilePath, jdbcType=VARCHAR})
+    </insert>
+
+	<select id="findFileUrlByFileNameUserId" parameterType="FileInfo" resultType="String">
+        SELECT url_file_path
+        FROM file_info
+        WHERE file_name = #{fileName}
+        AND user_id = #{userId}
+    </select>
+    
+
+</mapper>
