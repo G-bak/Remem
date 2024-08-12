@@ -57,7 +57,7 @@ public class UserController {
                 
             }
 
-            return "signin";
+            return "redirect:/signin";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "signup";
@@ -134,7 +134,7 @@ public class UserController {
             return "redirect:/startpage";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "redirect:/main";
+            return "main";
         }
     }
 
@@ -176,7 +176,7 @@ public class UserController {
         } catch (Exception e) {
         	
             model.addAttribute("errorMessage", e.getMessage());
-            return "redirect:/main";
+            return "main";
             
         }
     }

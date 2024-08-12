@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -57,68 +58,63 @@
 
 
 
-	<div class="popup" id="profile-popup">
-		<div class="popup-content">
-			<h2>프로필 팝업창</h2>
-			<div class="profile-container">
-				<div class="photo">사진</div>
-				<div>
-					<p>팔로워</p>
-					<p class="follower">63</p>
-				</div>
-				<div>
-					<p>팔로잉</p>
-					<p class="following">63</p>
-				</div>
-			</div>
-			<div class="profile-introduce">
-				<p class="nickname">${user.userName}</p>
-				<p class="profile-id">@ ${user.userId}</p>
-				<p>반가워! 나는 상큼한 자두같은 아이야</p>
-			</div>
-			<div class="ModifyPage">
-				<a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
-				<a href="#" class="passwordModify" id="open-password-popup">비밀번호
-					수정</a>
-			</div>
-			<button class="close-btn" id="close-profile-popup">닫기</button>
-		</div>
-	</div>
-
-	<div class="address-popup" id="address-popup">
-		<div class="address-content">
-			<h2>주소 수정 팝업창</h2>
-			<form action="/user/modifyAddress" method="post"
-				id="frm-modifyAddress">
-				<div class="frm-modifyAddress-body">
-					<input type="hidden" id="sample6_postcode" placeholder="우편번호">
-					<input type="text" id="sample6_address" name="userAddress"
-						value="${user.userAddress}"><br> <i
-						class="fa-solid fa-magnifying-glass" id="search-icon"
-						onclick="sample6_execDaumPostcode()"></i></input><br> <input
-						type="hidden" id="sample6_detailAddress" placeholder="상세주소">
+    <div class="popup" id="profile-popup">
+        <div class="popup-content">
+            <h2>프로필 팝업창</h2>
+            <div class="profile-container">
+                <div class="photo">사진</div>
+                <div>
+                    <p>팔로워</p>
+                    <p class="follower">63</p>
+                </div>
+                <div>
+                    <p>팔로잉</p>
+                    <p class="following">63</p>
+                </div>
+            </div>
+            <div class="profile-introduce">
+                <p class="nickname">${user.userName}</p>
+                <p class="profile-id">@ ${user.userId}</p>
+                <p>반가워! 나는 상큼한 자두같은 아이야</p>
+            </div>
+            <div class="ModifyPage">
+                <a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
+                <a href="#" class="passwordModify" id="open-password-popup">비밀번호 수정</a>
+            </div>
+            <button class="close-btn" id="close-profile-popup">닫기</button>
+        </div>
+    </div>
+    
+     <div class="address-popup" id="address-popup">
+    	<div class="address-content">
+    	 	<h2>주소 수정 팝업창</h2>
+    	 	<form action="/user/modifyAddress" method="post"  id="frm-modifyAddress">
+    	 		<div class="frm-modifyAddress-body">
+    	 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
+					<input type="text" id="sample6_address" name ="userAddress" value="${user.userAddress}"><br>
+						<i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="sample6_execDaumPostcode()"></i>
+					</input><br>
+					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-				</div>
-				<div class="frm-modifyAddress-footer">
-					<button type="submit" class="address">수정</button>
-				</div>
-			</form>
-
-			<button class="close-btn" id="close-address-popup">닫기</button>
-
-		</div>
-
-	</div>
-
-	<div class="password-popup" id="password-popup">
-		<div class="password-content">
-			<h2>비밀번호 수정 팝업창</h2>
-			<form action="/user/modifyPassword" method="post"
-				id="frm-modifyPassword">
-				<div class="frm-modifyPassword-body">
-					<input type="text" id="pw" name="currentPassword"
-						placeholder="현재 비밀번호 입력"><br /> <input type="text"
-						id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br />
+    	 		</div>
+    	 		<div class="frm-modifyAddress-footer">
+    	 			<button type="submit" class="address">수정</button>
+    	 		</div>
+    	 	</form>
+    		
+    		<button class="close-btn" id="close-address-popup">닫기</button>
+    		
+    	</div>
+    	
+    </div>
+    
+    <div class="password-popup" id="password-popup">
+    	<div class="password-content">
+    		<h2>비밀번호 수정 팝업창</h2>
+    		<form action="/user/modifyPassword" method="post" id="frm-modifyPassword">
+	    		<div class="frm-modifyPassword-body">
+					<input type="password" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
+					<input type="password" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
 				</div>
 				<div class="frm-modifyPassword-footer">
 					<button type="submit" class="password">수정</button>
@@ -354,10 +350,14 @@
 	</footer>
 
 	</div>
-
-
-
-
+	
+	<script>
+	   // JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
+	    <c:if test="${not empty errorMessage}">
+	        alert("${errorMessage}");
+	    </c:if>
+	</script>
+	
 	<script type="text/javascript">
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
 		var loginUserId = '${user.userId}';
