@@ -3,14 +3,15 @@
 					"http://mybatis.org/dtd/mybatis-3-config.dtd">									
 <configuration>							
 	
-	<settings>						
-		<setting name="mapUnderscoreToCamelCase" value="true"/>	
-<!-- 				_ 표시 -> CamelCase  userType  맵핑	  -->
-	</settings>						
+<!-- 	<settings>						 -->
+<!-- 		<setting name="mapUnderscoreToCamelCase" value="true"/>	 -->
+<!-- 				_ 표시 -> CamelCase  userType  맵핑	 --> 
+<!-- 	</settings>						 -->
 							
-	<typeAliases>						
-		<typeAlias type="com.app.dto.user.User" alias="User"/>					
-		
-	</typeAliases>						
+<!-- 	<typeAliases>						 -->
+<!-- 		<typeAlias type="com.app.dto.user.User" alias="User"/>					 -->
+<!-- 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>					 -->
+<!-- 		<typeAlias type="com.app.dto.room.Room" alias="Room"/> -->
+<!-- 	</typeAliases>						 -->
 							
 </configuration>							
