@@ -46,7 +46,6 @@ $(document).ready(function() {
 });
 
 //정민 파트
-
 $(document).ready(function() {
 	let currentDiaryEntry = null;
 	
@@ -280,9 +279,7 @@ function sample6_execDaumPostcode() {
                 document.getElementById("sample6_detailAddress").focus();
             }
         }).open();
-      
     }
-    
 
 //혜민 파트
 

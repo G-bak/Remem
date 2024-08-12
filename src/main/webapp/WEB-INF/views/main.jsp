@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -63,7 +64,8 @@
     	 		<div class="frm-modifyAddress-body">
     	 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
 					<input type="text" id="sample6_address" name ="userAddress" value="${user.userAddress}"><br>
-					<i class="fa-solid fa-magnifying-glass" id="search-icon"  onclick="sample6_execDaumPostcode()"></i></input><br>
+						<i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="sample6_execDaumPostcode()"></i>
+					</input><br>
 					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
     	 		</div>
@@ -83,8 +85,8 @@
     		<h2>비밀번호 수정 팝업창</h2>
     		<form action="/user/modifyPassword" method="post" id="frm-modifyPassword">
 	    		<div class="frm-modifyPassword-body">
-					<input type="text" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
-					<input type="text" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
+					<input type="password" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
+					<input type="password" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
 				</div>
 				<div class="frm-modifyPassword-footer">
 	    	 		<button type="submit" class="password">수정</button>
@@ -147,22 +149,19 @@
                         <button type="button" class="insert-btn" onclick="location.href='/diaryWrite'"> <i class="fa-regular fa-pen-to-square"></i> </button>
                         <button class="chatbot-btn"> <i class="fa-regular fa-comments"></i> </button>
                     </div>
-                    <div class="diary-container">
-                    </div>
-                    <div class="diary-popup" id="diary-popup">
-                        <div class="diary-content">
-                            <h2>일기작성 팝업창</h2>
-                            <p>여기에는 일기를 작성할 수 있습니다.</p>
-                            <form action="./main.html" method="post" id="frm-diary">
-                                <input type="date" id="diary-date" name="diaryDate" placeholder="날짜">
-                                <input type="text" id="diary-title" name="diaryTitle" placeholder="제목">
-                                <textarea rows="5" cols="45" id="diary-content" name="diaryContent" placeholder="내용"></textarea>
-                                <button class="diary-close-btn" id="close-diary-popup">닫기</button>
-                                <button type="submit" class="save-btn" id="save-diary-popup">저장</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+					<div class="diary-container">
+						<div class="diary-entry">
+							<h3>${title}</h3>
+							<span class="diary-date">${date}</span>
+							<div class="diary-footer">
+								<button class="diary-view-btn" id="view-diary">확인</button>
+								<button class="diary-modify-btn" id="modify-diary">수정</button>
+								<button class="diary-remove-btn" id="remove-diary">삭제</button>
+							</div>
+							<p class="diary-content" style="display: none;">${content}</p>
+						</div>
+					</div>
+				</div>
                 <div class="swiper-rightslide" id="content-todo">
                     <div class="wrapper">
                         <header>오늘 할 일</header>  
@@ -229,7 +228,13 @@
         </div>
     </footer>
 	</div>
-  
+	
+	<script>
+	   // JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
+	    <c:if test="${not empty errorMessage}">
+	        alert("${errorMessage}");
+	    </c:if>
+	</script>
 	
 	<script type="text/javascript">
         // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당

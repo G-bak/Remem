@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,5 +24,12 @@
         </div>
         <button type="submit">로그인<i class="fab fa-gratipay"></i></button>
     </form>
+    
+    <script>
+	   // JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
+	    <c:if test="${not empty errorMessage}">
+	        alert("${errorMessage}");
+	    </c:if>
+	</script>
 </body>
 </html>
