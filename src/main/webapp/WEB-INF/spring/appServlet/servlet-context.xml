@@ -31,10 +31,10 @@
 
 	<context:component-scan
 		base-package="com.app.controller"></context:component-scan>
-	<context:component-scan
+	<!-- <context:component-scan
 		base-package="com.app.service"></context:component-scan>
 	<context:component-scan
-		base-package="com.app.dao"></context:component-scan>
+		base-package="com.app.dao"></context:component-scan> -->
 
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
