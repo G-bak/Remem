@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>							
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"							
-					"http://mybatis.org/dtd/mybatis-3-config.dtd">									
+					"Http://mybatis.org/dtd/mybatis-3-config.dtd">									
 <configuration>							
 	
 					 
@@ -20,6 +20,8 @@
 		<typeAlias type="com.app.dto.todolist.TodoListUpdate" alias="TodoListUpdate"/>
 		<typeAlias type="com.app.dto.todolist.TodoListRemove" alias="TodoListRemove"/>
 
+		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
+		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
 	</typeAliases>						
 
 							
