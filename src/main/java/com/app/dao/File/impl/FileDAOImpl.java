@@ -23,4 +23,15 @@ public class FileDAOImpl implements FileDAO {
 		return sqlSessionTemplate.selectOne("file_mapper.findFileUrlByFileNameUserId", fileInfo);
 	}
 
+	@Override
+	public int selectFileInfo(FileInfo fileInfo) {
+		return sqlSessionTemplate.selectOne("file_mapper.selectFileInfo", fileInfo);
+	}
+	
+	@Override
+	public int updateFileInfo(FileInfo fileInfo){
+		return sqlSessionTemplate.update("file_mapper.updateFileInfo", fileInfo);
+		
+	}
+
 }

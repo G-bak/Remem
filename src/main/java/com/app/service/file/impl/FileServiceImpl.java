@@ -22,6 +22,19 @@ public class FileServiceImpl implements FileService {
 	public String findFileUrlByFileNameUserId(FileInfo fileInfo) {
 		return fileDAO.findFileUrlByFileNameUserId(fileInfo);
 	}
+
+	@Override
+	public int selectFileInfo(FileInfo fileInfo) {
+		return fileDAO.selectFileInfo(fileInfo);
+	}
+
+	@Override
+	public int updateFileInfo(FileInfo fileInfo) {
+		return fileDAO.updateFileInfo(fileInfo);
+	}
+	
+	
+	
 	
 
 }

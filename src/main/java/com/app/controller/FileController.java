@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -50,38 +51,66 @@ public class FileController {
             
             for (FileItem item : items) {
                 if (!item.isFormField()) {
-                	System.out.println("Item: " + item);
-                    String fileName = Paths.get(item.getName()).getFileName().toString(); // 파일 이름 가져오기
-                    System.out.println("File Name: " + fileName);
+                	String fileName = Paths.get(item.getName()).getFileName().toString(); // 원본 파일 이름
+                    String fileExtension = fileName.substring(fileName.lastIndexOf('.')); // 파일 확장자 추출
+                    String uuid = UUID.randomUUID().toString(); // UUID 생성
+                    String newFileName = uuid + fileExtension; // 새 파일 이름
+                    
+                    
+                    System.out.println("Original File Name: " + fileName);
+                    System.out.println("New File Name: " + newFileName); // 수정된 파일 이름 출력
+                
+
+                    
                     File uploadDir = new File(UPLOAD_DIRECTORY);
 
                     if (!uploadDir.exists()) {
                         uploadDir.mkdirs();
                     }
 
-                    File file = new File(uploadDir, fileName);
+                    File file = new File(uploadDir, newFileName);
                     item.write(file);
 
                     // 여기서부터 -------------------------------
                     
                     // 파일의 URL 생성
-                    String fileUrl = "/uploads/" + fileName;
+                    String fileUrl = "/uploads/" + newFileName;
                     System.out.println("File URL: " + fileUrl);
-                    model.addAttribute("absolutePath", fileUrl);
+                    //model.addAttribute("absolutePath", fileUrl);
                     
                     // DB
                     FileInfo fileinfo = new FileInfo();
-                    fileinfo.setUserId("user1");
-                    fileinfo.setFileName(fileName);
+                    fileinfo.setUserId("user1"); //세선에서 id 받아오기 처리 !!!!!!!!!!!!!!(수정)
+                    fileinfo.setFileName(newFileName);
                     fileinfo.setUrlFilePath(fileUrl);
                     
-                    // 파일 URL 데이터를 DB에 저장시키는 DAO 메서드 호출
-                    int result = fileservice.saveFileInfo(fileinfo);
-                    if (result > 0) {
-                    	System.out.println("성공");
+                    
+                    
+                    //DB에 fileinfo 테이블에 user1이 없으면 insert
+                    //user1이 있으면 변경된 사진으로 update
+                    int selectResult = fileservice.selectFileInfo(fileinfo);
+                    System.out.println("count: " + selectResult);
+                    
+                    if(selectResult > 0) {
+                    	int result = fileservice.updateFileInfo(fileinfo);
+                    	if (result > 0) {
+                         	System.out.println("성공");
+                         } else {
+                         	System.out.println("실패");
+                         }
+                    	
+                    	
                     } else {
-                    	System.out.println("실패");
+                    	 int result = fileservice.saveFileInfo(fileinfo);
+                         if (result > 0) {
+                         	System.out.println("성공");
+                         } else {
+                         	System.out.println("실패");
+                         }
                     }
+                    
+                    
+                    
                     
                     
                     // 파일 URL 데이터를 DB에 불러오는 DAO 메서드 호출
