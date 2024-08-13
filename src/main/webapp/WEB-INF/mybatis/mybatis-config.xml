@@ -12,6 +12,8 @@
 		<typeAlias type="com.app.dto.user.User" alias="User"/>					
 		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
 		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
+		
+		<typeAlias type="com.app.dto.timecapsule.Timecapsule" alias="Timecapsule"></typeAlias>
 	</typeAliases>						
 							
 </configuration>							

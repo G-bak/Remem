@@ -48,7 +48,7 @@ a {
 	margin-right: 0;
 }
 
-.popup {
+.popup, .popup_html {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -57,6 +57,18 @@ a {
 	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
 	z-index: 5;
+}
+
+.popup_open_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    width: 60px;
+    height: 35px;
 }
 
 .popup-content{
@@ -72,6 +84,26 @@ a {
 	border-radius: 8px;
 	text-align: center;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup_open_content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	max-width: 500px;
+	padding: 20px;
+	height: 250px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#popup-message {
+	margin-top: 12px;
+    font-size: 25px;
 }
 
 .Modify-btn {
@@ -107,9 +139,92 @@ a {
 	margin-top: 30px;
 }
 
-.input_timecapsule {
-    width: 300px;
+#content-capsule {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.div_a_icon {
+	width: 100%;
+	margin-left: 8px;
+}
+
+#icon_timecapsule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    text-align: center; 
+    color: #000000;
+}
+
+#timecapsule-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#additional-content {
+    color: #000; 
+    background-color: #f6f6f6;
+    width: calc((100% - 40px) / 6);
     height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+
+.poto_additional {
+    width: 45%; 
+    height: 75px; 
+    border-radius: 20px; 
+    background-image: url('/image/time-capsule-icon.jpg');
+    background-size: cover; 
+    background-position: center; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.additional_date {
+	margin-bottom: 10px;
+}
+
+.open_additonal {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.fa-creative-commons-sampling{
+	font-size: 23px;
+}
+
+.date_timecapsule {
+	margin-top: 20px;
+    margin-bottom: 20px;
+    width: 60%;
+    border: 1px solid #00000085;
+}
+
+.input_timecapsule {
+    width: 90%;
+    height: 200px;
+    border: 1px solid #00000085;
+    padding: 10px
 }
 
 .photo {
