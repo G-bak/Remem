@@ -12,6 +12,7 @@
 	</settings>						
 							
 	<typeAliases>						
+
 		<typeAlias type="com.app.dto.user.User" alias="User"/>					
 
 		<typeAlias type="com.app.dto.diary.UserDiary" alias="UserDiary"/>
@@ -30,6 +31,10 @@
 		<typeAlias type="com.app.dto.friend.FriendStatusDTO" alias="FriendStatusDTO"/>
 		
 		<typeAlias type="com.app.dto.timecapsule.Timecapsule" alias="Timecapsule"></typeAlias>
+
+
+		<typeAlias type="com.app.dto.user.User" alias="User"/>
+		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>		
 
 	</typeAliases>						
 
