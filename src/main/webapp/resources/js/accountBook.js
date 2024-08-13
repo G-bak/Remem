@@ -34,10 +34,117 @@ $(document).ready(function() {
 
 
 
+
+	loadAllTimecapsules();
+
+	function loadAllTimecapsules() {
+		$.ajax({
+			url: '/all/Timecapsules',
+			type: 'GET',
+			success: function(response) {
+				response.forEach(function(tc) {
+					addTimecapsule(tc.tcDate, tc.tcContent);
+				});
+			},
+			error: function(error) {
+				console.error('타임캡슐을 불러오는 중 오류가 발생했습니다.', error);
+			}
+		});
+	}
+
+	// 타임캡슐 추가
+	function addTimecapsule(date, content) {
+		var additionalContent = `
+            <div id="additional-content">
+                <div class="poto_additional"></div>
+                <p class="additional_date">${date}</p>
+                <button class="open_additonal" data-content="${content}" data-date="${date}">열기</button>
+            </div>`;
+		$('#content-capsule').append(additionalContent);
+	}
+
+	// 타임캡슐 저장 버튼
+	$('#save_popup_timecapsule').on('click', function(event) {
+		event.preventDefault();
+
+		//입력할 값
+		var tcDate = $('#date_timecapsule').val();
+		var tcContent = $('#input_timecapsule').val();
+
+		$.ajax({
+			url: '/save/Timecapsule',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({
+				tcUserId: 'user1',
+				tcDate: tcDate,
+				tcContent: tcContent
+			}),
+			success: function(response) {
+				if (response) {
+					alert('타임캡슐이 성공적으로 저장되었습니다!');
+					addTimecapsule(response.tcDate, response.tcContent);
+				} else {
+					alert('저장에 실패했습니다.');
+				}
+			},
+			error: function(error) {
+				console.error('저장 중 오류가 발생했습니다.', error);
+			}
+		});
+	});
+
+	// 열기 버튼 클릭 -> 타임캡슐 내용
+	$(document).on('click', '.open_additonal', function() {
+		var content = $(this).data('content');
+		var date = $(this).data('date');  // 버튼에 저장된 날짜 가져오기
+
+		const currentDate = new Date();
+		const formattedDate = currentDate.toISOString().split('T')[0];
+
+		if (date <= formattedDate) {  
+			var popupHtml =
+				`<div class="popup_html" id="popup_open_timecapsule">
+                <div class="popup_open_content">
+            	   <h1>비밀글을 읽을 수 있어요!</h1>
+                   <p id="popup-message">${content}</p>
+	               <p class="popup_open_close">닫기</p>
+                </div>
+            </div>`;
+
+			$('body').append(popupHtml);
+
+			$('#popup_open_timecapsule').fadeIn();
+
+			$(document).on('click', '.popup_open_close', function() {
+				$('#popup_open_timecapsule').fadeOut(function() {
+					$(this).remove();
+				});
+			});
+
+			$(document).on('click', '#popup_open_timecapsule', function(e) {
+				if ($(e.target).is('#popup_open_timecapsule')) {
+					$('#popup_open_timecapsule').fadeOut(function() {
+						$(this).remove();
+					});
+				}
+			});
+		} else {
+			alert("지정된 날짜 이후에만 타임캡슐을 열 수 있습니다!");
+		}
+	});
+});
+
+
+
+
+
+
+
 	
 
 
-});
+
 
 
 

@@ -24,10 +24,12 @@
 		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
 		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
 
+
 		<typeAlias type="com.app.dto.friend.SearchFriend" alias="SearchFriend"/>
 		<typeAlias type="com.app.dto.friend.UserSearch" alias="UserSearch"/>
 		<typeAlias type="com.app.dto.friend.FriendStatusDTO" alias="FriendStatusDTO"/>
 		
+		<typeAlias type="com.app.dto.timecapsule.Timecapsule" alias="Timecapsule"></typeAlias>
 
 	</typeAliases>						
 

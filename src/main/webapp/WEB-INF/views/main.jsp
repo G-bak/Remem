@@ -324,18 +324,20 @@
 					</div>
 				</div>
 				<div class="swiper-rightslide" id="content-capsule">
-
-					<a href="#" id="icon_timecapsule"><i
-						class="fa-brands fa-creative-commons-sampling"></i></a>
-
+				
+					<div class="div_a_icon">
+					<a href="#" id="icon_timecapsule"><i class="fa-brands fa-creative-commons-sampling"></i></a>
+					</div>
+					
 					<div class="popup" id="popup_timecapsule">
 						<div class="popup-content">
-							<input type="date" class="date_timecapsule"> <input
-								type="text" class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br />
+							<input type="date" id="date_timecapsule" class="date_timecapsule">
+							<input type="text" id="input_timecapsule" class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br/>
 							<button class="save-btn" id="save_popup_timecapsule">저장</button>
 							<button class="close-btn" id="close_popup_timecapsule">닫기</button>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
