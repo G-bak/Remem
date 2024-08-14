@@ -11,8 +11,9 @@
 }
 
 body {
-	height: 100vh;
-	overflow: hidden;
+    width: 1024px;
+    height: 768px;
+    overflow: auto; 
 }
 
 .container {
@@ -22,7 +23,7 @@ body {
 
 #header {
 	height: 45px;
-	background-color: #f3e073;
+	background-color: #c1e0ac;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -31,9 +32,9 @@ body {
 
 span {
 	color: #7c531d;
-	font-size: 25px;
-	font-weight: bold;
-	text-shadow: -2px 2px 0 #ffffff;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 0px 2px 0 #ffffff;
 }
 
 .icon-container {
@@ -44,21 +45,20 @@ span {
 a {
 	text-decoration: none;
 	display: inline-block;
-	margin: 0 10px;
+	margin: 0 5px;
 }
 
 .fa-user-circle, .fa-user-plus {
 	color: #7c531d;
 	font-size: 26px;
-	margin-right: 10px;
 }
 
 .fa-user-plus {
 	font-size: 21px;
-	margin-right: 0;
+	margin-right: 5px;
 }
 
-.popup, .popup_html {
+.popup {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -150,7 +150,7 @@ a {
 }
 
 #content-capsule {
-    display: flex;
+	display:flex;
     flex-wrap: wrap;
     align-content: flex-start;
 }
@@ -377,6 +377,218 @@ a {
 	padding: 20px;
 }
 
+#main-swiper-rightslide {
+    display: flex;
+    position: relative;
+    width: calc(100% - 200px);
+}
+
+.left-box {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.h1_post {
+	text-align: center;
+    font-size: 30px
+}
+
+.post_container {
+	width: auto;
+    height: 95%;
+	overflow-y: scroll;
+}
+
+.post {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 35px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px 65px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: bold;
+    margin: 0;
+}
+
+.post-date {
+    font-size: 0.9em;
+    color: #888;
+    margin: 0;
+}
+
+.post-content {
+    margin-bottom: 15px;
+}
+
+.post-content p {
+    margin: 0 0 10px;
+}
+
+.post-image {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.post-actions button {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.post-actions button:hover {
+    background-color: #f0f0f0;
+}
+
+.post-actions i {
+    margin-right: 5px;
+}
+
+
+.top-bottom-box {
+	display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+    
+
+.top-right-box {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height:50%;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile-pics {
+	width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    margin: 30px;
+    margin-top: 10%;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.profile-id {
+    font-size: 0.9em;
+    color: #666;
+    margin: 5px 0;
+}
+
+.last-active {
+    font-size: 0.8em;
+    color: #999;
+}
+
+
+.bottom-right-box {
+    background: #f4f4f4;
+    padding: 20px;
+    height: 50%;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.friends-title {
+    font-size: 23px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.scroll_friends_list {
+	height: 85%;
+    overflow-y: scroll;
+}
+
+.friends-list {
+	margin: auto;
+    border-radius: 8px;
+    width:90%;
+    margin-bottom: 7px;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.friend-avatar {
+    position: relative;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.friend-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #d1d1d1;
+}
+
+.friend-info {
+    flex-grow: 1;
+}
+
+.friend-name {
+    font-size: 18px;
+}
+
 .menu-btn {
 	background-color: #F4F4F9;
 	width: 100%;
@@ -412,8 +624,14 @@ a {
 	margin: 10px;
 	display: block;
 	padding: 10px;
-	border: 1px solid rgb(82, 82, 82);
+	border: 1px solid rgb(82 82 82 / 15%);
 	border-radius: 8px;
+}
+
+#btn_account_save {
+	width: 60px;
+    height: 43px;
+    border-radius: 7px;
 }
 
 .date_search {
@@ -439,11 +657,12 @@ a {
 }
 
 .account-book-content {
-	width: 30%;
-	height: 600px;
-	margin-top: 30px;
-	background-color: #faf9f8;
-	border: 3px solid #7c531d;
+	width: 28%;
+    height: 600px;
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f457;
 }
 
 .total-income {
@@ -461,8 +680,10 @@ a {
 
 .total-income input {
 	border: none;
-	height: 30px;
-	width: 50%;
+    height: 30px;
+    width: 50%;
+    background-color: #d3d3d314;
+    border-radius: 8px;
 }
 
 .income-item {
@@ -474,7 +695,6 @@ a {
 	text-align: center;
 	font-size: 30px;
 	margin-top: 10px;
-	text-decoration: underline;
 	text-underline-offset: 12px;
 }
 
@@ -486,29 +706,33 @@ a {
 
 #footer {
 	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	height: 38px;
-	background-color: #f3e073;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: white;
-	font-size: 20px;
-	z-index: 100;
+    width: 100%;
+    height: 38px;
+    background-color: #c1e0ac;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #footer span {
 	color: #7c531d;
-	font-size: 20px;
-	font-weight: bold;
-	text-shadow: -2px 2px 0 #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0px 2px 0 #ffffff;
 }
 
 .footer-main {
 	position: absolute;
 	bottom: 0%;
 	right: -30px;
+}
+
+.account-deletion {
+	margin:5px;
+}
+
+.logout {
+    margin-right: 50px;
 }
 
 /* 정민파트 */
@@ -756,11 +980,11 @@ body {
 }
 
 .wrapper {
-	width: 800px;
-	background: wheat;
-	padding: 25px;
-	border-radius: 6px;
-	margin-left: 50px;
+	width: 100%;
+    background: #f4f4f4;
+    padding: 25px;
+    border-radius: 6px;
+    height: 100%;
 }
 
 .wrapper header {
@@ -772,28 +996,28 @@ body {
 	font-family: "Gaegu", sans-serif;
 }
 
-.wrapper .Todolist {
-	display: flex;
+.wrapper #todoList {
+	margin-left: 17%;
 }
 
 .input-container {
 	display: flex;
-	margin-bottom: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
 .input-container input[type="text"] {
-	flex: 1;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
 #addTodoButton {
 	padding: 10px;
 	border: none;
-	background-color: #dcb381;
-	border-radius: 4px;
 	cursor: pointer;
+	background-color : #b8b8b8;
+	border-radius: 5px;
 }
 
 .checked button:hover {
@@ -802,14 +1026,16 @@ body {
 
 ul {
 	list-style: none;
-	padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 65%;
 }
 
 li {
-	display: flex;
-	padding: 8px;
-	border-bottom: 1px solid #dcb381;
-	justify-content: space-between;
+    display: flex;
+    padding: 8px;
+    border-bottom: 1px solid #dddddd;
+    justify-content: space-between;
 }
 
 li:last-child {
@@ -817,17 +1043,15 @@ li:last-child {
 }
 
 .remove-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 24px;
-	height: 24px;
-	border: none;
-	background: none;
-	font-size: 16px;
-	cursor: pointer;
-	padding: 0;
-	text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    text-align: center;
 }
 
 button.remove-btn:hover {
@@ -835,10 +1059,34 @@ button.remove-btn:hover {
 }
 
 input[type="checkbox"] {
-	margin-right: 10px;
+    width: 20px;
+    accent-color: #383838;
 }
 
 li.checked {
 	text-decoration: line-through;
 	color: #ac1616;
 }
+
+/* ------------------------------------------------------- */
+/* 스크롤바 처리*/
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0; 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #83836721; 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #f0f0f0; 
+}
+
+/* ------------------------------------------------------- */
