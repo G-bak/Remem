@@ -249,4 +249,22 @@ document.addEventListener('DOMContentLoaded', () => {
             addButton.click();
         }
     });
+    
+    
+
 });
+
+
+//upload file alert
+function validateForm() {
+	var fileInput = document.getElementById('fileInput');
+	if (fileInput.files.length === 0) {
+		alert("사진을 선택해 주세요.");
+		return false;
+	}
+	return true;
+}
+
+
+
+
