@@ -46,7 +46,7 @@ function viewRecommendList() {
 					const row = `
 					                <tr>
 					                    <th>
-					                        <div class="image"></div>
+					                        <div class="image" style="background-image: url('${recommend.urlFilePath}'); background-size: cover; background-position: center;"></div>
 					                    </th>
 					                    <td>${recommend.userId} ${recommend.userName}</td>
 					                    <td><button id="${recommend.userId}" onclick=addFriend('${recommend.userId}')><i class="fas fa-user-plus"></i></button></td>
@@ -105,6 +105,7 @@ function checkReceivedFriendRequests(response) {
 	if (response != null && response != '') {
 		response.forEach((requestFriend) => {
 			let listItem = $('<li class="friend-request-item"></li>');
+			listItem.append(`<div class="image" style="background-image: url('${requestFriend.urlFilePath}'); background-size: cover; background-position: center;"></div>`);
 			listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
 			listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
 
@@ -309,7 +310,7 @@ function displayFriends(friends) {
 		const row = `
                 <tr>
                     <th>
-                        <div class="image"></div>
+                        <div class="image" style="background-image: url('${friend.urlFilePath}'); background-size: cover; background-position: center;"></div>
                     </th>
                     <td>${friend.userId}</td>
                     ${addFriendButton}

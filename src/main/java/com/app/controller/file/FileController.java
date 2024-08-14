@@ -1,4 +1,4 @@
-package com.app.controller;
+package com.app.controller.file;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.app.dto.file.FileInfo;
+import com.app.dto.user.User;
 import com.app.service.file.FileService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,9 @@ public class FileController {
                     
                     // DB
                     FileInfo fileinfo = new FileInfo();
-                    fileinfo.setUserId("user1"); //세선에서 id 받아오기 처리 !!!!!!!!!!!!!!(수정)
+                    User user = (User) session.getAttribute("user");
+                    System.out.println("세션 fileinfo: " + user);
+                    fileinfo.setUserId(user.getUserId()); //세션에서 id 받아오기 처리 !!!!!!!!!!!!!!(수정)
                     fileinfo.setFileName(newFileName);
                     fileinfo.setUrlFilePath(fileUrl);
                     

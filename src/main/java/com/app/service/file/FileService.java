@@ -11,4 +11,6 @@ public interface FileService {
 	public int selectFileInfo(FileInfo fileInfo);
 	
 	public int updateFileInfo(FileInfo fileInfo);
+	
+	public String findFilePathByUserId(String userId);
 }

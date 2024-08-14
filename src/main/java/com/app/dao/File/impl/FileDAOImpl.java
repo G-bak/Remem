@@ -34,4 +34,10 @@ public class FileDAOImpl implements FileDAO {
 		
 	}
 
+	@Override
+	public String findFilePathByUserId(String userId) {
+		String filePath = sqlSessionTemplate.selectOne("file_mapper.findFilePathByUserId", userId);
+		return filePath;
+	}
+
 }

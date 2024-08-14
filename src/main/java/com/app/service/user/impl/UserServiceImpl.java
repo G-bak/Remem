@@ -60,6 +60,13 @@ public class UserServiceImpl implements UserService{
 	}
 
 
+	@Override
+	public int checkDuplicatedId(String signupId) {
+		int result = userDAO.checkDuplicatedId(signupId);
+		return result;
+	}
+
+
 	
 
 }

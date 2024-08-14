@@ -30,5 +30,9 @@
 		WHERE user_id = #{userId}	
     </update>
     
+    <select id="findFilePathByUserId" parameterType="String" resultType="String">
+    	select URL_FILE_PATH from file_info where user_id = #{userId}
+    </select>
+    
 
 </mapper>

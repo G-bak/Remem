@@ -62,16 +62,16 @@
         <div class="popup-content">
             <h2>프로필 팝업창</h2>
             <div class="profile-container">
-                <div class="photo">
+<!--                 <div class="photo"> -->
 					<div class="profile"
 						style="background-image: url('${sessionScope.filePath}');"></div>
 					<form action="/upload" method="post" enctype="multipart/form-data">
 						<input type="file" name="file"
 							style="font-size: 0.7rem; position: absolute; right: 35%; top: 38%;" />
 						<button type="submit"
-							style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%;">올리기</button>
+							style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%; cursor: pointer;">올리기</button>
 					</form>
-				</div>
+<!-- 				</div> -->
 
 
                 <div>

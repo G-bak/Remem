@@ -13,6 +13,7 @@ import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.friend.SearchFriend;
 import com.app.dto.friend.UserSearch;
 import com.app.dto.user.User;
+import com.app.service.file.FileService;
 import com.app.service.friend.FriendService;
 
 @Controller
@@ -21,15 +22,16 @@ public class FriendController {
 	@Autowired
 	FriendService friendService;
 
+	@Autowired
+	FileService fileService;
+
 	@PostMapping("/searchFriend")
 	@ResponseBody
 	public List<UserSearch> searchFriend(@RequestBody SearchFriend searchFriend) {
 		// 친구검색 메소드 3명으로 뽑아냄 List로 (사용자 input으로만 뽑아냄)
-		// System.out.println(searchFriend.getUserInput());
-
+		
 		List<UserSearch> searchedFriendList = friendService.searchFriend(searchFriend);
-		// System.out.println(searchedFriendList);
-
+		
 		// List에 있는 친구들이 나랑 현재 친구인지 아닌지 체크 (내 아이디 & 친구아이디)
 		FriendStatusDTO friendStatusDTO = null;
 
@@ -40,11 +42,14 @@ public class FriendController {
 
 			searchedFriendList.get(i).setFriend(friendService.checkIfFriendOrNot(friendStatusDTO));
 		}
-		// true이면 친구, false이면 친구 아님
-//		for(int i = 0; i < searchedFriendList.size(); i++) {
-//			System.out.println(searchedFriendList.get(i).getUserId());
-//			System.out.println(searchedFriendList.get(i).isFriend());
-//		}
+		
+		
+		for (int i = 0; i < searchedFriendList.size(); i++) {
+			searchedFriendList.get(i)
+					.setUrlFilePath(fileService.findFilePathByUserId(searchedFriendList.get(i).getUserId()));
+		}
+		
+		
 		return searchedFriendList;
 	}
 
@@ -61,44 +66,52 @@ public class FriendController {
 	public List<User> confirmRequestFriend(@RequestParam String loginUserId) {
 		List<User> requestFriendList = friendService.confirmRequestFriend(loginUserId);
 		System.out.println(requestFriendList);
+
+		for (int i = 0; i < requestFriendList.size(); i++) {
+			requestFriendList.get(i)
+					.setUrlFilePath(fileService.findFilePathByUserId(requestFriendList.get(i).getUserId()));
+		}
+
 		return requestFriendList;
 	}
 
 	@PostMapping("/receiveFriendRequest")
 	@ResponseBody
-	public List<User> receiveFriendRequest(@RequestBody FriendStatusDTO friendStatusDTO){
-		//친구신청함에서 삭제
+	public List<User> receiveFriendRequest(@RequestBody FriendStatusDTO friendStatusDTO) {
+		// 친구신청함에서 삭제
 		int deleteResult = friendService.deleteRequestFriend(friendStatusDTO);
-		
-		//친구테이블에 둘다 번갈아서 넣기
+
+		// 친구테이블에 둘다 번갈아서 넣기
 		int insertResultOnWay = friendService.makeFriendsOneWay(friendStatusDTO);
-		
+
 		int insertResultTwoWay = friendService.makeFriendsTwoWay(friendStatusDTO);
-		
+
 		List<User> requestFriendList = null;
-		if(deleteResult + insertResultOnWay + insertResultTwoWay >= 3) {
+		if (deleteResult + insertResultOnWay + insertResultTwoWay >= 3) {
 			requestFriendList = friendService.confirmRequestFriend(friendStatusDTO.getLoginUserId());
 		}
+		if(requestFriendList != null ){
+			for (int i = 0; i < requestFriendList.size(); i++) {
+				requestFriendList.get(i)
+						.setUrlFilePath(fileService.findFilePathByUserId(requestFriendList.get(i).getUserId()));
+			}
+		}
 		
+		
+
 		return requestFriendList;
 	}
-	
-	
-	
-	
-	
-	
+
 	@PostMapping("/viewRecommendList")
 	@ResponseBody
-	public List<User> viewRecommendList(@RequestParam String loginUserId){
+	public List<User> viewRecommendList(@RequestParam String loginUserId) {
 		List<User> recommendList = friendService.viewRecommendList(loginUserId);
-		
+
+		for (int i = 0; i < recommendList.size(); i++) {
+			recommendList.get(i).setUrlFilePath(fileService.findFilePathByUserId(recommendList.get(i).getUserId()));
+		}
+
 		return recommendList;
 	}
-	
-	
-	
-	
-	
 
 }

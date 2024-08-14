@@ -1,4 +1,4 @@
-package com.app.controller;
+package com.app.controller.timecapsule;
 
 import java.util.List;
 import java.util.Map;

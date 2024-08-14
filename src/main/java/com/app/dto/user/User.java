@@ -26,4 +26,7 @@ public class User {
 
 	String userAddress;		//유저 주소
 //	String createdAt;	//계정 생성일
+	
+	String urlFilePath; //프로필주소
+	
 }

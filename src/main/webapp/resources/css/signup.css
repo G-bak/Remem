@@ -1,82 +1,111 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Gaegu", sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Gaegu", sans-serif;
 }
 
 img {
-    width: 135vh;
-    margin-top: -40px;
+	width: 135vh;
+	margin-top: -40px;
 }
 
 .signup-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    text-align: center; 
-    background-color: #f3e073;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	height: 100vh;
+	text-align: center;
+	background-color: #f3e073;
 }
 
 h1 {
-    color: white;
-    font-size: 70px;
-    margin-bottom: 10px; 
-    text-shadow: -1px 3px 0 #7c531d;
+	color: white;
+	font-size: 70px;
+	margin-bottom: 10px;
+	text-shadow: -1px 3px 0 #7c531d;
 }
 
 h2 {
-    color: rgba(255, 197, 36, 0.5);
-    font-size: 45px;
-    margin-bottom: 10px;
-    text-shadow: -1px 3px 0 #7c531d;
+	color: rgba(255, 197, 36, 0.5);
+	font-size: 45px;
+	margin-bottom: 10px;
+	text-shadow: -1px 3px 0 #7c531d;
 }
 
 input[type="text"], input[type="date"], input[type="password"], button {
-    width: 350px;
-    height: 50px;
-    margin-top: 3px;
-    font-size: 20px;
-    border-radius: 8px;
-    border: none;
-    padding: 10px;
-    border: 2px solid gray;
+	width: 350px;
+	height: 50px;
+	margin-top: 3px;
+	font-size: 20px;
+	border-radius: 8px;
+	border: none;
+	padding: 10px;
+	border: 2px solid gray;
 }
 
+.input-with-button {
+	display: flex;
+}
+
+#userId {
+	width: 80%;
+}
+
+#btn-checkduplicated {
+	margin-left: 3px;
+	padding: 0;
+	width: 20%;
+	border: 2px solid #946837;
+	background-color: #cc9348;
+	font-size: 1rem;
+	color: white;
+	cursor: pointer;
+}
+
+
+#p-duplicatedText{
+	font-size: 1.2rem;
+	color: #c0392b;
+}
+
+
+
+
 input[type="date"] {
-    color: #616161de;
-    margin-bottom: 10px;
+	color: #616161de;
+	margin-bottom: 10px;
 }
 
 button {
-    border: 3px solid #7c531d;
-    text-decoration: none;
-    background-color: #cc9348;
-    font-weight: bold;
-    color: white;
-    transition: background-color 0.3s, color 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	border: 3px solid #7c531d;
+	text-decoration: none;
+	background-color: #cc9348;
+	font-weight: bold;
+	color: white;
+	transition: background-color 0.3s, color 0.3s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 button:hover {
-    background-color: white;
-    color: #2E3A4D;
+	background-color: white;
+	color: #2E3A4D;
 }
 
 button:hover .fa-gratipay {
-    color: #2E3A4D;
+	color: #2E3A4D;
 }
 
 .fa-gratipay {
-    color: white;
-    font-size: 20px;
-    margin-left: 3px;
+	color: white;
+	font-size: 20px;
+	margin-left: 3px;
 }

@@ -32,6 +32,12 @@ public class FileServiceImpl implements FileService {
 	public int updateFileInfo(FileInfo fileInfo) {
 		return fileDAO.updateFileInfo(fileInfo);
 	}
+
+	@Override
+	public String findFilePathByUserId(String userId) {
+		String filePath = fileDAO.findFilePathByUserId(userId);
+		return filePath;
+	}
 	
 	
 	

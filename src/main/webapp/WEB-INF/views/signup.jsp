@@ -11,7 +11,8 @@
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 <link href="/css/signup.css" rel="stylesheet">
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>Insert title here</title>
 </head>
 <body class="signup-body">
@@ -21,11 +22,19 @@
 	<h1>#오늘 일기</h1>
 	<h2>회원가입</h2>
 	<form action="/user/signup" method="post" id="frm_signup">
-		<input type="text" id="userName" name ="userName" placeholder="너의 이름이 뭐야?" required><br />
-		<input type="text" id="userId" name="userId" placeholder="아이디를 입력해줘!" required><br />
-		<input type="password" id="userPassword" name="userPassword" placeholder="비밀번호를 입력해줘!" required><br />
-		<input type="hidden" id="sample6_postcode" placeholder="우편번호"> 
-		<input type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
+		<input type="text" id="userName" name="userName"
+			placeholder="너의 이름이 뭐야?" required><br />
+		<div class="input-with-button">
+			<input type="text" id="userId" name="userId" placeholder="아이디를 입력해줘!"
+				required><br />
+			<button type="button" id="btn-checkduplicated">중복체크</button>
+		</div>
+		<p id="p-duplicatedText"></p>
+		<input type="hidden" id="duplicated-check-result">
+		<input type="password" id="userPassword" name="userPassword"
+			placeholder="비밀번호를 입력해줘!" required><br /> <input
+			type="hidden" id="sample6_postcode" placeholder="우편번호"> <input
+			type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
 		<input type="button" onclick="sample6_execDaumPostcode()" value="찾기"><br>
 		<input type="hidden" id="sample6_detailAddress" placeholder="상세주소"><br>
 		<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
@@ -34,7 +43,7 @@
 			회원가입<i class="fab fa-gratipay"></i>
 		</button>
 	</form>
-	
+
 	<script>
 	
 	
@@ -129,5 +138,12 @@
 	    }
 	 
 	</script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/js/userManage.js"></script>
 </body>
 </html>

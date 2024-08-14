@@ -44,6 +44,16 @@
     	WHERE user_id = #{userId}
     </update>
     
+    <select id="checkDuplicatedId" parameterType="String" resultType="int">
+    	SELECT 
+		    CASE 
+		        WHEN COUNT(*) > 0 THEN 1
+		        ELSE -1
+		    END as duplicatedCheck
+		FROM users
+		WHERE user_id = #{signupId}
+    </select>
+    
     
 
 	

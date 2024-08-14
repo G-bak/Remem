@@ -59,6 +59,13 @@ public class UserDAOImpl implements UserDAO{
 		int result = sqlSessionTemplate.update("user_mapper.modifyPassword", user);
 		return result;
 	}
+
+
+	@Override
+	public int checkDuplicatedId(String signupId) {
+		int result = sqlSessionTemplate.selectOne("user_mapper.checkDuplicatedId", signupId);
+		return result;
+	}
 	
 	
 

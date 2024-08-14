@@ -19,6 +19,8 @@ public interface UserService {
 	public int modifyAddress(User user);
 
 	public int modifyPassword(User user);
+	
+	public int checkDuplicatedId(String signupId);
 
 
 	
