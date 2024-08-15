@@ -29,8 +29,11 @@
 				required><br />
 			<button type="button" id="btn-checkduplicated">중복체크</button>
 		</div>
+		<!-- 아이디 중복체크 -->
 		<p id="p-duplicatedText"></p>
 		<input type="hidden" id="duplicated-check-result">
+		
+		
 		<input type="password" id="userPassword" name="userPassword"
 			placeholder="비밀번호를 입력해줘!" required><br /> <input
 			type="hidden" id="sample6_postcode" placeholder="우편번호"> <input
@@ -61,7 +64,10 @@
 		let userId = document.getElementById('userId').value.trim();
 		let userPassword = document.getElementById('userPassword').value.trim();
 		let sample6_address = document.getElementById('sample6_address').value.trim();
-
+		
+		//아이디 중복체크
+		let checkDuplicated = $('#duplicated-check-result').val().trim();
+		
 		if(userName === '' || userName === null){
 			alert('Name은 필수 입력입니다.');
 			document.getElementById('userName').focus();
@@ -83,6 +89,13 @@
 		if(sample6_address === '' || sample6_address === null){
 			alert('Address는 필수 입력입니다.');
 			document.getElementById('sample6_address').focus();
+			return false;
+		}
+		
+		if(checkDuplicated === '' || checkDuplicated === null){
+			//js에서 input hidden에 value넣는 처리하고 여기서 값있는지 없는지 확인
+			alert('아이디 중복체크는 필수입니다.');
+			document.getElementById('btn-checkduplicated').focus();
 			return false;
 		}
 		

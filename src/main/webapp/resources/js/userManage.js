@@ -192,6 +192,8 @@ $(document).ready(function() {
 				if (response  === 1) {
 					$('#p-duplicatedText').text("아이디가 중복됐어~ 다시 입력해줘");
 				}  else {
+					//value 값 넣어주기
+					$('#duplicated-check-result').val("중복확인완료");
 					$('#p-duplicatedText').text("중복확인 됐어! 회원가입 진행해줘~");
 				}
 			},

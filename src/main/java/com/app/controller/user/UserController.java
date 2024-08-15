@@ -113,7 +113,7 @@ public class UserController {
 
 			session.setAttribute("user", loginUser);
 
-			// 프로필 사진 세선 처리
+			// 프로필 사진 url 세션 처리
 			String loginUserFilePath = fileService.findFilePathByUserId(loginUser.getUserId());
 			session.setAttribute("filePath", loginUserFilePath);
 
