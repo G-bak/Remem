@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -52,12 +52,6 @@
 		</div>
 	</div>
 
-
-
-
-
-
-
     <div class="popup" id="profile-popup">
         <div class="popup-content">
             <h2>프로필 팝업창</h2>
@@ -107,25 +101,25 @@
 					</input><br>
 					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-    	 		</div>
-    	 		<div class="frm-modifyAddress-footer">
-    	 			<button type="submit" class="address">수정</button>
-    	 		</div>
-    	 	</form>
-    		
-    		<button class="close-btn" id="close-address-popup">닫기</button>
-    		
-    	</div>
-    	
-    </div>
-    
-    <div class="password-popup" id="password-popup">
-    	<div class="password-content">
-    		<h2>비밀번호 수정 팝업창</h2>
-    		<form action="/user/modifyPassword" method="post" id="frm-modifyPassword">
-	    		<div class="frm-modifyPassword-body">
-					<input type="password" id="pw" name="currentPassword"  placeholder="현재 비밀번호 입력"><br/> 
-					<input type="password" id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br/>
+				</div>
+				<div class="frm-modifyAddress-footer">
+					<button type="submit" class="address">수정</button>
+				</div>
+			</form>
+
+			<button class="close-btn" id="close-address-popup">닫기</button>
+		</div>
+	</div>
+
+	<div class="password-popup" id="password-popup">
+		<div class="password-content">
+			<h2>비밀번호 수정 팝업창</h2>
+			<form action="/user/modifyPassword" method="post"
+				id="frm-modifyPassword">
+				<div class="frm-modifyPassword-body">
+					<input type="password" id="pw" name="currentPassword"
+						placeholder="현재 비밀번호 입력"><br /> <input type="password"
+						id="pw2" name="newPassword" placeholder="변경할 비밀번호 입력"><br />
 				</div>
 				<div class="frm-modifyPassword-footer">
 					<button type="submit" class="password">수정</button>
@@ -149,12 +143,12 @@
 			<button type="submit" id="search-btn">
 				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
 			</button>
-			<!--             </form> -->
+			<!--</form> -->
 			<table class="addfriend-list" id="addfriend-list">
 				<!--             js에서 친구목록 동적 생성 -->
 
 			</table>
-			<!-- 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
+			<!--<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
 
 
 			<h2>친구 추천</h2>
@@ -162,7 +156,7 @@
 				친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.
 			</p>
 
-			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
+			<!--<form onsubmit="return false;" id="frm-addfriend"> -->
 
 			<button type="submit" id="recommend-search-btn"
 				onclick="refreshRecommendFriendList()">
@@ -185,6 +179,57 @@
 					<button class="menu-btn" data-target="#content-budget">가계부</button>
 					<button class="menu-btn" data-target="#content-capsule">타임캡슐</button>
 				</div>
+
+				<div id="main-swiper-rightslide">
+					<div class="left-box">
+						<h1 class="h1_post">#Time Line</h1>
+						<div class="post_container">
+							<div class="post">
+								<div class="post-header">
+									<img src="profile.jpg" alt="Profile Picture"
+										class="profile-pic">
+									<div class="user-info">
+										<p class="username">User Name</p>
+										<p class="post-date">August 13, 2024</p>
+									</div>
+								</div>
+								<div class="post-content">
+									<h1>제목</h1>
+									<p>여기에 너의 일기 내용을 공유해줘</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="top-bottom-box">
+						<div class="top-right-box">
+							<div class="profile-info">
+								<img src="profile.jpg" class="profile-pics">
+								<div class="profile-details">
+									<p class="profile-name">User Name</p>
+									<p class="profile-id">@username</p>
+									<p class="last-active">접속 날짜: August 13, 2024</p>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-right-box">
+							<h3 class="friends-title">Friend List</h3>
+							<div class="scroll_friends_list">
+								<ul class="friends-list">
+									<li class="friend-item">
+										<div class="friend-avatar">
+											<img src="friend1.jpg">
+										</div>
+										<div class="friend-info">
+											<p class="friend-name">Friend Name</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="swiper-rightslide" id="content-diary">
 					<div class="diary-header">
 						<a href="/diaryWrite"><button class="insert-btn">
@@ -214,7 +259,7 @@
 				</div>
 				<div class="swiper-rightslide" id="content-todo">
 					<div class="wrapper">
-						<header>오늘 할 일</header>
+						<header>#Check List</header>
 						<div class="input-container">
 							<input type="text" id="todoInput" placeholder="할 일을 입력하세용">
 							<button id="addTodoButton">
@@ -334,21 +379,24 @@
 						</div>
 					</div>
 				</div>
-				<div class="swiper-rightslide" id="content-capsule">
-				
+				<div class="swiper-rightslide" id="content-capsule"
+					style="display: none;">
+
 					<div class="div_a_icon">
-					<a href="#" id="icon_timecapsule"><i class="fa-brands fa-creative-commons-sampling"></i></a>
+						<a href="#" id="icon_timecapsule"><i
+							class="fa-brands fa-creative-commons-sampling"></i></a>
 					</div>
-					
+
 					<div class="popup" id="popup_timecapsule">
 						<div class="popup-content">
 							<input type="date" id="date_timecapsule" class="date_timecapsule">
-							<input type="text" id="input_timecapsule" class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br/>
+							<input type="text" id="input_timecapsule"
+								class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br />
 							<button class="save-btn" id="save_popup_timecapsule">저장</button>
 							<button class="close-btn" id="close_popup_timecapsule">닫기</button>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -362,15 +410,13 @@
 		</div>
 	</footer>
 
-	</div>
-	
 	<script>
-	   // JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
-	    <c:if test="${not empty errorMessage}">
-	        alert("${errorMessage}");
-	    </c:if>
+		// JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
+		<c:if test="${not empty errorMessage}">
+		alert("${errorMessage}");
+		</c:if>
 	</script>
-	
+
 	<script type="text/javascript">
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
 		var loginUserId = '${user.userId}';

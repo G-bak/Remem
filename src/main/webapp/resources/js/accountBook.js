@@ -2,15 +2,12 @@ $(document).ready(function() {
 
 	console.log(loginUserId);
 
-	
-
-
-
-
 
 
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
+		
+		$('#main-swiper-rightslide').hide();
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
 		target.show();
