@@ -34,8 +34,10 @@
 
 
 		<typeAlias type="com.app.dto.user.User" alias="User"/>
-		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>		
-
+		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>
+		
+		<typeAlias type="com.app.dto.friend.FriendDiaryProfileDTO" alias="FriendDiaryProfileDTO"/>
+		<typeAlias type="com.app.dto.friend.FriendDTO" alias="FriendDTO"/>
 	</typeAliases>						
 
 							

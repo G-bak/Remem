@@ -1,15 +1,153 @@
 $(document).ready(function() {
-	
+
 	// 오늘 할일 전체 조회하는 ajax
 	fetchTodoList();
 
 
 	// 친구 추천 목록
 	viewRecommendList();
-	
-	
+
+
+	//mainDashBoard에서 친구들 일기 타임라인 조회
+	getFriendsDiaryTimeline();
+
+
+	//mainDashBoard에서 친구 목록 조회
+	getFriendList();
 
 });
+
+
+if (filePath == null || filePath == '') {
+	//등록된 프로필 사진이 없다면 기본 이미지로 변경
+	$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
+	$('.profile').css('background-image', 'url(/uploads/basic_profile.jpg)');
+}
+
+
+function getFriendList() {
+
+	$.ajax({
+		url: "getFriendList",
+		type: "POST",
+		data: {
+			loginUserId: loginUserId
+		},
+		dataType: "JSON",
+		success: function(friendList) {
+
+			let friendListUl = $('.friends-list');
+
+			friendList.forEach((friend) => {
+
+				if (friend.urlFilePath == null || friend.urlFilePath == '') {
+					friend.urlFilePath = "/uploads/basic_profile.jpg";
+				}
+
+
+				let friendListLi = `
+					<li class="friend-item">
+						<div class="friend-avatar">
+							<img src="${friend.urlFilePath}">
+						</div>
+						<div class="friend-info">
+							<p class="friend-name">${friend.userName}</p>
+							<p class="friend-id">@${friend.userId}</p>
+						</div>
+					</li>
+				`;
+
+				friendListUl.append(friendListLi);
+			});
+		},
+		error: function() {
+			alert("mainDashBoard 친구목록 로드 에러");
+		}
+	});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function getFriendsDiaryTimeline() {
+
+	$.ajax({
+		url: "getFriendsDiaryTimeline",
+		type: "POST",
+		//contentType: 'application/json; charset=utf-8', //보낼 데이터 형식,
+		data: {
+			loginUserId: loginUserId
+		},
+		dataType: "JSON",
+		success: function(friendDiaryProfileList) {
+
+
+			let timeLineContainer = $('.post_container');
+
+
+			friendDiaryProfileList.forEach((friendDiaryProfile) => {
+
+				let dateString = friendDiaryProfile.writeDate;
+
+				const date = new Date(dateString);
+				const options = { year: 'numeric', month: 'long', day: 'numeric' };
+				const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+
+
+				if (friendDiaryProfile.urlFilePath == null || friendDiaryProfile.urlFilePath == '') {
+					friendDiaryProfile.urlFilePath = "/uploads/basic_profile.jpg";
+				}
+
+				let friendDiaryTimeline = `
+						<div class="post">
+							<div class="post-header">
+								<img src="${friendDiaryProfile.urlFilePath}" alt="Profile Picture" class="profile-pic">
+									<div class="user-info">
+										<p class="username">@${friendDiaryProfile.userId}</p>
+										<p class="post-date">${formattedDate}</p>
+									</div>
+							</div>
+												
+							<div class="post-content">
+								<h1>${friendDiaryProfile.diaryTitle}</h1>
+								<p>${friendDiaryProfile.diaryContent}</p>
+							</div>
+												
+						</div>
+				`;
+
+
+				timeLineContainer.append(friendDiaryTimeline);
+
+			});
+
+		},
+		error: function() {
+			alert("일기 타임라인 로드 에러")
+		}
+
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -42,6 +180,10 @@ function viewRecommendList() {
 			if (recommendList != null && recommendList != '') {
 				//tr동적 
 				recommendList.forEach((recommend) => {
+
+					if (recommend.urlFilePath == null || recommend.urlFilePath == '') {
+						recommend.urlFilePath = "/uploads/basic_profile.jpg";
+					}
 
 					const row = `
 					                <tr>
@@ -104,6 +246,12 @@ function checkReceivedFriendRequests(response) {
 
 	if (response != null && response != '') {
 		response.forEach((requestFriend) => {
+
+			if (requestFriend.urlFilePath == null || requestFriend.urlFilePath == '') {
+				requestFriend.urlFilePath = "/uploads/basic_profile.jpg";
+			}
+
+
 			let listItem = $('<li class="friend-request-item"></li>');
 			listItem.append(`<div class="image" style="background-image: url('${requestFriend.urlFilePath}'); background-size: cover; background-position: center;"></div>`);
 			listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
@@ -290,7 +438,7 @@ function filterFriends() {
 	});
 
 
-	
+
 
 
 }
@@ -303,6 +451,11 @@ function displayFriends(friends) {
 	table.empty(); // 기존의 목록을 비움
 
 	friends.forEach(friend => {
+
+		if (friend.urlFilePath == null || friend.urlFilePath == '') {
+			friend.urlFilePath = "/uploads/basic_profile.jpg";
+		}
+
 
 		const addFriendButton =
 			friend.friend ? `` : `<td><button id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></button></td>`;
@@ -359,6 +512,20 @@ function validateForm() {
 	return true;
 }
 
+
+
+
+// 현재 날짜 가져오기
+const now = new Date();
+
+// 날짜 포맷 설정 (영어(미국)로 설정)
+const options = { year: 'numeric', month: 'long', day: 'numeric' };
+const formatter = new Intl.DateTimeFormat('en-US', options);
+
+// 포맷된 날짜 출력
+const formattedDate = formatter.format(now);
+
+$('.last-active').text("접속날짜: " + formattedDate);
 
 
 

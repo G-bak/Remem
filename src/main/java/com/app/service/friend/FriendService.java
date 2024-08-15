@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.app.dto.friend.FriendDTO;
+import com.app.dto.friend.FriendDiaryProfileDTO;
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.friend.SearchFriend;
 import com.app.dto.friend.UserSearch;
@@ -25,6 +27,10 @@ public interface FriendService {
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO);
 	
 	public List<User> viewRecommendList(String loginUserId);
+	
+	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(String loginUserId);
+	
+	public List<FriendDTO> getFriendList(String loginUserId);
 	
 	
 	

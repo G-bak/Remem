@@ -121,6 +121,28 @@
 		ORDER BY DBMS_RANDOM.VALUE
 		FETCH FIRST 4 ROWS ONLY
 	</select>
+	
+	
+	
+	
+	
+	<select id="getFriendsDiaryTimeline" parameterType="String" resultType="FriendDiaryProfileDTO">
+		select u.user_id, u.diary_title, TO_CHAR(write_date, 'YYYY-MM-DD') "write_date", u.diary_content, f.url_file_path 
+		from user_diary u
+    	left outer join file_info f
+        	ON u.user_id = f.user_id
+		where u.user_id IN (select friend_id from friendships where user_id = #{loginUserId})
+	</select>
+	
+	
+	
+	<select id="getFriendList" parameterType="String" resultType="FriendDTO">
+		select u.user_id, u.user_name, f.url_file_path from users u
+		LEFT OUTER JOIN file_info f
+			ON u.user_id = f.user_id
+		WHERE u.user_id in (select friend_id from friendships where user_id = #{loginUserId})
+	</select>
+	
 
 </mapper>					
 

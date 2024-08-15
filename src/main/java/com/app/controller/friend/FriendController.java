@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.friend.FriendDTO;
+import com.app.dto.friend.FriendDiaryProfileDTO;
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.friend.SearchFriend;
 import com.app.dto.friend.UserSearch;
@@ -113,5 +115,39 @@ public class FriendController {
 
 		return recommendList;
 	}
+	
+	
+	
+	
+	
+	//친구들 일기 조회(친구들 정보 + 일기 정보 + 프로필 사진 주소)
+	@PostMapping("getFriendsDiaryTimeline")
+	@ResponseBody
+	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(@RequestParam String loginUserId) {
+		List<FriendDiaryProfileDTO> friendDiaryProfileList = friendService.getFriendsDiaryTimeline(loginUserId);
+		
+		
+//		for(int i=0; i< friendDiaryProfileList.size(); i++) {
+//			System.out.println(friendDiaryProfileList.get(i));
+//		}
+		
+		
+		return friendDiaryProfileList;
+	}
+	
+	
+	@PostMapping("getFriendList")
+	@ResponseBody
+	public List<FriendDTO> getFriendList(@RequestParam String loginUserId){
+		List<FriendDTO> friendList = friendService.getFriendList(loginUserId);
+		
+		return friendList;
+	}
+	
+	
+	
+	
+	
+	//친구 목록 조회(친구들 정보 + 프로필 사진 주소)
 
 }

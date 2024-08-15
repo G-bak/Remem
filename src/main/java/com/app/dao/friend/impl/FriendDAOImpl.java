@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.friend.FriendDAO;
+import com.app.dto.friend.FriendDTO;
+import com.app.dto.friend.FriendDiaryProfileDTO;
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.friend.SearchFriend;
 import com.app.dto.friend.UserSearch;
@@ -71,6 +73,18 @@ public class FriendDAOImpl implements FriendDAO {
 		List<User> recommendList = sqlSessionTemplate.selectList("friend_mapper.viewRecommendList", loginUserId);
 
 		return recommendList;
+	}
+
+	@Override
+	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(String loginUserId) {
+		List<FriendDiaryProfileDTO> friendDiaryProfileList = sqlSessionTemplate.selectList("friend_mapper.getFriendsDiaryTimeline", loginUserId);
+		return friendDiaryProfileList;
+	}
+
+	@Override
+	public List<FriendDTO> getFriendList(String loginUserId) {
+		List<FriendDTO> friendList = sqlSessionTemplate.selectList("friend_mapper.getFriendList", loginUserId);
+		return friendList;
 	}
 
 }

@@ -184,30 +184,22 @@
 					<div class="left-box">
 						<h1 class="h1_post">#Time Line</h1>
 						<div class="post_container">
-							<div class="post">
-								<div class="post-header">
-									<img src="profile.jpg" alt="Profile Picture"
-										class="profile-pic">
-									<div class="user-info">
-										<p class="username">User Name</p>
-										<p class="post-date">August 13, 2024</p>
-									</div>
-								</div>
-								<div class="post-content">
-									<h1>제목</h1>
-									<p>여기에 너의 일기 내용을 공유해줘</p>
-								</div>
+							<!-- 일기 타임라인 영역 -->
+							
+								<!-- 일기 내용 영역 -->
+								
+								<!-- 일기 내용 영역 -->
 							</div>
-
+							<!-- 일기 타임라인 영역 -->
 						</div>
 					</div>
 					<div class="top-bottom-box">
 						<div class="top-right-box">
 							<div class="profile-info">
-								<img src="profile.jpg" class="profile-pics">
+								<img src="${sessionScope.filePath}" class="profile-pics">
 								<div class="profile-details">
-									<p class="profile-name">User Name</p>
-									<p class="profile-id">@username</p>
+									<p class="profile-name">${user.userName}</p>
+									<p class="profile-id">@${user.userId}</p>
 									<p class="last-active">접속 날짜: August 13, 2024</p>
 								</div>
 							</div>
@@ -216,14 +208,9 @@
 							<h3 class="friends-title">Friend List</h3>
 							<div class="scroll_friends_list">
 								<ul class="friends-list">
-									<li class="friend-item">
-										<div class="friend-avatar">
-											<img src="friend1.jpg">
-										</div>
-										<div class="friend-info">
-											<p class="friend-name">Friend Name</p>
-										</div>
-									</li>
+									<!-- 친구 정보 부분 -->
+									
+									<!-- 친구 정보 부분 -->
 								</ul>
 							</div>
 						</div>
@@ -421,6 +408,9 @@
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
 		var loginUserId = '${user.userId}';
 		console.log(loginUserId);
+		
+		var filePath = '${sessionScope.filePath}';
+		console.log(filePath+"123");
 	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"

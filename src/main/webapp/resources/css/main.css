@@ -312,10 +312,10 @@ a {
 .profile {
 	position: absolute;
 	top: 15%;
-	left: 12%;
-	width: 80px;
-	height: 80px;
-	border-radius: 20px;
+	left: 10%;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
     background-color: #7c531d;
     z-index: 100;
     background-size: cover; /* 이미지가 요소를 덮도록 설정 */
@@ -544,6 +544,11 @@ a {
 }
 
 .last-active {
+    font-size: 0.8em;
+    color: #999;
+}
+
+.friend-id {
     font-size: 0.8em;
     color: #999;
 }
