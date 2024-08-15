@@ -29,7 +29,6 @@ public class FileController {
 	@Autowired
 	FileService fileservice;
 	
-    //private static final String UPLOAD_DIRECTORY = "src/main/resources/static/uploads";
 	private static final String UPLOAD_DIRECTORY = "d:/uploads";
 
     @RequestMapping("/upload")
@@ -46,6 +45,9 @@ public class FileController {
 
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
+        
+        
+        
 
         try {
             List<FileItem> items = upload.parseRequest(request);
@@ -53,7 +55,35 @@ public class FileController {
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                 	String fileName = Paths.get(item.getName()).getFileName().toString(); // 원본 파일 이름
+                	
+                	
+                	System.out.println(fileName+"132123");
+                	
+                	  // 파일 이름 유효성 검사~~~~
+                    if (fileName == null || fileName.trim().isEmpty() ) {
+                        throw new IllegalArgumentException("Invalid file name: " + fileName);
+                    }
+                    
+                    
+                    
+                	
+//                	int dotIndex = fileName.lastIndexOf('.');
+//                	if (dotIndex != -1) {
+//                	    String fileExtension = fileName.substring(dotIndex);
+//                	    // 추가 코드
+//                	} else {
+//                	    // 확장자가 없는 경우 처리 (예: 파일 확장자가 없다고 알림)
+//                	    throw new IllegalArgumentException("Invalid file name: " + fileName);
+//                	}
+                	
+                	//파일 확장자 검사 (필요시)
                     String fileExtension = fileName.substring(fileName.lastIndexOf('.')); // 파일 확장자 추출
+                    
+                    if (fileExtension == null || fileExtension.trim().isEmpty()) {
+                        throw new IllegalArgumentException("File extension is missing in file name: " + fileName);
+                    }
+                    
+                    
                     String uuid = UUID.randomUUID().toString(); // UUID 생성
                     String newFileName = uuid + fileExtension; // 새 파일 이름
                     
@@ -61,8 +91,7 @@ public class FileController {
                     System.out.println("Original File Name: " + fileName);
                     System.out.println("New File Name: " + newFileName); // 수정된 파일 이름 출력
                 
-
-                    
+                        
                     File uploadDir = new File(UPLOAD_DIRECTORY);
 
                     if (!uploadDir.exists()) {

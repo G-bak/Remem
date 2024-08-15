@@ -65,8 +65,8 @@
 <!--                 <div class="photo"> -->
 					<div class="profile"
 						style="background-image: url('${sessionScope.filePath}');"></div>
-					<form action="/upload" method="post" enctype="multipart/form-data">
-						<input type="file" name="file"
+					<form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+						<input type="file" name="file" id="fileInput"
 							style="font-size: 0.7rem; position: absolute; right: 35%; top: 38%;" />
 						<button type="submit"
 							style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%; cursor: pointer;">올리기</button>
