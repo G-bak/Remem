@@ -3,15 +3,18 @@
 					"http://mybatis.org/dtd/mybatis-3-config.dtd">									
 <configuration>							
 	
-<!-- 	<settings>						 -->
-<!-- 		<setting name="mapUnderscoreToCamelCase" value="true"/>	 -->
-<!-- 				_ 표시 -> CamelCase  userType  맵핑	 --> 
-<!-- 	</settings>						 -->
-							
-<!-- 	<typeAliases>						 -->
-<!-- 		<typeAlias type="com.app.dto.user.User" alias="User"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.room.Room" alias="Room"/> -->
-<!-- 	</typeAliases>						 -->
+	<settings>						
+		<setting name="mapUnderscoreToCamelCase" value="true"/>	
+			<!--	_ 표시 -> CamelCase  userType  맵핑	 -->
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+	</settings>	
+				
+	<typeAliases>						
+		<typeAlias type="com.app.dto.diary.UserDiary" alias="UserDiary"/>
+		<typeAlias type="com.app.dto.calender.Calender" alias="Calender"/>
+		<typeAlias type="com.app.dto.calender.Friends" alias="Friends"/>
+		<typeAlias type="com.app.dto.calender.CalenderFriends" alias="CalenderFriends"/>
+		<typeAlias type="com.app.dto.calender.CalenderMemoDiary" alias="CalenderMemoDiary"/>
+	</typeAliases>						
 							
 </configuration>							

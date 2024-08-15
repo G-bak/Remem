@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="diary_mapper">
+
+    <!-- User Diary Insert -->
+    <insert id="insertUserDiary" parameterType="UserDiary">
+    	INSERT INTO user_diary
+		VALUES (
+		    #{userId} || 'ud' || TO_CHAR(seq_diary_id.NEXTVAL),
+		    #{userId}, #{diaryTitle}, #{writeDate}, #{diaryContent, jdbcType=CLOB}
+		)
+    </insert>
+    
+</mapper>
