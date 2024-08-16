@@ -34,7 +34,9 @@
 		<div class="icon-container">
 			<a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
 			<a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
-			<button id="requestFriend"><i class="fa-solid fa-user-group"></i></button>
+			<button id="requestFriend">
+				<i class="fa-solid fa-user-group"></i>
+			</button>
 		</div>
 	</header>
 
@@ -52,54 +54,58 @@
 		</div>
 	</div>
 
-    <div class="popup" id="profile-popup">
-        <div class="popup-content">
-            <h2>프로필 팝업창</h2>
-            <div class="profile-container">
-<!--                 <div class="photo"> -->
-					<div class="profile"
-						style="background-image: url('${sessionScope.filePath}');"></div>
-					<form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-						<input type="file" name="file" id="fileInput"
-							style="font-size: 0.7rem; position: absolute; right: 35%; top: 38%;" />
-						<button type="submit"
-							style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%; cursor: pointer;">올리기</button>
-					</form>
-<!-- 				</div> -->
+	<div class="popup" id="profile-popup">
+		<div class="popup-content">
+			<h2>프로필 팝업창</h2>
+			<div class="profile-container">
+				<!--                 <div class="photo"> -->
+				<div class="profile"
+					style="background-image: url('${sessionScope.filePath}');"></div>
+				<form action="/upload" method="post" enctype="multipart/form-data"
+					onsubmit="return validateForm()">
+					<input type="file" name="file" id="fileInput"
+						style="font-size: 0.7rem; position: absolute; right: 35%; top: 38%;" />
+					<button type="submit"
+						style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%; cursor: pointer;">올리기</button>
+				</form>
+				<!-- 				</div> -->
 
 
-                <div>
-                    <p>팔로워</p>
-                    <p class="follower">63</p>
-                </div>
-                <div>
-                    <p>팔로잉</p>
-                    <p class="following">63</p>
-                </div>
-            </div>
-            <div class="profile-introduce">
-                <p class="nickname">${user.userName}</p>
-                <p class="profile-id">@ ${user.userId}</p>
-                <p>반가워! 나는 상큼한 자두같은 아이야</p>
-            </div>
-            <div class="ModifyPage">
-                <a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
-                <a href="#" class="passwordModify" id="open-password-popup">비밀번호 수정</a>
-            </div>
-            <button class="close-btn" id="close-profile-popup">닫기</button>
-        </div>
-    </div>
-    
-     <div class="address-popup" id="address-popup">
-    	<div class="address-content">
-    	 	<h2>주소 수정 팝업창</h2>
-    	 	<form action="/user/modifyAddress" method="post"  id="frm-modifyAddress">
-    	 		<div class="frm-modifyAddress-body">
-    	 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
-					<input type="text" id="sample6_address" name ="userAddress" value="${user.userAddress}"><br>
-						<i class="fa-solid fa-magnifying-glass" id="search-icon" onclick="sample6_execDaumPostcode()"></i>
-					</input><br>
-					<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
+				<div>
+					<p>팔로워</p>
+					<p class="follower">63</p>
+				</div>
+				<div>
+					<p>팔로잉</p>
+					<p class="following">63</p>
+				</div>
+			</div>
+			<div class="profile-introduce">
+				<p class="nickname">${user.userName}</p>
+				<p class="profile-id">@ ${user.userId}</p>
+				<p>반가워! 나는 상큼한 자두같은 아이야</p>
+			</div>
+			<div class="ModifyPage">
+				<a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
+				<a href="#" class="passwordModify" id="open-password-popup">비밀번호
+					수정</a>
+			</div>
+			<button class="close-btn" id="close-profile-popup">닫기</button>
+		</div>
+	</div>
+
+	<div class="address-popup" id="address-popup">
+		<div class="address-content">
+			<h2>주소 수정 팝업창</h2>
+			<form action="/user/modifyAddress" method="post"
+				id="frm-modifyAddress">
+				<div class="frm-modifyAddress-body">
+					<input type="hidden" id="sample6_postcode" placeholder="우편번호">
+					<input type="text" id="sample6_address" name="userAddress"
+						value="${user.userAddress}"><br> <i
+						class="fa-solid fa-magnifying-glass" id="search-icon"
+						onclick="sample6_execDaumPostcode()"></i> </input><br> <input
+						type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 				</div>
 				<div class="frm-modifyAddress-footer">
@@ -174,7 +180,9 @@
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-leftslide">
-					<button class="menu-btn" onclick="location.href='/main'"><img id="home-image" src="/image/home.png" alt="홈"></button>
+					<button class="menu-btn" onclick="location.href='/main'">
+						<img id="home-image" src="/image/home.png" alt="홈">
+					</button>
 					<button class="menu-btn" data-target="#content-diary">일기장</button>
 					<button class="menu-btn" data-target="#content-todo">오늘할일</button>
 					<button class="menu-btn" data-target="#content-budget">가계부</button>
@@ -186,14 +194,14 @@
 						<h1 class="h1_post">#Time Line</h1>
 						<div class="post_container">
 							<!-- 일기 타임라인 영역 -->
-							
-								<!-- 일기 내용 영역 -->
-								
-								<!-- 일기 내용 영역 -->
-							</div>
-							<!-- 일기 타임라인 영역 -->
+
+							<!-- 일기 내용 영역 -->
+
+							<!-- 일기 내용 영역 -->
 						</div>
+
 					</div>
+
 					<div class="top-bottom-box">
 						<div class="top-right-box">
 							<div class="profile-info">
@@ -205,16 +213,19 @@
 								</div>
 							</div>
 						</div>
+
+
 						<div class="bottom-right-box">
 							<h3 class="friends-title">Friend List</h3>
 							<div class="scroll_friends_list">
 								<ul class="friends-list">
 									<!-- 친구 정보 부분 -->
-									
+
 									<!-- 친구 정보 부분 -->
 								</ul>
 							</div>
 						</div>
+
 					</div>
 				</div>
 
@@ -409,9 +420,9 @@
 		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
 		var loginUserId = '${user.userId}';
 		console.log(loginUserId);
-		
+
 		var filePath = '${sessionScope.filePath}';
-		console.log(filePath+"123");
+		console.log(filePath + "123");
 	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"

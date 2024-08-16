@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
-@import
-	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
 
 * {
 	margin: 0;
@@ -1165,7 +1164,12 @@ input[type="checkbox"] {
 
 /* 화면 조정(980px 이하) */
 
-@media screen and (max-width: 980px) {
+#main-swiper-rightslide {
+    display: flex;
+    flex-direction: row; /* 기본적으로 가로 배치 */
+}
+
+@media screen and (max-width: 980px)  {
     #main-swiper-rightslide {
         flex-direction: column; /* 세로로 배치 */
         margin-top: 16px;
@@ -1287,7 +1291,7 @@ input[type="checkbox"] {
 
 
 /* 태블릿 화면 (768px 이하) */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px)  {
     #main-swiper-rightslide {
         flex-direction: column; /* 세로로 배치 */
         margin-top: 16px;
