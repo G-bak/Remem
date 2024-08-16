@@ -34,18 +34,18 @@
 		<div class="icon-container">
 			<a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
 			<a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
-			<button id="requestFriend">친구신청확인</button>
+			<button id="requestFriend"><i class="fa-solid fa-user-group"></i></button>
 		</div>
 	</header>
 
 
 	<div id="friendRequestPopup" class="popupfriendRequest">
 		<div class="popup-friendRequest-content">
-			<p>친구 신청이 확인되었습니다!</p>
+			<p>친구 신청 목록</p>
 			<ul class="friend-request-list">
-				<!--                 <li class="friend-request-item"><p>친구 신청 1</p></li> -->
-				<!--                 <li class="friend-request-item"><p>친구 신청 2</p></li> -->
-				<!--                 <li class="friend-request-item"><p>친구 신청 3</p></li> -->
+				<!-- <li class="friend-request-item"><p>친구 신청 1</p></li>
+				<li class="friend-request-item"><p>친구 신청 2</p></li> 
+				<li class="friend-request-item"><p>친구 신청 3</p></li>  -->
 			</ul>
 			<button class="popup-friendRequest-close"
 				id="popupfriendRequestCloseBtn">닫기</button>
@@ -292,7 +292,7 @@
 						</div>
 						<div class="account-book-content">
 							<h1>총 지출</h1>
-							<div class="total-income">
+							<div class="total-spending">
 								<div class="income-item">
 									<i class="fas fa-utensils"></i>
 									<p>식비</p>
@@ -347,7 +347,7 @@
 						</div>
 						<div class="account-book-content">
 							<h1>잔액</h1>
-							<div class="total-income">
+							<div class="total-income-spending">
 								<div class="income-item">
 									<i class="fas fa-piggy-bank"></i>
 									<p>총 수입</p>
