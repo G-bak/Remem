@@ -2,6 +2,7 @@ package com.app.service.friend;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.dto.friend.FriendDTO;
@@ -31,6 +32,11 @@ public interface FriendService {
 	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(String loginUserId);
 	
 	public List<FriendDTO> getFriendList(String loginUserId);
+	
+	public int unfollowFriendOneWay(FriendStatusDTO friendStatusDTO);
+	
+	public int unfollowFriendTwoWay(FriendStatusDTO friendStatusDTO);
+	
 	
 	
 	

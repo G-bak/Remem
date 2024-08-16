@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
 
 * {
 	margin: 0;
@@ -11,9 +12,9 @@
 }
 
 body {
-    width: 1024px;
-    height: 768px;
-    overflow: auto; 
+	width: 1024px;
+	height: 768px;
+	overflow: auto;
 }
 
 .container {
@@ -32,9 +33,9 @@ body {
 
 span {
 	color: #7c531d;
-    font-size: 25px;
-    font-weight: bold;
-    text-shadow: 0px 2px 0 #ffffff;
+	font-size: 25px;
+	font-weight: bold;
+	text-shadow: 0px 2px 0 #ffffff;
 }
 
 .icon-container {
@@ -58,6 +59,22 @@ a {
 	margin-right: 5px;
 }
 
+#home-image {
+	width: 25px;
+	height: 25px;
+}
+
+.unfollow-image {
+	width: 20px;
+	height: 20px;
+}
+
+.btn-unfollow {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
 .popup {
 	display: none;
 	position: fixed;
@@ -70,15 +87,15 @@ a {
 }
 
 .popup_open_close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-    width: 60px;
-    height: 35px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 24px;
+	cursor: pointer;
+	background-color: #f0f0f0;
+	border-radius: 4px;
+	width: 60px;
+	height: 35px;
 }
 
 .popup-content {
@@ -113,7 +130,7 @@ a {
 
 #popup-message {
 	margin-top: 12px;
-    font-size: 25px;
+	font-size: 25px;
 }
 
 .Modify-btn {
@@ -150,9 +167,9 @@ a {
 }
 
 #content-capsule {
-	display:flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .div_a_icon {
@@ -161,50 +178,50 @@ a {
 }
 
 #icon_timecapsule {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 85px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    background-color: #f0f0f0;
-    text-align: center; 
-    color: #000000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 85px;
+	height: 40px;
+	border: none;
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	text-align: center;
+	color: #000000;
 }
 
 #timecapsule-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
-#additional-content {
-    color: #000; 
-    background-color: #f6f6f6;
-    width: calc((100% - 40px) / 6);
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 10px;
+.additional-content {
+	color: #000;
+	background-color: #f6f6f6;
+	width: calc(( 100% - 40px)/6);
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	margin: 10px;
 }
 
-.poto_additional {
-    width: 45%; 
-    height: 75px; 
-    border-radius: 20px; 
-    background-image: url('/image/time-capsule-icon.jpg');
-    background-size: cover; 
-    background-position: center; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
+.photo_additional {
+	width: 45%;
+	height: 75px;
+	border-radius: 20px;
+	background-image: url('/image/time-capsule-icon.jpg');
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
 }
 
 .additional_date {
@@ -219,22 +236,22 @@ a {
 	cursor: pointer;
 }
 
-.fa-creative-commons-sampling{
+.fa-creative-commons-sampling {
 	font-size: 23px;
 }
 
 .date_timecapsule {
 	margin-top: 20px;
-    margin-bottom: 20px;
-    width: 60%;
-    border: 1px solid #00000085;
+	margin-bottom: 20px;
+	width: 60%;
+	border: 1px solid #00000085;
 }
 
 .input_timecapsule {
-    width: 90%;
-    height: 200px;
-    border: 1px solid #00000085;
-    padding: 10px
+	width: 90%;
+	height: 200px;
+	border: 1px solid #00000085;
+	padding: 10px
 }
 
 /* 친구신청 확인 팝업 시작 */
@@ -297,16 +314,15 @@ a {
 	margin: 0;
 }
 /* 친구신청 확인 팝업 끝 */
-
 .photo {
-    width: 25%;
-    height: 80px;
+	width: 25%;
+	height: 80px;
 	border-radius: 20px;
 	background-color: #7c531d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 99;
 }
 
 .profile {
@@ -316,11 +332,10 @@ a {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-    background-color: #7c531d;
-    z-index: 100;
-    background-size: cover; /* 이미지가 요소를 덮도록 설정 */
-    background-position: center; /* 이미지가 중앙에 위치하도록 설정 */
-	
+	background-color: #7c531d;
+	z-index: 100;
+	background-size: cover; /* 이미지가 요소를 덮도록 설정 */
+	background-position: center; /* 이미지가 중앙에 위치하도록 설정 */
 }
 
 .profile-container {
@@ -340,13 +355,13 @@ a {
 }
 
 .profile-introduce {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 40px; 
-    margin-bottom: 30px; 
-    margin-left: 25px; 
-    margin-right: 25px;    
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 40px;
+	margin-bottom: 30px;
+	margin-left: 25px;
+	margin-right: 25px;
 }
 
 .nickname {
@@ -396,220 +411,228 @@ a {
 }
 
 #main-swiper-rightslide {
-    display: flex;
-    position: relative;
-    width: calc(100% - 200px);
+	display: flex;
+	position: relative;
+	width: calc(100% - 200px);
 }
 
 .left-box {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
 }
 
 .h1_post {
 	text-align: center;
-    font-size: 30px
+	font-size: 30px
 }
 
 .post_container {
 	width: auto;
-    height: 95%;
+	height: 95%;
 	overflow-y: scroll;
 }
 
 .post {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 35px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 15px 65px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 35px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin: 15px 65px;
 }
 
 .post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
 }
 
 .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .username {
-    font-weight: bold;
-    margin: 0;
+	font-weight: bold;
+	margin: 0;
 }
 
 .post-date {
-    font-size: 0.9em;
-    color: #888;
-    margin: 0;
+	font-size: 0.9em;
+	color: #888;
+	margin: 0;
 }
 
 .post-content {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .post-content p {
-    margin: 0 0 10px;
+	margin: 0 0 10px;
 }
 
 .post-image {
-    max-width: 100%;
-    border-radius: 8px;
+	max-width: 100%;
+	border-radius: 8px;
 }
 
 .post-actions {
-    display: flex;
-    justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 
 .post-actions button {
-    background: none;
-    border: none;
-    color: #555;
-    font-size: 1em;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
+	background: none;
+	border: none;
+	color: #555;
+	font-size: 1em;
+	cursor: pointer;
+	padding: 10px;
+	border-radius: 5px;
 }
 
 .post-actions button:hover {
-    background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
 
 .post-actions i {
-    margin-right: 5px;
+	margin-right: 5px;
 }
-
 
 .top-bottom-box {
 	display: flex;
-    flex-direction: column;
-    width: 50%;
+	flex-direction: column;
+	width: 50%;
 }
-    
 
 .top-right-box {
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height:50%;
+	background-color: #f4f4f4;
+	border: 1px solid #ddd;
+	padding: 15px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	height: 50%;
 }
 
 .profile-info {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 .profile-pics {
 	width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 2px solid #007bff;
-    margin: 30px;
-    margin-top: 10%;
+	height: 150px;
+	border-radius: 50%;
+	border: 3px solid lightgray;
+	margin: 30px;
+	margin-top: 10%;
 }
 
 .profile-details {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
 }
 
 .profile-name {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0;
+	color: #333;
 }
 
 .profile-id {
-    font-size: 0.9em;
-    color: #666;
-    margin: 5px 0;
+	font-size: 0.9em;
+	color: #666;
+	margin: 5px 0;
 }
 
 .last-active {
-    font-size: 0.8em;
-    color: #999;
+	font-size: 0.8em;
+	color: #999;
 }
 
 .friend-id {
-    font-size: 0.8em;
-    color: #999;
+	font-size: 0.8em;
+	color: #999;
 }
 
-
 .bottom-right-box {
-    background: #f4f4f4;
-    padding: 20px;
-    height: 50%;
-    overflow-y: auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
+	background: #f4f4f4;
+	padding: 20px;
+	height: 50%;
+	overflow-y: auto;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+	border: 1px solid #e0e0e0;
 }
 
 .friends-title {
-    font-size: 23px;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 600;
+	font-size: 23px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-weight: 600;
 }
 
 .scroll_friends_list {
 	height: 85%;
-    overflow-y: scroll;
+	overflow-y: scroll;
 }
 
 .friends-list {
 	margin: auto;
-    border-radius: 8px;
-    width:90%;
-    margin-bottom: 7px;
+	border-radius: 8px;
+	width: 90%;
+	margin-bottom: 7px;
 }
 
 .friend-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 12px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-radius: 12px;
+	background-color: #ffffff;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .friend-avatar {
-    position: relative;
-    margin-right: 15px;
-    flex-shrink: 0;
+	position: relative;
+	margin-right: 15px;
+	flex-shrink: 0;
 }
 
 .friend-avatar img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #d1d1d1;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 2px solid #d1d1d1;
 }
 
 .friend-info {
-    flex-grow: 1;
+	flex-grow: 1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.btn-img-unfollow {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	
+	margin-right: 5px;
 }
 
 .friend-name {
-    font-size: 18px;
+	font-size: 18px;
 }
 
 .menu-btn {
@@ -647,14 +670,14 @@ a {
 	margin: 10px;
 	display: block;
 	padding: 10px;
-	border: 1px solid rgb(82 82 82 / 15%);
+	border: 1px solid rgb(82 82 82/ 15%);
 	border-radius: 8px;
 }
 
 #btn_account_save {
 	width: 60px;
-    height: 43px;
-    border-radius: 7px;
+	height: 43px;
+	border-radius: 7px;
 }
 
 .date_search {
@@ -681,11 +704,11 @@ a {
 
 .account-book-content {
 	width: 28%;
-    height: 600px;
-    margin-top: 30px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f4f4f457;
+	height: 600px;
+	margin-top: 30px;
+	border: 1px solid #ddd;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	background-color: #f4f4f457;
 }
 
 .total-income {
@@ -703,10 +726,10 @@ a {
 
 .total-income input {
 	border: none;
-    height: 30px;
-    width: 50%;
-    background-color: #d3d3d314;
-    border-radius: 8px;
+	height: 30px;
+	width: 50%;
+	background-color: #d3d3d314;
+	border-radius: 8px;
 }
 
 .income-item {
@@ -729,19 +752,19 @@ a {
 
 #footer {
 	position: absolute;
-    width: 100%;
-    height: 38px;
-    background-color: #c1e0ac;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	width: 100%;
+	height: 38px;
+	background-color: #c1e0ac;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #footer span {
 	color: #7c531d;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0px 2px 0 #ffffff;
+	font-size: 20px;
+	font-weight: bold;
+	text-shadow: 0px 2px 0 #ffffff;
 }
 
 .footer-main {
@@ -751,11 +774,11 @@ a {
 }
 
 .account-deletion {
-	margin:5px;
+	margin: 5px;
 }
 
 .logout {
-    margin-right: 50px;
+	margin-right: 50px;
 }
 
 /* 정민파트 */
@@ -808,7 +831,8 @@ a {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.password-content h2, .address-content h2, .addfriend-content h2, .diary-content h2 {
+.password-content h2, .address-content h2, .addfriend-content h2,
+	.diary-content h2 {
 	margin: 0;
 	margin-bottom: 10px;
 	padding: 10px 0;
@@ -1004,10 +1028,10 @@ body {
 
 .wrapper {
 	width: 100%;
-    background: #f4f4f4;
-    padding: 25px;
-    border-radius: 6px;
-    height: 100%;
+	background: #f4f4f4;
+	padding: 25px;
+	border-radius: 6px;
+	height: 100%;
 }
 
 .wrapper header {
@@ -1025,21 +1049,21 @@ body {
 
 .input-container {
 	display: flex;
-    margin-bottom: 20px;
-    justify-content: center;
+	margin-bottom: 20px;
+	justify-content: center;
 }
 
 .input-container input[type="text"] {
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ddd;
+	width: 50%;
+	padding: 10px;
+	border: 1px solid #ddd;
 }
 
 #addTodoButton {
 	padding: 10px;
 	border: none;
 	cursor: pointer;
-	background-color : #b8b8b8;
+	background-color: #b8b8b8;
 	border-radius: 5px;
 }
 
@@ -1049,16 +1073,16 @@ body {
 
 ul {
 	list-style: none;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 65%;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	width: 65%;
 }
 
 li {
-    display: flex;
-    padding: 8px;
-    border-bottom: 1px solid #dddddd;
-    justify-content: space-between;
+	display: flex;
+	padding: 8px;
+	border-bottom: 1px solid #dddddd;
+	justify-content: space-between;
 }
 
 li:last-child {
@@ -1066,15 +1090,15 @@ li:last-child {
 }
 
 .remove-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border: none;
-    font-size: 26px;
-    cursor: pointer;
-    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: none;
+	font-size: 26px;
+	cursor: pointer;
+	text-align: center;
 }
 
 button.remove-btn:hover {
@@ -1082,8 +1106,8 @@ button.remove-btn:hover {
 }
 
 input[type="checkbox"] {
-    width: 20px;
-    accent-color: #383838;
+	width: 20px;
+	accent-color: #383838;
 }
 
 li.checked {
@@ -1094,22 +1118,22 @@ li.checked {
 /* ------------------------------------------------------- */
 /* 스크롤바 처리*/
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+	width: 10px;
+	height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f0f0f0; 
-    border-radius: 10px;
+	background: #f0f0f0;
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #83836721; 
-    border-radius: 10px;
+	background-color: #83836721;
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: #f0f0f0; 
+	background-color: #f0f0f0;
 }
 
 /* ------------------------------------------------------- */

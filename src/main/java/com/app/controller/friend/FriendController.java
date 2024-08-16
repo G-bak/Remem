@@ -146,8 +146,28 @@ public class FriendController {
 	
 	
 	
+	@PostMapping("unfollowFriend")
+	@ResponseBody
+	public String unfollowFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
+		
+		System.out.println(friendStatusDTO);
+		
+		int unfollowResultOneWay = friendService.unfollowFriendOneWay(friendStatusDTO);
+		
+		int unfollowResultTwoWay = friendService.unfollowFriendTwoWay(friendStatusDTO);
+		
+		
+		if(unfollowResultOneWay + unfollowResultTwoWay >= 2) {
+			return "언팔로우가 완료되었습니다.";
+		} else {
+			return "언팔로우 실패";
+		}
+		
+		
+		
+		
+	}
 	
 	
-	//친구 목록 조회(친구들 정보 + 프로필 사진 주소)
 
 }

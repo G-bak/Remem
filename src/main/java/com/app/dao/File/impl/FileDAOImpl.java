@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.dao.File.FileDAO;
 import com.app.dto.file.FileInfo;
+import com.app.dto.friend.FriendStatusDTO;
 
 @Repository
 public class FileDAOImpl implements FileDAO {
@@ -39,5 +40,7 @@ public class FileDAOImpl implements FileDAO {
 		String filePath = sqlSessionTemplate.selectOne("file_mapper.findFilePathByUserId", userId);
 		return filePath;
 	}
+
+	
 
 }

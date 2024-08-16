@@ -190,6 +190,7 @@ $(document).ready(function() {
 				console.log(response);
 				
 				if (response  === 1) {
+					$('#duplicated-check-result').val(null);
 					$('#p-duplicatedText').text("아이디가 중복됐어~ 다시 입력해줘");
 				}  else {
 					//value 값 넣어주기

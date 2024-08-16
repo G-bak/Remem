@@ -57,7 +57,7 @@ public class FileController {
                 	String fileName = Paths.get(item.getName()).getFileName().toString(); // 원본 파일 이름
                 	
                 	
-                	System.out.println(fileName+"132123");
+                	System.out.println(fileName);
                 	
                 	  // 파일 이름 유효성 검사~~~~
                     if (fileName == null || fileName.trim().isEmpty() ) {

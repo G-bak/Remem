@@ -30,7 +30,7 @@
 
 <body>
 	<header id="header">
-		<span>#오늘 일기</span>
+		<a href="/main"><span>#오늘 일기</span></a>
 		<div class="icon-container">
 			<a href="#" id="profile-icon"><i class="far fa-user-circle"></i></a>
 			<a href="#" id="addfriend-icon"><i class="fas fa-user-plus"></i></a>
@@ -174,6 +174,7 @@
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-leftslide">
+					<button class="menu-btn" onclick="location.href='/main'"><img id="home-image" src="/image/home.png" alt="홈"></button>
 					<button class="menu-btn" data-target="#content-diary">일기장</button>
 					<button class="menu-btn" data-target="#content-todo">오늘할일</button>
 					<button class="menu-btn" data-target="#content-budget">가계부</button>

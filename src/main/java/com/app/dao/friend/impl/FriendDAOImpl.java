@@ -87,4 +87,16 @@ public class FriendDAOImpl implements FriendDAO {
 		return friendList;
 	}
 
+	@Override
+	public int unfollowFriendOneWay(FriendStatusDTO friendStatusDTO) {
+		int unfollowResultOneWay = sqlSessionTemplate.delete("friend_mapper.unfollowFriendOneWay", friendStatusDTO);
+		return unfollowResultOneWay;
+	}
+
+	@Override
+	public int unfollowFriendTwoWay(FriendStatusDTO friendStatusDTO) {
+		int unfollowResultTwoWay = sqlSessionTemplate.delete("friend_mapper.unfollowFriendTwoWay", friendStatusDTO);
+		return unfollowResultTwoWay;
+	}
+
 }

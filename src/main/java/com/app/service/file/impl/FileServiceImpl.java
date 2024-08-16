@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.dao.File.FileDAO;
 import com.app.dto.file.FileInfo;
+import com.app.dto.friend.FriendStatusDTO;
 import com.app.service.file.FileService;
 
 @Service
@@ -38,6 +39,10 @@ public class FileServiceImpl implements FileService {
 		String filePath = fileDAO.findFilePathByUserId(userId);
 		return filePath;
 	}
+
+	
+
+	
 	
 	
 	

@@ -132,6 +132,7 @@
     	left outer join file_info f
         	ON u.user_id = f.user_id
 		where u.user_id IN (select friend_id from friendships where user_id = #{loginUserId})
+		order by u.write_date
 	</select>
 	
 	
@@ -141,7 +142,19 @@
 		LEFT OUTER JOIN file_info f
 			ON u.user_id = f.user_id
 		WHERE u.user_id in (select friend_id from friendships where user_id = #{loginUserId})
+		order by u.user_name
 	</select>
+	
+	
+	<delete id="unfollowFriendOneWay" parameterType="FriendStatusDTO">
+		delete from friendships
+		where user_id = #{loginUserId} and friend_id = #{friendId}
+	</delete>
+	
+	<delete id="unfollowFriendTwoWay" parameterType="FriendStatusDTO">
+		delete from friendships
+		where user_id = #{friendId} and friend_id = #{loginUserId}
+	</delete>
 	
 
 </mapper>					

@@ -81,4 +81,17 @@ public class FriendServiceImpl implements FriendService {
 		return friendList;
 	}
 
+	@Override
+	public int unfollowFriendOneWay(FriendStatusDTO friendStatusDTO) {
+		int unfollowResultOneWay = friendDAO.unfollowFriendOneWay(friendStatusDTO);
+		return unfollowResultOneWay;
+
+	}
+
+	@Override
+	public int unfollowFriendTwoWay(FriendStatusDTO friendStatusDTO) {
+		int unfollowResultTwoWay = friendDAO.unfollowFriendTwoWay(friendStatusDTO);
+		return unfollowResultTwoWay;
+	}
+
 }

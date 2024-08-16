@@ -30,5 +30,9 @@ public interface FriendDAO {
 	
 	public List<FriendDTO> getFriendList(String loginUserId);
 	
+	public int unfollowFriendOneWay(FriendStatusDTO friendStatusDTO);
+	
+	public int unfollowFriendTwoWay(FriendStatusDTO friendStatusDTO);
+	
 	
 }

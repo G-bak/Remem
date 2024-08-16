@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
-		
+
 		$('#main-swiper-rightslide').hide();
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
@@ -49,24 +49,63 @@ $(document).ready(function() {
 		});
 	}
 
-	// 타임캡슐 추가
+	// 타임캡슐 추가 (*******************************)
 	function addTimecapsule(date, content) {
-		var additionalContent = `
-            <div id="additional-content">
-                <div class="poto_additional"></div>
-                <p class="additional_date">${date}</p>
-                <button class="open_additonal" data-content="${content}" data-date="${date}">열기</button>
-            </div>`;
+		const additionalContent = document.createElement('div');
+		additionalContent.className = "additional-content";
+		additionalContent.innerHTML = `
+	        <div class="photo_additional"></div>
+	        <p class="additional_date"></p>
+	        <button class="open_additonal" data-content="${content}" data-date="${date}">열기</button>
+	    `;
+
 		$('#content-capsule').append(additionalContent);
+
+		// 개별 타임캡슐에 대해 타이머 시작
+		additionalContent.intervalId = setInterval(function() {
+			updateTimer(date, additionalContent);
+		}, 1000);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// 타임캡슐 저장 버튼
 	$('#save_popup_timecapsule').on('click', function(event) {
 		event.preventDefault();
 
+
 		//입력할 값
 		var tcDate = $('#date_timecapsule').val();
 		var tcContent = $('#input_timecapsule').val();
+
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = String(today.getMonth() + 1).padStart(2, '0');  // 월은 0부터 시작하므로 +1
+		var day = String(today.getDate()).padStart(2, '0');
+		var formattedToday = year + '-' + month + '-' + day;
+
+		// tcDate가 오늘 날짜 이전인지 비교
+		if (tcDate < formattedToday) {
+			alert("타임캡슐은 오늘날짜 이전으로 지정 못해 ! 날짜 다시 선택해줘");
+			return;
+		}
+
+
+
+
+
+
+
 
 		$.ajax({
 			url: '/save/Timecapsule',
@@ -99,7 +138,7 @@ $(document).ready(function() {
 		const currentDate = new Date();
 		const formattedDate = currentDate.toISOString().split('T')[0];
 
-		if (date <= formattedDate) {  
+		if (date <= formattedDate) {
 			var popupHtml =
 				`<div class="popup_html" id="popup_open_timecapsule">
                 <div class="popup_open_content">
@@ -137,8 +176,32 @@ $(document).ready(function() {
 
 
 
+function updateTimer(date, targetElement) {
+	const future = Date.parse(date);
+	const now = new Date();
+	const diff = future - now;
 
-	
+	if (diff <= 0) {
+		clearInterval(targetElement.intervalId); // 타이머 멈추기
+		targetElement.querySelector(".additional_date").innerText = "타임캡슐을 열어줘!";
+		targetElement.querySelector('.photo_additional').style.backgroundImage = "url('/image/time-capsule-clear-icon.png')";
+		return;
+	}
+
+	const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+	const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+	const mins = Math.floor((diff / (1000 * 60)) % 60);
+	const secs = Math.floor((diff / 1000) % 60);
+
+	targetElement.querySelector(".additional_date").innerText =
+		`${days}일 ${hours}시간 ${mins}분 ${secs}초`;
+}
+
+
+
+
+
+
 
 
 

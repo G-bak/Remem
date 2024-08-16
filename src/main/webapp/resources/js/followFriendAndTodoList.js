@@ -37,7 +37,8 @@ function getFriendList() {
 		success: function(friendList) {
 
 			let friendListUl = $('.friends-list');
-
+			friendListUl.empty();
+			
 			friendList.forEach((friend) => {
 
 				if (friend.urlFilePath == null || friend.urlFilePath == '') {
@@ -51,8 +52,14 @@ function getFriendList() {
 							<img src="${friend.urlFilePath}">
 						</div>
 						<div class="friend-info">
-							<p class="friend-name">${friend.userName}</p>
-							<p class="friend-id">@${friend.userId}</p>
+							<div>
+								<p class="friend-name">${friend.userName}</p>
+								<p class="friend-id">@${friend.userId}</p>
+							</div>
+							
+							<div class="btn-img-unfollow">
+								<button class="btn-unfollow" onclick="unfollowFreind('${friend.userId}')"><img class="unfollow-image" src="/image/friend-unfollow.png" alt="친구삭제"></button>
+							</div>
 						</div>
 					</li>
 				`;
@@ -69,7 +76,39 @@ function getFriendList() {
 
 
 
+function unfollowFreind(friendId){
+	if(confirm(friendId + "님을 언팔로우 하시겠습니까?")){
+		$.ajax({
+				url: "unfollowFriend",
+				type: "POST",
+				contentType: 'application/json; charset=utf-8',
+				data: JSON.stringify({
+					loginUserId: loginUserId,
+					friendId: friendId
+				}),
+				dataType: "text",
+				success: function(unfollowText){
+					
+					alert(unfollowText);
+					
+					//mainDashBoard에서 친구들 일기 타임라인 조회
+					getFriendsDiaryTimeline();
 
+
+					//mainDashBoard에서 친구 목록 조회
+					getFriendList();
+					
+					
+					
+				},
+				error: function(){
+					alert("친구 삭제 서버 에러");
+				}
+			});
+	}
+	
+	
+}
 
 
 
@@ -92,7 +131,7 @@ function getFriendsDiaryTimeline() {
 
 
 			let timeLineContainer = $('.post_container');
-
+			timeLineContainer.empty();
 
 			friendDiaryProfileList.forEach((friendDiaryProfile) => {
 
