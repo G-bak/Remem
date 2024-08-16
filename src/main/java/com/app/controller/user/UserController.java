@@ -1,5 +1,6 @@
 package com.app.controller.user;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.app.dto.diary.UserDiary;
 import com.app.dto.user.User;
+import com.app.service.diary.WriteService;
 import com.app.service.user.UserService;
 
 @Controller
@@ -20,7 +23,10 @@ public class UserController {
 
     @Autowired
     UserService userService; 
-
+    
+    @Autowired
+    WriteService writeService;
+    
     // 정규식 패턴
     private static final String verifyId = "^[a-zA-Z0-9]{4,20}$"; // 4~20글자, 영어 및 숫자만 가능
     private static final String verifyName = "^[a-zA-Z가-힣]{2,15}$"; // 2~15글자, 한글 및 영어만 가능
@@ -31,12 +37,53 @@ public class UserController {
     public String startpage() {
         return "startpage";
     }
-
+    
+    
     @GetMapping("/main")
-    public String main() {
-    	System.out.println("들어옴");
+    public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+    	System.out.println("test");
+        // 사용자 ID 설정
+        session.setAttribute("userId", "user1"); 
+        String userId = session.getAttribute("userId").toString();
+        
+        // 다이어리 목록 가져오기
+        List<UserDiary> userDiaryList = null;
+        if (userId != null && !userId.isEmpty()) {
+            userDiaryList = writeService.getDiaryListByUserId(userId);
+            session.setAttribute("userDiaryList", userDiaryList);
+            
+            // 각 다이어리의 정보를 콘솔에 출력
+            for (UserDiary diary : userDiaryList) {
+                System.out.println(diary.getDiaryId());
+                System.out.println(diary.getDiaryTitle());
+                System.out.println(diary.getDiaryContent());
+                System.out.println(diary.getWriteDate());
+            }
+            
+            // 페이지네이션을 위한 로직
+            int pageSize = 4; // 페이지당 글 개수
+            int totalCount = userDiaryList.size();
+            int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+            int startIndex = (page - 1) * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, totalCount);
+            List<UserDiary> pageDiaryList = userDiaryList.subList(startIndex, endIndex);
+
+            // 모델에 필요한 데이터 추가
+            model.addAttribute("userDiaryList", pageDiaryList);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", page);
+            
+            System.out.println(model.getAttribute("totalPages"));
+            System.out.println(model.getAttribute("currentPage"));
+            System.out.println(startIndex);//>=4
+            System.out.println(totalCount);
+            System.out.println(totalPages);
+        }
+
         return "main";
     }
+
 
     // 회원가입
     @GetMapping("/user/signup")
@@ -57,7 +104,7 @@ public class UserController {
                 
             }
 
-            return "redirect:/signin";
+            return "redirect:/user/signin";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "signup";
@@ -137,6 +184,31 @@ public class UserController {
             return "main";
         }
     }
+    
+	// 주소변경
+	@PostMapping("/user/modifyAddress")
+	public String modifyAddress(User user, HttpSession session) {
+
+		User sessionUser = (User) session.getAttribute("user");
+		System.out.println(sessionUser);
+		// 변경할 주소 가져오기
+
+//  		System.out.println(user.getUserAddress());
+
+		sessionUser.setUserAddress(user.getUserAddress());
+
+		int result = userService.modifyAddress(sessionUser);
+
+		if (result > 0) {
+			System.out.println("성공");
+		} else {
+			System.out.println("실패");
+		}
+
+		session.setAttribute("user", sessionUser);
+
+		return "redirect:/main";
+	}
 
     // 비밀번호 변경
     @PostMapping("/user/modifyPassword")

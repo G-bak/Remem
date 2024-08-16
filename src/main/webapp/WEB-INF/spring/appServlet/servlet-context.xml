@@ -46,21 +46,21 @@
 	<resources location="/resources/" mapping="/**"></resources>
 
 
-	<interceptors>
-		<interceptor>
-			<mapping path="/**" />
-			<exclude-mapping path="/startpage" />
-			<exclude-mapping path="/user/**" />
-			<exclude-mapping path="/resources/**" />
-			<exclude-mapping path="/css/**" />
-			<exclude-mapping path="/image/**" />
-			<exclude-mapping path="/js/**" />
+<!-- 	<interceptors> -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/**" /> -->
+<!-- 			<exclude-mapping path="/startpage" /> -->
+<!-- 			<exclude-mapping path="/user/**" /> -->
+<!-- 			<exclude-mapping path="/resources/**" /> -->
+<!-- 			<exclude-mapping path="/css/**" /> -->
+<!-- 			<exclude-mapping path="/image/**" /> -->
+<!-- 			<exclude-mapping path="/js/**" /> -->
 
-			<beans:bean class="com.app.interceptor.LoginInterceptor">
-			</beans:bean>
+<!-- 			<beans:bean class="com.app.interceptor.LoginInterceptor"> -->
+<!-- 			</beans:bean> -->
 
-		</interceptor>
-	</interceptors>
+<!-- 		</interceptor> -->
+<!-- 	</interceptors> -->
 
 
 

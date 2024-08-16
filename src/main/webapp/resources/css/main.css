@@ -108,7 +108,7 @@ a {
 	padding: 10px 0;
 }
 
-.close-btn, .save-btn {
+.close-btn, .diary-view-close-btn, .diary-modify-close-btn, .diary-modify-btn, .save-btn {
 	background: #ccc;
 	border: none;
 	border-radius: 4px;
@@ -392,7 +392,41 @@ a {
 }
 
 /* 정민파트 */
-.password-popup, .address-popup, .addfriend-popup, .diary-popup {
+
+.pagination-container{
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+
+.post-container {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #d7d7d7;
+  margin: 15px;
+}
+
+.post-title {
+  font-size: 20px;
+}
+
+.post-number {
+  font-size: 15px;
+  padding: 15px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* 위에 페이지네이션 */
+
+.password-popup, .address-popup, .addfriend-popup, .diary-view-popup, .diary-modify-popup {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -441,7 +475,7 @@ a {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.password-content h2, .address-content h2, .addfriend-content h2, .diary-content h2 {
+.password-content h2, .address-content h2, .addfriend-content h2, .diary-view-content h2, .diary-modify-content h2 {
 	margin: 0;
 	margin-bottom: 10px;
 	padding: 10px 0;
@@ -491,7 +525,7 @@ button {
 	color: black;
 }
 
-.diary-content {
+.diary-view-content, .diary-modify-content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -505,7 +539,7 @@ button {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.diary-content .diary-close-btn, .diary-content .diary-save-btn {
+.diary-view-content .diary-view-close-btn, .diary-modify-content .diary-modify-close-btn, .diary-modify-content .diary-modify-btn  {
 	background: #ccc;
 	border: none;
 	border-radius: 4px;

@@ -11,8 +11,14 @@ $(document).ready(function() {
 
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
+		console.log("버튼");
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
+		// 버튼의 data-target이 #content-diary가 아닌 경우 세션 초기화
+        if ($(this).data('target') !== '#content-diary') {
+            sessionStorage.clear();
+            console.log("세션 초기화");
+        }
 		target.show();
 	});
 

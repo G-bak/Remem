@@ -1,5 +1,7 @@
 package com.app.service.diary.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,25 @@ public class WriteServiceImpl implements WriteService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+
+	@Override
+	public List<UserDiary> getDiaryListByUserId(String userId) {
+		 List<UserDiary> getDiaryListByUserId = writeDAO.getDiaryListByUserId(userId);
+		 return getDiaryListByUserId;
+	}
+
+	@Override
+	public int modifyDiary(UserDiary diary) {
+		int result = writeDAO.modifyDiary(diary);
+		return result;
+	}
+
+
+	@Override
+	public int deleteDiary(String diaryId) {
+		int result = writeDAO.deleteDiary(diaryId);
+		return result;
 	}
 
 }
