@@ -73,11 +73,17 @@ $(document).ready(function() {
 		var today = new Date();
 		var formattedToday = today.toISOString().split('T')[0];
 
-		// tcDate가 오늘 날짜 이전인지 비교
-		if (tcDate < formattedToday) {
-			alert("타임캡슐은 오늘날짜 이전으로 지정 못해 ! 날짜 다시 선택해줘");
-			return;
-		}
+		 // 날짜나 내용이 비어 있는지 확인
+	    if (!tcDate || !tcContent) {
+	        alert('날짜와 내용을 모두 입력해줘!');
+	        return; 
+	    }
+	
+	    // tcDate가 오늘 날짜 이전인지 비교
+	    if (tcDate < formattedToday) {
+	        alert("타임캡슐은 오늘 날짜 이전으로 선택이 어려워! 날짜를 다시 선택해줘");
+	        return;
+	    }
 
 		$.ajax({
 			url: '/save/Timecapsule',
@@ -92,6 +98,14 @@ $(document).ready(function() {
 				if (response) {
 					alert('타임캡슐이 성공적으로 저장되었습니다!');
 					addTimecapsule(response.tcDate, response.tcContent);
+					
+					 //날짜와 내용 리셋
+					 $('#date_timecapsule').val('');
+	                 $('#input_timecapsule').val('');
+	                 
+	                 // 팝업창 닫기
+                	 $('#popup_timecapsule').fadeOut();
+					
 				} else {
 					alert('저장에 실패했습니다.');
 				}
