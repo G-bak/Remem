@@ -15,9 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body class="signup-body">
-	<img
-		src="/image/background-melting-cheese-drip-yummy-melted-cheddar-cheese-melt-top-border_8580-1052-removebg-preview.png"
-		alt="Background Image">
+	<!-- <img src="/image/grass.png" alt="Background Image"> -->
 	<h1>#오늘 일기</h1>
 	<h2>회원가입</h2>
 	<form action="/user/signup" method="post" id="frm_signup">
