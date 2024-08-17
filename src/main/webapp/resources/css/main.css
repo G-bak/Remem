@@ -85,25 +85,25 @@ a {
 
 .popup {
 	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 5; 
 }
 
 .popup_open_close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-size: 24px;
-	cursor: pointer;
-	background-color: #f0f0f0;
-	border-radius: 4px;
-	width: 60px;
-	height: 35px;
+    position: absolute;
+    top: 15px;
+    right: 21px;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 4px;
+    width: 60px;
+    height: 35px;
 }
 
 .popup-content {
@@ -112,11 +112,12 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    width: 40%;
+    max-width: 530px;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    max-width: 500px;
+    width: 100%;
+    z-index: 99;
 }
 
 .popup_open_content {
@@ -125,6 +126,7 @@ a {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: #fff;
+	z-index:99;
 	width: 40%;
 	max-width: 500px;
 	padding: 20px;
@@ -135,8 +137,13 @@ a {
 }
 
 #popup-message {
-	margin-top: 12px;
-	font-size: 25px;
+	margin-top: 19px;
+    font-size: 25px;
+    border: 1px solid silver;
+    border-radius: 8px;
+    height: 160px;
+    padding: 10px;
+    text-align: center;
 }
 
 .Modify-btn {
@@ -206,9 +213,9 @@ a {
 .additional-content {
 	color: #000;
 	background-color: #f6f6f6;
-	width: calc(( 100% - 40px)/6);
-	height: 200px;
-	display: flex;
+	width: 189px;
+	height: 225px;
+	display: flex;	
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -219,9 +226,10 @@ a {
 
 .photo_additional {
 	width: 45%;
-	height: 75px;
+	height: 88px;
 	border-radius: 20px;
-	background-image: url('/image/time-capsule-icon.jpg');
+	background-image: url('/image/timecapsule_off.png');
+	background-color: forestgreen;
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -232,6 +240,8 @@ a {
 
 .additional_date {
 	margin-bottom: 10px;
+    font-size: 19px;
+    text-align: center;
 }
 
 .open_additonal {
@@ -248,16 +258,19 @@ a {
 
 .date_timecapsule {
 	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 60%;
-	border: 1px solid #00000085;
+    margin-bottom: 20px;
+    width: 60%;
+    border: 1px solid #00000026;
+    height: 45px;
+    border-radius: 8px;
 }
 
 .input_timecapsule {
 	width: 90%;
-	height: 200px;
-	border: 1px solid #00000085;
-	padding: 10px
+    height: 200px;
+    border: 1px solid #353635c9;
+    padding: 10px;
+    border-radius: 18px;
 }
 
 /* 친구신청 확인 팝업 시작 */
@@ -278,7 +291,7 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    width: 40%;
+    width: 50%;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -336,7 +349,7 @@ a {
 
 .profile {
 	position: absolute;
-	top: 15%;
+	top: 13%;
 	left: 10%;
 	width: 100px;
 	height: 100px;
@@ -402,6 +415,10 @@ a {
 
 .section {
 	height: 946px;
+}
+
+.swiper-wrapper {
+	transform: none;
 }
 
 .swiper-container {
@@ -828,11 +845,11 @@ a {
 }
 
 .password-content {
-	height: 310px;
+	height: 333px;
 }
 
 .address-content {
-	height: 280px;
+	height: 270px;
 }
 
 .addfriend-content {
@@ -864,25 +881,28 @@ a {
 
 #sample6_address {
 	width: 350px;
+    margin-left: 30px;
+    border-radius: 8px;
+    border: 1px solid forestgreen;
 }
 
 .frm-modifyAddress-body {
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 30px;
-	margin-bottom: 10px;
+    justify-content: center;
 }
 
 .frm-modifyPassword-body input {
 	margin: 5px;
+    width: 244px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid forestgreen;
+    padding: 12px;
 }
 
 .frm-modifyAddress-footer, .frm-modifyPassword-footer {
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	margin: 10px auto;
 }
 
 button {
@@ -890,15 +910,16 @@ button {
 }
 
 .address, .password {
-	width: 45%;
-	height: 40px;
-	font-size: 22px;
-	background-color: #f3e073;
-	border-radius: 8px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: black;
+	width: 18%;
+    margin-top: 21px;
+    height: 40px;
+    font-size: 22px;
+    background-color: #c1e0ac;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
 }
 
 .diary-content {
@@ -1227,11 +1248,10 @@ input[type="checkbox"] {
 	}
 	
 	.popup-content {
-		width:50%;
+		width: 100%;
+        max-width: 480px;
 	}
 
-
-	/*---------------------------------------------*/
 	.income-item {
 	    font-size: 18px;
 	    display: flex;
@@ -1333,11 +1353,11 @@ input[type="checkbox"] {
         height: 40px;
         padding: 10px;
     }
-
+    
     .popup-content,
     .popup_open_content {
-        width: 50%;
-        max-width: none;
+        max-width: 460px;
+        width: 100%;
         height: auto;
         padding: 10px;
     }
@@ -1379,7 +1399,7 @@ input[type="checkbox"] {
     }
 
 	.popup-friendRequest-content {
-		width: 50%;
+		width: 55%;
 	}
 
     .wrapper {

@@ -2,36 +2,32 @@ $(document).ready(function() {
 
 	console.log(loginUserId);
 
-
-
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
-
 		$('#main-swiper-rightslide').hide();
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
 		target.show();
 	});
 
-	//	// 팝업 설정 함수
-	//	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
-	//	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
-
-	// 기존 팝업 설정
+	// 팝업 설정
 	setupPopup('#profile-icon', '#profile-popup', '#close-profile-popup');
 	setupPopup('#addfriend-icon', '#addfriend-popup', '#close-addfriend-popup');
 	setupPopup('#icon_timecapsule', '#popup_timecapsule', '#close_popup_timecapsule');
-
-
 
 	// 팝업의 닫기 버튼 클릭 시 팝업 닫기
 	$('#popupfriendRequestCloseBtn').click(function() {
 		$('#friendRequestPopup').hide();
 	});
+	
+	// friendRequestPopup을 누르면 friendRequestPopup 사라짐
+	$('#friendRequestPopup').on('click', function(event) {
+      if ($(event.target).is('#friendRequestPopup')) {
+         $('#friendRequestPopup').fadeOut();
+      }
+   });
 
-
-
-
+	// 모든 타임캡슐 로드
 	loadAllTimecapsules();
 
 	function loadAllTimecapsules() {
@@ -49,63 +45,39 @@ $(document).ready(function() {
 		});
 	}
 
-	// 타임캡슐 추가 (*******************************)
+	// 타임캡슐 추가
 	function addTimecapsule(date, content) {
-		const additionalContent = document.createElement('div');
-		additionalContent.className = "additional-content";
-		additionalContent.innerHTML = `
-	        <div class="photo_additional"></div>
-	        <p class="additional_date"></p>
-	        <button class="open_additonal" data-content="${content}" data-date="${date}">열기</button>
-	    `;
+		const additionalContent = $(
+			`<div class="additional-content">
+                <div class="photo_additional"></div>
+                <p class="additional_date"></p>
+                <button class="open_additonal" data-content="${content}" data-date="${date}">열기</button>
+            </div>`
+		);
 
 		$('#content-capsule').append(additionalContent);
 
 		// 개별 타임캡슐에 대해 타이머 시작
-		additionalContent.intervalId = setInterval(function() {
+		additionalContent.data('intervalId', setInterval(function() {
 			updateTimer(date, additionalContent);
-		}, 1000);
+		}, 1000));
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-	// 타임캡슐 저장 버튼
+	// 타임캡슐 저장 버튼 클릭 이벤트
 	$('#save_popup_timecapsule').on('click', function(event) {
 		event.preventDefault();
 
-
-		//입력할 값
 		var tcDate = $('#date_timecapsule').val();
 		var tcContent = $('#input_timecapsule').val();
 
 		var today = new Date();
-		var year = today.getFullYear();
-		var month = String(today.getMonth() + 1).padStart(2, '0');  // 월은 0부터 시작하므로 +1
-		var day = String(today.getDate()).padStart(2, '0');
-		var formattedToday = year + '-' + month + '-' + day;
+		var formattedToday = today.toISOString().split('T')[0];
 
 		// tcDate가 오늘 날짜 이전인지 비교
 		if (tcDate < formattedToday) {
 			alert("타임캡슐은 오늘날짜 이전으로 지정 못해 ! 날짜 다시 선택해줘");
 			return;
 		}
-
-
-
-
-
-
-
 
 		$.ajax({
 			url: '/save/Timecapsule',
@@ -130,112 +102,99 @@ $(document).ready(function() {
 		});
 	});
 
-	// 열기 버튼 클릭 -> 타임캡슐 내용
+	// 열기 버튼 클릭 이벤트
 	$(document).on('click', '.open_additonal', function() {
 		var content = $(this).data('content');
-		var date = $(this).data('date');  // 버튼에 저장된 날짜 가져오기
+		var date = $(this).data('date');
 
-		const currentDate = new Date();
-		const formattedDate = currentDate.toISOString().split('T')[0];
 
-		if (date <= formattedDate) {
+		const currentDate = new Date().toISOString().split('T')[0];
+
+		if (date <= currentDate) {
+			// 팝업 HTML
+
 			var popupHtml =
-				`<div class="popup_html" id="popup_open_timecapsule">
-                <div class="popup_open_content">
-            	   <h1>비밀글을 읽을 수 있어요!</h1>
-                   <p id="popup-message">${content}</p>
-	               <p class="popup_open_close">닫기</p>
-                </div>
-            </div>`;
+				`<div class="popup_html" id="popup_open_timecapsule" 
+				style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 5;">
+                    <div class="popup_open_content">
+                       <h1>비밀글을 읽을 수 있어요!</h1>
+                       <p id="popup-message">${content}</p>
+                       <p class="popup_open_close">닫기</p>
+                    </div>
+                </div>`;
 
+			// 팝업 추가
 			$('body').append(popupHtml);
 
+			// 팝업 표시
 			$('#popup_open_timecapsule').fadeIn();
 
-			$(document).on('click', '.popup_open_close', function() {
+			// 팝업 닫기 이벤트 핸들러
+			$(document).off('click', '.popup_open_close').on('click', '.popup_open_close', function() {
 				$('#popup_open_timecapsule').fadeOut(function() {
 					$(this).remove();
 				});
 			});
 
-			$(document).on('click', '#popup_open_timecapsule', function(e) {
+			$(document).off('click', '#popup_open_timecapsule').on('click', '#popup_open_timecapsule', function(e) {
 				if ($(e.target).is('#popup_open_timecapsule')) {
 					$('#popup_open_timecapsule').fadeOut(function() {
 						$(this).remove();
 					});
 				}
 			});
+
+
 		} else {
 			alert("지정된 날짜 이후에만 타임캡슐을 열 수 있습니다!");
 		}
 	});
-});
 
+	// 날짜 타이머 업데이트
+	function updateTimer(date, targetElement) {
+		const future = new Date(date).getTime();
+		const now = new Date().getTime();
+		const diff = future - now;
 
+		if (diff <= 0) {
+			clearInterval(targetElement.data('intervalId')); // 타이머 멈추기
+			targetElement.find(".additional_date").text("이제 타임캡슐 열어도 돼!");
+			targetElement.find('.photo_additional').css({
+				"background-image": "url('/image/timecapsule_on.png')",
+				"background-color": "darkseagreen"
+			});
+			return;
+		}
 
+		const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+		const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+		const mins = Math.floor((diff / (1000 * 60)) % 60);
+		const secs = Math.floor((diff / 1000) % 60);
 
-
-
-function updateTimer(date, targetElement) {
-	const future = Date.parse(date);
-	const now = new Date();
-	const diff = future - now;
-
-	if (diff <= 0) {
-		clearInterval(targetElement.intervalId); // 타이머 멈추기
-		targetElement.querySelector(".additional_date").innerText = "타임캡슐을 열어줘!";
-		targetElement.querySelector('.photo_additional').style.backgroundImage = "url('/image/time-capsule-clear-icon.png')";
-		return;
+		targetElement.find(".additional_date").html(
+		    `아직 열면 안돼!<br>${days}일 ${hours}시간 ${mins}분 ${secs}초`
+		);
 	}
 
-	const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-	const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-	const mins = Math.floor((diff / (1000 * 60)) % 60);
-	const secs = Math.floor((diff / 1000) % 60);
+	// 팝업 설정 함수
+	function setupPopup(triggerId, popupId, closeId) {
+		$(triggerId).on('click', function(event) {
+			event.preventDefault();
+			$(popupId).fadeIn();
+		});
 
-	targetElement.querySelector(".additional_date").innerText =
-		`${days}일 ${hours}시간 ${mins}분 ${secs}초`;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 팝업 설정 함수
-function setupPopup(triggerId, popupId, closeId) {
-	$(triggerId).on('click', function(event) {
-		event.preventDefault();
-		$(popupId).fadeIn();
-	});
-
-	$(closeId).on('click', function() {
-		$(popupId).fadeOut();
-	});
-
-	$(popupId).on('click', function(event) {
-		if ($(event.target).is(popupId)) {
+		$(closeId).on('click', function() {
 			$(popupId).fadeOut();
-		}
-	});
-}
+		});
+
+		$(popupId).on('click', function(event) {
+			if ($(event.target).is(popupId)) {
+				$(popupId).fadeOut();
+			}
+		});
+	}
+});
+
 
 
 

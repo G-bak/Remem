@@ -64,9 +64,10 @@
 				<form action="/upload" method="post" enctype="multipart/form-data"
 					onsubmit="return validateForm()">
 					<input type="file" name="file" id="fileInput"
-						style="font-size: 0.7rem; position: absolute; right: 35%; top: 38%;" />
+						style="font-size: 0.7rem; position: absolute; top: 33%; left: 37%;" />
 					<button type="submit"
-						style="padding: 0 5px; font-size: 0.9rem; position: absolute; right: 50%; top: 38%; cursor: pointer;">올리기</button>
+						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 33%; cursor: pointer; border-radius: 5px;">올리기
+					</button>
 				</form>
 				<!-- 				</div> -->
 
@@ -104,7 +105,7 @@
 					<input type="text" id="sample6_address" name="userAddress"
 						value="${user.userAddress}"><br> <i
 						class="fa-solid fa-magnifying-glass" id="search-icon"
-						onclick="sample6_execDaumPostcode()"></i> </input><br> <input
+						onclick="sample6_execDaumPostcode()"></i> </input><br>	<input
 						type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 				</div>
@@ -380,22 +381,21 @@
 				</div>
 				<div class="swiper-rightslide" id="content-capsule"
 					style="display: none;">
-
 					<div class="div_a_icon">
-						<a href="#" id="icon_timecapsule"><i
-							class="fa-brands fa-creative-commons-sampling"></i></a>
-					</div>
-
-					<div class="popup" id="popup_timecapsule">
-						<div class="popup-content">
-							<input type="date" id="date_timecapsule" class="date_timecapsule">
-							<input type="text" id="input_timecapsule"
-								class="input_timecapsule" placeholder="비밀글을 작성해줘!"><br />
-							<button class="save-btn" id="save_popup_timecapsule">저장</button>
-							<button class="close-btn" id="close_popup_timecapsule">닫기</button>
+						<a href="#" id="icon_timecapsule"> <i
+							class="fa-brands fa-creative-commons-sampling"></i>
+						</a>
+						<div class="popup" id="popup_timecapsule">
+							<div class="popup-content">
+								<input type="date" id="date_timecapsule"
+									class="date_timecapsule"> <input type="text"
+									id="input_timecapsule" class="input_timecapsule"
+									placeholder="비밀글을 작성해줘!"><br />
+								<button class="save-btn" id="save_popup_timecapsule">저장</button>
+								<button class="close-btn" id="close_popup_timecapsule">닫기</button>
+							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
