@@ -871,11 +871,65 @@
         }
 
         document.getElementById('scheduleInputFriends').addEventListener('focus', function() {
+            showAllFriends(); // 처음 클릭 시 전체 친구 목록 표시
+        });
+
+        document.getElementById('scheduleInputFriends').addEventListener('input', function() {
+            const input = this.value.toLowerCase(); // 입력된 값을 소문자로 변환
+            const autocompleteList = document.getElementById('autocompleteFriends');
+            autocompleteList.innerHTML = ''; // 기존 리스트 초기화
+
+            let filteredFriends;
+
+            if (input.length > 0) {
+                // 입력값이 있을 때는 필터링된 친구 목록 표시 (이름 또는 ID로 검색)
+                filteredFriends = friendsArray.filter(friend => 
+                    friend.userName.toLowerCase().startsWith(input) || friend.friendId.toLowerCase().startsWith(input)
+                );
+            } else {
+                // 입력값이 없을 때는 모든 친구 목록 표시
+                filteredFriends = friendsArray;
+            }
+
+            if (filteredFriends.length > 0) {
+                autocompleteList.style.display = 'block';
+                filteredFriends.forEach(function(friend) {
+                    const item = document.createElement('div');
+                    item.classList.add('autocomplete-item');
+                    item.textContent = friend.userName + " (" + friend.friendId + ")";
+
+                    item.addEventListener('click', function() {
+                        // 선택된 친구를 참석자 목록에 추가
+                        const container = document.getElementById('scheduleModal');
+                        const attendeeContainers = container.querySelectorAll('.calender-friend-container');
+                        const attendeeCount = attendeeContainers.length + 1; // 참석자 번호 계산
+
+                        const attendeeContainer = document.createElement('div');
+                        attendeeContainer.classList.add('calender-friend-container');
+                        attendeeContainer.setAttribute('data-key', friend.friendId); // friendId를 data-key에 저장
+                        attendeeContainer.innerHTML = '<span class="title">참석자 ' + attendeeCount + ' </span>' +
+                                                        '<span class="name">' + friend.userName + '</span>';
+
+                        container.insertBefore(attendeeContainer, container.querySelector('.calender-btn-container'));
+
+                        // 자동완성 리스트 및 입력 필드 초기화
+                        autocompleteList.innerHTML = '';
+                        document.getElementById('scheduleInputFriends').value = '';
+                        autocompleteList.style.display = 'none'; // 선택 후 리스트 숨김
+                    });
+
+                    autocompleteList.appendChild(item);
+                });
+            } else {
+                autocompleteList.style.display = 'none'; // 필터링된 친구가 없으면 리스트 숨김
+            }
+        });
+
+        function showAllFriends() {
             const autocompleteList = document.getElementById('autocompleteFriends');
             autocompleteList.innerHTML = ''; // 기존 리스트 초기화
 
             if (friendsArray.length > 0) {
-                // 친구 목록이 있을 때만 리스트 보이기
                 autocompleteList.style.display = 'block';
                 friendsArray.forEach(function(friend) {
                     const item = document.createElement('div');
@@ -907,7 +961,7 @@
             } else {
                 autocompleteList.style.display = 'none'; // 친구 목록이 없으면 리스트 숨김
             }
-        });
+        }
 
         // 전역 클릭 이벤트 리스너 추가
         document.addEventListener('click', function(event) {
