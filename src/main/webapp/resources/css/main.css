@@ -178,7 +178,8 @@ a {
 	padding: 10px 0;
 }
 
-.close-btn, .diary-view-close-btn, .diary-modify-close-btn, .diary-modify-btn, .save-btn {
+.close-btn, .diary-view-close-btn, .diary-modify-close-btn,
+	.diary-modify-btn, .save-btn {
 	background: #ccc;
 	border: none;
 	border-radius: 4px;
@@ -877,41 +878,40 @@ a {
 }
 
 /* 정민파트 */
-
-.pagination-container{
+.pagination-container {
 	display: flex;
-  	justify-content: center;
-  	align-items: center;
+	justify-content: center;
+	align-items: center;
 }
 
 .post-container {
-  margin: 0;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  border: 2px solid #d7d7d7;
-  margin: 15px;
+	margin: 0;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	border-radius: 10px;
+	border: 2px solid #d7d7d7;
+	margin: 15px;
 }
 
 .post-title {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 .post-number {
-  font-size: 15px;
-  padding: 15px;
+	font-size: 15px;
+	padding: 15px;
 }
 
 .pagination-container {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 /* 위에 페이지네이션 */
-
-.password-popup, .address-popup, .addfriend-popup, .diary-view-popup, .diary-modify-popup {
+.password-popup, .address-popup, .addfriend-popup, .diary-view-popup,
+	.diary-modify-popup {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -960,7 +960,8 @@ a {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.password-content h2, .address-content h2, .addfriend-content h2, .diary-view-content h2, .diary-modify-content h2 {
+.password-content h2, .address-content h2, .addfriend-content h2,
+	.diary-view-content h2, .diary-modify-content h2 {
 	margin: 0;
 	margin-bottom: 10px;
 	padding: 10px 0;
@@ -1028,7 +1029,8 @@ button {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.diary-view-content .diary-view-close-btn, .diary-modify-content .diary-modify-close-btn, .diary-modify-content .diary-modify-btn  {
+.diary-view-content .diary-view-close-btn, .diary-modify-content .diary-modify-close-btn,
+	.diary-modify-content .diary-modify-btn {
 	background: #ccc;
 	border: none;
 	border-radius: 4px;
@@ -1036,6 +1038,47 @@ button {
 	cursor: pointer;
 }
 
+.diary-view-content h2, .diary-modify-content h2 {
+	margin: 20px;
+}
+
+#frm-view-diary {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.date-label {
+	display: flex;
+	justify-content: flex-end;
+	align-self: flex-end; /* 부모 컨테이너 기준으로 오른쪽 정렬 */
+	width: 100%; /* 날짜 라벨의 너비를 부모 너비에 맞춤 */
+	text-align: right; /* 텍스트를 오른쪽 정렬 */
+}
+
+.title-label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+#frm-view-diary input, #frm-view-diary textarea {
+	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
+}
+
+#frm-view-diary textarea, #frm-view-diary textarea {
+	resize: none; /* 사용자가 크기 조절 불가 */
+	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+}
+
+#frm-view-diary input, #frm-view-diary textarea, #frm-modify-diary input,
+	#frm-modify-diary textarea {
+	border: none;
+	margin: 10px;
+}
+
+/***************************************************************/
 .addfriend-list {
 	/* 	height: 150px; */
 	/* 	display: flex; */
@@ -1267,19 +1310,16 @@ input[type="checkbox"] {
 }
 
 .remove-btn {
-    text-decoration: none; /* 삭제 버튼에 줄이 없도록 기본 설정 */
+	text-decoration: none; /* 삭제 버튼에 줄이 없도록 기본 설정 */
 }
-
 
 li.checked .remove-btn {
-    text-decoration: none; /* 체크된 상태에서도 줄이 없도록 설정 */
+	text-decoration: none; /* 체크된 상태에서도 줄이 없도록 설정 */
 }
-
 
 .checked {
 	text-decoration: line-through; /* 텍스트에 줄을 긋기 */
 }
-
 
 /* 삭제 버튼의 스타일은 그대로 유지 */
 

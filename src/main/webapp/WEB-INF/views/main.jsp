@@ -98,16 +98,16 @@ window.onload = function() {
 
 				<div>
 					<p>팔로워</p>
-					<p class="follower">63</p>
+                    <p class="follower">${friendCount}</p>
 				</div>
 				<div>
 					<p>팔로잉</p>
-					<p class="following">63</p>
+                    <p class="following">${friendCount}</p>
 				</div>
 			</div>
 			<div class="profile-introduce">
 				<p class="nickname">${user.userName}</p>
-				<p class="profile-id">@ ${user.userId}</p>
+				<p class="profile-id">@${user.userId}</p>
 				<p>반가워! 나는 상큼한 자두같은 아이야</p>
 			</div>
 			<div class="ModifyPage">
@@ -323,13 +323,15 @@ window.onload = function() {
     
     <div class="diary-view-popup" id="diary-view-popup">
         <div class="diary-view-content">
-            <h2>일기 확인 팝업창</h2>
-            <p>여기에서는 일기를 확인할 수 있습니다.</p>
+            <h1>일기 확인 📃</h1>
+           
             <div id="frm-view-diary">
-                <input type="text" id="diary-date-view" name="writeDate" readonly> 
-                <input type="text" id="diary-title-view" name="diaryTitle" readonly>
-                <textarea rows="5" cols="45" id="diary-content-view" name="diaryContent" readonly></textarea>
-                <button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
+            
+            	
+    			<label class="title-label"><span>제목: </span><input type="text" id="diary-title-view" name="diaryTitle" readonly></label>
+    			 <label class="date-label"><span>날짜: </span><input type="text" id="diary-date-view" name="writeDate" readonly></label> 
+    			<textarea rows="5" cols="45" id="diary-content-view" name="diaryContent" readonly></textarea>
+    			<button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
             </div>
         </div>
     </div>
