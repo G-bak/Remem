@@ -55,7 +55,7 @@ $(document).ready(function() {
             </div>`
 		);
 
-		$('#content-capsule').append(additionalContent);
+		$('#content-capsule').prepend(additionalContent);
 
 		// 개별 타임캡슐에 대해 타이머 시작
 		additionalContent.data('intervalId', setInterval(function() {
@@ -131,7 +131,8 @@ $(document).ready(function() {
 				`<div class="popup_html" id="popup_open_timecapsule" 
 				style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 5;">
                     <div class="popup_open_content">
-                       <h1>비밀글을 읽을 수 있어요!</h1>
+                       <h1>타임캡슐이 열렸어요! ⏳</h1>
+					   <p class="secret-msg">아무한테도 말하지 말기 🤫</p>
                        <p id="popup-message">${content}</p>
                        <p class="popup_open_close">닫기</p>
                     </div>

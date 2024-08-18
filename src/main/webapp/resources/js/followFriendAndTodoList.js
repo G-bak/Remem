@@ -15,14 +15,74 @@ $(document).ready(function() {
 	//mainDashBoard에서 친구 목록 조회
 	getFriendList();
 
+
+	const fileInput = document.getElementById('fileInput');
+	const fileNameSpan = document.getElementById('fileName');
+
+	//	// 사용자 정의 버튼 클릭 시 파일 입력 필드 클릭
+	//	document.querySelector('.custom-file-button').addEventListener('click', function() {
+	//		fileInput.click();
+	//	});
+	//
+	//	// 파일 선택 시 파일 이름 표시
+	//	fileInput.addEventListener('change', function() {
+	//		const file = fileInput.files[0];
+	//		if (file) {
+	//			fileNameSpan.textContent = `선택한 파일: ${file.name}`;
+	//		} else {
+	//			fileNameSpan.textContent = '파일을 선택하세요';
+	//		}
+	//	});
+
+	
+		$("#fileInput").on("change", function() {
+			var fileName = $(this).val().split('\\').pop();
+			$("#fileName").text(fileName);
+		});
+	
+
+
+
+
+	if (filePath == null || filePath == '') {
+		//등록된 프로필 사진이 없다면 기본 이미지로 변경
+		$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
+		$('.profile').css('background-image', 'url(/uploads/basic_profile.jpg)');
+	}
+
+
+
+	// 현재 날짜 가져오기
+	const now = new Date();
+
+	// 날짜 포맷 설정 (영어(미국)로 설정)
+	const options = { year: 'numeric', month: 'long', day: 'numeric' };
+	const formatter = new Intl.DateTimeFormat('en-US', options);
+
+	// 포맷된 날짜 출력
+	const formattedDate = formatter.format(now);
+
+	$('.last-active').text("접속날짜: " + formattedDate);
+
+
+
 });
 
 
-if (filePath == null || filePath == '') {
-	//등록된 프로필 사진이 없다면 기본 이미지로 변경
-	$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
-	$('.profile').css('background-image', 'url(/uploads/basic_profile.jpg)');
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function getFriendList() {
@@ -38,7 +98,7 @@ function getFriendList() {
 
 			let friendListUl = $('.friends-list');
 			friendListUl.empty();
-			
+
 			friendList.forEach((friend) => {
 
 				if (friend.urlFilePath == null || friend.urlFilePath == '') {
@@ -76,38 +136,38 @@ function getFriendList() {
 
 
 
-function unfollowFreind(friendId){
-	if(confirm(friendId + "님을 언팔로우 하시겠습니까?")){
+function unfollowFreind(friendId) {
+	if (confirm(friendId + "님을 언팔로우 하시겠습니까?")) {
 		$.ajax({
-				url: "unfollowFriend",
-				type: "POST",
-				contentType: 'application/json; charset=utf-8',
-				data: JSON.stringify({
-					loginUserId: loginUserId,
-					friendId: friendId
-				}),
-				dataType: "text",
-				success: function(unfollowText){
-					
-					alert(unfollowText);
-					
-					//mainDashBoard에서 친구들 일기 타임라인 조회
-					getFriendsDiaryTimeline();
+			url: "unfollowFriend",
+			type: "POST",
+			contentType: 'application/json; charset=utf-8',
+			data: JSON.stringify({
+				loginUserId: loginUserId,
+				friendId: friendId
+			}),
+			dataType: "text",
+			success: function(unfollowText) {
+
+				alert(unfollowText);
+
+				//mainDashBoard에서 친구들 일기 타임라인 조회
+				getFriendsDiaryTimeline();
 
 
-					//mainDashBoard에서 친구 목록 조회
-					getFriendList();
-					
-					
-					
-				},
-				error: function(){
-					alert("친구 삭제 서버 에러");
-				}
-			});
+				//mainDashBoard에서 친구 목록 조회
+				getFriendList();
+
+
+
+			},
+			error: function() {
+				alert("친구 삭제 서버 에러");
+			}
+		});
 	}
-	
-	
+
+
 }
 
 
@@ -230,7 +290,7 @@ function viewRecommendList() {
 					                        <div class="image" style="background-image: url('${recommend.urlFilePath}'); background-size: cover; background-position: center;"></div>
 					                    </th>
 					                    <td>${recommend.userId} ${recommend.userName}</td>
-					                    <td><button id="${recommend.userId}" onclick=addFriend('${recommend.userId}')><i class="fas fa-user-plus"></i></button></td>
+					                    <td><button  class="add-friend-padding"  id="${recommend.userId}" onclick=addFriend('${recommend.userId}') style="background-color: transparent;"><i class="fas fa-user-plus"></i></button></td>
 					                </tr>
 					            `;
 					recommendFriendListTable.append(row);
@@ -294,7 +354,7 @@ function checkReceivedFriendRequests(response) {
 			let listItem = $('<li class="friend-request-item"></li>');
 			listItem.append(`<div class="image" style="background-image: url('${requestFriend.urlFilePath}'); background-size: cover; background-position: center;"></div>`);
 			listItem.append(`<div id="${requestFriend.userId}">${requestFriend.userId} ${requestFriend.userName}</div>`);
-			listItem.append(`<button onclick="receiveFriendRequest('${requestFriend.userId}')">친구받기</button>`);
+			listItem.append(`<button class="friend-accept-icon" onclick="receiveFriendRequest('${requestFriend.userId}')"></button>`);
 
 
 			friendRequestList.append(listItem);
@@ -316,6 +376,15 @@ function receiveFriendRequest(friendId) {
 		success: function(response) {
 			alert("친구받기완료!");
 			checkReceivedFriendRequests(response); //친구신청함 비우고 다시 그리기
+			
+			//일기 타임라인 재로드
+			getFriendsDiaryTimeline();
+
+			//친구목록 재로드
+			getFriendList();
+
+			//친구 추천리스트 재로드
+			refreshRecommendFriendList();
 		},
 		error: function() {
 			alert("에러발생");
@@ -497,14 +566,15 @@ function displayFriends(friends) {
 
 
 		const addFriendButton =
-			friend.friend ? `` : `<td><button id="${friend.userId}" onclick=addFriend('${friend.userId}')><i class="fas fa-user-plus"></i></button></td>`;
+			friend.friend ? `` : `<td><button  class="add-friend-padding" id="${friend.userId}" onclick=addFriend('${friend.userId}') style="background-color: transparent;"><i class="fas fa-user-plus"></i></button></td>`;
 
 		const row = `
                 <tr>
                     <th>
                         <div class="image" style="background-image: url('${friend.urlFilePath}'); background-size: cover; background-position: center;"></div>
                     </th>
-                    <td>${friend.userId}</td>
+                    <td>${friend.userId} ${friend.userName}</td>
+					
                     ${addFriendButton}
                 </tr>
             `;
@@ -554,17 +624,7 @@ function validateForm() {
 
 
 
-// 현재 날짜 가져오기
-const now = new Date();
 
-// 날짜 포맷 설정 (영어(미국)로 설정)
-const options = { year: 'numeric', month: 'long', day: 'numeric' };
-const formatter = new Intl.DateTimeFormat('en-US', options);
-
-// 포맷된 날짜 출력
-const formattedDate = formatter.format(now);
-
-$('.last-active').text("접속날짜: " + formattedDate);
 
 
 

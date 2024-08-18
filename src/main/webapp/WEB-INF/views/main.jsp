@@ -43,7 +43,10 @@
 
 	<div id="friendRequestPopup" class="popupfriendRequest">
 		<div class="popup-friendRequest-content">
-			<p>친구 신청 목록</p>
+			<div>
+			<h1 style="font-size: 1.2rem; margin-bottom: 5px;">친구 신청 목록 📬</h1>
+			<p style="color: gray;">친구신청을 받아줘~</p>
+			</div>
 			<ul class="friend-request-list">
 				<!-- <li class="friend-request-item"><p>친구 신청 1</p></li>
 				<li class="friend-request-item"><p>친구 신청 2</p></li> 
@@ -63,10 +66,13 @@
 					style="background-image: url('${sessionScope.filePath}');"></div>
 				<form action="/upload" method="post" enctype="multipart/form-data"
 					onsubmit="return validateForm()">
-					<input type="file" name="file" id="fileInput"
-						style="font-size: 0.7rem; position: absolute; top: 33%; left: 37%;" />
+					
+					<label for="fileInput" class="custom-file-button">파일 선택</label>
+					<input type="file" name="file" id="fileInput">
+					  <span id="fileName">파일을 선택하세요</span>
+					  
 					<button type="submit"
-						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 33%; cursor: pointer; border-radius: 5px;">올리기
+						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 33%; cursor: pointer; border-radius: 5px; background-color: #c1e0ac;">올리기
 					</button>
 				</form>
 				<!-- 				</div> -->
@@ -142,10 +148,9 @@
 	<div class="addfriend-popup" id="addfriend-popup">
 		<div class="addfriend-content">
 			<h2>친구추가 팝업창</h2>
-			<p>여기에는 친구추가 관련 정보를 넣을 수 있습니다.</p>
+			<p>친구의 아이디를 검색할 수 있어요!</p>
 
-			<!--             <form onsubmit="return false;" id="frm-addfriend"> -->
-			<input type="text" id="name-input" placeholder="아이디 입력"
+			<input type="text" id="name-input" placeholder="아이디 입력" style="border: 1px solid gray; border-radius: 8px;"
 				oninput="filterFriends()">
 			<button type="submit" id="search-btn">
 				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
@@ -157,18 +162,22 @@
 			</table>
 			<!--<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
 
-
+			<div class="recommend-friend-header">
 			<h2>친구 추천</h2>
+			<button type="submit" id="recommend-search-btn"
+				onclick="refreshRecommendFriendList()">
+				
+				<img id="refresh-image" src="/image/refresh-arrow.png" alt="친구목록갱신">
+			</button>
+			</div>
+			
 			<p>
-				친구 추천 목록입니다.<br>아이콘을 눌러서 추천 목록을 갱신할 수 있습니다.
+				친구 추천 목록이에요!<br>새로고침 아이콘을 눌러서 추천 목록을 갱신할 수 있어요~
 			</p>
 
 			<!--<form onsubmit="return false;" id="frm-addfriend"> -->
 
-			<button type="submit" id="recommend-search-btn"
-				onclick="refreshRecommendFriendList()">
-				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-			</button>
+			
 			<!--             </form> -->
 			<table class="recommendfriend-list" id="recommendfriend-list">
 				<!-- 				동적으로 친구 추천 목록 생성 -->
@@ -271,6 +280,7 @@
 				</div>
 				<div class="swiper-rightslide" id="content-budget">
 					<div class="accountModify" id="accountModify">
+					
 						<div class="accountModify-popup-content">
 							<input type="date" class="date" id="input-date">
 							<button id="btn_account_save" type="submit">저장</button>
@@ -388,9 +398,13 @@
 						<div class="popup" id="popup_timecapsule">
 							<div class="popup-content">
 								<input type="date" id="date_timecapsule"
-									class="date_timecapsule"> <input type="text"
-									id="input_timecapsule" class="input_timecapsule"
-									placeholder="비밀글을 작성해줘!"><br />
+									class="date_timecapsule">
+<!-- 									<input type="text" -->
+<!-- 									id="input_timecapsule" class="input_timecapsule" -->
+<!-- 									placeholder="타임캡슐을 만들어줘!"> -->
+									
+									<textarea id="input_timecapsule" class="input_timecapsule" rows="10" cols="50" placeholder="타임캡슐을 만들어줘!"></textarea>
+									<br />
 								<button class="save-btn" id="save_popup_timecapsule">저장</button>
 								<button class="close-btn" id="close_popup_timecapsule">닫기</button>
 							</div>

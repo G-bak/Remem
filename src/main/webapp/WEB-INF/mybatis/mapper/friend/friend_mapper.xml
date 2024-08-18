@@ -8,7 +8,7 @@
 
 	<select id="searchFriend" parameterType="String"
 		resultType="UserSearch">
-		SELECT USER_ID
+		SELECT USER_ID, USER_NAME
 		FROM users
 		WHERE USER_ID LIKE '%' ||
 		#{userInput} || '%'
@@ -119,7 +119,7 @@
 		AND u.user_id NOT IN (SELECT user_id FROM REQUESTFRIEND WHERE friend_id =
 		#{loginUserId})
 		ORDER BY DBMS_RANDOM.VALUE
-		FETCH FIRST 4 ROWS ONLY
+		FETCH FIRST 3 ROWS ONLY
 	</select>
 	
 	

@@ -17,10 +17,7 @@
     <form action="/user/signin" method="post">
         <input type="text" id="id" name="userId" placeholder="아이디" required><br/>
         <input type="password" id="pw" name="userPassword" placeholder="비밀번호" required><br/>
-        <div class="checkbox">
-            <input type="checkbox" id="remember-me">
-            <label for="remember-me"> 로그인 정보 저장</label>
-        </div>
+        
         <button type="submit">로그인<i class="fab fa-gratipay"></i></button>
     </form>
     

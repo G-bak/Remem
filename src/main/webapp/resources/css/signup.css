@@ -67,8 +67,7 @@ input[type="text"], input[type="date"], input[type="password"] {
 	margin-left: 3px;
 	padding: 0;
 	width: 20%;
-	border: 2px solid #946837;
-	background-color: #cc9348;
+	
 	font-size: 1rem;
 	color: white;
 	cursor: pointer;
@@ -80,6 +79,27 @@ input[type="text"], input[type="date"], input[type="password"] {
 	color: #c0392b;
 }
 
+.address-box{
+	
+	position: relative;
+}
+
+#btn-addressSearch{
+	width: 20%;
+	height: 70%;
+	border: none;
+	background-color: transparent;
+	background-image: url('/image/address-search.png');
+	background-size: contain; /* 이미지가 잘리지 않도록 버튼 내에 맞춤 */
+	background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+	background-position: center; /* 이미지가 버튼의 중앙에 위치하도록 설정 */
+	position: absolute;
+	top: 18%;
+	right: -2%;
+/* 	 transform: translateY(10%); */
+	cursor: pointer;
+}
+
 
 
 
@@ -89,7 +109,7 @@ input[type="date"] {
 }
 
 button {
-	border: 3px solids #185e0e;
+	border: 3px solid #185e0e;
     text-decoration: none;
     background-color:#58a530;
     font-weight: bold;
@@ -104,6 +124,7 @@ button {
     font-size: 20px;
     border-radius: 8px;
     padding: 10px;
+    cursor: pointer;
 }
 
 button:hover {

@@ -11,9 +11,9 @@ import com.app.dto.timecapsule.Timecapsule;
 import com.app.dto.timecapsule.TimecapsuleSearch;
 
 @Repository
-public class TimecapsuleDAOImpl implements TimecapsuleDAO{
+public class TimecapsuleDAOImpl implements TimecapsuleDAO {
 
-	@Autowired				
+	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
@@ -34,7 +34,7 @@ public class TimecapsuleDAOImpl implements TimecapsuleDAO{
 	public List<Timecapsule> selectAllTimecapsule() {
 		// TODO Auto-generated method stub
 		List<Timecapsule> tcList = sqlSessionTemplate.selectList("timecapsule_mapper.selectAllTimecapsule");
-		
+
 		return tcList;
 	}
 }

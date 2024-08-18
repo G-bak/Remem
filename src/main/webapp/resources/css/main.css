@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
 
 * {
 	margin: 0;
@@ -30,6 +31,14 @@ body {
 	padding: 0 15px;
 }
 
+input {
+	outline: none;
+}
+
+input[type="date"] {
+	cursor: pointer;
+}
+
 span {
 	color: #7c531d;
 	font-size: 25px;
@@ -48,15 +57,15 @@ a {
 	margin: 0 5px;
 }
 
-.fa-user-circle, .fa-user-plus{
+.fa-user-circle, .fa-user-plus {
 	color: #7c531d;
 	font-size: 26px;
 }
 
- .fa-user-group {
+.fa-user-group {
 	color: #7c531d;
 	cursor: pointer;
- }
+}
 
 .fa-user-plus {
 	font-size: 21px;
@@ -85,39 +94,39 @@ a {
 
 .popup {
 	display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    z-index: 5; 
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
 }
 
 .popup_open_close {
-    position: absolute;
-    top: 15px;
-    right: 21px;
-    font-size: 24px;
-    cursor: pointer;
-    background-color: #ccc;
-    border-radius: 4px;
-    width: 60px;
-    height: 35px;
+	position: absolute;
+	top: 15px;
+	right: 21px;
+	font-size: 24px;
+	cursor: pointer;
+	background-color: #ccc;
+	border-radius: 4px;
+	width: 60px;
+	height: 35px;
 }
 
 .popup-content {
 	position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    max-width: 530px;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 100%;
-    z-index: 99;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	max-width: 530px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	width: 100%;
+	z-index: 99;
 }
 
 .popup_open_content {
@@ -126,11 +135,10 @@ a {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: #fff;
-	z-index:99;
+	z-index: 99;
 	width: 40%;
 	max-width: 500px;
 	padding: 20px;
-	height: 250px;
 	border-radius: 8px;
 	text-align: center;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -138,12 +146,12 @@ a {
 
 #popup-message {
 	margin-top: 19px;
-    font-size: 25px;
-    border: 1px solid silver;
-    border-radius: 8px;
-    height: 160px;
-    padding: 10px;
-    text-align: center;
+	font-size: 25px;
+	border: 1px solid silver;
+	border-radius: 8px;
+	height: 160px;
+	padding: 10px;
+	text-align: center;
 }
 
 .Modify-btn {
@@ -183,11 +191,14 @@ a {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
+	position: relative;
 }
 
 .div_a_icon {
 	width: 100%;
 	margin-left: 8px;
+	position: absolute;
+	top: 3%;
 }
 
 #icon_timecapsule {
@@ -215,13 +226,14 @@ a {
 	background-color: #f6f6f6;
 	width: 189px;
 	height: 225px;
-	display: flex;	
+	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	margin: 10px;
+	margin-top: 7%;
 }
 
 .photo_additional {
@@ -240,8 +252,8 @@ a {
 
 .additional_date {
 	margin-bottom: 10px;
-    font-size: 19px;
-    text-align: center;
+	font-size: 19px;
+	text-align: center;
 }
 
 .open_additonal {
@@ -258,58 +270,66 @@ a {
 
 .date_timecapsule {
 	margin-top: 20px;
-    margin-bottom: 20px;
-    width: 60%;
-    border: 1px solid #00000026;
-    height: 45px;
-    border-radius: 8px;
+	margin-bottom: 20px;
+	width: 60%;
+	border: 1px solid #00000026;
+	height: 45px;
+	border-radius: 8px;
 }
 
 .input_timecapsule {
 	width: 90%;
-    height: 200px;
-    border: 1px solid #353635c9;
-    padding: 10px;
-    border-radius: 18px;
+	height: 200px;
+	border: 1px solid #353635c9;
+	padding: 10px;
+	border-radius: 18px;
+	resize: none;
+	overflow: auto;
+	outline: none;
 }
 
 /* 친구신청 확인 팝업 시작 */
 .popupfriendRequest {
 	display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 5;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+}
+
+.secret-msg {
+	font-size: 0.9rem;
+	color: lightgray;
 }
 
 .popup-friendRequest-content {
 	position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    width: 50%;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    max-width: 500px;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 50%;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	max-width: 500px;
+	height: 30%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .popup-friendRequest-close {
 	background: #ccc;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-top: 30px;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 30px;
 }
 
 .popup-friendRequest-close:hover, .popup-friendRequest-close:focus {
@@ -321,11 +341,16 @@ a {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	overflow-y: auto;
 }
 
 .friend-request-item {
 	border-bottom: 1px solid #ddd;
 	padding: 10px 0;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
 }
 
 .friend-request-item:last-child {
@@ -338,12 +363,12 @@ a {
 /* 친구신청 확인 팝업 끝 */
 .photo {
 	width: 28%;
-    height: 90px;
-    border-radius: 20px;
-    background-color: #ededed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	height: 90px;
+	border-radius: 20px;
+	background-color: #ededed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	z-index: 99;
 }
 
@@ -368,6 +393,31 @@ a {
 
 .profile-container p {
 	margin-right: 15px;
+}
+
+#fileInput {
+	display: none; /* 화면에서 숨기기 */
+}
+
+.custom-file-button {
+	padding: 2px 9px;
+	font-size: 0.9rem;
+	position: absolute;
+	right: 47%;
+	top: 33%;
+	cursor: pointer;
+	border-radius: 5px;
+	background-color: #c1e0ac;
+	top: 33%;
+}
+
+#fileName {
+	width: 22%;
+	font-size: 0.8rem;
+	position: absolute;
+	right: 24%;
+	top: 34%;
+	overflow-x: auto;
 }
 
 .follower, .following {
@@ -402,15 +452,15 @@ a {
 
 .addressModify, .passwordModify {
 	width: 45%;
-    height: 40px;
-    font-size: 22px;
-    background-color: #c1e0ac;
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
+	height: 40px;
+	font-size: 22px;
+	background-color: #c1e0ac;
+	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
 }
 
 .section {
@@ -435,7 +485,7 @@ a {
 	width: calc(100% - 200px);
 	background-color: white;
 	padding: 20px;
-	overflow: scroll
+	overflow: auto;
 }
 
 #main-swiper-rightslide {
@@ -458,7 +508,7 @@ a {
 .post_container {
 	width: auto;
 	height: 95%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .post {
@@ -505,9 +555,9 @@ a {
 }
 
 .post-content p {
-    margin: 0 0 10px;
-    word-wrap: break-word;
-    word-break: break-all;
+	margin: 0 0 10px;
+	word-wrap: break-word;
+	word-break: break-all;
 }
 
 .post-image {
@@ -597,11 +647,11 @@ a {
 }
 
 .bottom-right-box {
-    background: #f4f4f4;
-    padding: 20px;
-    height: 50%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
+	background: #f4f4f4;
+	padding: 20px;
+	height: 50%;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+	border: 1px solid #e0e0e0;
 }
 
 .friends-title {
@@ -613,7 +663,7 @@ a {
 
 .scroll_friends_list {
 	height: 85%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .friends-list {
@@ -656,12 +706,21 @@ a {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	
 	margin-right: 5px;
 }
 
 .friend-name {
 	font-size: 18px;
+}
+
+.friend-accept-icon {
+	width: 30px;
+	height: 30px;
+	background-image: url('/image/friend-accept.png');
+	background-color: transparent;
+	border: none;
+	background-size: cover;
+	background-position: center;
 }
 
 .menu-btn {
@@ -733,34 +792,34 @@ a {
 
 .account-book-content {
 	width: 28%;
-    height: 600px;
-    margin-top: 30px;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f4f4f457;
-    border-radius: 8px;
+	height: 600px;
+	margin-top: 30px;
+	border: 1px solid #ddd;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	background-color: #f4f4f457;
+	border-radius: 8px;
 }
 
-.total-income , .total-spending ,  .total-income-spending {
+.total-income, .total-spending, .total-income-spending {
 	margin-top: 25px;
 }
 
-.total-income i, .total-spending i,  .total-income-spending i {
+.total-income i, .total-spending i, .total-income-spending i {
 	margin-top: 3px;
 }
 
-.total-income p, .total-spending p,  .total-income-spending p {
+.total-income p, .total-spending p, .total-income-spending p {
 	font-size: 25px;
 	margin-bottom: 15px;
 }
 
 .total-income input, .total-spending input {
 	border: none;
-    height: 30px;
-    width: 50%;
-    background-color: #d3d3d314;
-    border-radius: 8px;
-    text-align: right;
+	height: 30px;
+	width: 50%;
+	background-color: #d3d3d314;
+	border-radius: 8px;
+	text-align: right;
 }
 
 .income-item {
@@ -800,21 +859,21 @@ a {
 
 .footer-main {
 	position: absolute;
-    bottom: 0%;
-    right: 10px;
+	bottom: 0%;
+	right: 10px;
 }
 
 .account-deletion {
 	margin: 5px;
-    color: #7c531d;
-    font-size: 20px;
-    font-weight: bold;
+	color: #7c531d;
+	font-size: 20px;
+	font-weight: bold;
 }
 
-.logout{
+.logout {
 	color: #7c531d;
-    font-size: 20px;
-    font-weight: bold;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 /* 정민파트 */
@@ -881,23 +940,23 @@ a {
 
 #sample6_address {
 	width: 350px;
-    margin-left: 30px;
-    border-radius: 8px;
-    border: 1px solid forestgreen;
+	margin-left: 30px;
+	border-radius: 8px;
+	border: 1px solid forestgreen;
 }
 
 .frm-modifyAddress-body {
 	display: flex;
-    justify-content: center;
+	justify-content: center;
 }
 
 .frm-modifyPassword-body input {
 	margin: 5px;
-    width: 244px;
-    height: 40px;
-    border-radius: 8px;
-    border: 1px solid forestgreen;
-    padding: 12px;
+	width: 244px;
+	height: 40px;
+	border-radius: 8px;
+	border: 1px solid forestgreen;
+	padding: 12px;
 }
 
 .frm-modifyAddress-footer, .frm-modifyPassword-footer {
@@ -911,15 +970,15 @@ button {
 
 .address, .password {
 	width: 18%;
-    margin-top: 21px;
-    height: 40px;
-    font-size: 22px;
-    background-color: #c1e0ac;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
+	margin-top: 21px;
+	height: 40px;
+	font-size: 22px;
+	background-color: #c1e0ac;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
 }
 
 .diary-content {
@@ -945,21 +1004,33 @@ button {
 }
 
 .addfriend-list {
-	height: 150px;
+	/* 	height: 150px; */
+	/* 	display: flex; */
+	/* 	justify-content: flex-start; */
+	/* 	flex-direction: column; */
+	/* 	align-items: center; */
+	/* 	border: 1px lightgray; */
+	height: 170px;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	flex-direction: column;
-	align-items: center;
+	align-content: center;
 	border: 1px lightgray;
+	flex-wrap: wrap;
 }
 
 .recommendfriend-list {
-	height: 200px;
+	height: 170px;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	flex-direction: column;
-	align-items: center;
+	align-content: center;
 	border: 1px lightgray;
+	flex-wrap: wrap;
+}
+
+.add-friend-padding {
+	padding-left: 40px;
 }
 
 #search-btn {
@@ -971,6 +1042,18 @@ button {
 	border: none;
 	background-color: white;
 	cursor: pointer;
+	margin-left: 10px;
+}
+
+.recommend-friend-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#refresh-image {
+	width: 30px;
+	height: 30px;
 }
 
 table {
@@ -1113,9 +1196,9 @@ body {
 
 ul {
 	list-style: none;
-    /*  border: 1px solid #ddd;*/
-    border-radius: 8px;
-    width: 65%;
+	/*  border: 1px solid #ddd;*/
+	border-radius: 8px;
+	width: 65%;
 }
 
 li {
@@ -1150,14 +1233,22 @@ input[type="checkbox"] {
 	accent-color: #383838;
 }
 
-.checked {
-    text-decoration: line-through; /* 텍스트에 줄을 긋기 */
+.remove-btn {
+    text-decoration: none; /* 삭제 버튼에 줄이 없도록 기본 설정 */
 }
 
-/* 삭제 버튼의 스타일은 그대로 유지 */
-.checked .remove-btn {
-    text-decoration: none; /* 삭제 버튼에는 줄이 생기지 않도록 설정 */
+
+li.checked .remove-btn {
+    text-decoration: none; /* 체크된 상태에서도 줄이 없도록 설정 */
 }
+
+
+.checked {
+	text-decoration: line-through; /* 텍스트에 줄을 긋기 */
+}
+
+
+/* 삭제 버튼의 스타일은 그대로 유지 */
 
 /* ------------------------------------------------------- */
 /* 스크롤바 처리*/
@@ -1182,299 +1273,246 @@ input[type="checkbox"] {
 
 /* ------------------------------------------------------- */
 
-
 /* 화면 조정(980px 이하) */
-
 #main-swiper-rightslide {
-    display: flex;
-    flex-direction: row; /* 기본적으로 가로 배치 */
+	display: flex;
+	flex-direction: row; /* 기본적으로 가로 배치 */
 }
 
-@media screen and (max-width: 980px)  {
-    #main-swiper-rightslide {
-        flex-direction: column; /* 세로로 배치 */
-        margin-top: 16px;
-    }
-    
-    .top-right-box {
-        width: 100%;
-        height: 260px;
-        margin-bottom: 35px;
-    }
-    
-    .bottom-right-box {
-    	height: 224px;
-    	width: 100%;
-    }
-    
-    .top-bottom-box {
-        order: 1;
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        padding: 20px;
-        margin: 0px 65px;
-    }
-    
-    .left-box {
-        order: 2; 
-    }
-    
-    .profile-info img {
-    	margin: 14px;
-        width: 100px;
-        height: 100px;
-    }
-    
-    .post_container {
-	    max-width: 690px;
-        width: 95%;
-        height: 95%;
-        overflow-y: scroll;
-        margin-left: 47px;
-    }
-    
-    .post {
-	    background-color: #fff;
-	    border: 1px solid #ddd;
-	    border-radius: 8px;
-	    padding: 35px;
-	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	    margin: 15px 16px;
-	}	
-	
-	.h1_post {
-	 	margin-left: 60px;
+@media screen and (max-width: 980px) {
+	#main-swiper-rightslide {
+		flex-direction: column; /* 세로로 배치 */
+		margin-top: 16px;
 	}
-	
+	.top-right-box {
+		width: 100%;
+		height: 260px;
+		margin-bottom: 35px;
+	}
+	.bottom-right-box {
+		height: 224px;
+		width: 100%;
+	}
+	.top-bottom-box {
+		order: 1;
+		display: flex;
+		flex-direction: column;
+		width: 90%;
+		padding: 20px;
+		margin: 0px 65px;
+	}
+	.left-box {
+		order: 2;
+		overflow-y: hidden;
+	}
+	.profile-info img {
+		margin: 14px;
+		width: 100px;
+		height: 100px;
+	}
+	.post_container {
+		max-width: 690px;
+		width: 95%;
+		height: 95%;
+		overflow-y: auto;
+		margin-left: 47px;
+	}
+	.post {
+		background-color: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 35px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		margin: 15px 16px;
+	}
+	.h1_post {
+		margin-left: 60px;
+	}
 	.popup-content {
 		width: 100%;
-        max-width: 480px;
+		max-width: 480px;
 	}
-
 	.income-item {
-	    font-size: 18px;
-	    display: flex;
-	    justify-content: center;
-    }
-    
-    .total-income p, .total-spending p, .total-income-spending p {
-   		font-size: 22px;
-	    margin-bottom: 25px;
-	    margin: 0px 14px 23px 16px;
-    }
-    
-    .total-income input, .total-spending input{
-        border: none;
-        height: 30px;
-        width: 36%;
-        background-color: #d3d3d314;
-        border-radius: 8px;
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    
-    .total-income{
-    	margin-top: 8px;
-    }
-    
-    .total-spending {
-    	overflow-y: scroll;
-    	height: 179px;
-    }
-    
-    .total-income-spending .income-items{
-   	    margin-top: 8px;
-    }
-    
-    .account-book-container h1 {
-        font-size: 21px;
-    }
-    
-    .account-book-container{
-   		 display: flex;
-        flex-direction: column;
-    }
-    
-    .account-book-content{
-    	height: 249px;
-        width: 100%;
-        margin-top: 20px;
-    }
-    
-    #additional-content {
-    	width: 150px;
-    }
+		font-size: 18px;
+		display: flex;
+		justify-content: center;
+	}
+	.total-income p, .total-spending p, .total-income-spending p {
+		font-size: 22px;
+		margin-bottom: 25px;
+		margin: 0px 14px 23px 16px;
+	}
+	.total-income input, .total-spending input {
+		border: none;
+		height: 30px;
+		width: 36%;
+		background-color: #d3d3d314;
+		border-radius: 8px;
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.total-income {
+		margin-top: 8px;
+	}
+	.total-spending {
+		overflow-y: auto;
+		height: 179px;
+	}
+	.total-income-spending .income-items {
+		margin-top: 8px;
+	}
+	.account-book-container h1 {
+		font-size: 21px;
+	}
+	.account-book-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.account-book-content {
+		height: 249px;
+		width: 100%;
+		margin-top: 20px;
+	}
+	#additional-content {
+		width: 150px;
+		margin-top: 10%;
+	}
 }
 
-
-
-
 /* 태블릿 화면 (768px 이하) */
-@media screen and (max-width: 768px)  {
-    #main-swiper-rightslide {
-        flex-direction: column; /* 세로로 배치 */
-        margin-top: 16px;
-    }
-    
-    .top-right-box {
-    	height: auto;
-        width: 92%;
-        height: 215px;
-        margin-bottom: 35px;
-    }
-    
-    .bottom-right-box {
-    	height: 224px;
-    	width: 92%;
-    }
-    
-    .top-bottom-box {
-        order: 1;
-        display: flex;
-        flex-direction: column;
-        max-width: 540px;
-        width: 92%;
-        padding: 20px;
-    }
-    
-    .left-box {
-        order: 2; 
-    }
-    
-    body {
-        width: 100%;
-        height: auto;
-        overflow-x: hidden;
-    }
-
-    #header {
-        flex-direction: row;
-        height: 40px;
-        padding: 10px;
-    }
-    
-    .popup-content,
-    .popup_open_content {
-        max-width: 460px;
-        width: 100%;
-        height: auto;
-        padding: 10px;
-    }
-
-    .container {
-        height: auto;
-    }
-    
-    .post {
-        margin: 10px 10px;
-        padding: 15px;
-    }
-
-    .profile-pic {
-        width: 30px;
-        height: 30px;
-    }
-
-    .profile-info,
-    .profile-details {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .profile-info img {
-	    margin: 0;
-	    width: 100px;
-	    height: 100px;
-    }
-
-    .addressModify, .passwordModify {
-     	width: 40%;
-    }
-    
-    .popup-content .close-btn {
-    	margin: 17px 0px 3px 0px;
-    }
-
+@media screen and (max-width: 768px) {
+	#main-swiper-rightslide {
+		flex-direction: column; /* 세로로 배치 */
+		margin-top: 16px;
+	}
+	.top-right-box {
+		height: auto;
+		width: 92%;
+		height: 215px;
+		margin-bottom: 35px;
+	}
+	.bottom-right-box {
+		height: 224px;
+		width: 92%;
+	}
+	.top-bottom-box {
+		order: 1;
+		display: flex;
+		flex-direction: column;
+		max-width: 540px;
+		width: 92%;
+		padding: 20px;
+	}
+	.left-box {
+		order: 2;
+	}
+	body {
+		width: 100%;
+		height: auto;
+		overflow-x: hidden;
+	}
+	#header {
+		flex-direction: row;
+		height: 40px;
+		padding: 10px;
+	}
+	.popup-content, .popup_open_content {
+		max-width: 460px;
+		width: 100%;
+		height: auto;
+		padding: 10px;
+	}
+	.container {
+		height: auto;
+	}
+	.post {
+		margin: 10px 10px;
+		padding: 15px;
+	}
+	.profile-pic {
+		width: 30px;
+		height: 30px;
+	}
+	.profile-info, .profile-details {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.profile-info img {
+		margin: 0;
+		width: 100px;
+		height: 100px;
+	}
+	.addressModify, .passwordModify {
+		width: 40%;
+	}
+	.popup-content .close-btn {
+		margin: 17px 0px 3px 0px;
+	}
 	.popup-friendRequest-content {
 		width: 55%;
 	}
-
-    .wrapper {
-        padding: 15px;
-    }
-
-    ul {
-      width: 325px;
-    }
-
-    .photo {
-        width: 30%;
-        height: 64px;
-    }
-    
-    .income-item {
-	    font-size: 18px;
-	    display: flex;
-	    justify-content: center;
-    }
-    
-    .total-income p, .total-spending p, .total-income-spending p {
-   		font-size: 18px;
-	    margin-bottom: 25px;
-	    margin: 0px 14px 23px 16px;
-    }
-    
-    .total-income input, .total-spending input{
-        border: none;
-        height: 30px;
-        width: 40%;
-        background-color: #d3d3d314;
-        border-radius: 8px;
-        text-align: right;
-        margin-bottom: 10px;
-    }
-    
-    .total-income{
-    	margin-top: 8px;
-    }
-    
-    .total-spending {
-    	overflow-y: scroll;
-    	height: 135px;
-    }
-    
-    .total-income-spending .income-items{
-   	    margin-top: 8px;
-    }
-    
-    .account-book-container h1 {
-        font-size: 21px;
-    }
-    
-    .account-book-container{
-   		 display: flex;
-        flex-direction: column;
-    }
-    
-    .account-book-content{
-    	height: 220px;
-        width: 100%;
-        margin-top: 20px;
-    }
-    
-    #additional-content {
-    	width: 150px;
-    }
+	.wrapper {
+		padding: 15px;
+	}
+	ul {
+		width: 325px;
+	}
+	.photo {
+		width: 30%;
+		height: 64px;
+	}
+	.income-item {
+		font-size: 18px;
+		display: flex;
+		justify-content: center;
+	}
+	.total-income p, .total-spending p, .total-income-spending p {
+		font-size: 18px;
+		margin-bottom: 25px;
+		margin: 0px 14px 23px 16px;
+	}
+	.total-income input, .total-spending input {
+		border: none;
+		height: 30px;
+		width: 40%;
+		background-color: #d3d3d314;
+		border-radius: 8px;
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.total-income {
+		margin-top: 8px;
+	}
+	.total-spending {
+		overflow-y: auto;
+		height: 135px;
+	}
+	.total-income-spending .income-items {
+		margin-top: 8px;
+	}
+	.account-book-container h1 {
+		font-size: 21px;
+	}
+	.account-book-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.account-book-content {
+		height: 220px;
+		width: 100%;
+		margin-top: 20px;
+	}
+	#additional-content {
+		width: 150px;
+		margin-top: 15%;
+	}
 }
 
 /* 추가 디바이스 특성에 대한 미디어 쿼리 */
-@media (orientation: portrait) {
-    /* 세로 모드 스타일 */
+@media ( orientation : portrait) { /* 세로 모드 스타일 */
 }
 
-@media (orientation: landscape) {
-    /* 가로 모드 스타일 */
+@media ( orientation : landscape) { /* 가로 모드 스타일 */
 }

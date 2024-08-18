@@ -30,16 +30,22 @@
 		<!-- 아이디 중복체크 -->
 		<p id="p-duplicatedText"></p>
 		<input type="hidden" id="duplicated-check-result">
+		<input type="password" id="userPassword" name="userPassword" placeholder="비밀번호를 입력해줘!" required>
+		<br />
+		<input type="hidden" id="sample6_postcode" placeholder="우편번호">
+		
+		<div class="address-box">
+			<input type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
+			<input type="button" id="btn-addressSearch" onclick="sample6_execDaumPostcode()">
+		</div>
 		
 		
-		<input type="password" id="userPassword" name="userPassword"
-			placeholder="비밀번호를 입력해줘!" required><br /> <input
-			type="hidden" id="sample6_postcode" placeholder="우편번호"> <input
-			type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
-		<input type="button" onclick="sample6_execDaumPostcode()" value="찾기"><br>
-		<input type="hidden" id="sample6_detailAddress" placeholder="상세주소"><br>
+		
+		<br>
+		<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
+		<br>
 		<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-		<!-- <input type="date" id="signup-date" required><br /> -->
+		
 		<button type="submit">
 			회원가입<i class="fab fa-gratipay"></i>
 		</button>

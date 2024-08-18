@@ -20,13 +20,13 @@ public class TimecapsuleController {
 	@Autowired
 	TimecapsuleService timecapsuleService;
 	
-	@ResponseBody
-	@PostMapping("/selectAll/Timecapsule")
-	public Timecapsule selectAllTimecapsule(@RequestBody Map<String, String> paramMap) {
-		TimecapsuleSearch tcs = new TimecapsuleSearch(paramMap.get("tcUserId"), paramMap.get("tcDate"));
-		Timecapsule tc = timecapsuleService.selectTimecapsule(tcs);
-		return tc;
-	}
+//	@ResponseBody
+//	@PostMapping("/selectAll/Timecapsule")
+//	public Timecapsule selectAllTimecapsule(@RequestBody Map<String, String> paramMap) {
+//		TimecapsuleSearch tcs = new TimecapsuleSearch(paramMap.get("tcUserId"), paramMap.get("tcDate"));
+//		Timecapsule tc = timecapsuleService.selectTimecapsule(tcs);
+//		return tc;
+//	}
 	
 	//저장 
 	@ResponseBody
@@ -46,6 +46,7 @@ public class TimecapsuleController {
 	@GetMapping("/all/Timecapsules")
 	public List<Timecapsule> getAllTimecapsules() {
 		List<Timecapsule> tcList = timecapsuleService.selectAllTimecapsule();
+		System.out.println(tcList);
 		return tcList;
 	}
 }

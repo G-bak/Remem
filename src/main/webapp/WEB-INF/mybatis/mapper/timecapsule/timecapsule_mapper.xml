@@ -5,7 +5,7 @@
 
 <mapper namespace="timecapsule_mapper">
 	<select id="selectAllTimecapsule" resultType="timecapsule">
-    	SELECT * FROM TIMECAPSULE ORDER BY tc_date DESC
+    	SELECT * FROM TIMECAPSULE order by tc_id
 	</select>
 
 	<insert id="saveTimecapsule" parameterType="Timecapsule">
