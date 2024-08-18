@@ -136,7 +136,7 @@ a {
 	transform: translate(-50%, -50%);
 	background: #fff;
 	z-index: 99;
-	width: 40%;
+	width: 50%;
 	max-width: 500px;
 	padding: 20px;
 	border-radius: 8px;
@@ -176,6 +176,7 @@ a {
 .popup-content h2 {
 	margin: 0;
 	padding: 10px 0;
+	font-size: 1.3rem;
 }
 
 .close-btn, .diary-view-close-btn, .diary-modify-close-btn,
@@ -312,7 +313,7 @@ a {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: #fff;
-	width: 50%;
+	width: 35%;
 	padding: 20px;
 	border-radius: 8px;
 	text-align: center;
@@ -722,6 +723,8 @@ a {
 	border: none;
 	background-size: cover;
 	background-position: center;
+	
+	cursor: pointer;
 }
 
 .menu-btn {
@@ -882,6 +885,7 @@ a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 100%
 }
 
 .post-container {
@@ -902,11 +906,6 @@ a {
 .post-number {
 	font-size: 15px;
 	padding: 15px;
-}
-
-.pagination-container {
-	display: flex;
-	justify-content: center;
 }
 
 /* 위에 페이지네이션 */
@@ -954,7 +953,7 @@ a {
 	width: 40%;
 	max-width: 500px;
 	padding: 20px;
-	height: 750px;
+	height: 715px;
 	border-radius: 8px;
 	text-align: center;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -1042,42 +1041,66 @@ button {
 	margin: 20px;
 }
 
-#frm-view-diary {
+#frm-view-diary, #frm-modify-diary {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	flex-wrap: wrap;
 }
 
 .date-label {
 	display: flex;
-	justify-content: flex-end;
-	align-self: flex-end; /* 부모 컨테이너 기준으로 오른쪽 정렬 */
-	width: 100%; /* 날짜 라벨의 너비를 부모 너비에 맞춤 */
+	justify-content: flex-start;
 	text-align: right; /* 텍스트를 오른쪽 정렬 */
+	width: 100%;
+	align-items: center;
 }
 
 .title-label {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	flex-wrap: wrap;
+	width: 100%;
 }
 
 #frm-view-diary input, #frm-view-diary textarea {
 	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
 }
 
-#frm-view-diary textarea, #frm-view-diary textarea {
+#frm-view-diary textarea, #frm-modify-diary textarea {
 	resize: none; /* 사용자가 크기 조절 불가 */
 	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+	border: 1px solid lightgray;
+	border-radius: 6px;
+	padding: 10px;
+	margin-top: 20px;
 }
 
-#frm-view-diary input, #frm-view-diary textarea, #frm-modify-diary input,
-	#frm-modify-diary textarea {
+#frm-view-diary input, #frm-modify-diary input {
 	border: none;
-	margin: 10px;
+	margin-left: 33px;
+	width: 45%;
+	font-size: 0.9rem;
 }
 
+label #diary-title-view, label #diary-title-modify {
+	margin-top: 30px;
+	font-weight: bold;
+	font-size: 1.3rem;
+}
+
+#diary-date-view, #diary-date-modify {
+	color: gray;
+}
+
+.btns-diary-modify {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 95%;
+}
 /***************************************************************/
 .addfriend-list {
 	/* 	height: 150px; */
@@ -1107,6 +1130,7 @@ button {
 
 .add-friend-padding {
 	padding-left: 40px;
+	cursor: pointer;
 }
 
 #search-btn {
@@ -1158,10 +1182,26 @@ table .fa-user-plus, #search-icon {
 	border-radius: 4px;
 	padding: 5px 10px;
 	cursor: pointer;
+	margin-top: 25px;
 }
 
 #diary-title, #diary-content {
 	margin: 10px;
+}
+
+.diary-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 20px;
+	align-content: space-between;
+	height: 92%;
+}
+
+.diary-entry-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 .diary-entry {
@@ -1170,7 +1210,7 @@ table .fa-user-plus, #search-icon {
 	margin-bottom: 15px;
 	border-radius: 5px;
 	background-color: #f9f9f9;
-	width: 960px;
+	width: 45%;
 }
 
 .diary-entry h3 {
@@ -1352,6 +1392,26 @@ li.checked .remove-btn {
 	flex-direction: row; /* 기본적으로 가로 배치 */
 }
 
+@media screen and (max-width: 1040px) {
+	.addfriend-content {
+		width: 50%;
+	}
+	
+	.diary-view-content, .diary-modify-content {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 1030px) {
+	.addfriend-close-btn {
+		margin-top: 5px;
+	}
+	
+	
+}
+
+
+
 @media screen and (max-width: 980px) {
 	#main-swiper-rightslide {
 		flex-direction: column; /* 세로로 배치 */
@@ -1449,6 +1509,22 @@ li.checked .remove-btn {
 	#additional-content {
 		width: 150px;
 		margin-top: 10%;
+	}
+	#fileName {
+		font-size: 0.7rem;
+	}
+	
+	
+}
+
+@media screen and (max-width: 840px) {
+	
+	#frm-view-diary input, #frm-modify-diary input {
+		margin-left: 15px;
+	}
+	
+	.popup_open_content {
+		width: 55%;
 	}
 }
 
@@ -1580,6 +1656,20 @@ li.checked .remove-btn {
 	#additional-content {
 		width: 150px;
 		margin-top: 15%;
+	}
+	.diary-entry {
+		width: 100%;
+	}
+	#frm-view-diary input, #frm-modify-diary input {
+		font-size: 0.8rem;
+		margin-left: 15px;
+	}
+	label #diary-title-view, label #diary-title-modify {
+		font-size: 1.1rem;
+	}
+	.addfriend-content {
+		width: 60%;
+		height: 740px;
 	}
 }
 

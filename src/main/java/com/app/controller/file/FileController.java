@@ -31,10 +31,7 @@ public class FileController {
 	
 	private static final String UPLOAD_DIRECTORY = "d:/uploads";
 
-    @RequestMapping("/upload")
-    public String showUploadForm() {
-        return "uploadForm"; // 업로드 폼을 포함한 JSP 파일 이름
-    }
+   
 
     @PostMapping("/upload")
     public String handleFileUpload(HttpServletRequest request, Model model, HttpSession session) {
@@ -65,16 +62,6 @@ public class FileController {
                     }
                     
                     
-                    
-                	
-//                	int dotIndex = fileName.lastIndexOf('.');
-//                	if (dotIndex != -1) {
-//                	    String fileExtension = fileName.substring(dotIndex);
-//                	    // 추가 코드
-//                	} else {
-//                	    // 확장자가 없는 경우 처리 (예: 파일 확장자가 없다고 알림)
-//                	    throw new IllegalArgumentException("Invalid file name: " + fileName);
-//                	}
                 	
                 	//파일 확장자 검사 (필요시)
                     String fileExtension = fileName.substring(fileName.lastIndexOf('.')); // 파일 확장자 추출
@@ -106,20 +93,20 @@ public class FileController {
                     // 파일의 URL 생성
                     String fileUrl = "/uploads/" + newFileName;
                     System.out.println("File URL: " + fileUrl);
-                    //model.addAttribute("absolutePath", fileUrl);
+                   
                     
                     // DB
                     FileInfo fileinfo = new FileInfo();
                     User user = (User) session.getAttribute("user");
                     System.out.println("세션 fileinfo: " + user);
-                    fileinfo.setUserId(user.getUserId()); //세션에서 id 받아오기 처리 !!!!!!!!!!!!!!(수정)
+                    fileinfo.setUserId(user.getUserId()); 
                     fileinfo.setFileName(newFileName);
                     fileinfo.setUrlFilePath(fileUrl);
                     
                     
                     
-                    //DB에 fileinfo 테이블에 user1이 없으면 insert
-                    //user1이 있으면 변경된 사진으로 update
+                    //DB에 fileinfo 테이블에 등록된 프로필 사진이 없으면 insert
+                    //있으면 변경된 사진으로 update
                     int selectResult = fileservice.selectFileInfo(fileinfo);
                     System.out.println("count: " + selectResult);
                     
@@ -173,9 +160,7 @@ public class FileController {
         return "redirect:/main"; // 업로드 폼을 포함한 JSP 파일 이름
     }
     
-//    public void test(HttpSession session) {
-//    	session.getAttribute("filePath").toString();
-//    }
+
     
 }
 

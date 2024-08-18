@@ -77,7 +77,7 @@ window.onload = function() {
 
 	<div class="popup" id="profile-popup">
 		<div class="popup-content">
-			<h2>프로필 팝업창</h2>
+			<h2>내 프로필</h2>
 			<div class="profile-container">
 				<!--                 <div class="photo"> -->
 				<div class="profile"
@@ -165,7 +165,7 @@ window.onload = function() {
 
 	<div class="addfriend-popup" id="addfriend-popup">
 		<div class="addfriend-content">
-			<h2>친구추가 팝업창</h2>
+			<h1 style="font-size: 1.3rem;">친구 검색 하기</h1>
 			<p>친구의 아이디를 검색할 수 있어요!</p>
 
 			<input type="text" id="name-input" placeholder="아이디 입력" style="border: 1px solid gray; border-radius: 8px;"
@@ -181,7 +181,7 @@ window.onload = function() {
 			<!--<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
 
 			<div class="recommend-friend-header">
-			<h2>친구 추천</h2>
+			<h1 style="font-size: 1.3rem;">친구 추천</h1>
 			<button type="submit" id="recommend-search-btn"
 				onclick="refreshRecommendFriendList()">
 				
@@ -287,18 +287,20 @@ window.onload = function() {
     </div>
     
     <div class="diary-container">
-        <c:forEach var="diary" items="${userDiaryList}">
-            <div class="diary-entry" data-diary-id="${diary.diaryId}">
-                <h3>${diary.diaryTitle}</h3>
-                <span class="diary-date">${diary.writeDate}</span>
-                <div class="diary-footer">
-                    <button class="diary-container-view-btn" id="view-diary">확인</button>
-                    <button class="diary-container-modify-btn" id="modify-diary">수정</button>
-                    <button class="diary-container-remove-btn" id="remove-diary" data-diary-id="${diary.diaryId}">삭제</button>
-                </div>
-                <p class="diary-content" style="display: none;">${diary.diaryContent}</p>
-            </div>
-        </c:forEach>
+    	<div class="diary-entry-wrapper">
+	        <c:forEach var="diary" items="${userDiaryList}">
+	            <div class="diary-entry" data-diary-id="${diary.diaryId}">
+	                <h3>${diary.diaryTitle}</h3>
+	                <span class="diary-date">${diary.writeDate}</span>
+	                <div class="diary-footer">
+	                    <button class="diary-container-view-btn" id="view-diary">확인</button>
+	                    <button class="diary-container-modify-btn" id="modify-diary">수정</button>
+	                    <button class="diary-container-remove-btn" id="remove-diary" data-diary-id="${diary.diaryId}">삭제</button>
+	                </div>
+	                <p class="diary-content" style="display: none;">${diary.diaryContent}</p>
+	            </div>
+	        </c:forEach>
+        </div>
         
         <div class="pagination-container">
             <c:if test="${currentPage > 1}">
@@ -323,30 +325,35 @@ window.onload = function() {
     
     <div class="diary-view-popup" id="diary-view-popup">
         <div class="diary-view-content">
-            <h1>일기 확인 📃</h1>
+            <h1 style="font-size: 1.5rem; margin-left: 15px;">일기 확인하기📒</h1>
            
             <div id="frm-view-diary">
             
             	
-    			<label class="title-label"><span>제목: </span><input type="text" id="diary-title-view" name="diaryTitle" readonly></label>
-    			 <label class="date-label"><span>날짜: </span><input type="text" id="diary-date-view" name="writeDate" readonly></label> 
+    			<label class="title-label"><input type="text" id="diary-title-view" name="diaryTitle" readonly ></label>
+    			 <label class="date-label"><input type="text" id="diary-date-view" name="writeDate" readonly ></label> 
     			<textarea rows="5" cols="45" id="diary-content-view" name="diaryContent" readonly></textarea>
     			<button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
+    			
             </div>
         </div>
     </div>
     
     <div class="diary-modify-popup" id="diary-modify-popup">
         <div class="diary-modify-content">
-            <h2>일기 수정 팝업창</h2>
-            <p>여기에서는 일기를 수정할 수 있습니다.</p>
+             <h1 style="font-size: 1.5rem; margin-left: 10px;">일기 수정하기✏️</h1>
+           
             <form action="/modifyDiary" method="post" id="frm-modify-diary">
                 <input type="hidden" id="diaryId" name="diaryId">
-                <input type="text" id="diary-date-modify" name="writeDate" readonly> 
-                <input type="text" id="diary-title-modify" name="diaryTitle">
+                <label class="title-label"><input type="text" id="diary-title-modify" name="diaryTitle"></label>
+                 <label class="date-label"><input type="text" id="diary-date-modify" name="writeDate" readonly> </label>
+                
                 <textarea rows="5" cols="45" id="diary-content-modify" name="diaryContent"></textarea>
-                <button class="diary-modify-close-btn" id="close-modify-diary-popup">닫기</button>
-                <button type="submit" class="diary-modify-btn" id="modify-diary-popup">수정</button>
+                <div class="btns-diary-modify">
+                	<button type="submit" class="diary-modify-btn" id="modify-diary-popup">수정</button>
+                	
+	                <button class="diary-modify-close-btn" id="close-modify-diary-popup">닫기</button>
+                </div>
             </form>
         </div>
     </div>

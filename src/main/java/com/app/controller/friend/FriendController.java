@@ -126,12 +126,6 @@ public class FriendController {
 	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(@RequestParam String loginUserId) {
 		List<FriendDiaryProfileDTO> friendDiaryProfileList = friendService.getFriendsDiaryTimeline(loginUserId);
 		
-		
-//		for(int i=0; i< friendDiaryProfileList.size(); i++) {
-//			System.out.println(friendDiaryProfileList.get(i));
-//		}
-		
-		
 		return friendDiaryProfileList;
 	}
 	

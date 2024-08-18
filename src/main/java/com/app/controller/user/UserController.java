@@ -50,7 +50,7 @@ public class UserController {
 
 	@GetMapping("/startpage")
 	public String startpage() {
-		return "startpage";
+		return "user/startpage";
 	}
 
 	@GetMapping("/main")
@@ -108,14 +108,14 @@ public class UserController {
 		model.addAttribute("friendCount", friendCount);
 		model.addAttribute("userId", userId);
 
-		return "main";
+		return "user/main";
 	}
 
 	// 회원가입
 	@GetMapping("/user/signup")
 	public String signup() {
 
-		return "signup";
+		return "user/signup";
 	}
 
 	@PostMapping("/user/signup")
@@ -133,7 +133,7 @@ public class UserController {
 			return "redirect:/user/signin";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return "signup";
+			return "user/signup";
 		}
 	}
 
@@ -163,7 +163,7 @@ public class UserController {
 	@GetMapping("/user/signin")
 	public String signin(HttpSession session) {
 		System.out.println(session.getAttribute("user"));
-		return "signin";
+		return "user/signin";
 	}
 
 	@PostMapping("/user/signin")
@@ -186,7 +186,7 @@ public class UserController {
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			System.out.println(session.getAttribute("user") + "오류");
-			return "signin";
+			return "user/signin";
 		}
 	}
 
@@ -215,7 +215,7 @@ public class UserController {
 			return "redirect:/startpage";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return "main";
+			return "user/main";
 		}
 	}
 
@@ -282,7 +282,7 @@ public class UserController {
 		} catch (Exception e) {
 
 			model.addAttribute("errorMessage", e.getMessage());
-			return "main";
+			return "user/main";
 
 		}
 	}
@@ -300,9 +300,6 @@ public class UserController {
 		return result;
 	}
 
-	@GetMapping("/timer")
-	public String timer() {
-		return "timer";
-	}
+	
 
 }

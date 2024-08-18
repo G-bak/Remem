@@ -16,31 +16,12 @@ $(document).ready(function() {
 	getFriendList();
 
 
-	const fileInput = document.getElementById('fileInput');
-	const fileNameSpan = document.getElementById('fileName');
 
-	//	// 사용자 정의 버튼 클릭 시 파일 입력 필드 클릭
-	//	document.querySelector('.custom-file-button').addEventListener('click', function() {
-	//		fileInput.click();
-	//	});
-	//
-	//	// 파일 선택 시 파일 이름 표시
-	//	fileInput.addEventListener('change', function() {
-	//		const file = fileInput.files[0];
-	//		if (file) {
-	//			fileNameSpan.textContent = `선택한 파일: ${file.name}`;
-	//		} else {
-	//			fileNameSpan.textContent = '파일을 선택하세요';
-	//		}
-	//	});
 
-	
-		$("#fileInput").on("change", function() {
-			var fileName = $(this).val().split('\\').pop();
-			$("#fileName").text(fileName);
-		});
-	
-
+	$("#fileInput").on("change", function() {
+		var fileName = $(this).val().split('\\').pop();
+		$("#fileName").text(fileName);
+	});
 
 
 
@@ -49,7 +30,6 @@ $(document).ready(function() {
 		$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
 		$('.profile').css('background-image', 'url(/uploads/basic_profile.jpg)');
 	}
-
 
 
 	// 현재 날짜 가져오기
@@ -67,18 +47,6 @@ $(document).ready(function() {
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -240,16 +208,6 @@ function getFriendsDiaryTimeline() {
 
 
 
-
-
-
-
-
-
-
-
-
-
 // 저장 버튼을 눌렀을 때!
 $('#addTodoButton').on('click', addTodo);
 
@@ -376,7 +334,7 @@ function receiveFriendRequest(friendId) {
 		success: function(response) {
 			alert("친구받기완료!");
 			checkReceivedFriendRequests(response); //친구신청함 비우고 다시 그리기
-			
+
 			//일기 타임라인 재로드
 			getFriendsDiaryTimeline();
 
@@ -520,8 +478,6 @@ function removeTodoItem(li) {
 // 친구 추가 팝업창 필터
 function filterFriends() {
 	const input = document.getElementById('name-input').value.toLowerCase(); // 입력된 값을 소문자로 변환하여 저장
-	const table = document.getElementById('addfriend-list'); // 친구 목록 테이블을 가져옴
-
 
 	if (input.length === 0) {
 		$('#addfriend-list').empty(); // 입력이 없으면 테이블을 비움
