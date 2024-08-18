@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.dto.diary.UserDiary;
+import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.user.User;
 import com.app.service.diary.WriteService;
+import com.app.service.friend.FriendService;
 import com.app.service.user.UserService;
 
 @Controller
@@ -26,6 +28,10 @@ public class UserController {
     
     @Autowired
     WriteService writeService;
+    
+    @Autowired
+    FriendService friendService;
+    
     
     // 정규식 패턴
     private static final String verifyId = "^[a-zA-Z0-9]{4,20}$"; // 4~20글자, 영어 및 숫자만 가능
@@ -80,6 +86,20 @@ public class UserController {
             System.out.println(totalCount);
             System.out.println(totalPages);
         }
+        
+     // 친구 목록을 가져옴
+        FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
+        friendStatusDTO.setLoginUserId(userId);
+        List<FriendStatusDTO> friendCountList = friendService.countFriends(friendStatusDTO);
+        
+        // 친구 수를 계산
+        int friendCount = friendCountList.size();
+        System.out.println("친구 수 : " + friendCount);
+
+        // 모델에 친구 수와 사용자 정보를 추가
+        model.addAttribute("friendCount", friendCount);
+        model.addAttribute("userId", userId);
+        
 
         return "main";
     }

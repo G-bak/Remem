@@ -121,6 +121,13 @@
 		ORDER BY DBMS_RANDOM.VALUE
 		FETCH FIRST 5 ROWS ONLY
 	</select>
+	
+	<select id="countFriends" parameterType="FriendStatusDTO" resultType="FriendStatusDTO">
+	    SELECT friend_id
+	    FROM friendships
+	    WHERE user_id = #{loginUserId} 
+	</select>
+	
 
 </mapper>					
 

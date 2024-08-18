@@ -77,11 +77,11 @@ window.onload = function() {
                 <div class="photo">사진</div>
                 <div>
                     <p>팔로워</p>
-                    <p class="follower">63</p>
+                    <p class="follower">${friendCount}</p>
                 </div>
                 <div>
                     <p>팔로잉</p>
-                    <p class="following">63</p>
+                    <p class="following">${friendCount}</p>
                 </div>
             </div>
             <div class="profile-introduce">
