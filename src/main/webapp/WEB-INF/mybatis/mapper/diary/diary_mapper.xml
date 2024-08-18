@@ -125,16 +125,19 @@
 	</update>
 	
 	<select id="selectDiaryListByKeyword" resultType="UserDiary">
-        SELECT 
-            diary_id, user_id, diary_title, 
-            TO_CHAR(write_date, 'YYYY-MM-DD') AS write_date,
-            diary_content
-        FROM user_diary
-        <where>
-            <foreach collection="list" item="keyword" separator="AND">
-                diary_content LIKE '%' || #{keyword} || '%'
-            </foreach>
-        </where>
-    </select>
+	    SELECT 
+	        diary_id, user_id, diary_title, 
+	        TO_CHAR(write_date, 'YYYY-MM-DD') AS write_date,
+	        diary_content
+	    FROM user_diary
+	    WHERE user_id = #{userId}
+	    <if test="keywordsList != null and keywordsList.size() > 0">
+	        AND (
+	            <foreach collection="keywordsList" item="keyword" separator="AND">
+	                diary_content LIKE '%' || #{keyword} || '%'
+	            </foreach>
+	        )
+	    </if>
+	</select>
     
 </mapper>

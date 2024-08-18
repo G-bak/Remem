@@ -872,6 +872,7 @@
         
                             // 데이터 전처리 작업을 위한 AJAX 요청 데이터를 준비합니다.
                             let requestJsonPreProcessingData = {
+                            	'userId': userId,
                                 'dataId': id,
                                 'roomId': roomIndex,
                                 'userMessage': safeUserQuestion
@@ -1166,6 +1167,7 @@
         
                 // 데이터 전처리 작업을 위한 AJAX 요청 데이터를 준비합니다.
                 let requestJsonPreProcessingData = {
+               		'userId': userId,
                     'dataId': data.dataId,
                     'roomId': data.roomId,
                     'userMessage': data.userQuestion

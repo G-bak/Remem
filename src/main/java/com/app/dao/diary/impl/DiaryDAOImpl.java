@@ -2,7 +2,9 @@ package com.app.dao.diary.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,21 +127,21 @@ public class DiaryDAOImpl implements DiaryDAO {
 	}
 	
 	@Override
-	public List<UserDiary> selectDiaryListByKeyword(String processData) {
+	public List<UserDiary> selectDiaryListByKeyword(String processData, String userId) {
         // 띄어쓰기를 기준으로 문자열을 분할
         String[] keywordsArray = processData.split("\\s+");
 
         // 배열을 리스트로 변환
         List<String> keywordsList = new ArrayList<>(Arrays.asList(keywordsArray));
 
-        // 리스트 출력
-//        for (String keyword : keywordsList) {
-//            System.out.println(keyword);
-//        }
-
+        // 파라미터를 담을 맵 생성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("userId", userId);
+	    params.put("keywordsList", keywordsList);
+        
         try {
             // SQL 쿼리를 실행하고 결과를 반환
-            return sqlSessionTemplate.selectList("diary_mapper.selectDiaryListByKeyword", keywordsList);
+            return sqlSessionTemplate.selectList("diary_mapper.selectDiaryListByKeyword", params);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -237,145 +239,5 @@ public class DiaryDAOImpl implements DiaryDAO {
 			return 0;
 		}
 	}
-	
-//	@Override
-//	public boolean createTable(int tableCount) {
-//		try {
-//			sqlSessionTemplate.update("diary_mapper.createTable", tableCount);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//	}
-//
-//	@Override
-//	public boolean dropTable(int tableIndex) {
-//		try {
-//			sqlSessionTemplate.update("diary_mapper.dropTable", tableIndex);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//	}
-//
-//	@Override
-//	public List<UserDiary> selectDiaryListByKeyword(String processData) {
-//        // 띄어쓰기를 기준으로 문자열을 분할
-//        String[] keywordsArray = processData.split("\\s+");
-//
-//        // 배열을 리스트로 변환
-//        List<String> keywordsList = new ArrayList<>(Arrays.asList(keywordsArray));
-//
-//        // 리스트 출력
-//        for (String keyword : keywordsList) {
-//            System.out.println(keyword);
-//        }
-//
-//        try {
-//            // SQL 쿼리를 실행하고 결과를 반환
-//            return sqlSessionTemplate.selectList("diary_mapper.selectDiaryListByKeyword", keywordsList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ArrayList<>();
-//        }
-//        
-//	}
-//
-//	@Override
-//	public int insertDataUser(TalkToBotContent userQuestionHTML) {
-//		try {
-//            return sqlSessionTemplate.insert("diary_mapper.insertDataUser", userQuestionHTML);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public int insertDataBot(TalkToBotContent botAnswerHTML) {
-//		try {
-//            return sqlSessionTemplate.insert("diary_mapper.insertDataBot", botAnswerHTML);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public boolean selectIndex(int index) {
-//		try {
-//	        Integer result = sqlSessionTemplate.selectOne("diary_mapper.selectIndex", index);
-//	        return result != null;
-//	    } catch (PersistenceException e) {
-//	        Throwable cause = e.getCause();
-//	        if (cause instanceof SQLSyntaxErrorException) {
-//	            System.out.println("SQLSyntaxErrorException: 테이블 또는 뷰가 존재하지 않습니다");
-//	        } else {
-//	            System.out.println("PersistenceException: 데이터베이스 오류 발생");
-//	        }
-//	        return false;
-//	    } catch (Exception e) {
-//	        System.out.println("Exception: 예기치 않은 오류가 발생했습니다");
-//	        return false;
-//	    }
-//	}
-//
-//	@Override
-//	public List<TalkToBotData> selectAllTalkToBotDataByIndex(int index) {
-//		List<TalkToBotData> diaryList = null;
-//		try {
-//			diaryList = sqlSessionTemplate.selectList("diary_mapper.selectAllTalkToBotDataByIndex", index);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return diaryList;
-//	}
-//
-//	@Override
-//	public int insertExcludedKeyword(ExcludedKeyword excludedKeyword) {
-//		try {
-//            return sqlSessionTemplate.insert("diary_mapper.insertExcludedKeyword", excludedKeyword);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public int deleteBotMessage(ExcludedKeyword excludedKeyword) {
-//		try {
-//            return sqlSessionTemplate.delete("diary_mapper.deleteBotMessage", excludedKeyword);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword) {
-//		List<ExcludedKeyword> keywordList = null;
-//		try {
-//			keywordList = sqlSessionTemplate.selectList("diary_mapper.selectExcludedKeywordsByRoomIdMessageIndex", excludedKeyword);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return keywordList;
-//	}
-
-//	@Override
-//	public List<ExcludedKeyword> selectExcludedKeywords(int tableIndex) {
-//		List<ExcludedKeyword> excludedKeywordList = null;
-//		try {
-//			excludedKeywordList = sqlSessionTemplate.selectList("diary_mapper.selectExcludedKeywords", tableIndex);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return excludedKeywordList;
-//	}
 
 }

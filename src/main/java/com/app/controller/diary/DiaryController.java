@@ -175,6 +175,7 @@ public class DiaryController {
 //	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	@PostMapping("/diary/PreProcessingData")
 	public ApiResponse<List<UserDiary>> PreProcessingData(@RequestBody ExcludedKeyword request) {
+//		System.out.println("User ID: " + request.getUserId());
 //		  System.out.println("PreProcessingData: ");
 //		  System.out.println("Data ID: " + request.getDataId());
 //		  System.out.println("Room ID: " + request.getRoomId());
@@ -238,7 +239,7 @@ public class DiaryController {
 		// DB 데이터 받기
 		List<UserDiary> diaryList = new ArrayList<UserDiary>();
 		if (!wordsList.get(0).isBlank()) {
-			diaryList = diaryService.selectDiaryListByKeyword(processedData);
+			diaryList = diaryService.selectDiaryListByKeyword(processedData, request.getUserId());
 		} else {
 			diaryList = null;
 		}

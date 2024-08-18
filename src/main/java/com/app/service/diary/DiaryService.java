@@ -23,7 +23,7 @@ public interface DiaryService {
 	
 	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword);
 	
-	public List<UserDiary> selectDiaryListByKeyword(String processData);
+	public List<UserDiary> selectDiaryListByKeyword(String processData, String userId);
 	
 	public int dropTalkToBot(TalkToBotAll request);
 	
@@ -42,27 +42,5 @@ public interface DiaryService {
 	public int insertExcludedKeywordNotMessageIndex(ExcludedKeyword request);
 	
 	public int updateQuestionTitle(TalkToBotAll request);
-	
-//	public boolean createTable(int tableCount);
-//	
-//	public boolean dropTable(int tableIndex);
-//	
-//	public List<UserDiary> selectDiaryListByKeyword(String processData);
-//	
-//	public int insertDataUser(TalkToBotContent userQuestionHTML);
-//	
-//	public int insertDataBot(TalkToBotContent botAnswerHTML);
-//	
-//	public boolean selectIndex(int index);
-//	
-//	public List<TalkToBotData> selectAllTalkToBotDataByIndex(int index);
-//	
-//	public int insertExcludedKeyword(ExcludedKeyword excludedKeyword);
-//	
-//	public int deleteBotMessage(ExcludedKeyword excludedKeyword);
-//	
-//	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword);
-	
-//	public List<ExcludedKeyword> selectExcludedKeywords(int tableIndex);
 	
 }

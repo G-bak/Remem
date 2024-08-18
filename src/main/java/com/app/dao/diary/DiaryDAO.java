@@ -23,7 +23,7 @@ public interface DiaryDAO {
 	
 	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword);
 	
-	public List<UserDiary> selectDiaryListByKeyword(String processData);
+	public List<UserDiary> selectDiaryListByKeyword(String processData, String userId);
 	
 	public int dropTalkToBot(TalkToBotAll request);
 	

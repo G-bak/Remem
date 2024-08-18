@@ -103,10 +103,10 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 	
 	@Override
-	public List<UserDiary> selectDiaryListByKeyword(String processData) {
+	public List<UserDiary> selectDiaryListByKeyword(String processData, String userId) {
 		List<UserDiary> diaryList = null;
 		try {
-			diaryList = diaryDAO.selectDiaryListByKeyword(processData);
+			diaryList = diaryDAO.selectDiaryListByKeyword(processData, userId);
 			
 			return diaryList;
         } catch (Exception e) {
@@ -206,129 +206,5 @@ public class DiaryServiceImpl implements DiaryService {
 			return 0;
 		}
 	}
-
 	
-	
-//	@Override
-//    public boolean createTable(int tableCount) {
-//        try {
-//            return diaryDAO.createTable(tableCount);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            
-//            return false;
-//        }
-//    }
-//
-//	@Override
-//	public boolean dropTable(int tableIndex) {
-//		try {
-//            return diaryDAO.dropTable(tableIndex);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            
-//            return false;
-//        }
-//	}
-//
-//	@Override
-//	public List<UserDiary> selectDiaryListByKeyword(String processData) {
-//		List<UserDiary> diaryList = null;
-//		try {
-//			diaryList = diaryDAO.selectDiaryListByKeyword(processData);
-//			
-//			return diaryList;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            
-//            return diaryList;
-//        }
-//	}
-//
-//	@Override
-//	public int insertDataUser(TalkToBotContent userQuestionHTML) {
-//		try {
-//			return diaryDAO.insertDataUser(userQuestionHTML);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public int insertDataBot(TalkToBotContent botAnswerHTML) {
-//		try {
-//			return diaryDAO.insertDataBot(botAnswerHTML);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public boolean selectIndex(int index) {
-//		try {
-//			return diaryDAO.selectIndex(index);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//	}
-//
-//	@Override
-//	public List<TalkToBotData> selectAllTalkToBotDataByIndex(int index) {
-//		List<TalkToBotData> diaryList = null;
-//		try {
-//			diaryList = diaryDAO.selectAllTalkToBotDataByIndex(index);
-//			return diaryList;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return diaryList;
-//        }
-//	}
-//
-//	@Override
-//	public int insertExcludedKeyword(ExcludedKeyword excludedKeyword) {
-//		try {
-//			return diaryDAO.insertExcludedKeyword(excludedKeyword);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public int deleteBotMessage(ExcludedKeyword excludedKeyword) {
-//		try {
-//			return diaryDAO.deleteBotMessage(excludedKeyword);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//	}
-//
-//	@Override
-//	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword) {
-//		List<ExcludedKeyword> keywordList = null;
-//		try {
-//			keywordList = diaryDAO.selectExcludedKeywordsByRoomIdMessageIndex(excludedKeyword);
-//			return keywordList;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return keywordList;
-//        }
-//	}
-
-//	@Override
-//	public List<ExcludedKeyword> selectExcludedKeywords(int tableIndex) {
-//		List<ExcludedKeyword> excludedKeywordList = null;
-//		try {
-//			excludedKeywordList = diaryDAO.selectExcludedKeywords(tableIndex);
-//			return excludedKeywordList;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return excludedKeywordList;
-//        }
-//	}
-
 }
