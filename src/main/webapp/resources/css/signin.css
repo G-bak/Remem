@@ -15,27 +15,31 @@ img {
 }
 
 .signin-body {
-    background-color: #f3e073;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    background: url(/image/grass.png) no-repeat center center; 
+    background-size: cover; 
+    background-color: #c0f373bf;
+    width: 100vw;
     height: 100vh;
-    text-align: center; 
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 h1 {
     color: white;
     font-size: 70px;
     margin-bottom: 10px; 
-    text-shadow: -1px 3px 0 #7c531d;
+   text-shadow: -1px 3px 0 #287820;
 }
+    
 
 h2 {
-    color: rgba(255, 197, 36, 0.5);
-    font-size: 50px;
+    color: rgb(95 151 87 / 47%);
+    font-size: 45px;
     margin-bottom: 10px;
-    text-shadow: -1px 3px 0 #7c531d;
+    text-shadow: -1px 3px 0 #406228;
 }
 
 input[type="text"], input[type="password"], button {
@@ -54,9 +58,9 @@ input[type="password"] {
 }
 
 button {
-    border: 3px solid #7c531d;
+    border: 3px solid #185e0e;
     text-decoration: none;
-    background-color: #cc9348;
+    background-color: #58a530;
     font-weight: bold;
     color: white;
     transition: background-color 0.3s, color 0.3s;

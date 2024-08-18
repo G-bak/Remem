@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Nanum Gothic', sans-serif;
-            background-color: #f0f8ff;
+            background-color: #bae19f;
             margin: 0;
             padding: 0;
             display: flex;
@@ -125,6 +125,7 @@
             right: 20px;
             line-height: 40px;
             user-select: none;
+            font-family: "Gamja Flower", sans-serif;
         }
 
         .diary-container input[type="submit"]:hover {
@@ -150,6 +151,7 @@
             line-height: 40px;
             z-index: 100;
             padding: 1px 1px;
+            font-family: "Gamja Flower", sans-serif;
         }
 
         .back-button:hover {
@@ -181,6 +183,7 @@
             right: 20px;
             line-height: 40px;
             user-select: none;
+            font-family: "Gamja Flower", sans-serif;
         }
 
         .temporary-storage:hover {
