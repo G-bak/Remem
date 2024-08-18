@@ -5,11 +5,28 @@
 
     <!-- User Diary Insert -->
     <insert id="insertUserDiary" parameterType="UserDiary">
-    	INSERT INTO user_diary
-		VALUES (
-		    #{userId} || 'ud' || TO_CHAR(seq_diary_id.NEXTVAL),
-		    #{userId}, #{diaryTitle}, SYSDATE, #{diaryContent, jdbcType=CLOB}
-		)
+        INSERT INTO user_diary
+        VALUES (
+            #{userId} || 'ud' || TO_CHAR(seq_diary_id.NEXTVAL),
+            #{userId}, #{diaryTitle}, SYSDATE, #{diaryContent, jdbcType=CLOB}
+        )
     </insert>
+    
+    <select id="getDiaryListByUserId" parameterType="String" resultType="UserDiary">
+        SELECT diary_id, user_id, diary_title, TO_CHAR(write_date, 'yyyy-MM-dd') as write_date, diary_content
+        FROM user_diary
+        WHERE user_id = #{userId} 
+    </select>
+    
+    <update id="modifyDiary" parameterType="UserDiary">
+        UPDATE user_diary
+        SET diary_title = #{diaryTitle}, write_date = TO_DATE(#{writeDate}, 'yyyy-MM-dd'), diary_content = #{diaryContent, jdbcType=CLOB}
+        WHERE diary_id = #{diaryId}
+    </update>
+    
+    <delete id="deleteDiary" parameterType="String">
+		DELETE FROM user_diary
+		WHERE diary_id = #{diaryId}
+	</delete>
     
 </mapper>

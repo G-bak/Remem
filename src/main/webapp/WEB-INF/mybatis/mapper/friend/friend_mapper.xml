@@ -156,6 +156,13 @@
 		where user_id = #{friendId} and friend_id = #{loginUserId}
 	</delete>
 	
+	
+	<select id="countFriends" parameterType="FriendStatusDTO" resultType="FriendStatusDTO">
+	    SELECT friend_id
+	    FROM friendships
+	    WHERE user_id = #{loginUserId} 
+	</select>
+	
 
 </mapper>					
 

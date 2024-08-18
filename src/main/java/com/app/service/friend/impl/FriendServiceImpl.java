@@ -94,4 +94,15 @@ public class FriendServiceImpl implements FriendService {
 		return unfollowResultTwoWay;
 	}
 
+	@Override
+	   public List<FriendStatusDTO> countFriends(FriendStatusDTO friendStatusDTO) {
+	      List<FriendStatusDTO> resultList = null;
+	      try {
+	         return friendDAO.countFriends(friendStatusDTO);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         return resultList;
+	      }
+	   }
+
 }

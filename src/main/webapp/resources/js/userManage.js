@@ -4,7 +4,9 @@ $(document).ready(function() {
 
 	//프로필 팝업창
 	$('.menu-btn').on('click', function() {
+		
 		$('.swiper-rightslide').hide();
+
 		$($(this).data('target')).show();
 	});
 
@@ -71,99 +73,106 @@ $(document).ready(function() {
 		}
 	});
 
-	//일기추가 팝업창
-	/*$('.insert-btn').on('click', function(event) {
-		event.preventDefault();
-		$('#frm-diary')[0].reset();
-		$('#save-diary-popup').show();
-		currentDiaryEntry = null;
-		$('#diary-popup').fadeIn();
-	});
-
-	$('#close-diary-popup').on('click', function(event) {
-		event.preventDefault();
-		$('#diary-popup').fadeOut();
-	});
-
-	$('#diary-popup').on('click', function(event) {
-		if ($(event.target).is('#diary-popup')) {
-			$('#diary-popup').fadeOut();
-		}
-	});*/
-
-	// 일기 추가 및 수정
-	$('#save-diary-popup').on('click', function(event) {
+	// 일기 확인 팝업창
+	$(document).on('click', '.diary-container-view-btn', function(event) {
 		event.preventDefault();
 
-		const date = $('#diary-date').val();
-		const title = $('#diary-title').val();
-		const content = $('#diary-content').val();
-
-		if (date && title && content) {
-			if (currentDiaryEntry) {
-				currentDiaryEntry.find('h3').text(title);
-				currentDiaryEntry.find('.diary-date').text(date);
-				currentDiaryEntry.find('.diary-content').text(content);
-			} else {
-				const diaryEntry = `
-                            <div class="diary-entry">
-                                <h3>${title}</h3>
-                                <span class="diary-date">${date}</span>
-                                <div class="diary-footer">
-                                    <button class="diary-view-btn" id="view-diary">확인</button>
-                                    <button class="diary-modify-btn" id="modify-diary">수정</button>
-                                    <button class="diary-remove-btn" id="remove-diary">삭제</button>
-                                </div>
-                                <p class="diary-content" style="display:none;">${content}</p>
-                            </div>
-                        `;
-				$('.diary-container').append(diaryEntry);
-			}
-
-			$('#frm-diary')[0].reset();
-			currentDiaryEntry = null;
-			$('#diary-popup').fadeOut();
-		} else {
-			alert('모든 필드를 작성해 주세요.');
-		}
-	});
-
-	// 일기 수정
-	$(document).on('click', '.diary-modify-btn', function() {
-		currentDiaryEntry = $(this).closest('.diary-entry');
+		// 현재 클릭한 일기 항목을 가져옴
+		const currentDiaryEntry = $(this).closest('.diary-entry');
 		const title = currentDiaryEntry.find('h3').text();
 		const date = currentDiaryEntry.find('.diary-date').text();
 		const content = currentDiaryEntry.find('.diary-content').text();
 
-		$('#diary-date').val(date);
-		$('#diary-title').val(title);
-		$('#diary-content').val(content);
-		$('#save-diary-popup').show();
+		// 팝업에 일기 내용을 설정
+		$('#diary-date-view').val(date);
+		$('#diary-title-view').val(title);
+		$('#diary-content-view').val(content);
 
-		$('#diary-popup').fadeIn();
+		// 팝업을 띄움
+		$('#diary-view-popup').fadeIn();
 	});
 
-	// 일기 확인
-	$(document).on('click', '.diary-view-btn', function() {
-		currentDiaryEntry = $(this).closest('.diary-entry');
+	$('#close-view-diary-popup').on('click', function() {
+		$('#diary-view-popup').fadeOut();
+	});
+
+	$('#diary-view-popup').on('click', function(event) {
+		if ($(event.target).is('#diary-view-popup')) {
+			$('#diary-view-popup').fadeOut();
+		}
+	});
+
+	// 일기 수정 팝업창
+	$(document).on('click', '.diary-container-modify-btn', function(event) {
+		event.preventDefault();
+
+	 // 현재 클릭한 일기 항목을 가져옴
+		const currentDiaryEntry = $(this).closest('.diary-entry');
+		const diaryId = currentDiaryEntry.data('diary-id'); // 일기 ID 가져오기
 		const title = currentDiaryEntry.find('h3').text();
 		const date = currentDiaryEntry.find('.diary-date').text();
 		const content = currentDiaryEntry.find('.diary-content').text();
 
-		$('#diary-date').val(date);
-		$('#diary-title').val(title);
-		$('#diary-content').val(content);
-		$('#save-diary-popup').hide();
-
-		$('#diary-popup').fadeIn();
+		// 팝업에 일기 내용을 설정
+		$('#diaryId').val(diaryId); // 숨겨진 input에 diary ID 설정
+		$('#diary-date-modify').val(date);
+		$('#diary-title-modify').val(title);
+		$('#diary-content-modify').val(content);
+	
+		// 팝업을 띄움
+		$('#diary-modify-popup').fadeIn();
 	});
-
-	// 일기 삭제
-	$(document).on('click', '.diary-remove-btn', function() {
-		if (confirm('정말로 삭제하시겠습니까?')) {
-			$(this).closest('.diary-entry').remove();
+	
+	// 팝업창 닫기 버튼 클릭 시 팝업창 닫기
+	$('#close-modify-diary-popup').on('click', function(event) {
+		event.preventDefault();
+		$('#diary-modify-popup').fadeOut();
+	});
+	
+	// 팝업창 외부 클릭 시 팝업창 닫기
+	$('#diary-modify-popup').on('click', function(event) {
+		if ($(event.target).is('#diary-modify-popup')) {
+			$('#diary-modify-popup').fadeOut();
 		}
 	});
+	
+	//수정 버튼 클릭시 폼 제출
+	$('#modify-diary-popup').on('click', function() {
+    	$('#frm-modify-diary').submit();
+	});
+	
+	// 폼 제출 시 팝업창 닫기 및 페이지 새로고침
+	$('#frm-modify-diary').on('submit', function() {
+	    $('#diary-modify-popup').fadeOut();  // 팝업창 닫기
+	});
+	
+	//회원 삭제
+	 $('.diary-container-remove-btn').on('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+
+        var diaryId = $(this).data('diary-id'); // 클릭한 버튼의 diaryId 가져오기
+
+        // confirm 창 띄우기
+        if (confirm("정말로 이 일기를 삭제하시겠습니까?")) {
+            // 확인을 누르면 삭제 요청 수행
+            window.location.href = '/deleteDiary?diaryId=' + diaryId;
+        }
+    });
+	
+	
+	//회원 탈퇴
+	$(document).ready(function() {
+	    $('.account-deletion').on('click', function(event) {
+	        // confirm 창 띄우기
+	        if (!confirm("정말로 회원탈퇴를 하시겠습니까?")) {
+	            // 사용자가 취소를 누르면 기본 동작(페이지 이동)을 막음
+	            event.preventDefault();
+	        }
+	    });
+	});
+	
+
+
 
 
 

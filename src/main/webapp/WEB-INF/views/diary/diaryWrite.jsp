@@ -210,7 +210,7 @@
             <textarea id="diaryEntry" name="diaryContent" placeholder="오늘의 일기를 작성하세요..." spellcheck="false" required></textarea>
 
             <button type="button" class="temporary-storage" onclick="saveDiary()">임시 저장</button>
-            <input type="submit" value="작성완료">
+            <input id="btn_diary" type="submit" value="작성완료">
         </form>
     </div>
 

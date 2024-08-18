@@ -7,6 +7,11 @@ $(document).ready(function() {
 		$('#main-swiper-rightslide').hide();
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
+		// 버튼의 data-target이 #content-diary가 아닌 경우 세션 초기화
+        if ($(this).data('target') !== '#content-diary') {
+            sessionStorage.clear();
+            console.log("세션 초기화");
+        }
 		target.show();
 	});
 

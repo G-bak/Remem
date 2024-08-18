@@ -29,6 +29,24 @@
 </head>
 
 <body>
+<script>
+window.onload = function() {
+    // 세션 저장소에서 페이지 번호를 가져옵니다
+    let pageNumber = sessionStorage.getItem("pageNumber");
+    // 문자열을 숫자로 변환합니다
+    let intPageNumber = Number(pageNumber);
+    
+    // 페이지 번호가 1 이상이면 content-diary를 표시합니다
+    if (intPageNumber >= 1) {
+    	document.getElementById("home").style.display = 'none';
+        document.getElementById("content-diary").style.display = 'block';
+		
+    }else {
+    	document.getElementById("content-diary").style.display = 'none';
+    }
+    
+}
+</script>
 	<header id="header">
 		<a href="/main"><span>#오늘 일기</span></a>
 		<div class="icon-container">
@@ -39,8 +57,8 @@
 			</button>
 		</div>
 	</header>
-
-
+	
+	
 	<div id="friendRequestPopup" class="popupfriendRequest">
 		<div class="popup-friendRequest-content">
 			<div>
@@ -193,10 +211,25 @@
 					<button class="menu-btn" onclick="location.href='/main'">
 						<img id="home-image" src="/image/home.png" alt="홈">
 					</button>
-					<button class="menu-btn" data-target="#content-diary">일기장</button>
-					<button class="menu-btn" data-target="#content-todo">오늘할일</button>
-					<button class="menu-btn" data-target="#content-budget">가계부</button>
-					<button class="menu-btn" data-target="#content-capsule">타임캡슐</button>
+					<button class="menu-btn" data-target="#content-diary" onclick="home()">일기장</button>
+					<button class="menu-btn" type="button" data-target="#content-todo" onclick="deleteSession()">오늘할일</button>
+					<button class="menu-btn" data-target="#content-budget" onclick="deleteSession()">가계부</button>
+					<button class="menu-btn" data-target="#content-capsule" onclick="deleteSession()">타임캡슐</button>
+					
+					<script>
+					function home(){
+						document.getElementById("home").style.display = 'none';
+						
+					}
+					
+					function deleteSession(){
+						sessionStorage.clear();
+			            console.log("세션 초기화");
+						document.getElementById("content-diary").style.display = 'none';
+						document.getElementById("home").style.display = 'none';
+						
+					}
+					</script>
 				</div>
 
 				<div id="main-swiper-rightslide">
@@ -239,33 +272,83 @@
 					</div>
 				</div>
 
-				<div class="swiper-rightslide" id="content-diary">
-					<div class="diary-header">
-						<a href="/diaryWrite"><button class="insert-btn">
-								<i class="fa-regular fa-pen-to-square"></i>
-							</button></a>
-						<button class="chatbot-btn">
-							<i class="fa-regular fa-comments"></i>
-						</button>
-					</div>
-					<div class="diary-container"></div>
-					<div class="diary-popup" id="diary-popup">
-						<div class="diary-content">
-							<h2>일기작성 팝업창</h2>
-							<p>여기에는 일기를 작성할 수 있습니다.</p>
-							<form action="./main.html" method="post" id="frm-diary">
-								<input type="date" id="diary-date" name="diaryDate"
-									placeholder="날짜"> <input type="text" id="diary-title"
-									name="diaryTitle" placeholder="제목">
-								<textarea rows="5" cols="45" id="diary-content"
-									name="diaryContent" placeholder="내용"></textarea>
-								<button class="diary-close-btn" id="close-diary-popup">닫기</button>
-								<button type="submit" class="diary-save-btn"
-									id="save-diary-popup">저장</button>
-							</form>
-						</div>
-					</div>
-				</div>
+				<div class="swiper-rightslide" 
+     id="content-diary" 
+     style="display: ${currentPage >= 2 ? 'block' : 'none'};">
+    <div class="diary-header">
+        <a href="/diaryWrite">
+            <button class="insert-btn">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+        </a>
+        <button class="chatbot-btn">
+            <i class="fa-regular fa-comments"></i>
+        </button>
+    </div>
+    
+    <div class="diary-container">
+        <c:forEach var="diary" items="${userDiaryList}">
+            <div class="diary-entry" data-diary-id="${diary.diaryId}">
+                <h3>${diary.diaryTitle}</h3>
+                <span class="diary-date">${diary.writeDate}</span>
+                <div class="diary-footer">
+                    <button class="diary-container-view-btn" id="view-diary">확인</button>
+                    <button class="diary-container-modify-btn" id="modify-diary">수정</button>
+                    <button class="diary-container-remove-btn" id="remove-diary" data-diary-id="${diary.diaryId}">삭제</button>
+                </div>
+                <p class="diary-content" style="display: none;">${diary.diaryContent}</p>
+            </div>
+        </c:forEach>
+        
+        <div class="pagination-container">
+            <c:if test="${currentPage > 1}">
+                <a href="/main?page=${currentPage - 1}" class="prev-button"> 이전 </a>
+            </c:if>
+            
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <a href="/main?page=${i}" class="number-button ${i == currentPage ? 'active' : ''}" onclick="saveSessionPage(${i})">${i}</a>
+            <script>
+	            function saveSessionPage(pageNumber) {
+	                // 세션 저장소에 페이지 번호 저장
+	                sessionStorage.setItem('pageNumber', pageNumber);
+	            }
+            </script>
+            </c:forEach>
+            
+            <c:if test="${currentPage < totalPages}">
+                <a href="/main?page=${currentPage + 1}" class="next-button"> 이후 </a>
+            </c:if>
+        </div>
+    </div>
+    
+    <div class="diary-view-popup" id="diary-view-popup">
+        <div class="diary-view-content">
+            <h2>일기 확인 팝업창</h2>
+            <p>여기에서는 일기를 확인할 수 있습니다.</p>
+            <div id="frm-view-diary">
+                <input type="text" id="diary-date-view" name="writeDate" readonly> 
+                <input type="text" id="diary-title-view" name="diaryTitle" readonly>
+                <textarea rows="5" cols="45" id="diary-content-view" name="diaryContent" readonly></textarea>
+                <button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="diary-modify-popup" id="diary-modify-popup">
+        <div class="diary-modify-content">
+            <h2>일기 수정 팝업창</h2>
+            <p>여기에서는 일기를 수정할 수 있습니다.</p>
+            <form action="/modifyDiary" method="post" id="frm-modify-diary">
+                <input type="hidden" id="diaryId" name="diaryId">
+                <input type="text" id="diary-date-modify" name="writeDate" readonly> 
+                <input type="text" id="diary-title-modify" name="diaryTitle">
+                <textarea rows="5" cols="45" id="diary-content-modify" name="diaryContent"></textarea>
+                <button class="diary-modify-close-btn" id="close-modify-diary-popup">닫기</button>
+                <button type="submit" class="diary-modify-btn" id="modify-diary-popup">수정</button>
+            </form>
+        </div>
+    </div>
+</div>
 				<div class="swiper-rightslide" id="content-todo">
 					<div class="wrapper">
 						<header>#Check List</header>
@@ -418,8 +501,8 @@
 	<footer id="footer">
 		<span>© 2024 #오늘 일기</span>
 		<div class="footer-main">
-			<a href="/user/removeUser" class="account-deletion">&nbsp;회원탈퇴</a><a
-				href="/user/logout" class="logout">로그아웃</a>
+			<a href="/user/removeUser" class="account-deletion" onclick="return confirmDeletion();">&nbsp;회원탈퇴</a>
+			<a href="/user/logout" class="logout">로그아웃</a>
 		</div>
 	</footer>
 

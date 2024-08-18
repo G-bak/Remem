@@ -1,7 +1,9 @@
 $(document).ready(function() {
+	
 	// 기존 메뉴 버튼 클릭 이벤트
 	$('.menu-btn').on('click', function() {
 		$('.swiper-rightslide').hide();
+		
 		$($(this).data('target')).show();
 	});
 

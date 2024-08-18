@@ -25,6 +25,8 @@ public interface FriendDAO {
 	public int makeFriendsTwoWay(FriendStatusDTO friendStatusDTO);
 	
 	public List<User> viewRecommendList(String loginUserId);
+
+	public List<FriendStatusDTO> countFriends(FriendStatusDTO friendStatusDTO);
 	
 	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(String loginUserId);
 	

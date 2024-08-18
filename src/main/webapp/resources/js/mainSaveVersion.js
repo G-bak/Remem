@@ -21,6 +21,7 @@ $(document).ready(function() {
 		$('.swiper-rightslide').hide();
 		const target = $($(this).data('target'));
 		target.show();
+		
 	});
 
 	//	// 팝업 설정 함수
