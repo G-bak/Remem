@@ -3,28 +3,24 @@ $(document).ready(function() {
 	// 오늘 할일 전체 조회하는 ajax
 	fetchTodoList();
 
-
 	// 친구 추천 목록
 	viewRecommendList();
 
-
 	//mainDashBoard에서 친구들 일기 타임라인 조회
 	getFriendsDiaryTimeline();
-
 
 	//mainDashBoard에서 친구 목록 조회
 	getFriendList();
 
 
-
-
+	// 로그인 사용자 프로필 사진 업로드 시 파일명 처리
 	$("#fileInput").on("change", function() {
 		var fileName = $(this).val().split('\\').pop();
 		$("#fileName").text(fileName);
 	});
 
 
-
+	//로그인한 사용자 프로필 사진 처리
 	if (filePath == null || filePath == '') {
 		//등록된 프로필 사진이 없다면 기본 이미지로 변경
 		$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
@@ -42,6 +38,7 @@ $(document).ready(function() {
 	// 포맷된 날짜 출력
 	const formattedDate = formatter.format(now);
 
+	//접속날짜 설정
 	$('.last-active').text("접속날짜: " + formattedDate);
 
 
@@ -50,9 +47,7 @@ $(document).ready(function() {
 
 
 
-
-
-
+// mainDashBoard 친구 목록 조회
 function getFriendList() {
 
 	$.ajax({
@@ -103,7 +98,7 @@ function getFriendList() {
 }
 
 
-
+// 친구 삭제(언팔로우)
 function unfollowFreind(friendId) {
 	if (confirm(friendId + "님을 언팔로우 하시겠습니까?")) {
 		$.ajax({
@@ -122,11 +117,8 @@ function unfollowFreind(friendId) {
 				//mainDashBoard에서 친구들 일기 타임라인 조회
 				getFriendsDiaryTimeline();
 
-
 				//mainDashBoard에서 친구 목록 조회
 				getFriendList();
-
-
 
 			},
 			error: function() {
@@ -141,16 +133,12 @@ function unfollowFreind(friendId) {
 
 
 
-
-
-
-
+// 일기 타임라인 조회
 function getFriendsDiaryTimeline() {
 
 	$.ajax({
 		url: "getFriendsDiaryTimeline",
 		type: "POST",
-		//contentType: 'application/json; charset=utf-8', //보낼 데이터 형식,
 		data: {
 			loginUserId: loginUserId
 		},
@@ -208,10 +196,10 @@ function getFriendsDiaryTimeline() {
 
 
 
-// 저장 버튼을 눌렀을 때!
+// 체크리스트 저장 버튼 이벤트 핸들러
 $('#addTodoButton').on('click', addTodo);
 
-// 입력값을 Enter 키로 추가
+// 체크리스트 입력값을 Enter 키로 추가
 $('#todoInput').on('keypress', function(event) {
 	if (event.key === 'Enter') {
 		$('#addTodoButton').click(); // Enter 누르면 button 입력한 것과 동일하게 처리
@@ -220,12 +208,11 @@ $('#todoInput').on('keypress', function(event) {
 
 
 
-//친구 추천 목록 조회 함수
+//친구 추천 목록 조회
 function viewRecommendList() {
 	$.ajax({
 		url: "/viewRecommendList",
 		type: "POST",
-		//		contentType: 'application/json; charset=utf-8',
 		data: {
 			loginUserId: loginUserId
 		},
@@ -277,15 +264,14 @@ $('#requestFriend').click(function() {
 	$.ajax({
 		url: "/confirmRequestFriend",
 		type: "POST",
-		//contentType: 'application/json; charset=utf-8',
 		data: {
 			loginUserId: loginUserId
 		},
 		success: function(response) {
 
-			checkReceivedFriendRequests(response); //친구 신청 불러오는 함수
+			checkReceivedFriendRequests(response); //친구 신청리스트 조회
 
-			$('#friendRequestPopup').show(); //친구신청 팝업 띄움
+			$('#friendRequestPopup').show(); //친구신청 팝업
 
 		},
 		error: function() {
@@ -353,7 +339,7 @@ function receiveFriendRequest(friendId) {
 
 
 
-// 전체 할 일 조회 Ajax 요청
+// 전체 체크리스트 조회
 function fetchTodoList() {
 	$.ajax({
 		url: "/todoList/viewAll",
@@ -414,7 +400,7 @@ function handleCheckboxChange(checkbox, li) {
 	});
 }
 
-// 오늘 할 일 추가 처리
+// 체크리스트 추가
 function addTodo() {
 	const todoText = $('#todoInput').val().trim();
 	if (todoText === '') {
@@ -440,10 +426,8 @@ function addTodo() {
 	});
 }
 
-// 할 일 삭제 처리
+// 체크리스트 삭제
 function removeTodoItem(li) {
-	// TODO: 삭제 Ajax 요청 필요
-	console.log(li.attr('id')); //li의 id 값 가져오는 방법
 
 	$.ajax({
 		url: "/todoList/remove",
@@ -454,9 +438,9 @@ function removeTodoItem(li) {
 			loginUserId: loginUserId
 		}),
 		success: function(response) {
-			//if (response > 0) {
-			li.remove();
-			//}
+
+			li.remove(); // 체크리스트 삭제
+
 		},
 		error: function() {
 			alert("todoList 삭제 에러 발생");
@@ -468,14 +452,7 @@ function removeTodoItem(li) {
 
 
 
-
-
-
-
-
-
-
-// 친구 추가 팝업창 필터
+// 친구 검색
 function filterFriends() {
 	const input = document.getElementById('name-input').value.toLowerCase(); // 입력된 값을 소문자로 변환하여 저장
 
@@ -509,7 +486,7 @@ function filterFriends() {
 
 
 
-
+// 친구 목록 생성
 function displayFriends(friends) {
 	const table = $('#addfriend-list');
 	table.empty(); // 기존의 목록을 비움
@@ -540,7 +517,7 @@ function displayFriends(friends) {
 
 
 
-
+// 친구 신청
 function addFriend(friendId) {
 	if (confirm(friendId + '님에게 친구신청을 하시겠습니까?')) {
 		$.ajax({
@@ -567,7 +544,7 @@ function addFriend(friendId) {
 
 
 
-//upload file alert
+//프로필 사진 업로드 예외처리
 function validateForm() {
 	var fileInput = document.getElementById('fileInput');
 	if (fileInput.files.length === 0) {

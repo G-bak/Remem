@@ -1,8 +1,6 @@
 $(document).ready(function() {
-
-	console.log(loginUserId);
-
-	// 기존 메뉴 버튼 클릭 이벤트
+	
+	// 사이트 탭 클릭 이벤트
 	$('.menu-btn').on('click', function() {
 		$('#main-swiper-rightslide').hide();
 		$('.swiper-rightslide').hide();
@@ -25,7 +23,7 @@ $(document).ready(function() {
 		$('#friendRequestPopup').hide();
 	});
 
-	// friendRequestPopup을 누르면 friendRequestPopup 사라짐
+	// friendRequestPopup 팝업 사라짐
 	$('#friendRequestPopup').on('click', function(event) {
 		if ($(event.target).is('#friendRequestPopup')) {
 			$('#friendRequestPopup').fadeOut();
@@ -92,7 +90,7 @@ $(document).ready(function() {
 		});
 	});
 
-	// 열기 버튼 클릭 이벤트
+	// 타임캡슐 열기 버튼 클릭 이벤트
 	$(document).on('click', '.open_additonal', function() {
 		var content = $(this).data('content');
 		var date = $(this).data('date');
@@ -147,7 +145,7 @@ $(document).ready(function() {
 
 
 
-
+	//날짜 선택으로 가계부 조회
 	$('#input-date').on('change', function(event) {
 		console.log('input_date change event');
 		console.log(event.target.value);
@@ -198,20 +196,12 @@ $(document).ready(function() {
 			}
 		});
 	});
-
-
-
-
-
-
-
-
 });
 
 
 
 
-
+// 전체 타임캡슐 조회
 function loadAllTimecapsules() {
 	$.ajax({
 		url: '/all/Timecapsules',
@@ -243,7 +233,7 @@ function addTimecapsule(date, content) {
 
 	$('#content-capsule').prepend(additionalContent);
 
-	// 개별 타임캡슐에 대해 타이머 시작
+	// 개별 타임캡슐에 대한 타이머 설정
 	additionalContent.data('intervalId', setInterval(function() {
 		updateTimer(date, additionalContent);
 	}, 1000));
@@ -252,11 +242,11 @@ function addTimecapsule(date, content) {
 
 
 
-// 날짜 타이머 업데이트
+// 타임캡슐 카운트 다운 설정
 function updateTimer(date, targetElement) {
 	const future = new Date(date).getTime();
 	const now = new Date().getTime();
-	const diff = future - now;
+	const diff = future - now; //카운트 다운 시간 계산
 
 	if (diff <= 0) {
 		clearInterval(targetElement.data('intervalId')); // 타이머 멈추기
@@ -311,7 +301,7 @@ function setupPopup(triggerId, popupId, closeId) {
 
 
 
-
+// 가계부 저장
 function saveOrUpdateAccountBook(url, callback) {
 	$.ajax({
 		url: url,
@@ -379,11 +369,12 @@ function saveOrUpdateAccountBook(url, callback) {
 	});
 }
 
+//가계부 저장 버튼 핸들러
 function registerSaveButtonHandler() {
 	$('#btn_account_save').off('click').on('click', function(event) {
 		console.log('btn_account_save click');
 		saveOrUpdateAccountBook("/save/AccountBook", function() {
-			// 저장 후에는 수정 버튼으로 변경
+			// 저장 후에는 수정 버튼으로 자동 변경
 			$('#btn_account_save').remove();
 			$('.accountModify-popup-content').append('<button id="btn_account_modify">수정</button>');
 			registerModifyButtonHandler();
@@ -391,10 +382,11 @@ function registerSaveButtonHandler() {
 	});
 }
 
+//가계부 수정
 function registerModifyButtonHandler() {
 	$('#btn_account_modify').off('click').on('click', function(event) {
 		console.log('btn_account_modify click');
-		saveOrUpdateAccountBook("/modify/AccountBook");
+		saveOrUpdateAccountBook("/modify/AccountBook"); //수정 후 저장
 	});
 }
 

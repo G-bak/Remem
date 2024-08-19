@@ -4,9 +4,7 @@ $(document).ready(function() {
 
 	//프로필 팝업창
 	$('.menu-btn').on('click', function() {
-
 		$('.swiper-rightslide').hide();
-
 		$($(this).data('target')).show();
 	});
 

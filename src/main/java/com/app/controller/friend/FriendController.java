@@ -27,13 +27,13 @@ public class FriendController {
 	@Autowired
 	FileService fileService;
 
+	// 친구 검색
 	@PostMapping("/searchFriend")
 	@ResponseBody
 	public List<UserSearch> searchFriend(@RequestBody SearchFriend searchFriend) {
 		// 친구검색 메소드 3명으로 뽑아냄 List로 (사용자 input으로만 뽑아냄)
-		
 		List<UserSearch> searchedFriendList = friendService.searchFriend(searchFriend);
-		
+
 		// List에 있는 친구들이 나랑 현재 친구인지 아닌지 체크 (내 아이디 & 친구아이디)
 		FriendStatusDTO friendStatusDTO = null;
 
@@ -44,17 +44,17 @@ public class FriendController {
 
 			searchedFriendList.get(i).setFriend(friendService.checkIfFriendOrNot(friendStatusDTO));
 		}
-		
-		
+
+		// 사용자 프로필 주소 설정
 		for (int i = 0; i < searchedFriendList.size(); i++) {
 			searchedFriendList.get(i)
 					.setUrlFilePath(fileService.findFilePathByUserId(searchedFriendList.get(i).getUserId()));
 		}
-		
-		
+
 		return searchedFriendList;
 	}
 
+	// 친구 신청
 	@PostMapping("/joinRequestFriend")
 	@ResponseBody
 	public int joinRequestFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
@@ -63,6 +63,7 @@ public class FriendController {
 		return result;
 	}
 
+	// 친구 신청함 확인
 	@PostMapping("/confirmRequestFriend")
 	@ResponseBody
 	public List<User> confirmRequestFriend(@RequestParam String loginUserId) {
@@ -77,6 +78,7 @@ public class FriendController {
 		return requestFriendList;
 	}
 
+	// 친구 신청함에서 친구 신청 받기
 	@PostMapping("/receiveFriendRequest")
 	@ResponseBody
 	public List<User> receiveFriendRequest(@RequestBody FriendStatusDTO friendStatusDTO) {
@@ -92,18 +94,17 @@ public class FriendController {
 		if (deleteResult + insertResultOnWay + insertResultTwoWay >= 3) {
 			requestFriendList = friendService.confirmRequestFriend(friendStatusDTO.getLoginUserId());
 		}
-		if(requestFriendList != null ){
+		if (requestFriendList != null) {
 			for (int i = 0; i < requestFriendList.size(); i++) {
 				requestFriendList.get(i)
 						.setUrlFilePath(fileService.findFilePathByUserId(requestFriendList.get(i).getUserId()));
 			}
 		}
-		
-		
 
 		return requestFriendList;
 	}
 
+	// 친구 추천리스트
 	@PostMapping("/viewRecommendList")
 	@ResponseBody
 	public List<User> viewRecommendList(@RequestParam String loginUserId) {
@@ -115,53 +116,42 @@ public class FriendController {
 
 		return recommendList;
 	}
-	
-	
-	
-	
-	
-	//친구들 일기 조회(친구들 정보 + 일기 정보 + 프로필 사진 주소)
+
+	// 친구 일기 조회(친구들 정보 + 일기 정보 + 프로필 사진 주소)
 	@PostMapping("getFriendsDiaryTimeline")
 	@ResponseBody
 	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(@RequestParam String loginUserId) {
 		List<FriendDiaryProfileDTO> friendDiaryProfileList = friendService.getFriendsDiaryTimeline(loginUserId);
-		
+
 		return friendDiaryProfileList;
 	}
-	
-	
+
+	// 친구 목록 조회
 	@PostMapping("getFriendList")
 	@ResponseBody
-	public List<FriendDTO> getFriendList(@RequestParam String loginUserId){
+	public List<FriendDTO> getFriendList(@RequestParam String loginUserId) {
 		List<FriendDTO> friendList = friendService.getFriendList(loginUserId);
-		
+
 		return friendList;
 	}
-	
-	
-	
+
+	// 친구 언팔로우(친구 삭제)
 	@PostMapping("unfollowFriend")
 	@ResponseBody
 	public String unfollowFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
-		
+
 		System.out.println(friendStatusDTO);
-		
+
 		int unfollowResultOneWay = friendService.unfollowFriendOneWay(friendStatusDTO);
-		
+
 		int unfollowResultTwoWay = friendService.unfollowFriendTwoWay(friendStatusDTO);
-		
-		
-		if(unfollowResultOneWay + unfollowResultTwoWay >= 2) {
+
+		if (unfollowResultOneWay + unfollowResultTwoWay >= 2) {
 			return "언팔로우가 완료되었습니다.";
 		} else {
 			return "언팔로우 실패";
 		}
-		
-		
-		
-		
+
 	}
-	
-	
 
 }

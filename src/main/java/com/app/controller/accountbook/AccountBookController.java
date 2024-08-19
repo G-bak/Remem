@@ -20,6 +20,7 @@ public class AccountBookController {
 	@Autowired
 	AccountBookService accountBookService;
 
+	// 특정 날짜에 맞는 가계부 조회
 	@ResponseBody
 	@PostMapping("/view/AccountBook")
 	public AccountBook viewAccountBook(@RequestBody Map<String, String> paramMap) {
@@ -28,9 +29,9 @@ public class AccountBookController {
 		return ab;
 	}
 
+	// 가계부 저장
 	@ResponseBody
 	@PostMapping("/save/AccountBook")
-	// @PostMapping("/update/AccountBook")
 	public AccountBook saveAccountBook(@RequestBody AccountBook accountBook) {
 		System.out.println(accountBook);
 		int savedAccountBook = accountBookService.saveAccountBook(accountBook);
@@ -41,6 +42,7 @@ public class AccountBookController {
 		}
 	}
 
+	// 가계부 수정
 	@ResponseBody
 	@PostMapping("/modify/AccountBook")
 	public AccountBook modifyAccountBook(@RequestBody AccountBook accountBook) {

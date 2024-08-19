@@ -318,7 +318,7 @@ a {
 	border-radius: 8px;
 	text-align: center;
 	max-width: 500px;
-	height: 30%;
+	height: 50%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -723,7 +723,6 @@ a {
 	border: none;
 	background-size: cover;
 	background-position: center;
-	
 	cursor: pointer;
 }
 
@@ -1396,9 +1395,14 @@ li.checked .remove-btn {
 	.addfriend-content {
 		width: 50%;
 	}
-	
+	.popup-friendRequest-content {
+		width: 40%;
+	}
 	.diary-view-content, .diary-modify-content {
 		width: 50%;
+	}
+	.additional-content{
+		margin-top: 10%;
 	}
 }
 
@@ -1406,11 +1410,10 @@ li.checked .remove-btn {
 	.addfriend-close-btn {
 		margin-top: 5px;
 	}
-	
-	
+	.additional-content{
+		margin-top: 15%;
+	}
 }
-
-
 
 @media screen and (max-width: 980px) {
 	#main-swiper-rightslide {
@@ -1513,18 +1516,20 @@ li.checked .remove-btn {
 	#fileName {
 		font-size: 0.7rem;
 	}
-	
-	
+	.popup-friendRequest-content {
+		width: 45%;
+	}
 }
 
 @media screen and (max-width: 840px) {
-	
 	#frm-view-diary input, #frm-modify-diary input {
 		margin-left: 15px;
 	}
-	
 	.popup_open_content {
 		width: 55%;
+	}
+	.popup-friendRequest-content {
+		width: 50%;
 	}
 }
 
@@ -1670,6 +1675,9 @@ li.checked .remove-btn {
 	.addfriend-content {
 		width: 60%;
 		height: 740px;
+	}
+	.friend-request-list {
+		width: 80%;
 	}
 }
 

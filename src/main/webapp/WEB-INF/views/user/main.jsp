@@ -491,9 +491,7 @@ window.onload = function() {
 							<div class="popup-content">
 								<input type="date" id="date_timecapsule"
 									class="date_timecapsule">
-<!-- 									<input type="text" -->
-<!-- 									id="input_timecapsule" class="input_timecapsule" -->
-<!-- 									placeholder="타임캡슐을 만들어줘!"> -->
+								
 									
 									<textarea id="input_timecapsule" class="input_timecapsule" rows="10" cols="50" placeholder="타임캡슐을 만들어줘!"></textarea>
 									<br />

@@ -16,32 +16,24 @@ import com.app.service.timecapsule.TimecapsuleService;
 
 @Controller
 public class TimecapsuleController {
-	
+
 	@Autowired
 	TimecapsuleService timecapsuleService;
-	
-//	@ResponseBody
-//	@PostMapping("/selectAll/Timecapsule")
-//	public Timecapsule selectAllTimecapsule(@RequestBody Map<String, String> paramMap) {
-//		TimecapsuleSearch tcs = new TimecapsuleSearch(paramMap.get("tcUserId"), paramMap.get("tcDate"));
-//		Timecapsule tc = timecapsuleService.selectTimecapsule(tcs);
-//		return tc;
-//	}
-	
-	//저장 
+
+	// 타임캡슐 저장
 	@ResponseBody
 	@PostMapping("/save/Timecapsule")
 	public Timecapsule saveTimecapsule(@RequestBody Timecapsule tc) {
 		System.out.println(tc);
-	    int saveTimecapsule = timecapsuleService.saveTimecapsule(tc);
-	    if(saveTimecapsule > 0) {
-	    	return tc;
-	    }else {
-	    	return null;
-	    }
+		int saveTimecapsule = timecapsuleService.saveTimecapsule(tc);
+		if (saveTimecapsule > 0) {
+			return tc;
+		} else {
+			return null;
+		}
 	}
-	
-	// 전체 조회
+
+	// 타임캡슐 전체 조회
 	@ResponseBody
 	@GetMapping("/all/Timecapsules")
 	public List<Timecapsule> getAllTimecapsules() {

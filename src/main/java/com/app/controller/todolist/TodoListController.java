@@ -22,6 +22,7 @@ public class TodoListController {
 	@Autowired
 	TodoListService todoListService;
 	
+	//전체 체크리스트 조회
 	@ResponseBody
 	@PostMapping("/todoList/viewAll")
 	public List<TodoList> todoListAjax(@RequestParam String loginUserId){
@@ -29,6 +30,7 @@ public class TodoListController {
 		return todoList;
 	}
 	
+	//체크리스트 저장
 	@ResponseBody
 	@PostMapping("/todoList/register")
 	public int todoListRegisterAjax(@RequestBody HashMap<String, String> paramMap) {
@@ -44,12 +46,10 @@ public class TodoListController {
 		return todoListId;
 	}
 	
+	//체크리스트 상태 변경 처리
 	@ResponseBody
 	@PostMapping("/todoList/checkedOn")
 	public int checkedOnAjax(@RequestBody Map<String, String> paramMap) {
-//		String loginUserId;
-//		int todoListId;
-//		String todoListStatus;
 			
         int todoListId = Integer.parseInt(paramMap.get("todoListId"));
         
@@ -59,6 +59,7 @@ public class TodoListController {
 		return result;
 	}
 	
+	//체크리스트 삭제 처리
 	@PostMapping("todoList/remove")
 	@ResponseBody
 	public int removeTodoListAjax(@RequestBody TodoListRemove todoListRemove) {
