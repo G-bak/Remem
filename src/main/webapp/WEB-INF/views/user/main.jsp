@@ -38,7 +38,7 @@ window.onload = function() {
     
     // 페이지 번호가 1 이상이면 content-diary를 표시합니다
     if (intPageNumber >= 1) {
-       document.getElementById("main-swiper-rightslide").style.display = 'none';
+    	document.getElementById("main-swiper-rightslide").style.display = 'none';
         document.getElementById("content-diary").style.display = 'block';
       
     }else {

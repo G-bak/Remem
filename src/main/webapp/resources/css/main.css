@@ -1104,12 +1104,12 @@ label #diary-title-view, label #diary-title-modify {
 }
 /***************************************************************/
 .addfriend-list {
-	/* 	height: 150px; */
-	/* 	display: flex; */
-	/* 	justify-content: flex-start; */
-	/* 	flex-direction: column; */
-	/* 	align-items: center; */
-	/* 	border: 1px lightgray; */
+	/*    height: 150px; */
+	/*    display: flex; */
+	/*    justify-content: flex-start; */
+	/*    flex-direction: column; */
+	/*    align-items: center; */
+	/*    border: 1px lightgray; */
 	height: 170px;
 	display: flex;
 	justify-content: center;
@@ -1196,7 +1196,7 @@ table .fa-user-plus, #search-icon {
 	justify-content: flex-start;
 	margin-top: 20px;
 	align-content: space-between;
-	height: 92%;
+	height: 90%;
 }
 
 .diary-entry-wrapper {
@@ -1204,6 +1204,7 @@ table .fa-user-plus, #search-icon {
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	width: 100%;
+	margin-top: 15px;
 }
 
 .diary-entry {
