@@ -1102,12 +1102,12 @@ label #diary-title-view, label #diary-title-modify {
 }
 /***************************************************************/
 .addfriend-list {
-	/* 	height: 150px; */
-	/* 	display: flex; */
-	/* 	justify-content: flex-start; */
-	/* 	flex-direction: column; */
-	/* 	align-items: center; */
-	/* 	border: 1px lightgray; */
+	/*    height: 150px; */
+	/*    display: flex; */
+	/*    justify-content: flex-start; */
+	/*    flex-direction: column; */
+	/*    align-items: center; */
+	/*    border: 1px lightgray; */
 	height: 170px;
 	display: flex;
 	justify-content: center;
@@ -1191,16 +1191,18 @@ table .fa-user-plus, #search-icon {
 .diary-container {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-start;
 	margin-top: 20px;
 	align-content: space-between;
-	height: 92%;
+	height: 90%;
 }
 
 .diary-entry-wrapper {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-evenly;
+	justify-content: flex-start;
+	width: 100%;
+	margin-top: 15px;
 }
 
 .diary-entry {
@@ -1210,6 +1212,7 @@ table .fa-user-plus, #search-icon {
 	border-radius: 5px;
 	background-color: #f9f9f9;
 	width: 45%;
+	margin-right: 20px;
 }
 
 .diary-entry h3 {
@@ -1259,25 +1262,24 @@ table .fa-user-plus, #search-icon {
 	font-size: 0.7rem;
 }
 
-.diary-view-content h2 , .diary-modify-content h2{
+.diary-view-content h2, .diary-modify-content h2 {
 	margin: 20px;
 }
 
-#frm-view-diary input, #frm-view-diary textarea{
+#frm-view-diary input, #frm-view-diary textarea {
 	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
 }
 
-#frm-view-diary textarea, #frm-view-diary textarea{
-	 resize: none; /* 사용자가 크기 조절 불가 */
-            overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+#frm-view-diary textarea, #frm-view-diary textarea {
+	resize: none; /* 사용자가 크기 조절 불가 */
+	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
 }
 
-#frm-view-diary input, #frm-view-diary textarea,
-#frm-modify-diary input, #frm-modify-diary textarea{
+#frm-view-diary input, #frm-view-diary textarea, #frm-modify-diary input,
+	#frm-modify-diary textarea {
 	border: none;
 	margin: 10px;
 }
-
 
 /* 혜민 파트 */
 body {
@@ -1421,7 +1423,7 @@ li.checked .remove-btn {
 	.diary-view-content, .diary-modify-content {
 		width: 50%;
 	}
-	.additional-content{
+	.additional-content {
 		margin-top: 10%;
 	}
 }
@@ -1430,7 +1432,7 @@ li.checked .remove-btn {
 	.addfriend-close-btn {
 		margin-top: 5px;
 	}
-	.additional-content{
+	.additional-content {
 		margin-top: 15%;
 	}
 }

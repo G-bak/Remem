@@ -75,7 +75,7 @@ public class UserController {
 			}
 
 			// 페이지네이션을 위한 로직
-			int pageSize = 4; // 페이지당 글 개수
+			int pageSize = 8; // 페이지당 글 개수
 			int totalCount = userDiaryList.size();
 			int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
@@ -128,7 +128,12 @@ public class UserController {
 
 	// 회원가입
 	@GetMapping("/user/signup")
-	public String signup() {
+	public String signup(Model model) {
+		
+		// 만약 사용자 입력값이 모델에 없다면 빈 User 객체를 모델에 추가
+	    if (!model.containsAttribute("user")) {
+	        model.addAttribute("user", new User());
+	    }
 
 		return "user/signup";
 	}
@@ -147,7 +152,19 @@ public class UserController {
 
 			return "redirect:/user/signin";
 		} catch (Exception e) {
+			// 예외 발생 시 입력값과 에러 메시지를 모델에 추가
+	        model.addAttribute("user", user);
 			model.addAttribute("errorMessage", e.getMessage());
+			
+			 // 예외 메시지에 따라 특정 필드를 비움
+	        if (e.getMessage().contains("비밀번호")) {
+	            user.setUserPassword(null); // 비밀번호 필드를 비움
+	        } else if (e.getMessage().contains("이름")) {
+	            user.setUserName(null); // 이름 필드를 비움
+	        } else if (e.getMessage().contains("아이디")) {
+	            user.setUserId(null); // 아이디 필드를 비움
+	        }
+			
 			return "user/signup";
 		}
 	}

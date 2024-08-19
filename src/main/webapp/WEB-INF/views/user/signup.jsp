@@ -20,22 +20,22 @@
 	<h1>#오늘 일기</h1>
 	<h2>회원가입</h2>
 	<form action="/user/signup" method="post" id="frm_signup">
-		<input type="text" id="userName" name="userName"
+		<input type="text" id="userName" name="userName" value="${user.userName}"
 			placeholder="너의 이름이 뭐야?" required><br />
 		<div class="input-with-button">
-			<input type="text" id="userId" name="userId" placeholder="아이디를 입력해줘!"
+			<input type="text" id="userId" name="userId" value="${user.userId}" placeholder="아이디를 입력해줘!"
 				required><br />
 			<button type="button" id="btn-checkduplicated">중복체크</button>
 		</div>
 		<!-- 아이디 중복체크 -->
 		<p id="p-duplicatedText"></p>
 		<input type="hidden" id="duplicated-check-result">
-		<input type="password" id="userPassword" name="userPassword" placeholder="비밀번호를 입력해줘!" required>
+		<input type="password" id="userPassword" name="userPassword" value="${user.userPassword}"placeholder="비밀번호를 입력해줘!" required>
 		<br />
 		<input type="hidden" id="sample6_postcode" placeholder="우편번호">
 		
 		<div class="address-box">
-			<input type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
+			<input type="text" id="sample6_address" name="userAddress" value="${user.userAddress}" placeholder="주소"><br>
 			<input type="button" id="btn-addressSearch" onclick="sample6_execDaumPostcode()">
 		</div>
 		

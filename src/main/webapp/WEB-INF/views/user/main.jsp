@@ -38,7 +38,7 @@ window.onload = function() {
     
     // 페이지 번호가 1 이상이면 content-diary를 표시합니다
     if (intPageNumber >= 1) {
-    	document.getElementById("home").style.display = 'none';
+    	document.getElementById("main-swiper-rightslide").style.display = 'none';
         document.getElementById("content-diary").style.display = 'block';
 		
     }else {
@@ -218,7 +218,7 @@ window.onload = function() {
 					
 					<script>
 					function home(){
-						document.getElementById("home").style.display = 'none';
+						document.getElementById("main-swiper-rightslide").style.display = 'none';
 						
 					}
 					
@@ -226,7 +226,7 @@ window.onload = function() {
 						sessionStorage.clear();
 			            console.log("세션 초기화");
 						document.getElementById("content-diary").style.display = 'none';
-						document.getElementById("home").style.display = 'none';
+						document.getElementById("main-swiper-rightslide").style.display = 'none';
 						
 					}
 					</script>
