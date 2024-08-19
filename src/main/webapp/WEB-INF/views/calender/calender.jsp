@@ -19,7 +19,7 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
-<title>동적 캘린더</title>
+<title>#RememCalender</title>
 <style>
 * {
 	user-select: none;
@@ -33,6 +33,14 @@ body {
 	height: 100vh;
 	margin: 0;
 	background-color: #f0f0f0;
+}
+
+input {
+	outline: none;
+}
+
+textarea{
+	outline: none;
 }
 
 .calendar {
@@ -565,7 +573,7 @@ body {
 	padding: 6px 3px;
 	transform: translateY(-50%);
 	right: 62px;
-	color: #8fff51;
+	color: white;
 	font-weight: 400;
 	font-size: 1.2rem;
 }

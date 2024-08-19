@@ -43,6 +43,14 @@ $(document).ready(function() {
 
 
 
+	//textarea 철자 검사 비활성화
+	document.querySelectorAll('textarea').forEach(function(textarea) {
+		textarea.setAttribute('spellcheck', 'false');
+	});
+
+
+
+
 });
 
 

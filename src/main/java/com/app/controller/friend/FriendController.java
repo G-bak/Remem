@@ -58,6 +58,8 @@ public class FriendController {
 	@PostMapping("/joinRequestFriend")
 	@ResponseBody
 	public int joinRequestFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
+		
+		System.out.println(friendStatusDTO);
 		int result = friendService.joinRequestFriend(friendStatusDTO);
 
 		return result;

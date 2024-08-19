@@ -322,7 +322,7 @@ public class UserController {
 		} catch (Exception e) {
 
 			model.addAttribute("errorMessage", e.getMessage());
-			return "user/main";
+			return "redirect:/main";
 
 		}
 	}

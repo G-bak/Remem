@@ -10,7 +10,8 @@
 		resultType="UserSearch">
 		SELECT USER_ID, USER_NAME
 		FROM users
-		WHERE USER_ID LIKE '%' ||
+		WHERE USER_ID LIKE '%'
+		||
 		#{userInput} || '%'
 		AND USER_ID != #{loginUserId}
 		ORDER BY
@@ -58,8 +59,11 @@
 
 	<insert id="joinRequestFriend" parameterType="FriendStatusDTO">
 		INSERT INTO
-		REQUESTFRIEND
-		VALUES (#{friendId}, #{loginUserId})
+		requestfriend (registration_no, user_id, friend_id)
+		VALUES (NVL((SELECT
+		MAX(registration_no) FROM requestfriend), 0) + 1,
+		#{friendId},
+		#{loginUserId})
 	</insert>
 
 	<select id="confirmRequestFriend" parameterType="String"
@@ -79,28 +83,43 @@
 
 	<insert id="makeFriendsOneWay" parameterType="FriendStatusDTO">
 		INSERT INTO
-		FRIENDSHIPS
-		VALUES (#{loginUserId}, #{friendId})
+		FRIENDSHIPS (registration_no, user_id, friend_id)
+		VALUES (NVL((SELECT
+		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
+		#{loginUserId},
+		#{friendId})
+
+
 	</insert>
 
 
 	<insert id="makeFriendsTwoWay" parameterType="FriendStatusDTO">
+
 		INSERT INTO
-		FRIENDSHIPS
-		VALUES (#{friendId}, #{loginUserId})
+		FRIENDSHIPS (registration_no, user_id, friend_id)
+		VALUES
+		(NVL((SELECT
+		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
+		#{friendId}, #{loginUserId})
+
+
+
+
 	</insert>
 
 
 
 
-	<select id="viewRecommendList" parameterType="String" resultType="User">
+	<select id="viewRecommendList" parameterType="String"
+		resultType="User">
 		SELECT u.user_id,
 		u.user_name
 		FROM users u
 		WHERE (SUBSTR(
 		u.user_address,
 		INSTR(u.user_address, ' ', 1, 1) + 1,
-		INSTR(u.user_address, ' ', 1, 2) - INSTR(u.user_address, ' ', 1, 1) - 1
+		INSTR(u.user_address, ' ', 1, 2) - INSTR(u.user_address, ' ', 1, 1) -
+		1
 		)) = (SELECT
 		SUBSTR(
 		user_address,
@@ -109,68 +128,99 @@
 		)
 		FROM USERS
 		WHERE user_id = #{loginUserId})
-		AND u.user_id != #{loginUserId}
-		AND u.user_id NOT IN (SELECT friend_id FROM FRIENDSHIPS WHERE user_id =
+		AND u.user_id !=
+		#{loginUserId}
+		AND u.user_id NOT IN (SELECT friend_id FROM FRIENDSHIPS
+		WHERE user_id =
 		#{loginUserId})
-		AND u.user_id NOT IN (SELECT user_id FROM FRIENDSHIPS WHERE friend_id =
+		AND u.user_id NOT IN (SELECT user_id
+		FROM FRIENDSHIPS WHERE friend_id =
 		#{loginUserId})
-		AND u.user_id NOT IN (SELECT friend_id FROM REQUESTFRIEND WHERE user_id =
+		AND u.user_id NOT IN
+		(SELECT friend_id FROM REQUESTFRIEND WHERE user_id =
 		#{loginUserId})
-		AND u.user_id NOT IN (SELECT user_id FROM REQUESTFRIEND WHERE friend_id =
+		AND u.user_id NOT IN (SELECT user_id FROM REQUESTFRIEND WHERE
+		friend_id =
 		#{loginUserId})
 		ORDER BY DBMS_RANDOM.VALUE
-		FETCH FIRST 3 ROWS ONLY
+		FETCH FIRST 3 ROWS
+		ONLY
 	</select>
-	
-	
-	
-	
-	
-	<select id="getFriendsDiaryTimeline" parameterType="String" resultType="FriendDiaryProfileDTO">
-		select u.user_id, u.diary_title, TO_CHAR(write_date, 'YYYY-MM-DD') "write_date", u.diary_content, f.url_file_path 
-		from user_diary u
-    	left outer join file_info f
-        	ON u.user_id = f.user_id
-		where u.user_id IN (select friend_id from friendships where user_id = #{loginUserId})
+
+
+
+
+
+	<select id="getFriendsDiaryTimeline" parameterType="String"
+		resultType="FriendDiaryProfileDTO">
+		select u.user_id, u.diary_title, TO_CHAR(write_date,
+		'YYYY-MM-DD') "write_date", u.diary_content, f.url_file_path
+		from
+		user_diary u
+		left outer join file_info f
+		ON u.user_id = f.user_id
+		where
+		u.user_id IN (select friend_id from
+		friendships where user_id =
+		#{loginUserId})
 		order by u.write_date
 	</select>
-	
-	
-	
-	<select id="getFriendList" parameterType="String" resultType="FriendDTO">
+
+
+
+	<select id="getFriendList" parameterType="String"
+		resultType="FriendDTO">
 		select u.user_id, u.user_name, f.url_file_path from users u
 		LEFT OUTER JOIN file_info f
-			ON u.user_id = f.user_id
-		WHERE u.user_id in (select friend_id from friendships where user_id = #{loginUserId})
+		ON u.user_id = f.user_id
+		WHERE u.user_id in
+		(select friend_id from
+		friendships where user_id = #{loginUserId})
 		order by u.user_name
 	</select>
-	
-	
-	<delete id="unfollowFriendOneWay" parameterType="FriendStatusDTO">
+
+
+	<delete id="unfollowFriendOneWay"
+		parameterType="FriendStatusDTO">
 		delete from friendships
-		where user_id = #{loginUserId} and friend_id = #{friendId}
+		where user_id = #{loginUserId}
+		and friend_id = #{friendId}
 	</delete>
-	
-	<delete id="unfollowFriendTwoWay" parameterType="FriendStatusDTO">
+
+	<delete id="unfollowFriendTwoWay"
+		parameterType="FriendStatusDTO">
 		delete from friendships
-		where user_id = #{friendId} and friend_id = #{loginUserId}
+		where user_id = #{friendId} and
+		friend_id = #{loginUserId}
 	</delete>
-	
-	
-	<select id="countFriends" parameterType="FriendStatusDTO" resultType="FriendStatusDTO">
-	    SELECT friend_id
-	    FROM friendships
-	    WHERE user_id = #{loginUserId} 
+
+
+	<select id="countFriends" parameterType="FriendStatusDTO"
+		resultType="FriendStatusDTO">
+		SELECT friend_id
+		FROM friendships
+		WHERE user_id =
+		#{loginUserId}
 	</select>
-	
-	<select id="countFollower" parameterType="String" resultType="int">
-	    SELECT (SELECT COUNT(friend_id) FROM FRIENDSHIPS WHERE friend_id= #{loginUserId}) + (SELECT COUNT(user_id) FROM REQUESTFRIEND WHERE user_id= #{loginUserId})
-	    FROM dual
+
+	<select id="countFollower" parameterType="String"
+		resultType="int">
+		SELECT (SELECT COUNT(friend_id) FROM FRIENDSHIPS WHERE
+		friend_id=
+		#{loginUserId}) + (SELECT COUNT(user_id) FROM REQUESTFRIEND
+		WHERE
+		user_id= #{loginUserId})
+		FROM dual
 	</select>
-	
-	<select id="countFollowing" parameterType="String" resultType="int">  
-	    SELECT (SELECT COUNT(user_id) FROM FRIENDSHIPS WHERE user_id= #{loginUserId}) + (SELECT COUNT(friend_id) FROM REQUESTFRIEND WHERE friend_id= #{loginUserId})
-	    FROM dual
+
+	<select id="countFollowing" parameterType="String"
+		resultType="int">
+		SELECT (SELECT COUNT(user_id) FROM FRIENDSHIPS WHERE
+		user_id=
+		#{loginUserId}) + (SELECT COUNT(friend_id) FROM REQUESTFRIEND
+		WHERE
+		friend_id= #{loginUserId})
+		FROM dual
 	</select>
 
 </mapper>					

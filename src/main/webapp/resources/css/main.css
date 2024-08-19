@@ -1011,6 +1011,8 @@ button {
 	justify-content: center;
 	align-items: center;
 	color: black;
+	
+	cursor: pointer;
 }
 
 .diary-view-content, .diary-modify-content {
@@ -1068,7 +1070,6 @@ button {
 	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
 }
 
-
 #frm-view-diary textarea, #frm-modify-diary textarea {
 	resize: none; /* 사용자가 크기 조절 불가 */
 	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
@@ -1076,6 +1077,7 @@ button {
 	border-radius: 6px;
 	padding: 10px;
 	margin-top: 20px;
+	outline: none;
 }
 
 #frm-view-diary input, #frm-modify-diary input {
@@ -1094,6 +1096,10 @@ label #diary-title-view, label #diary-title-modify {
 
 #diary-date-view, #diary-date-modify {
 	color: gray;
+}
+
+#frm-modify-diary #diary-content-modify {
+	border: 1px solid lightgray;
 }
 
 .btns-diary-modify {
@@ -1175,6 +1181,10 @@ table .fa-user-plus, #search-icon {
 	color: black;
 	margin: 10px;
 	font-size: 20px;
+}
+
+#search-icon{
+	cursor: pointer;
 }
 
 .addfriend-close-btn {
