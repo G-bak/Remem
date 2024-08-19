@@ -38,6 +38,11 @@
 		
 		<typeAlias type="com.app.dto.friend.FriendDiaryProfileDTO" alias="FriendDiaryProfileDTO"/>
 		<typeAlias type="com.app.dto.friend.FriendDTO" alias="FriendDTO"/>
+
+		<typeAlias type="com.app.dto.calender.Calender" alias="Calender"/>
+		<typeAlias type="com.app.dto.calender.Friends" alias="Friends"/>
+		<typeAlias type="com.app.dto.calender.CalenderFriends" alias="CalenderFriends"/>
+		<typeAlias type="com.app.dto.calender.CalenderMemoDiary" alias="CalenderMemoDiary"/>
 	</typeAliases>						
 
 							
