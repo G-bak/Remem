@@ -27,6 +27,10 @@ public interface FriendDAO {
 	public List<User> viewRecommendList(String loginUserId);
 
 	public List<FriendStatusDTO> countFriends(FriendStatusDTO friendStatusDTO);
+
+	public int countFollower(String userId);
+
+	public int countFollowing(String userId);
 	
 	public List<FriendDiaryProfileDTO> getFriendsDiaryTimeline(String loginUserId);
 	

@@ -163,6 +163,15 @@
 	    WHERE user_id = #{loginUserId} 
 	</select>
 	
+	<select id="countFollower" parameterType="String" resultType="int">
+	    SELECT (SELECT COUNT(friend_id) FROM FRIENDSHIPS WHERE friend_id= #{loginUserId}) + (SELECT COUNT(user_id) FROM REQUESTFRIEND WHERE user_id= #{loginUserId})
+	    FROM dual
+	</select>
+	
+	<select id="countFollowing" parameterType="String" resultType="int">  
+	    SELECT (SELECT COUNT(user_id) FROM FRIENDSHIPS WHERE user_id= #{loginUserId}) + (SELECT COUNT(friend_id) FROM REQUESTFRIEND WHERE friend_id= #{loginUserId})
+	    FROM dual
+	</select>
 
 </mapper>					
 

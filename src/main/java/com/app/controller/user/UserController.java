@@ -83,33 +83,48 @@ public class UserController {
 			int endIndex = Math.min(startIndex + pageSize, totalCount);
 			List<UserDiary> pageDiaryList = userDiaryList.subList(startIndex, endIndex);
 
-			// 모델에 필요한 데이터 추가
-			model.addAttribute("userDiaryList", pageDiaryList);
-			model.addAttribute("totalPages", totalPages);
-			model.addAttribute("currentPage", page);
+            // 모델에 필요한 데이터 추가
+            model.addAttribute("userDiaryList", pageDiaryList);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", page);
+            
+            System.out.println(model.getAttribute("totalPages"));
+            System.out.println(model.getAttribute("currentPage"));
+            System.out.println(startIndex);//>=4
+            System.out.println(totalCount);
+            System.out.println(totalPages);
+        }
+        
+        // 친구 목록을 가져옴
+        FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
+        friendStatusDTO.setLoginUserId(userId);
+        List<FriendStatusDTO> friendCountList = friendService.countFriends(friendStatusDTO);
+        
+        // 친구 수를 계산
+        int friendCount = friendCountList.size();
+        System.out.println("친구 수 : " + friendCount);
 
-			System.out.println(model.getAttribute("totalPages"));
-			System.out.println(model.getAttribute("currentPage"));
-			System.out.println(startIndex);// >=4
-			System.out.println(totalCount);
-			System.out.println(totalPages);
-		}
+        // 모델에 친구 수와 사용자 정보를 추가
+        model.addAttribute("friendCount", friendCount);
+        model.addAttribute("userId", userId);
+        
+        ////팔로잉 팔로워
+        // 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
+        int followerCount = friendService.countFollower(userId);
+        int followingCount = friendService.countFollowing(userId);
+        
+        System.out.println("팔로워 수 : " + followerCount);
+        System.out.println("팔로잉 수 : " + followingCount);
 
-		// 친구 목록을 가져옴
-		FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
-		friendStatusDTO.setLoginUserId(userId);
-		List<FriendStatusDTO> friendCountList = friendService.countFriends(friendStatusDTO);
+        // 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
+        model.addAttribute("follower", followerCount);
+        model.addAttribute("following", followingCount);
+        model.addAttribute("userId", userId);
+        
 
-		// 친구 수를 계산
-		int friendCount = friendCountList.size();
-		System.out.println("친구 수 : " + friendCount);
+        return "user/main";
+    }
 
-		// 모델에 친구 수와 사용자 정보를 추가
-		model.addAttribute("friendCount", friendCount);
-		model.addAttribute("userId", userId);
-
-		return "user/main";
-	}
 
 	// 회원가입
 	@GetMapping("/user/signup")
