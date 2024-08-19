@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 <link href="/css/signin.css" rel="stylesheet">
-<title>Insert title here</title>
+<title>#Remem</title>
 </head>
 <body class="signin-body">
     <h1>#오늘 일기</h1>

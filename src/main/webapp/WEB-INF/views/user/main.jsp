@@ -25,7 +25,7 @@
 
 
 <link href="/css/main.css" rel="stylesheet">
-<title>마이페이지</title>
+<title>#Remem</title>
 </head>
 
 <body>
@@ -84,14 +84,19 @@ window.onload = function() {
 					style="background-image: url('${sessionScope.filePath}');"></div>
 				<form action="/upload" method="post" enctype="multipart/form-data"
 					onsubmit="return validateForm()">
-
+					
+					
 					<label for="fileInput" class="custom-file-button">파일 선택</label> <input
 						type="file" name="file" id="fileInput"> <span
 						id="fileName">파일을 선택하세요</span>
 
 					<button type="submit"
-						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 33%; cursor: pointer; border-radius: 5px; background-color: #c1e0ac;">올리기
+						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 38%; cursor: pointer; border-radius: 5px; background-color: #c1e0ac;">올리기
 					</button>
+					
+					
+					
+					
 				</form>
 				<!--             </div> -->
 

@@ -222,6 +222,7 @@ input, textarea {
 	height: 100%;
 }
 </style>
+<title>#Remem</title>
 </head>
 <body>
 	<div class="diary-container">

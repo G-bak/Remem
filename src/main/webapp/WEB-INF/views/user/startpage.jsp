@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 <link href="/css/startpage.css" rel="stylesheet">
-<title>Insert title here</title>
+<title>#Remem</title>
 </head>
 <body class="body">
    <div class="center-container">

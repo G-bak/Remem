@@ -13,7 +13,7 @@
 <link href="/css/signup.css" rel="stylesheet">
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<title>Insert title here</title>
+<title>#Remem</title>
 </head>
 <body class="signup-body">
 	<!-- <img src="/image/grass.png" alt="Background Image"> -->
