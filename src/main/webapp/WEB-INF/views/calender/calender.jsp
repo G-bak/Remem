@@ -671,7 +671,7 @@
     </div>
 
     <script>
-        const userId = 'user1';
+        const userId = 'user2';
         let userName;
         let ajaxResult = false;
 

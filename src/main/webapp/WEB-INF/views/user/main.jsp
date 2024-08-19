@@ -214,6 +214,7 @@ window.onload = function() {
 					</button>
 					<button class="menu-btn" data-target="#content-diary"
 						onclick="home()">일기장</button>
+					<button class="menu-btn" onclick="location.href='/calender'">캘린더</button>
 					<button class="menu-btn" type="button" data-target="#content-todo"
 						onclick="deleteSession()">오늘할일</button>
 					<button class="menu-btn" data-target="#content-budget"
@@ -222,10 +223,10 @@ window.onload = function() {
 						onclick="deleteSession()">타임캡슐</button>
 
 					<script>
-               function home(){
-                  document.getElementById("main-swiper-rightslide").style.display = 'none';
+               //function home(){
+                 // document.getElementById("main-swiper-rightslide").style.display = 'none';
                   
-               }
+              // }
                
                function deleteSession(){
                   sessionStorage.clear();

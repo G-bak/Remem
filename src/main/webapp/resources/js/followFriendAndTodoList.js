@@ -240,6 +240,8 @@ function viewRecommendList() {
 					            `;
 					recommendFriendListTable.append(row);
 				});
+			} else {
+				console.log("recommendList is null");
 			}
 
 
