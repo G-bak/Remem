@@ -212,8 +212,7 @@ window.onload = function() {
 					<button class="menu-btn" onclick="location.href='/main'">
 						<img id="home-image" src="/image/home.png" alt="홈">
 					</button>
-					<button class="menu-btn" data-target="#content-diary"
-						onclick="home()">일기장</button>
+					<button class="menu-btn" data-target="#content-diary">일기장</button>
 					<button class="menu-btn" onclick="location.href='/calender'">캘린더</button>
 					<button class="menu-btn" type="button" data-target="#content-todo"
 						onclick="deleteSession()">오늘할일</button>
@@ -286,7 +285,7 @@ window.onload = function() {
 								<i class="fa-regular fa-pen-to-square"></i>
 							</button>
 						</a>
-						<button class="chatbot-btn">
+						<button class="chatbot-btn" onclick="location.href='/chatjao'">
 							<i class="fa-regular fa-comments"></i>
 						</button>
 					</div>

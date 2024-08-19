@@ -57,8 +57,16 @@ public class UserController {
 	public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
 		System.out.println("test");
 		// 사용자 ID 설정
-		session.setAttribute("userId", "user1");
-		String userId = session.getAttribute("userId").toString();
+		User sessionUser = (User) session.getAttribute("user");
+		System.out.println(sessionUser);
+		// 변경할 주소 가져오기
+
+//  		System.out.println(user.getUserAddress());
+
+		String userId = sessionUser.getUserId().toString();
+		System.out.println("User ID: " + userId);
+		
+		session.setAttribute("userId", userId);
 
 		// 다이어리 목록 가져오기
 		List<UserDiary> userDiaryList = null;

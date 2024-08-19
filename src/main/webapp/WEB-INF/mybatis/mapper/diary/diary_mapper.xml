@@ -3,6 +3,13 @@
 
 <mapper namespace="diary_mapper">
 
+	<resultMap id="TalkToBotAllResultMap" type="com.app.dto.diary.TalkToBotAll">
+	    <result property="userId" column="user_id"/>
+	    <result property="roomIndex" column="room_index"/>
+	    <result property="questionHtml" column="question_html"/>
+	    <result property="chatHtml" column="chat_html"/>
+	</resultMap>
+
     <!-- User Diary Insert -->
     <insert id="insertUserDiary" parameterType="UserDiary">
         INSERT INTO user_diary
@@ -28,5 +35,135 @@
 		DELETE FROM user_diary
 		WHERE diary_id = #{diaryId}
 	</delete>
+
+	<insert id="insertTalkToBotAllByQuestion" parameterType="TalkToBotAll">
+		INSERT INTO talk_to_bot_all (user_id, room_index, data_id, question_html) 
+		VALUES (#{userId}, #{roomIndex}, #{dataId}, #{questionHtml})
+	</insert>
+	
+	<update id="updateTalkToBotAllByChat" parameterType="TalkToBotAll">
+		UPDATE talk_to_bot_all
+		SET chat_html = #{chatHtml}
+		WHERE user_id = #{userId} AND room_index = #{roomIndex}
+	</update>
+	
+	<select id="selectTalkToBotAllByUserId" parameterType="String" resultMap="TalkToBotAllResultMap">
+	    SELECT user_id, room_index, data_id, question_html, chat_html
+	    FROM talk_to_bot_all
+	    WHERE user_id = #{userId}
+	    ORDER BY room_index
+	</select>
+	
+	<update id="createTalkToBot" parameterType="TalkToBotAll">
+		CREATE TABLE talk_to_bot_${dataId} (
+			data_id VARCHAR2(100) NOT NULL,
+			save_date DATE DEFAULT SYSDATE,
+			user_id VARCHAR2(100) NOT NULL,
+		    room_index NUMBER NOT NULL,
+		    message_index NUMBER,
+		    bot_answer CLOB,
+		    user_question VARCHAR2(4000)
+		)
+	</update>
+	
+	<insert id="insertUserQuestion" parameterType="TalkToBotData">
+		INSERT INTO talk_to_bot_${dataId} (data_id, user_id, room_index, message_index, user_question)
+		VALUES (#{dataId}, #{userId}, #{roomIndex}, #{messageIndex}, #{userQuestion})
+	</insert>
+	
+	<insert id="insertBotAnswer" parameterType="TalkToBotData">
+		INSERT INTO talk_to_bot_${dataId} (data_id, user_id, room_index, message_index, bot_answer)
+		VALUES (#{dataId}, #{userId}, #{roomIndex}, #{messageIndex}, #{botAnswer, jdbcType=CLOB})
+	</insert>
+	
+	<select id="selectAllTalkToBotData" parameterType="TalkToBotAll" resultType="TalkToBotData">
+		SELECT data_id, user_id, room_index, message_index, bot_answer, user_question
+		FROM talk_to_bot_${dataId}
+	</select>
+	
+	<update id="dropTalkToBot" parameterType="TalkToBotAll">
+		DROP TABLE talk_to_bot_${dataId}
+	</update>
+
+	<delete id="deleteTalkToBotAll" parameterType="TalkToBotAll">
+		DELETE FROM talk_to_bot_all
+		WHERE user_id = #{userId}
+		    AND data_id = #{dataId}
+	</delete>
+	
+	<insert id="InsertExcludedKeyword" parameterType="ExcludedKeyword">
+		INSERT INTO EXCLUDED_KEYWORDS (user_id, data_id, data_index, message_index, excluded_keyword)
+		VALUES (#{userId}, #{dataId}, #{dataIndex}, #{messageIndex}, #{excludedKeyword})
+	</insert>
+	
+	<select id="selectExcludedKeyword" parameterType="ExcludedKeyword" resultType="ExcludedKeyword">
+		SELECT user_id, data_id, data_index, excluded_keyword
+		FROM EXCLUDED_KEYWORDS
+		WHERE user_id = #{userId}
+			AND data_id = #{dataId}
+		ORDER BY save_date
+	</select>
+	
+	<delete id="deleteExcludedKeywords" parameterType="TalkToBotAll">
+		DELETE FROM EXCLUDED_KEYWORDS
+		WHERE user_id = #{userId}
+		    AND data_id = #{dataId}
+	</delete>
+	
+	<update id="updateBotAnswer" parameterType="TalkToBotData">
+		UPDATE talk_to_bot_${dataId}
+		SET bot_answer = #{botAnswer, jdbcType=CLOB}
+		WHERE message_index = #{messageIndex}
+		AND bot_answer IS NOT NULL
+	</update>
+	
+	<select id="selectExcludedKeywordsByRoomIdMessageIndex" parameterType="ExcludedKeyword" resultType="ExcludedKeyword">
+        SELECT 
+        	excluded_keyword
+        FROM EXCLUDED_KEYWORDS
+        WHERE data_id = #{dataId}
+    </select>
+	
+	<delete id="deleteExcludedKeyword" parameterType="ExcludedKeyword">
+		DELETE FROM EXCLUDED_KEYWORDS
+		WHERE user_id = #{userId}
+			AND data_id = #{dataId}
+		    AND data_index = #{dataIndex}
+	</delete>
+	
+	<insert id="insertExcludedKeywordNotMessageIndex" parameterType="ExcludedKeyword">
+		INSERT INTO EXCLUDED_KEYWORDS (user_id, data_id, data_index, excluded_keyword)
+		SELECT #{userId}, #{dataId}, #{dataIndex}, #{excludedKeyword}
+		FROM dual
+		WHERE NOT EXISTS (
+		    SELECT 1
+		    FROM EXCLUDED_KEYWORDS
+		    WHERE excluded_keyword = #{excludedKeyword}
+		    AND user_id = #{userId}
+		    AND data_id = #{dataId}
+		)
+	</insert>
+	
+	<update id="updateQuestionTitle" parameterType="TalkToBotAll">
+		UPDATE talk_to_bot_all
+		SET question_html = #{questionHtml}
+		WHERE user_id = #{userId} AND data_id = #{dataId}
+	</update>
+	
+	<select id="selectDiaryListByKeyword" resultType="UserDiary">
+	    SELECT 
+	        diary_id, user_id, diary_title, 
+	        TO_CHAR(write_date, 'YYYY-MM-DD') AS write_date,
+	        diary_content
+	    FROM user_diary
+	    WHERE user_id = #{userId}
+	    <if test="keywordsList != null and keywordsList.size() > 0">
+	        AND (
+	            <foreach collection="keywordsList" item="keyword" separator="AND">
+	                diary_content LIKE '%' || #{keyword} || '%'
+	            </foreach>
+	        )
+	    </if>
+	</select>
     
 </mapper>

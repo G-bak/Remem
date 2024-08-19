@@ -1,677 +1,744 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@100..800&family=Black+Han+Sans&family=Do+Hyeon&family=Dongle&family=Gamja+Flower&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Gothic:wght@400;800&family=Noto+Sans+KR:wght@300&family=Orbit&display=swap" rel="stylesheet">
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@100..800&family=Black+Han+Sans&family=Do+Hyeon&family=Dongle&family=Gamja+Flower&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Gothic:wght@400;800&family=Noto+Sans+KR:wght@300&family=Orbit&display=swap"
+	rel="stylesheet">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
-    <title>동적 캘린더</title>
-    <style>
-        * {
-            user-select: none;
-        }
+<title>동적 캘린더</title>
+<style>
+* {
+	user-select: none;
+}
 
-        body {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
+body {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+	background-color: #f0f0f0;
+}
 
-        .calendar {
-            position: relative;
-            max-width: 850px;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+.calendar {
+	position: relative;
+	max-width: 850px;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	border-radius: 16px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
 
-        .calendar-container {
-            position: relative;
-            max-width: 800px;
-            width: 90%;
-            height: 90%;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+.calendar-container {
+	position: relative;
+	max-width: 800px;
+	width: 90%;
+	height: 90%;
+	background-color: white;
+	border-radius: 16px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
 
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: white;
-            height: 10%;
-        }
+.calendar-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	background-color: white;
+	height: 10%;
+}
 
-        .calendar-header h2 {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: 600;
-            font-family: "Anek Devanagari", sans-serif;
-        }
+.calendar-header h2 {
+	margin: 0;
+	font-size: 1.8rem;
+	font-weight: 600;
+	font-family: "Anek Devanagari", sans-serif;
+}
 
-        .calendar-header .nav-button {
-            font-size: 1.3rem;
-            cursor: pointer;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            font-weight: bold;
-        }
+.calendar-header .nav-button {
+	font-size: 1.3rem;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	font-weight: bold;
+}
 
-        .calendar-weekdays {
-            display: flex;
-            background-color: #f9f9f9;
-            font-weight: bold;
-            text-align: center;
-            height: 8%;
-            justify-content: center;
-            align-items: center;
-        }
+.calendar-weekdays {
+	display: flex;
+	background-color: #f9f9f9;
+	font-weight: bold;
+	text-align: center;
+	height: 8%;
+	justify-content: center;
+	align-items: center;
+}
 
-        .weekday {
-            flex: 1;
-            color: #888;
-            font-size: 1.2rem;
-            text-align: center;
-            line-height: 49px;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+.weekday {
+	flex: 1;
+	color: #888;
+	font-size: 1.2rem;
+	text-align: center;
+	line-height: 49px;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .sunday {
-            color: #ff4d4d;
-        }
+.sunday {
+	color: #ff4d4d;
+}
 
-        .saturday {
-            color: #4d88ff;
-        }
+.saturday {
+	color: #4d88ff;
+}
 
-        .calendar-days {
-            display: flex;
-            flex-wrap: wrap;
-            height: 80%;
-        }
+.calendar-days {
+	display: flex;
+	flex-wrap: wrap;
+	height: 80%;
+}
 
-        .calendar-days > div {
-            width: 14.28%;
-            height: 20%;
-            text-align: center;
-            padding: 10px 0;
-            box-sizing: border-box;
-            position: relative;
-            border-bottom: 1px solid #ddd;
-            overflow-y: auto;
-        }
+.calendar-days>div {
+	width: 14.28%;
+	height: 20%;
+	text-align: center;
+	padding: 10px 0;
+	box-sizing: border-box;
+	position: relative;
+	border-bottom: 1px solid #ddd;
+	overflow-y: auto;
+}
 
-        .calendar-days > div.day {
-            color: #333;
-            cursor: pointer;
-            font-family: "Nanum Gothic", sans-serif;
-            font-weight: 400;
-            font-size: 0.9rem;
-        }
+.calendar-days>div.day {
+	color: #333;
+	cursor: pointer;
+	font-family: "Nanum Gothic", sans-serif;
+	font-weight: 400;
+	font-size: 0.9rem;
+}
 
-        .calendar-days > div.day:hover {
-            background-color: #f0f0f0;
-        }
+.calendar-days>div.day:hover {
+	background-color: #f0f0f0;
+}
 
-        .calendar-days > div.sunday {
-            color: #ff4d4d;
-        }
+.calendar-days>div.sunday {
+	color: #ff4d4d;
+}
 
-        .calendar-days > div.saturday {
-            color: #4d88ff;
-        }
+.calendar-days>div.saturday {
+	color: #4d88ff;
+}
 
-        .event {
-            background-color: rgba(255, 192, 203, 0.5);
-            border-radius: 10px;
-            margin: 3px 5px;
-            font-size: 0.75rem;
-            padding: 3px 0;
-            color: #585858;
-            text-align: center;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            position: relative;
-            font-family: "Nanum Gothic", sans-serif;
-            font-weight: 400;
-        }
+.event {
+	background-color: rgba(255, 192, 203, 0.5);
+	border-radius: 10px;
+	margin: 3px 5px;
+	font-size: 0.75rem;
+	padding: 3px 0;
+	color: #585858;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	font-family: "Nanum Gothic", sans-serif;
+	font-weight: 400;
+}
 
-        .today {
-            background-color: #f0f0f0;
-        }
+.today {
+	background-color: #f0f0f0;
+}
 
-        #scheduleModal {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -40%);
-            border-radius: 10px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 47%;
-        }
+#scheduleModal {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -40%);
+	border-radius: 10px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	display: none;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	width: 47%;
+}
 
-        #saveSchedule, #closeModal {
-            padding: 11px 20px;
-            border-radius: 5px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            line-height: 16px;
-            cursor: pointer;
-            margin: 5px;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+#saveSchedule, #closeModal {
+	padding: 11px 20px;
+	border-radius: 5px;
+	border: none;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	line-height: 16px;
+	cursor: pointer;
+	margin: 5px;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        #closeModal {
-            background-color: #6c757d;
-        }
+#closeModal {
+	background-color: #6c757d;
+}
 
-        .calender-add-title {
-            margin-bottom: 7px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            width: 100%;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            text-align: center;
-            background-color: rgb(193, 226, 237);
-            padding-top: 21px;
-            padding-bottom: 14px;
-            line-height: 1.3rem;
-            color: #494949;
-        }
+.calender-add-title {
+	margin-bottom: 7px;
+	font-size: 1.3rem;
+	font-weight: 900;
+	width: 100%;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	text-align: center;
+	background-color: rgb(193, 226, 237);
+	padding-top: 21px;
+	padding-bottom: 14px;
+	line-height: 1.3rem;
+	color: #494949;
+}
 
-        .calender-input-container {
-            position: relative;
-            width: 85%;
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+.calender-input-container {
+	position: relative;
+	width: 85%;
+	margin-top: 20px;
+	font-size: 1.2rem;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .calender-friend-container {
-            position: relative;
-            width: 85%;
-            margin-top: 20px;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+.calender-friend-container {
+	position: relative;
+	width: 85%;
+	margin-top: 20px;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .calender-input-container span {
-            color: rgb(155, 155, 155);
-        }
+.calender-input-container span {
+	color: rgb(155, 155, 155);
+}
 
-        .calender-input-container input {
-            position: absolute;
-            left: 50%;
-            top: 59%;
-            transform: translate(-50%, -50%);
-            border-style: none;
-            background-color: #f0f0f0;
-            width: 60%;
-            height: 90%;
-            padding-left: 5px;
-            text-align: center;
-        }
+.calender-input-container input {
+	position: absolute;
+	left: 50%;
+	top: 59%;
+	transform: translate(-50%, -50%);
+	border-style: none;
+	background-color: #f0f0f0;
+	width: 60%;
+	height: 90%;
+	padding-left: 5px;
+	text-align: center;
+}
 
-        .calender-btn-container {
-            margin: 20px 0;
-        }
+.calender-btn-container {
+	margin: 20px 0;
+}
 
-        .calender-friend-container .title {
-            color: rgb(155, 155, 155);
-            font-size: 1.2rem;
-            line-height: 1.2rem;
-        }
+.calender-friend-container .title {
+	color: rgb(155, 155, 155);
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+}
 
-        .calender-friend-container .name {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.3rem;
-            line-height: 1.3rem;
-            font-weight: 400;
-            font-family: "Gamja Flower", sans-serif;
-            padding-top: 5px;
-            color: #333;
-        }
+.calender-friend-container .name {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.3rem;
+	line-height: 1.3rem;
+	font-weight: 400;
+	font-family: "Gamja Flower", sans-serif;
+	padding-top: 5px;
+	color: #333;
+}
 
-        /* 자동완성 리스트 스타일 */
-        .autocomplete-list {
-            position: absolute;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-height: 150px;
-            overflow-y: auto;
-            z-index: 1000;
-            width: 53%;
-            top: 161px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-        }
+/* 자동완성 리스트 스타일 */
+.autocomplete-list {
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	max-height: 150px;
+	overflow-y: auto;
+	z-index: 1000;
+	width: 53%;
+	top: 161px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: none;
+}
 
-        .autocomplete-item {
-            padding: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+.autocomplete-item {
+	padding: 8px;
+	cursor: pointer;
+	font-size: 14px;
+}
 
-        .autocomplete-item:hover {
-            background-color: #f0f0f0;
-        }
+.autocomplete-item:hover {
+	background-color: #f0f0f0;
+}
 
-        #scheduleDetailModal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 10px;
-            z-index: 1000;
-            display: none;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            height: 60%;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
+#scheduleDetailModal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 10px;
+	z-index: 1000;
+	display: none;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	width: 80%;
+	height: 60%;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
 
-        .schedule-detil-flexBox {
-            width: 33%;
-            height: 100%;
-        }
+.schedule-detil-flexBox {
+	width: 33%;
+	height: 100%;
+}
 
-        .friend-list-container {
-            width: 23%;
-        }
+.friend-list-container {
+	width: 23%;
+}
 
-        .friend-list-title-box {
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.7rem;
-            background-color: rgb(124, 124, 124);
-            color: rgb(255, 255, 255);
-            width: 100%;
-            height: 13%;
-            display: flex;
-            align-items: last baseline;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.friend-list-title-box {
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.7rem;
+	background-color: rgb(124, 124, 124);
+	color: rgb(255, 255, 255);
+	width: 100%;
+	height: 13%;
+	display: flex;
+	align-items: last baseline;
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .colorful-crown {
-            color: #FFD700;
-            background: linear-gradient(45deg, #FF8C00, #FFD700, #FF4500, #FF69B4, #1E90FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.4rem; /* 아이콘 크기 */
-        }
+.colorful-crown {
+	color: #FFD700;
+	background: linear-gradient(45deg, #FF8C00, #FFD700, #FF4500, #FF69B4, #1E90FF);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 1.4rem; /* 아이콘 크기 */
+}
 
-        .friend-list-name-box {
-            width: 100%;
-            height: 87%;
-            background-color: #e6e6e6;
-            overflow: auto;
-        }
+.friend-list-name-box {
+	width: 100%;
+	height: 87%;
+	background-color: #e6e6e6;
+	overflow: auto;
+}
 
-        .friend-list-name-box div {
-            border-bottom: 1px solid rgb(202, 202, 202);
-            padding-top: 7px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.friend-list-name-box div {
+	border-bottom: 1px solid rgb(202, 202, 202);
+	padding-top: 7px;
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .friend-name {
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.1rem;
-        }
+.friend-name {
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.1rem;
+}
 
-        .participant {
-            font-size: 0.9rem;
-        }
+.participant {
+	font-size: 0.9rem;
+}
 
-        .memo-container {
-            width: 27%;
-        }
+.memo-container {
+	width: 27%;
+}
 
-        .memo-title-box {
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.7rem;
-            background-color: rgb(255, 226, 154);
-            color: rgb(233, 150, 150);
-            width: 100%;
-            height: 13%;
-            display: flex;
-            align-items: last baseline;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.memo-title-box {
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.7rem;
+	background-color: rgb(255, 226, 154);
+	color: rgb(233, 150, 150);
+	width: 100%;
+	height: 13%;
+	display: flex;
+	align-items: last baseline;
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .colorful-check {
-            color: rgb(233, 150, 150);
-            font-size: 1.3rem;
-        }
+.colorful-check {
+	color: rgb(233, 150, 150);
+	font-size: 1.3rem;
+}
 
-        .memo-content-box {
-            width: 100%;
-            height: 87%;
-            background-color: #fff2c5;
-            overflow: auto;
-            position: relative;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
-        
-        .memo-content-box .promise-time {
-            padding-top: 7px;
-            position: relative;
-        }
+.memo-content-box {
+	width: 100%;
+	height: 87%;
+	background-color: #fff2c5;
+	overflow: auto;
+	position: relative;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .memo-content-box .promise-time-date {
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.memo-content-box .promise-time {
+	padding-top: 7px;
+	position: relative;
+}
 
-        .memo-content-box .promise-time span {
-            color: rgb(155, 155, 155);
-            font-size: 0.9rem;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+.memo-content-box .promise-time-date {
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .memo-content-box .promise-time .date-text {
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.2rem;
-            color: rgb(80, 80, 80);
-        }
+.memo-content-box .promise-time span {
+	color: rgb(155, 155, 155);
+	font-size: 0.9rem;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .memo-content-box .promise-time input {
-            position: absolute;
-            right: 0%;
-            top: 100%;
-            transform: translateY(-95%);
-            border-style: none;
-            background-color: #fff2c5;
-            width: 65%;
-            margin-top: 1.5px;
-            padding-left: 3px;
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.2rem;
-            color: rgb(80, 80, 80);
-        }
+.memo-content-box .promise-time .date-text {
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.2rem;
+	color: rgb(80, 80, 80);
+}
 
-        .memo-content-box textarea {
-            width: 95%;
-            height: 75%;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            border-style: none;
-            background-color: #fff2c5;
-            padding: 3px;
-            box-sizing: border-box;
-            resize: none;
-            color: rgb(80, 80, 80);
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1rem;
-            margin-top: 7px;
-        }
+.memo-content-box .promise-time input {
+	position: absolute;
+	right: 0%;
+	top: 100%;
+	transform: translateY(-95%);
+	border-style: none;
+	background-color: #fff2c5;
+	width: 65%;
+	margin-top: 1.5px;
+	padding-left: 3px;
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.2rem;
+	color: rgb(80, 80, 80);
+}
 
-        .diary-container {
-            width: 50%;
-        }
+.memo-content-box textarea {
+	width: 95%;
+	height: 75%;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	border-style: none;
+	background-color: #fff2c5;
+	padding: 3px;
+	box-sizing: border-box;
+	resize: none;
+	color: rgb(80, 80, 80);
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1rem;
+	margin-top: 7px;
+}
 
-        .diary-title-box {
-            position: relative;
-            width: 100%;
-            height: 13%;
-            display: flex;
-            align-items: last baseline;
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.7rem;
-            background-color: #c7b4ae;
-            color: #83522e;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.diary-container {
+	width: 50%;
+}
 
-        .colorful-book {
-            background: linear-gradient(45deg, #83522e, #9c5f43, #83522e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.5rem; /* 아이콘 크기 */
-            display: inline-block;
-        }
+.diary-title-box {
+	position: relative;
+	width: 100%;
+	height: 13%;
+	display: flex;
+	align-items: last baseline;
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.7rem;
+	background-color: #c7b4ae;
+	color: #83522e;
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .diary-content-box {
-            width: 100%;
-            height: 87%;
-            background-color: #e4d9d5;
-            overflow: auto;
-            position: relative;
-            font-family: "Noto Sans KR", sans-serif;
-            font-weight: 600;
-        }
+.colorful-book {
+	background: linear-gradient(45deg, #83522e, #9c5f43, #83522e);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 1.5rem; /* 아이콘 크기 */
+	display: inline-block;
+}
 
-        .diary-content-box .content-title {
-            position: relative;
-            height: 14%;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.diary-content-box {
+	width: 100%;
+	height: 87%;
+	background-color: #e4d9d5;
+	overflow: auto;
+	position: relative;
+	font-family: "Noto Sans KR", sans-serif;
+	font-weight: 600;
+}
 
-        .diary-content-box .content-title input {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border-style: none;
-            background-color: #e4d9d5;
-            width: 95%;
-            margin-top: 1.5px;
-            padding-left: 3px;
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1.2rem;
-            text-align: center;
-            color: rgb(80, 80, 80);
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+.diary-content-box .content-title {
+	position: relative;
+	height: 14%;
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .diary-content-box textarea {
-            width: 95%;
-            height: 72%;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            border-style: none;
-            background-color: #e4d9d5;
-            padding: 2px 4px;
-            box-sizing: border-box;
-            resize: none;
-            color: rgb(80, 80, 80);
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            font-size: 1rem;
-        }
+.diary-content-box .content-title input {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-style: none;
+	background-color: #e4d9d5;
+	width: 95%;
+	margin-top: 1.5px;
+	padding-left: 3px;
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1.2rem;
+	text-align: center;
+	color: rgb(80, 80, 80);
+	overflow-x: auto;
+	white-space: nowrap;
+}
 
-        .btn-calender-detil {
-            position: absolute;
-            padding: 6px 8px;
-            border-radius: 5px;
-            border: none;
-            color: white;
-            font-size: 1.1rem;
-            line-height: 1.1rem;
-            cursor: pointer;
-            font-family: "Gamja Flower", sans-serif;
-            font-weight: 400;
-            z-index: 1000;
-        }
+.diary-content-box textarea {
+	width: 95%;
+	height: 72%;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	border-style: none;
+	background-color: #e4d9d5;
+	padding: 2px 4px;
+	box-sizing: border-box;
+	resize: none;
+	color: rgb(80, 80, 80);
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	font-size: 1rem;
+}
 
-        .btn-calender-detil:hover {
-            text-decoration: underline;
-        }
+.btn-calender-detil {
+	position: absolute;
+	padding: 6px 8px;
+	border-radius: 5px;
+	border: none;
+	color: white;
+	font-size: 1.1rem;
+	line-height: 1.1rem;
+	cursor: pointer;
+	font-family: "Gamja Flower", sans-serif;
+	font-weight: 400;
+	z-index: 1000;
+}
 
-        .btn-calender-detil-save {
-            top: 50%;
-            padding: 6px 3px;
-            transform: translateY(-50%);
-            right: 62px;
-            color: #8fff51;
-            font-weight: 400;
-            font-size: 1.2rem;
-        }
+.btn-calender-detil:hover {
+	text-decoration: underline;
+}
 
-        .btn-calender-detil-myDiary-save {
-            bottom: 7px;
-            left: 7px;
-            font-size: 1.2rem;
-            line-height: 1.2rem;
-            color: #75a6e7;
-        }
+.btn-calender-detil-save {
+	top: 50%;
+	padding: 6px 3px;
+	transform: translateY(-50%);
+	right: 62px;
+	color: #8fff51;
+	font-weight: 400;
+	font-size: 1.2rem;
+}
 
-        .btn-calender-detil-close {
-            top: 50%;
-            transform: translateY(-50%);
-            right: 10px;
-            color: #fff;
-        }
+.btn-calender-detil-myDiary-save {
+	bottom: 7px;
+	left: 7px;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	color: #75a6e7;
+}
 
-        .btn-calender-detil-delete {
-            bottom: 7px;
-            right: 7px;
-            font-size: 1.2rem;
-            line-height: 1.2rem;
-            color: #ec5237;
-        }
-    </style>
+.btn-calender-detil-close {
+	top: 50%;
+	transform: translateY(-50%);
+	right: 10px;
+	color: #fff;
+}
+
+.btn-calender-detil-delete {
+	bottom: 7px;
+	right: 7px;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	color: #ec5237;
+}
+
+.return-home {
+	position: absolute;
+	bottom: 49px;
+	left: 40px;
+	font-size: 27px;
+	color: gray;
+}
+</style>
 </head>
 <body>
-    <div class="calendar-container">
-    <div class="calendar">
-        <div class="calendar-header">
-            <button class="nav-button" id="prevMonth">&nbsp;◀</button>
-            <h2 id="monthYear"></h2>
-            <button class="nav-button" id="nextMonth">▶&nbsp;</button>
-        </div>
-        <div class="calendar-weekdays">
-            <div class="weekday sunday">일</div>
-            <div class="weekday">월</div>
-            <div class="weekday">화</div>
-            <div class="weekday">수</div>
-            <div class="weekday">목</div>
-            <div class="weekday">금</div>
-            <div class="weekday saturday">토</div>
-        </div>
-        <div class="calendar-days" id="calendar-days"></div>
-    </div>
+	<div class="calendar-container">
+		<div class="calendar">
+			<div class="calendar-header">
+				<button class="nav-button" id="prevMonth">&nbsp;◀</button>
+				<h2 id="monthYear"></h2>
+				<button class="nav-button" id="nextMonth">▶&nbsp;</button>
+			</div>
+			<div class="calendar-weekdays">
+				<div class="weekday sunday">일</div>
+				<div class="weekday">월</div>
+				<div class="weekday">화</div>
+				<div class="weekday">수</div>
+				<div class="weekday">목</div>
+				<div class="weekday">금</div>
+				<div class="weekday saturday">토</div>
+			</div>
+			<div class="calendar-days" id="calendar-days"></div>
+		</div>
 
-        <!-- 일정 추가를 위한 모달 -->
-        <div id="scheduleModal">
-            <div class="calender-add-title">일정 추가</div>
-            <div class="calender-input-container"><span>일정 </span><input type="text" id="scheduleInput" placeholder="일정을 추가하세요" spellcheck="false"></div>
-            <div class="calender-input-container"><span>친구 </span><input type="text" id="scheduleInputFriends" placeholder="친구 이름을 검색하세요" spellcheck="false"></div>
-            <div id="autocompleteFriends" class="autocomplete-list"></div> <!-- 자동완성 리스트 -->
-            <div class="calender-btn-container">
-                <button id="saveSchedule" onclick="">저장</button>
-                <button id="closeModal">취소</button>
-            </div>
-        </div>
-        <!-- 일정 추가를 위한 모달 -->
-        <div id="scheduleDetailModal">
-            <div class="schedule-detil-flexBox friend-list-container">
-                <div class="friend-list-title-box">
-                    &nbsp;<i class="fas fa-crown colorful-crown"></i>&nbsp;<span>null</span>
-                </div>
-                <div class="friend-list-name-box">
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 1&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">박이번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 2&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">강삼번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 3&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최사번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 4&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">정오번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 5&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">정육번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 6&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">서칠번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 7&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">유팔번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 8&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">계구번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 9&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최십번</span></div>
-                    <div>&nbsp;<span class="calender-input-container participant"><span>참석자 10&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최재빈</span></div>
-                </div>
-            </div>
-            <div class="schedule-detil-flexBox memo-container">
-                <div class="memo-title-box">
-                    &nbsp;<span class="colorful-check">✔</span>&nbsp;메모
-                </div>
-                <div class="memo-content-box">
-                    <div class="memo-content-flexBox">
-                        <div class="promise-time promise-time-date"><span>&nbsp;&nbsp;날짜&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="date-text"></span></div>
-                        <div class="promise-time"><span>&nbsp;&nbsp;시간</span><input id="promiseTime" type="text" placeholder="ex) AM 9:00" spellcheck="false"></div>
-                    </div>
-                    <textarea id="memoContent" name="" placeholder="# 장소" spellcheck="false"></textarea>
-                </div>
-            </div>
-            <div class="schedule-detil-flexBox diary-container">
-                <div class="diary-title-box">
-                    &nbsp;<i class="fas fa-book colorful-book"></i>&nbsp;일기장
-                    <div class="btn-calender-detil btn-calender-detil-save" onclick="updateCalenderDetail(this)">저장</div>
-                    <div class="btn-calender-detil btn-calender-detil-close" onclick="calenderDetailColse(this)">닫기</div>
-                </div>
-                <div class="diary-content-box">
-                    <div class="content-title"><input id="diaryTitle" type="text" placeholder="제목" spellcheck="false"></div>
-                    <textarea id="diaryContent" name="" placeholder="" spellcheck="false"></textarea>
-                    <div class="btn-calender-detil btn-calender-detil-myDiary-save" onclick="saveMyDiary(this)">내 일기장에 저장</div>
-                    <div class="btn-calender-detil btn-calender-detil-delete" onclick="calenderDetailDelete()">일정삭제</div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- 일정 추가를 위한 모달 -->
+		<div id="scheduleModal">
+			<div class="calender-add-title">일정 추가</div>
+			<div class="calender-input-container">
+				<span>일정 </span><input type="text" id="scheduleInput"
+					placeholder="일정을 추가하세요" spellcheck="false">
+			</div>
+			<div class="calender-input-container">
+				<span>친구 </span><input type="text" id="scheduleInputFriends"
+					placeholder="친구 이름을 검색하세요" spellcheck="false">
+			</div>
+			<div id="autocompleteFriends" class="autocomplete-list"></div>
+			<!-- 자동완성 리스트 -->
+			<div class="calender-btn-container">
+				<button id="saveSchedule" onclick="">저장</button>
+				<button id="closeModal">취소</button>
+			</div>
+		</div>
+		<!-- 일정 추가를 위한 모달 -->
+		<div id="scheduleDetailModal">
+			<div class="schedule-detil-flexBox friend-list-container">
+				<div class="friend-list-title-box">
+					&nbsp;<i class="fas fa-crown colorful-crown"></i>&nbsp;<span>null</span>
+				</div>
+				<div class="friend-list-name-box">
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								1&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">박이번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								2&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">강삼번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								3&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최사번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								4&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">정오번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								5&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">정육번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								6&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">서칠번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								7&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">유팔번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								8&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">계구번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								9&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최십번</span>
+					</div>
+					<div>
+						&nbsp;<span class="calender-input-container participant"><span>참석자
+								10&nbsp;&nbsp;&nbsp;</span></span><span class="friend-name">최재빈</span>
+					</div>
+				</div>
+			</div>
+			<div class="schedule-detil-flexBox memo-container">
+				<div class="memo-title-box">
+					&nbsp;<span class="colorful-check">✔</span>&nbsp;메모
+				</div>
+				<div class="memo-content-box">
+					<div class="memo-content-flexBox">
+						<div class="promise-time promise-time-date">
+							<span>&nbsp;&nbsp;날짜&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+								class="date-text"></span>
+						</div>
+						<div class="promise-time">
+							<span>&nbsp;&nbsp;시간</span><input id="promiseTime" type="text"
+								placeholder="ex) AM 9:00" spellcheck="false">
+						</div>
+					</div>
+					<textarea id="memoContent" name="" placeholder="# 장소"
+						spellcheck="false"></textarea>
+				</div>
+			</div>
+			<div class="schedule-detil-flexBox diary-container">
+				<div class="diary-title-box">
+					&nbsp;<i class="fas fa-book colorful-book"></i>&nbsp;일기장
+					<div class="btn-calender-detil btn-calender-detil-save"
+						onclick="updateCalenderDetail(this)">저장</div>
+					<div class="btn-calender-detil btn-calender-detil-close"
+						onclick="calenderDetailColse(this)">닫기</div>
+				</div>
+				<div class="diary-content-box">
+					<div class="content-title">
+						<input id="diaryTitle" type="text" placeholder="제목"
+							spellcheck="false">
+					</div>
+					<textarea id="diaryContent" name="" placeholder=""
+						spellcheck="false"></textarea>
+					<div class="btn-calender-detil btn-calender-detil-myDiary-save"
+						onclick="saveMyDiary(this)">내 일기장에 저장</div>
+					<div class="btn-calender-detil btn-calender-detil-delete"
+						onclick="calenderDetailDelete()">일정삭제</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <script>
-        const userId = 'user2';
+
+	<div class="return-home" onclick="location.href='/main'" style="cursor: pointer;">
+		<i class="fa-solid fa-arrow-rotate-left"></i>
+	</div>
+
+	<script>
+        const userId = '${userId}';
         let userName;
         let ajaxResult = false;
 

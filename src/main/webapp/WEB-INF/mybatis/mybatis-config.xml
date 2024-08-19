@@ -43,6 +43,10 @@
 		<typeAlias type="com.app.dto.calender.Friends" alias="Friends"/>
 		<typeAlias type="com.app.dto.calender.CalenderFriends" alias="CalenderFriends"/>
 		<typeAlias type="com.app.dto.calender.CalenderMemoDiary" alias="CalenderMemoDiary"/>
+
+		<typeAlias type="com.app.dto.diary.TalkToBotData" alias="TalkToBotData"/>
+		<typeAlias type="com.app.dto.diary.ExcludedKeyword" alias="ExcludedKeyword"/>
+		<typeAlias type="com.app.dto.diary.TalkToBotAll" alias="TalkToBotAll"/>
 	</typeAliases>						
 
 							

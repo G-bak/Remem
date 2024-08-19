@@ -1068,6 +1068,7 @@ button {
 	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
 }
 
+
 #frm-view-diary textarea, #frm-modify-diary textarea {
 	resize: none; /* 사용자가 크기 조절 불가 */
 	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
@@ -1088,6 +1089,7 @@ label #diary-title-view, label #diary-title-modify {
 	margin-top: 30px;
 	font-weight: bold;
 	font-size: 1.3rem;
+	width: 100%;
 }
 
 #diary-date-view, #diary-date-modify {
