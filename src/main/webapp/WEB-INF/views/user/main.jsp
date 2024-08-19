@@ -29,7 +29,7 @@
 </head>
 
 <body>
-<script>
+	<script>
 window.onload = function() {
     // 세션 저장소에서 페이지 번호를 가져옵니다
     let pageNumber = sessionStorage.getItem("pageNumber");
@@ -38,11 +38,11 @@ window.onload = function() {
     
     // 페이지 번호가 1 이상이면 content-diary를 표시합니다
     if (intPageNumber >= 1) {
-    	document.getElementById("home").style.display = 'none';
+       document.getElementById("main-swiper-rightslide").style.display = 'none';
         document.getElementById("content-diary").style.display = 'block';
-		
+      
     }else {
-    	document.getElementById("content-diary").style.display = 'none';
+       document.getElementById("content-diary").style.display = 'none';
     }
     
 }
@@ -57,18 +57,18 @@ window.onload = function() {
 			</button>
 		</div>
 	</header>
-	
-	
+
+
 	<div id="friendRequestPopup" class="popupfriendRequest">
 		<div class="popup-friendRequest-content">
 			<div>
-			<h1 style="font-size: 1.2rem; margin-bottom: 5px;">친구 신청 목록 📬</h1>
-			<p style="color: gray;">친구신청을 받아줘~</p>
+				<h1 style="font-size: 1.2rem; margin-bottom: 5px;">친구 신청 목록 📬</h1>
+				<p style="color: gray;">친구신청을 받아줘~</p>
 			</div>
 			<ul class="friend-request-list">
 				<!-- <li class="friend-request-item"><p>친구 신청 1</p></li>
-				<li class="friend-request-item"><p>친구 신청 2</p></li> 
-				<li class="friend-request-item"><p>친구 신청 3</p></li>  -->
+            <li class="friend-request-item"><p>친구 신청 2</p></li> 
+            <li class="friend-request-item"><p>친구 신청 3</p></li>  -->
 			</ul>
 			<button class="popup-friendRequest-close"
 				id="popupfriendRequestCloseBtn">닫기</button>
@@ -84,25 +84,25 @@ window.onload = function() {
 					style="background-image: url('${sessionScope.filePath}');"></div>
 				<form action="/upload" method="post" enctype="multipart/form-data"
 					onsubmit="return validateForm()">
-					
-					<label for="fileInput" class="custom-file-button">파일 선택</label>
-					<input type="file" name="file" id="fileInput">
-					  <span id="fileName">파일을 선택하세요</span>
-					  
+
+					<label for="fileInput" class="custom-file-button">파일 선택</label> <input
+						type="file" name="file" id="fileInput"> <span
+						id="fileName">파일을 선택하세요</span>
+
 					<button type="submit"
 						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 33%; cursor: pointer; border-radius: 5px; background-color: #c1e0ac;">올리기
 					</button>
 				</form>
-				<!-- 				</div> -->
+				<!--             </div> -->
 
 
 				<div>
 					<p>팔로워</p>
-                    <p class="follower">${follower}</p>
+					<p class="follower">${follower}</p>
 				</div>
 				<div>
 					<p>팔로잉</p>
-                    <p class="following">${following}</p>
+					<p class="following">${following}</p>
 				</div>
 			</div>
 			<div class="profile-introduce">
@@ -129,7 +129,7 @@ window.onload = function() {
 					<input type="text" id="sample6_address" name="userAddress"
 						value="${user.userAddress}"><br> <i
 						class="fa-solid fa-magnifying-glass" id="search-icon"
-						onclick="sample6_execDaumPostcode()"></i> </input><br>	<input
+						onclick="sample6_execDaumPostcode()"></i> </input><br> <input
 						type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 				</div>
@@ -168,7 +168,8 @@ window.onload = function() {
 			<h1 style="font-size: 1.3rem;">친구 검색 하기</h1>
 			<p>친구의 아이디를 검색할 수 있어요!</p>
 
-			<input type="text" id="name-input" placeholder="아이디 입력" style="border: 1px solid gray; border-radius: 8px;"
+			<input type="text" id="name-input" placeholder="아이디 입력"
+				style="border: 1px solid gray; border-radius: 8px;"
 				oninput="filterFriends()">
 			<button type="submit" id="search-btn">
 				<i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
@@ -181,24 +182,24 @@ window.onload = function() {
 			<!--<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button> -->
 
 			<div class="recommend-friend-header">
-			<h1 style="font-size: 1.3rem;">친구 추천</h1>
-			<button type="submit" id="recommend-search-btn"
-				onclick="refreshRecommendFriendList()">
-				
-				<img id="refresh-image" src="/image/refresh-arrow.png" alt="친구목록갱신">
-			</button>
+				<h1 style="font-size: 1.3rem;">친구 추천</h1>
+				<button type="submit" id="recommend-search-btn"
+					onclick="refreshRecommendFriendList()">
+
+					<img id="refresh-image" src="/image/refresh-arrow.png" alt="친구목록갱신">
+				</button>
 			</div>
-			
+
 			<p>
 				친구 추천 목록이에요!<br>새로고침 아이콘을 눌러서 추천 목록을 갱신할 수 있어요~
 			</p>
 
 			<!--<form onsubmit="return false;" id="frm-addfriend"> -->
 
-			
+
 			<!--             </form> -->
 			<table class="recommendfriend-list" id="recommendfriend-list">
-				<!-- 				동적으로 친구 추천 목록 생성 -->
+				<!--             동적으로 친구 추천 목록 생성 -->
 			</table>
 			<button class="addfriend-close-btn" id="close-addfriend-popup">닫기</button>
 		</div>
@@ -211,25 +212,29 @@ window.onload = function() {
 					<button class="menu-btn" onclick="location.href='/main'">
 						<img id="home-image" src="/image/home.png" alt="홈">
 					</button>
-					<button class="menu-btn" data-target="#content-diary" onclick="home()">일기장</button>
-					<button class="menu-btn" type="button" data-target="#content-todo" onclick="deleteSession()">오늘할일</button>
-					<button class="menu-btn" data-target="#content-budget" onclick="deleteSession()">가계부</button>
-					<button class="menu-btn" data-target="#content-capsule" onclick="deleteSession()">타임캡슐</button>
-					
+					<button class="menu-btn" data-target="#content-diary"
+						onclick="home()">일기장</button>
+					<button class="menu-btn" type="button" data-target="#content-todo"
+						onclick="deleteSession()">오늘할일</button>
+					<button class="menu-btn" data-target="#content-budget"
+						onclick="deleteSession()">가계부</button>
+					<button class="menu-btn" data-target="#content-capsule"
+						onclick="deleteSession()">타임캡슐</button>
+
 					<script>
-					function home(){
-						document.getElementById("home").style.display = 'none';
-						
-					}
-					
-					function deleteSession(){
-						sessionStorage.clear();
-			            console.log("세션 초기화");
-						document.getElementById("content-diary").style.display = 'none';
-						document.getElementById("home").style.display = 'none';
-						
-					}
-					</script>
+               function home(){
+                  document.getElementById("main-swiper-rightslide").style.display = 'none';
+                  
+               }
+               
+               function deleteSession(){
+                  sessionStorage.clear();
+                     console.log("세션 초기화");
+                  document.getElementById("content-diary").style.display = 'none';
+                  document.getElementById("main-swiper-rightslide").style.display = 'none';
+                  
+               }
+               </script>
 				</div>
 
 				<div id="main-swiper-rightslide">
@@ -272,92 +277,104 @@ window.onload = function() {
 					</div>
 				</div>
 
-				<div class="swiper-rightslide" 
-     id="content-diary" 
-     style="display: ${currentPage >= 2 ? 'block' : 'none'};">
-    <div class="diary-header">
-        <a href="/diaryWrite">
-            <button class="insert-btn">
-                <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-        </a>
-        <button class="chatbot-btn">
-            <i class="fa-regular fa-comments"></i>
-        </button>
-    </div>
-    
-    <div class="diary-container">
-    	<div class="diary-entry-wrapper">
-	        <c:forEach var="diary" items="${userDiaryList}">
-	            <div class="diary-entry" data-diary-id="${diary.diaryId}">
-	                <h3>${diary.diaryTitle}</h3>
-	                <span class="diary-date">${diary.writeDate}</span>
-	                <div class="diary-footer">
-	                    <button class="diary-container-view-btn" id="view-diary">확인</button>
-	                    <button class="diary-container-modify-btn" id="modify-diary">수정</button>
-	                    <button class="diary-container-remove-btn" id="remove-diary" data-diary-id="${diary.diaryId}">삭제</button>
-	                </div>
-	                <p class="diary-content" style="display: none;">${diary.diaryContent}</p>
-	            </div>
-	        </c:forEach>
-        </div>
-        
-        <div class="pagination-container">
-            <c:if test="${currentPage > 1}">
-                <a href="/main?page=${currentPage - 1}" class="prev-button"> 이전 </a>
-            </c:if>
-            
-            <c:forEach var="i" begin="1" end="${totalPages}">
-                <a href="/main?page=${i}" class="number-button ${i == currentPage ? 'active' : ''}" onclick="saveSessionPage(${i})">${i}</a>
-            <script>
-	            function saveSessionPage(pageNumber) {
-	                // 세션 저장소에 페이지 번호 저장
-	                sessionStorage.setItem('pageNumber', pageNumber);
-	            }
+				<div class="swiper-rightslide" id="content-diary"
+					style="display: ${currentPage >= 2 ? 'block' : 'none'};">
+					<div class="diary-header">
+						<a href="/diaryWrite">
+							<button class="insert-btn">
+								<i class="fa-regular fa-pen-to-square"></i>
+							</button>
+						</a>
+						<button class="chatbot-btn">
+							<i class="fa-regular fa-comments"></i>
+						</button>
+					</div>
+
+					<div class="diary-container">
+						<div class="diary-entry-wrapper">
+							<c:forEach var="diary" items="${userDiaryList}">
+								<div class="diary-entry" data-diary-id="${diary.diaryId}">
+									<h3>${diary.diaryTitle}</h3>
+									<span class="diary-date">${diary.writeDate}</span>
+									<div class="diary-footer">
+										<button class="diary-container-view-btn" id="view-diary">확인</button>
+										<button class="diary-container-modify-btn" id="modify-diary">수정</button>
+										<button class="diary-container-remove-btn" id="remove-diary"
+											data-diary-id="${diary.diaryId}">삭제</button>
+									</div>
+									<p class="diary-content" style="display: none;">${diary.diaryContent}</p>
+								</div>
+							</c:forEach>
+						</div>
+
+						<div class="pagination-container">
+							<c:if test="${currentPage > 1}">
+								<a href="/main?page=${currentPage - 1}" class="prev-button">
+									이전 </a>
+							</c:if>
+
+							<c:forEach var="i" begin="1" end="${totalPages}">
+								<a href="/main?page=${i}"
+									class="number-button ${i == currentPage ? 'active' : ''}"
+									onclick="saveSessionPage(${i})">${i}</a>
+								<script>
+               function saveSessionPage(pageNumber) {
+                   // 세션 저장소에 페이지 번호 저장
+                   sessionStorage.setItem('pageNumber', pageNumber);
+               }
             </script>
-            </c:forEach>
-            
-            <c:if test="${currentPage < totalPages}">
-                <a href="/main?page=${currentPage + 1}" class="next-button"> 이후 </a>
-            </c:if>
-        </div>
-    </div>
-    
-    <div class="diary-view-popup" id="diary-view-popup">
-        <div class="diary-view-content">
-            <h1 style="font-size: 1.5rem; margin-left: 15px;">일기 확인하기📒</h1>
-           
-            <div id="frm-view-diary">
-            
-            	
-    			<label class="title-label"><input type="text" id="diary-title-view" name="diaryTitle" readonly ></label>
-    			 <label class="date-label"><input type="text" id="diary-date-view" name="writeDate" readonly ></label> 
-    			<textarea rows="5" cols="45" id="diary-content-view" name="diaryContent" readonly></textarea>
-    			<button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
-    			
-            </div>
-        </div>
-    </div>
-    
-    <div class="diary-modify-popup" id="diary-modify-popup">
-        <div class="diary-modify-content">
-             <h1 style="font-size: 1.5rem; margin-left: 10px;">일기 수정하기✏️</h1>
-           
-            <form action="/modifyDiary" method="post" id="frm-modify-diary">
-                <input type="hidden" id="diaryId" name="diaryId">
-                <label class="title-label"><input type="text" id="diary-title-modify" name="diaryTitle"></label>
-                 <label class="date-label"><input type="text" id="diary-date-modify" name="writeDate" readonly> </label>
-                
-                <textarea rows="5" cols="45" id="diary-content-modify" name="diaryContent"></textarea>
-                <div class="btns-diary-modify">
-                	<button type="submit" class="diary-modify-btn" id="modify-diary-popup">수정</button>
-                	
-	                <button class="diary-modify-close-btn" id="close-modify-diary-popup">닫기</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+							</c:forEach>
+
+							<c:if test="${currentPage < totalPages}">
+								<a href="/main?page=${currentPage + 1}" class="next-button">
+									이후 </a>
+							</c:if>
+						</div>
+					</div>
+
+					<div class="diary-view-popup" id="diary-view-popup">
+						<div class="diary-view-content">
+							<h1 style="font-size: 1.5rem; margin-left: 15px;">일기 확인하기📒</h1>
+
+							<div id="frm-view-diary">
+
+
+								<label class="title-label"><input type="text"
+									id="diary-title-view" name="diaryTitle" readonly></label> <label
+									class="date-label"><input type="text"
+									id="diary-date-view" name="writeDate" readonly></label>
+								<textarea rows="5" cols="45" id="diary-content-view"
+									name="diaryContent" readonly></textarea>
+								<button class="diary-view-close-btn" id="close-view-diary-popup">닫기</button>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="diary-modify-popup" id="diary-modify-popup">
+						<div class="diary-modify-content">
+							<h1 style="font-size: 1.5rem; margin-left: 10px;">일기 수정하기✏️</h1>
+
+							<form action="/modifyDiary" method="post" id="frm-modify-diary">
+								<input type="hidden" id="diaryId" name="diaryId"> <label
+									class="title-label"><input type="text"
+									id="diary-title-modify" name="diaryTitle"></label> <label
+									class="date-label"><input type="text"
+									id="diary-date-modify" name="writeDate" readonly> </label>
+
+								<textarea rows="5" cols="45" id="diary-content-modify"
+									name="diaryContent"></textarea>
+								<div class="btns-diary-modify">
+									<button type="submit" class="diary-modify-btn"
+										id="modify-diary-popup">수정</button>
+
+									<button class="diary-modify-close-btn"
+										id="close-modify-diary-popup">닫기</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="swiper-rightslide" id="content-todo">
 					<div class="wrapper">
 						<header>#Check List</header>
@@ -372,7 +389,7 @@ window.onload = function() {
 				</div>
 				<div class="swiper-rightslide" id="content-budget">
 					<div class="accountModify" id="accountModify">
-					
+
 						<div class="accountModify-popup-content">
 							<input type="date" class="date" id="input-date">
 							<button id="btn_account_save" type="submit">저장</button>
@@ -491,10 +508,11 @@ window.onload = function() {
 							<div class="popup-content">
 								<input type="date" id="date_timecapsule"
 									class="date_timecapsule">
-								
-									
-									<textarea id="input_timecapsule" class="input_timecapsule" rows="10" cols="50" placeholder="타임캡슐을 만들어줘!"></textarea>
-									<br />
+
+
+								<textarea id="input_timecapsule" class="input_timecapsule"
+									rows="10" cols="50" placeholder="타임캡슐을 만들어줘!"></textarea>
+								<br />
 								<button class="save-btn" id="save_popup_timecapsule">저장</button>
 								<button class="close-btn" id="close_popup_timecapsule">닫기</button>
 							</div>
@@ -508,26 +526,27 @@ window.onload = function() {
 	<footer id="footer">
 		<span>© 2024 #오늘 일기</span>
 		<div class="footer-main">
-			<a href="/user/removeUser" class="account-deletion" onclick="return confirmDeletion();">&nbsp;회원탈퇴</a>
-			<a href="/user/logout" class="logout">로그아웃</a>
+			<a href="/user/removeUser" class="account-deletion"
+				onclick="return confirmDeletion();">&nbsp;회원탈퇴</a> <a
+				href="/user/logout" class="logout">로그아웃</a>
 		</div>
 	</footer>
 
 	<script>
-		// JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
-		<c:if test="${not empty errorMessage}">
-		alert("${errorMessage}");
-		</c:if>
-	</script>
+      // JSP 내에서 사용자가 제출한 폼에 대해 발생한 오류 메시지를 알림으로 보여줌
+      <c:if test="${not empty errorMessage}">
+      alert("${errorMessage}");
+      </c:if>
+   </script>
 
 	<script type="text/javascript">
-		// JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
-		var loginUserId = '${user.userId}';
-		console.log(loginUserId);
+      // JSP EL을 사용하여 Java 변수 값을 자바스크립트 변수에 할당
+      var loginUserId = '${user.userId}';
+      console.log(loginUserId);
 
-		var filePath = '${sessionScope.filePath}';
-		console.log(filePath + "123");
-	</script>
+      var filePath = '${sessionScope.filePath}';
+      console.log(filePath + "123");
+   </script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
