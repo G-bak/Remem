@@ -27,6 +27,10 @@ public interface FriendService {
 	public List<User> viewRecommendList(String loginUserId);
 
 	public List<FriendStatusDTO> countFriends(FriendStatusDTO friendStatusDTO);
+
+	public int countFollower(String userId);
+
+	public int countFollowing(String userId);
 	
 	
 	

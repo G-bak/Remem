@@ -77,11 +77,11 @@ window.onload = function() {
                 <div class="photo">사진</div>
                 <div>
                     <p>팔로워</p>
-                    <p class="follower">${follower}</p>
+                    <p class="follower">${friendCount}</p>
                 </div>
                 <div>
                     <p>팔로잉</p>
-                    <p class="following">${following}</p>
+                    <p class="following">${friendCount}</p>
                 </div>
             </div>
             <div class="profile-introduce">
@@ -204,7 +204,9 @@ window.onload = function() {
 				<div>
 				<h1 id="home" >home예비</h1>
 				</div>
-				<div class="swiper-rightslide" id="content-diary" style="display: ${currentPage >= 2 ? 'block' : 'none'};">
+				<div class="swiper-rightslide" 
+     id="content-diary" 
+     style="display: ${currentPage >= 2 ? 'block' : 'none'};">
     <div class="diary-header">
         <a href="/diaryWrite">
             <button class="insert-btn">
@@ -254,6 +256,7 @@ window.onload = function() {
     <div class="diary-view-popup" id="diary-view-popup">
         <div class="diary-view-content">
             <h2>일기 확인 팝업창</h2>
+            <p>여기에서는 일기를 확인할 수 있습니다.</p>
             <div id="frm-view-diary">
                 <input type="text" id="diary-date-view" name="writeDate" readonly> 
                 <input type="text" id="diary-title-view" name="diaryTitle" readonly>
@@ -266,6 +269,7 @@ window.onload = function() {
     <div class="diary-modify-popup" id="diary-modify-popup">
         <div class="diary-modify-content">
             <h2>일기 수정 팝업창</h2>
+            <p>여기에서는 일기를 수정할 수 있습니다.</p>
             <form action="/modifyDiary" method="post" id="frm-modify-diary">
                 <input type="hidden" id="diaryId" name="diaryId">
                 <input type="text" id="diary-date-modify" name="writeDate" readonly> 

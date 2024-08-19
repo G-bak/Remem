@@ -84,5 +84,17 @@ public class FriendDAOImpl implements FriendDAO {
 	      }
 	}
 
+	@Override
+	public int countFollower(String userId) {
+		int result = sqlSessionTemplate.selectOne("friend_mapper.countFollower", userId);
+		return result;
+	}
+
+	@Override
+	public int countFollowing(String userId) {
+		int result = sqlSessionTemplate.selectOne("friend_mapper.countFollowing", userId);
+		return result;
+	}
+
 	
 }
