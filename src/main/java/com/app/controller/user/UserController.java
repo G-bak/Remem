@@ -55,16 +55,16 @@ public class UserController {
 
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
-		System.out.println("test");
+		// System.out.println("test");
 		// 사용자 ID 설정
 		User sessionUser = (User) session.getAttribute("user");
-		System.out.println(sessionUser);
+		// System.out.println(sessionUser);
 		// 변경할 주소 가져오기
 
-//  		System.out.println(user.getUserAddress());
+//  		// System.out.println(user.getUserAddress());
 
 		String userId = sessionUser.getUserId().toString();
-		System.out.println("User ID: " + userId);
+		// System.out.println("User ID: " + userId);
 		
 		session.setAttribute("userId", userId);
 
@@ -76,10 +76,10 @@ public class UserController {
 
 			// 각 다이어리의 정보를 콘솔에 출력
 			for (UserDiary diary : userDiaryList) {
-				System.out.println(diary.getDiaryId());
-				System.out.println(diary.getDiaryTitle());
-				System.out.println(diary.getDiaryContent());
-				System.out.println(diary.getWriteDate());
+				// System.out.println(diary.getDiaryId());
+				// System.out.println(diary.getDiaryTitle());
+				// System.out.println(diary.getDiaryContent());
+				// System.out.println(diary.getWriteDate());
 			}
 
 			// 페이지네이션을 위한 로직
@@ -96,11 +96,11 @@ public class UserController {
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("currentPage", page);
             
-            System.out.println(model.getAttribute("totalPages"));
-            System.out.println(model.getAttribute("currentPage"));
-            System.out.println(startIndex);//>=4
-            System.out.println(totalCount);
-            System.out.println(totalPages);
+            // System.out.println(model.getAttribute("totalPages"));
+            // System.out.println(model.getAttribute("currentPage"));
+            // System.out.println(startIndex);//>=4
+            // System.out.println(totalCount);
+            // System.out.println(totalPages);
         }
         
         // 친구 목록을 가져옴
@@ -110,7 +110,7 @@ public class UserController {
         
         // 친구 수를 계산
         int friendCount = friendCountList.size();
-        System.out.println("친구 수 : " + friendCount);
+        // System.out.println("친구 수 : " + friendCount);
 
         // 모델에 친구 수와 사용자 정보를 추가
         model.addAttribute("friendCount", friendCount);
@@ -121,8 +121,8 @@ public class UserController {
         int followerCount = friendService.countFollower(userId);
         int followingCount = friendService.countFollowing(userId);
         
-        System.out.println("팔로워 수 : " + followerCount);
-        System.out.println("팔로잉 수 : " + followingCount);
+        // System.out.println("팔로워 수 : " + followerCount);
+        // System.out.println("팔로잉 수 : " + followingCount);
 
         // 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
         model.addAttribute("follower", followerCount);
@@ -202,7 +202,7 @@ public class UserController {
 	// 로그인
 	@GetMapping("/user/signin")
 	public String signin(HttpSession session) {
-		System.out.println(session.getAttribute("user"));
+		// System.out.println(session.getAttribute("user"));
 		return "user/signin";
 	}
 
@@ -220,12 +220,12 @@ public class UserController {
 			String loginUserFilePath = fileService.findFilePathByUserId(loginUser.getUserId());
 			session.setAttribute("filePath", loginUserFilePath);
 
-			System.out.println(session.getAttribute("user") + "정상");
+			// System.out.println(session.getAttribute("user") + "정상");
 
 			return "redirect:/main";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			System.out.println(session.getAttribute("user") + "오류");
+			// System.out.println(session.getAttribute("user") + "오류");
 			return "redirect:/main";
 		}
 	}
@@ -264,7 +264,7 @@ public class UserController {
 	public String modifyAddress(User user, HttpSession session) {
 
 		User sessionUser = (User) session.getAttribute("user");
-		System.out.println(sessionUser);
+		// System.out.println(sessionUser);
 		// 변경할 주소 가져오기
 
 //  		System.out.println(user.getUserAddress());
@@ -333,7 +333,7 @@ public class UserController {
 	public int checkDuplicatedId(@RequestBody Map<String, String> requestData) {
 		String signupId = requestData.get("signupId");
 
-		System.out.println(signupId);
+		// System.out.println(signupId);
 
 		int result = userService.checkDuplicatedId(signupId);
 

@@ -60,7 +60,7 @@ public class FriendController {
 	@ResponseBody
 	public int joinRequestFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
 		
-		System.out.println(friendStatusDTO);
+		// System.out.println(friendStatusDTO);
 		int result = friendService.joinRequestFriend(friendStatusDTO);
 
 		return result;
@@ -71,7 +71,7 @@ public class FriendController {
 	@ResponseBody
 	public List<User> confirmRequestFriend(@RequestParam String loginUserId) {
 		List<User> requestFriendList = friendService.confirmRequestFriend(loginUserId);
-		System.out.println(requestFriendList);
+		// System.out.println(requestFriendList);
 
 		for (int i = 0; i < requestFriendList.size(); i++) {
 			requestFriendList.get(i)
@@ -143,7 +143,7 @@ public class FriendController {
 	@ResponseBody
 	public String unfollowFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
 
-		System.out.println(friendStatusDTO);
+		// System.out.println(friendStatusDTO);
 
 		int unfollowResultOneWay = friendService.unfollowFriendOneWay(friendStatusDTO);
 

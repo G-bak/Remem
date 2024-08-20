@@ -54,7 +54,7 @@ public class FileController {
                 	String fileName = Paths.get(item.getName()).getFileName().toString(); // 원본 파일 이름
                 	
                 	
-                	System.out.println(fileName);
+                	// System.out.println(fileName);
                 	
                 	  // 파일 이름 유효성 검사~~~~
                     if (fileName == null || fileName.trim().isEmpty() ) {
@@ -75,8 +75,8 @@ public class FileController {
                     String newFileName = uuid + fileExtension; // 새 파일 이름
                     
                     
-                    System.out.println("Original File Name: " + fileName);
-                    System.out.println("New File Name: " + newFileName); // 수정된 파일 이름 출력
+                    // System.out.println("Original File Name: " + fileName);
+                    // System.out.println("New File Name: " + newFileName); // 수정된 파일 이름 출력
                 
                         
                     File uploadDir = new File(UPLOAD_DIRECTORY);
@@ -92,13 +92,13 @@ public class FileController {
                     
                     // 파일의 URL 생성
                     String fileUrl = "/uploads/" + newFileName;
-                    System.out.println("File URL: " + fileUrl);
+                    // System.out.println("File URL: " + fileUrl);
                    
                     
                     // DB
                     FileInfo fileinfo = new FileInfo();
                     User user = (User) session.getAttribute("user");
-                    System.out.println("세션 fileinfo: " + user);
+                    // System.out.println("세션 fileinfo: " + user);
                     fileinfo.setUserId(user.getUserId()); 
                     fileinfo.setFileName(newFileName);
                     fileinfo.setUrlFilePath(fileUrl);
@@ -108,7 +108,7 @@ public class FileController {
                     //DB에 fileinfo 테이블에 등록된 프로필 사진이 없으면 insert
                     //있으면 변경된 사진으로 update
                     int selectResult = fileservice.selectFileInfo(fileinfo);
-                    System.out.println("count: " + selectResult);
+                    // System.out.println("count: " + selectResult);
                     
                     if(selectResult > 0) {
                     	int result = fileservice.updateFileInfo(fileinfo);
@@ -138,13 +138,13 @@ public class FileController {
                     filePath = fileservice.findFileUrlByFileNameUserId(fileinfo);
                     
                     if (filePath != null) {
-                    	System.out.println("성공");
+                    	// System.out.println("성공");
                     	session.setAttribute("filePath", filePath);
                     	// 콘솔창 테스트 코드
                     	String filePath11 = session.getAttribute("filePath").toString();
-                    	System.out.println(filePath11);
+                    	// System.out.println(filePath11);
                     } else {
-                    	System.out.println("실패");
+                    	// System.out.println("실패");
                     }
                     
                     

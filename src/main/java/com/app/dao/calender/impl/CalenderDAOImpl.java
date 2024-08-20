@@ -127,7 +127,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int updateCalenderDetail(CalenderMemoDiary request) {
 		try {
-			System.out.println("calenderService.updateCalenderDetail 호출됨");
+			// System.out.println("calenderService.updateCalenderDetail 호출됨");
 			return sqlSessionTemplate.update("calender_mapper.updateCalenderDetail", request);
 		} catch (Exception e) {
 			e.printStackTrace();

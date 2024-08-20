@@ -64,7 +64,7 @@ $(document).ready(function() {
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify({
-				tcUserId: 'user1',
+				tcUserId: loginUserId,
 				tcDate: tcDate,
 				tcContent: tcContent
 			}),

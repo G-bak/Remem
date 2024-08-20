@@ -126,7 +126,7 @@ public class CalenderServiceImpl implements CalenderService {
 	@Override
 	public int updateCalenderDetail(CalenderMemoDiary request) {
 		try {
-			System.out.println("calenderService.updateCalenderDetail 호출됨");
+			// System.out.println("calenderService.updateCalenderDetail 호출됨");
 			return calenderDAO.updateCalenderDetail(request);
 		} catch (Exception e) {
 			e.printStackTrace();

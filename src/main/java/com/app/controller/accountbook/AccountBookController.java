@@ -33,7 +33,7 @@ public class AccountBookController {
 	@ResponseBody
 	@PostMapping("/save/AccountBook")
 	public AccountBook saveAccountBook(@RequestBody AccountBook accountBook) {
-		System.out.println(accountBook);
+		// System.out.println(accountBook);
 		int savedAccountBook = accountBookService.saveAccountBook(accountBook);
 		if (savedAccountBook > 0) {
 			return accountBook;
