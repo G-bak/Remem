@@ -226,7 +226,7 @@ public class UserController {
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			System.out.println(session.getAttribute("user") + "오류");
-			return "user/signin";
+			return "redirect:/main";
 		}
 	}
 
@@ -297,7 +297,7 @@ public class UserController {
 
 			// 현재 비밀번호가 일치하는지 확인
 			if (!sessionUser.getUserPassword().equals(currentPassword)) {
-				throw new Exception("현재 비밀번호가 일치하지 않습니다.");
+				throw new Exception("현재 비밀번호와 일치하지 않습니다.");
 			}
 
 			// 새로운 비밀번호가 현재 비밀번호와 동일하지 않은지 확인

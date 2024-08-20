@@ -41,7 +41,8 @@ public class FriendController {
 			friendStatusDTO = new FriendStatusDTO();
 			friendStatusDTO.setLoginUserId(searchFriend.getLoginUserId()); // 내 아이디
 			friendStatusDTO.setFriendId(searchedFriendList.get(i).getUserId()); // 위에서 검색된 친구아이디
-
+			
+			//친구 개개인과 내가 친구인지 아닌지 설정
 			searchedFriendList.get(i).setFriend(friendService.checkIfFriendOrNot(friendStatusDTO));
 		}
 

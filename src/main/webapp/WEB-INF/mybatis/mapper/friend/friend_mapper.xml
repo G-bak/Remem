@@ -163,7 +163,7 @@
 		u.user_id IN (select friend_id from
 		friendships where user_id =
 		#{loginUserId})
-		order by u.write_date
+		order by u.write_date desc
 	</select>
 
 

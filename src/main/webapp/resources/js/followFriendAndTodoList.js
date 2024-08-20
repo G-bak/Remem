@@ -145,7 +145,7 @@ function unfollowFreind(friendId) {
 function getFriendsDiaryTimeline() {
 
 	$.ajax({
-		url: "getFriendsDiaryTimeline",
+		url: "/getFriendsDiaryTimeline",
 		type: "POST",
 		data: {
 			loginUserId: loginUserId
@@ -158,7 +158,7 @@ function getFriendsDiaryTimeline() {
 			timeLineContainer.empty();
 
 			friendDiaryProfileList.forEach((friendDiaryProfile) => {
-
+				//DB에 저장된 날짜를 가져와서 변환
 				let dateString = friendDiaryProfile.writeDate;
 
 				const date = new Date(dateString);
@@ -230,7 +230,7 @@ function viewRecommendList() {
 			recommendFriendListTable.empty();
 
 			if (recommendList != null && recommendList != '') {
-				//tr동적 
+				//tr 동적 추가
 				recommendList.forEach((recommend) => {
 
 					if (recommend.urlFilePath == null || recommend.urlFilePath == '') {
@@ -246,6 +246,7 @@ function viewRecommendList() {
 					                    <td><button  class="add-friend-padding"  id="${recommend.userId}" onclick=addFriend('${recommend.userId}') style="background-color: transparent;"><i class="fas fa-user-plus"></i></button></td>
 					                </tr>
 					            `;
+								
 					recommendFriendListTable.append(row);
 				});
 			} else {
@@ -263,9 +264,9 @@ function viewRecommendList() {
 
 
 //친구 추천 목록 갱신
-function refreshRecommendFriendList() {
-	viewRecommendList();
-}
+//function refreshRecommendFriendList() {
+//	viewRecommendList();
+//}
 
 
 
@@ -338,7 +339,7 @@ function receiveFriendRequest(friendId) {
 			getFriendList();
 
 			//친구 추천리스트 재로드
-			refreshRecommendFriendList();
+			viewRecommendList();
 		},
 		error: function() {
 			alert("에러발생");

@@ -73,6 +73,7 @@ input[type="text"], input[type="date"], input[type="password"] {
 #p-duplicatedText {
 	font-size: 1.2rem;
 	color: #c0392b;
+	text-align: center;
 }
 
 .address-box {

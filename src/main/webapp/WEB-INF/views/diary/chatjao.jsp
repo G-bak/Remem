@@ -52,6 +52,10 @@ body {
 	box-sizing: border-box;
 }
 
+textarea {
+	outline: none;
+}
+
 .container {
 	display: flex;
 	width: 100%;
@@ -617,7 +621,7 @@ body {
 	</div>
 
 
-	
+
 
 	<script>
             // 로그인한 사용자의 ID를 저장하는 변수입니다.

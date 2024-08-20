@@ -39,7 +39,7 @@ input {
 	outline: none;
 }
 
-textarea{
+textarea {
 	outline: none;
 }
 
@@ -608,6 +608,25 @@ textarea{
 	font-size: 27px;
 	color: gray;
 }
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f0f0f0;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #83836721;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: #f0f0f0;
+}
 </style>
 <title>#Remem</title>
 </head>
@@ -742,7 +761,8 @@ textarea{
 	</div>
 
 
-	<div class="return-home" onclick="location.href='/main'" style="cursor: pointer;">
+	<div class="return-home" onclick="location.href='/main'"
+		style="cursor: pointer;">
 		<i class="fa-solid fa-arrow-rotate-left"></i>
 	</div>
 

@@ -189,7 +189,7 @@ window.onload = function() {
 			<div class="recommend-friend-header">
 				<h1 style="font-size: 1.3rem;">친구 추천</h1>
 				<button type="submit" id="recommend-search-btn"
-					onclick="refreshRecommendFriendList()">
+					onclick="viewRecommendList()">
 
 					<img id="refresh-image" src="/image/refresh-arrow.png" alt="친구목록갱신">
 				</button>
