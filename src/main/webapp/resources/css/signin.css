@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Gaegu", sans-serif;
+}
+
+img {
+    width: 135vh;
+    margin-top: -40px;
+}
+
+.signin-body {
+    background: url(/image/grass.png) no-repeat center center; 
+    background-size: cover; 
+    background-color: #c0f373bf;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    color: white;
+    font-size: 70px;
+    margin-bottom: 10px; 
+   text-shadow: -1px 3px 0 #287820;
+}
+    
+
+h2 {
+    color: rgb(95 151 87 / 47%);
+    font-size: 45px;
+    margin-bottom: 10px;
+    text-shadow: -1px 3px 0 #406228;
+}
+
+input[type="text"], input[type="password"], button {
+    width: 330px;
+    height: 50px;
+    margin-top: 3px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    border: 2px solid gray;
+}
+
+input[type="password"] {
+    margin-bottom: 15px;
+}
+
+button {
+    border: 3px solid #185e0e;
+    text-decoration: none;
+    background-color: #58a530;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+    color: #2E3A4D;
+}
+
+button:hover .fa-gratipay {
+    color: #2E3A4D;
+}
+
+.fa-gratipay {
+    color: white;
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+.checkbox {
+    color: black;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.checkbox input {
+    margin-right: 5px;
+}

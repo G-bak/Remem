@@ -14,7 +14,8 @@
 	<annotation-driven>
 		<message-converters>
 			<!-- @ResponseBody로 String 처리할때 한글처리 -->
-			<beans:bean	class="org.springframework.http.converter.StringHttpMessageConverter">
+			<beans:bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
 				<beans:property name="supportedMediaTypes">
 					<beans:list>
 						<beans:value>text/html;charset=UTF-8</beans:value>
@@ -31,10 +32,10 @@
 
 	<context:component-scan
 		base-package="com.app.controller"></context:component-scan>
-<!-- 	<context:component-scan -->
-<!-- 		base-package="com.app.service"></context:component-scan> -->
-<!-- 	<context:component-scan -->
-<!-- 		base-package="com.app.dao"></context:component-scan> -->
+	<context:component-scan
+		base-package="com.app.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.app.dao"></context:component-scan>
 
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -42,9 +43,29 @@
 		<beans:property name="suffix" value=".jsp"></beans:property>
 	</beans:bean>
 
+
+	<resources location="file:///d:/uploads/" mapping="/uploads/**" ></resources>
 	<resources location="/resources/" mapping="/**"></resources>
-	
-	
+
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<exclude-mapping path="/startpage" />
+			<exclude-mapping path="/user/**" />
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/css/**" />
+			<exclude-mapping path="/image/**" />
+			<exclude-mapping path="/js/**" />
+			<exclude-mapping path="/checkIdDuplicated" />
+
+			<beans:bean class="com.app.interceptor.LoginInterceptor">
+			</beans:bean>
+
+		</interceptor>
+	</interceptors>
+
+
 
 </beans:beans>
 

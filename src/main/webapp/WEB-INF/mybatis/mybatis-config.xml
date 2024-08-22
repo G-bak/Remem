@@ -1,17 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>							
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"							
-					"http://mybatis.org/dtd/mybatis-3-config.dtd">									
+					"Http://mybatis.org/dtd/mybatis-3-config.dtd">									
 <configuration>							
 	
-<!-- 	<settings>						 -->
-<!-- 		<setting name="mapUnderscoreToCamelCase" value="true"/>	 -->
-<!-- 				_ 표시 -> CamelCase  userType  맵핑	 --> 
-<!-- 	</settings>						 -->
+					 
+
+	<settings>						
+		<setting name="mapUnderscoreToCamelCase" value="true"/>	
+<!-- 				_ 표시 -> CamelCase  userType  맵핑	  -->
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+	</settings>						
 							
-<!-- 	<typeAliases>						 -->
-<!-- 		<typeAlias type="com.app.dto.user.User" alias="User"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.user.UserSearchCondition" alias="UserSearchCondition"/>					 -->
-<!-- 		<typeAlias type="com.app.dto.room.Room" alias="Room"/> -->
-<!-- 	</typeAliases>						 -->
+	<typeAliases>						
+
+		<typeAlias type="com.app.dto.user.User" alias="User"/>					
+
+		<typeAlias type="com.app.dto.diary.UserDiary" alias="UserDiary"/>
+
+		<typeAlias type="com.app.dto.todolist.TodoList" alias="TodoList"/>
+		<typeAlias type="com.app.dto.todolist.TodoListUpdate" alias="TodoListUpdate"/>
+		<typeAlias type="com.app.dto.todolist.TodoListRemove" alias="TodoListRemove"/>
+
+
+		<typeAlias type="com.app.dto.accountBook.AccountBook" alias="AccountBook"></typeAlias>
+		<typeAlias type="com.app.dto.accountBook.AccountBookSearch" alias="AccountBookSearch"></typeAlias>
+
+
+		<typeAlias type="com.app.dto.friend.SearchFriend" alias="SearchFriend"/>
+		<typeAlias type="com.app.dto.friend.UserSearch" alias="UserSearch"/>
+		<typeAlias type="com.app.dto.friend.FriendStatusDTO" alias="FriendStatusDTO"/>
+		
+		<typeAlias type="com.app.dto.timecapsule.Timecapsule" alias="Timecapsule"></typeAlias>
+
+
+		<typeAlias type="com.app.dto.user.User" alias="User"/>
+		<typeAlias type="com.app.dto.file.FileInfo" alias="FileInfo"/>
+		
+		<typeAlias type="com.app.dto.friend.FriendDiaryProfileDTO" alias="FriendDiaryProfileDTO"/>
+		<typeAlias type="com.app.dto.friend.FriendDTO" alias="FriendDTO"/>
+
+		<typeAlias type="com.app.dto.calender.Calender" alias="Calender"/>
+		<typeAlias type="com.app.dto.calender.Friends" alias="Friends"/>
+		<typeAlias type="com.app.dto.calender.CalenderFriends" alias="CalenderFriends"/>
+		<typeAlias type="com.app.dto.calender.CalenderMemoDiary" alias="CalenderMemoDiary"/>
+
+		<typeAlias type="com.app.dto.diary.TalkToBotData" alias="TalkToBotData"/>
+		<typeAlias type="com.app.dto.diary.ExcludedKeyword" alias="ExcludedKeyword"/>
+		<typeAlias type="com.app.dto.diary.TalkToBotAll" alias="TalkToBotAll"/>
+	</typeAliases>						
+
 							
 </configuration>							

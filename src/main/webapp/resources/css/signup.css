@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Gaegu", sans-serif;
+}
+
+img {
+	width: 135vh;
+	margin-top: -40px;
+}
+
+.signup-body {
+	background: url(/image/grass.png) no-repeat center center;
+	background-size: cover;
+	background-color: #c0f373bf;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+h1 {
+	color: white;
+	font-size: 70px;
+	margin-bottom: 10px;
+	text-shadow: -1px 3px 0 #287820;
+}
+
+h2 {
+	color: rgb(95 151 87/ 47%);
+	font-size: 45px;
+	margin-bottom: 10px;
+	text-shadow: -1px 3px 0 #406228;
+}
+
+input[type="text"], input[type="date"], input[type="password"] {
+	width: 350px;
+	height: 50px;
+	margin-top: 3px;
+	font-size: 20px;
+	border-radius: 8px;
+	border: none;
+	padding: 10px;
+	border: 2px solid gray;
+}
+
+.input-with-button {
+	display: flex;
+}
+
+#userId {
+	width: 80%;
+}
+
+#btn-checkduplicated {
+	margin-left: 3px;
+	padding: 0;
+	width: 20%;
+	font-size: 1rem;
+	
+	cursor: pointer;
+}
+
+#p-duplicatedText {
+	font-size: 1.2rem;
+	color: #c0392b;
+	text-align: center;
+}
+
+.address-box {
+	position: relative;
+}
+
+#btn-addressSearch {
+	width: 20%;
+	height: 60%;
+	border: none;
+	background-color: transparent;
+	background-image: url(/image/address-search.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	top: 22%;
+	right: -2%;
+	cursor: pointer;
+}
+
+
+input[type="date"] {
+	color: #616161de;
+	margin-bottom: 10px;
+}
+
+button {
+	border: 3px solid #185e0e;
+	text-decoration: none;
+	background-color: #58a530;
+	font-weight: bold;
+	color: white;
+	transition: background-color 0.3s, color 0.3s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 350px;
+	height: 50px;
+	margin-top: 3px;
+	font-size: 20px;
+	border-radius: 8px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+button:hover, #btn-checkduplicated:hover {
+	background-color: white;
+	color: #2E3A4D;
+}
+
+button:hover .fa-gratipay {
+	color: #2E3A4D;
+}
+
+.fa-gratipay {
+	color: white;
+	font-size: 20px;
+	margin-left: 3px;
+}
