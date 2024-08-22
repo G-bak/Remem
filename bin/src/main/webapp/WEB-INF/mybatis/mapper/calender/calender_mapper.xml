@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="calender_mapper">
+
+	<insert id="insertCalender" parameterType="Calender">
+		INSERT INTO calender (data_id, user_id, calender_title, has_friends)
+		VALUES (#{dataId}, #{userId}, #{calenderTitle}, #{hasFriends})
+    </insert>
+    
+    <insert id="insertCalenderFriends">
+	    INSERT INTO calender_friends (cfno, data_id, friend_id, friend_name)
+	    VALUES (NVL((SELECT MAX(cfno) FROM calender_friends), 0) + 1, #{dataId}, #{friendId}, #{friendName})
+	</insert>
+
+    <select id="selectCalender" parameterType="Calender" resultType="Calender">
+    	SELECT 
+   			SUBSTR(data_id, 1, 10) AS calender_date, 
+   			data_id, user_id, calender_title, has_friends
+		FROM calender
+		WHERE user_id = #{userId}
+    </select>
+    
+    <delete id="deleteCalender" parameterType="Calender">
+    	DELETE FROM calender 
+		WHERE data_id = #{dataId}
+    </delete>
+    
+    <delete id="deleteCalenderFriends" parameterType="Calender">
+    	DELETE FROM calender_friends
+		WHERE data_id = #{dataId}
+    </delete>
+    
+    <select id="selectFriends" parameterType="Friends" resultType="Friends">
+    	WITH friend_list AS (
+		    SELECT registration_no, friend_id
+		    FROM friendships
+		    WHERE user_id = #{userId}
+		    ORDER BY registration_no
+		)
+		SELECT friend_list.friend_id, u.user_name
+		FROM friend_list
+		INNER JOIN users u
+		ON friend_list.friend_id = u.user_id
+		ORDER BY friend_list.registration_no
+    </select>
+    
+    <select id="selectUserNameByUserId" parameterType="String" resultType="String">
+    	SELECT user_name FROM users WHERE user_id = #{userId}
+    </select>
+    
+    <select id="showFriendList" parameterType="CalenderFriends" resultType="CalenderFriends">
+		WITH reader AS (
+		    SELECT 
+		        DISTINCT SUBSTR(#{dataId}, 
+		        INSTR(#{dataId}, '-', 1, 3) + 1, 
+		        INSTR(#{dataId}, '-', 1, 4) - 
+		        INSTR(#{dataId}, '-', 1, 3) - 1) AS reader_id
+		    FROM calender_friends
+		    WHERE data_id = #{dataId}
+		)
+		SELECT 
+		    u.user_name AS reader_name,
+		    cf.friend_id, 
+		    cf.friend_name 
+		FROM calender_friends cf
+		INNER JOIN reader r ON cf.data_id = #{dataId}
+		INNER JOIN users u ON r.reader_id = u.user_id
+		WHERE cf.data_id = #{dataId}
+		ORDER BY cfno
+    </select>
+    
+    <select id="selectCalenderDetail" parameterType="CalenderMemoDiary" resultType="CalenderMemoDiary">
+	    SELECT 
+		    data_id, reader_id, appointment_time, 
+		    memo_content, diary_title, diary_content
+		FROM calender_memo_diary
+		WHERE data_id = #{dataId}
+    </select>
+    
+    <insert id="insertCalenderDetail" parameterType="CalenderMemoDiary">
+    	INSERT INTO calender_memo_diary (data_id, reader_id, diary_content)
+		VALUES (#{dataId}, #{readerId}, #{diaryContent})
+    </insert>
+    
+    <update id="updateCalenderDetail" parameterType="CalenderMemoDiary">
+    	UPDATE calender_memo_diary
+		SET appointment_time = #{appointmentTime},
+		    memo_content = #{memoContent},
+		    diary_title = #{diaryTitle},
+		    diary_content = #{diaryContent, jdbcType=CLOB}
+		WHERE data_id = #{dataId}
+    </update>
+    
+</mapper>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="friend_mapper">
+
+	<select id="searchFriend" parameterType="String"
+		resultType="UserSearch">
+		SELECT USER_ID, USER_NAME
+		FROM users
+		WHERE USER_ID LIKE '%'
+		||
+		#{userInput} || '%'
+		AND USER_ID != #{loginUserId}
+		ORDER BY
+		DBMS_RANDOM.VALUE
+		FETCH FIRST 3 ROWS ONLY
+	</select>
+
+	<select id="checkIfFriendOrNot" parameterType="FriendStatusDTO"
+		resultType="int">
+
+		SELECT
+		COUNT(*) AS status_count
+		FROM (
+		-- 친구인지 여부를 확인
+		SELECT 1
+		AS status
+		FROM
+		FRIENDSHIPS
+		WHERE user_id = #{loginUserId}
+		AND friend_id =
+		#{friendId}
+
+		UNION ALL
+
+		-- 친구 요청 상태를 확인
+		SELECT 2 AS status
+		FROM
+		REQUESTFRIEND
+		WHERE
+		(USER_ID = #{loginUserId}
+		AND FRIEND_ID =
+		#{friendId})
+		OR (USER_ID =
+		#{friendId}
+		AND FRIEND_ID = #{loginUserId})
+
+		)
+		combined
+
+
+	</select>
+
+
+
+
+	<insert id="joinRequestFriend" parameterType="FriendStatusDTO">
+		INSERT INTO
+		requestfriend (registration_no, user_id, friend_id)
+		VALUES (NVL((SELECT
+		MAX(registration_no) FROM requestfriend), 0) + 1,
+		#{friendId},
+		#{loginUserId})
+	</insert>
+
+	<select id="confirmRequestFriend" parameterType="String"
+		resultType="User">
+		SELECT r.friend_id user_id, u.USER_NAME FROM users u,
+		REQUESTFRIEND r
+		WHERE r.user_id = #{loginUserId} AND r.friend_id =
+		u.user_id
+	</select>
+
+	<delete id="deleteRequestFriend" parameterType="FriendStatusDTO">
+		DELETE FROM
+		REQUESTFRIEND
+		WHERE user_id = #{loginUserId} AND friend_id =
+		#{friendId}
+	</delete>
+
+	<insert id="makeFriendsOneWay" parameterType="FriendStatusDTO">
+		INSERT INTO
+		FRIENDSHIPS (registration_no, user_id, friend_id)
+		VALUES (NVL((SELECT
+		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
+		#{loginUserId},
+		#{friendId})
+
+
+	</insert>
+
+
+	<insert id="makeFriendsTwoWay" parameterType="FriendStatusDTO">
+
+		INSERT INTO
+		FRIENDSHIPS (registration_no, user_id, friend_id)
+		VALUES
+		(NVL((SELECT
+		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
+		#{friendId}, #{loginUserId})
+
+
+
+
+	</insert>
+
+
+
+
+	<select id="viewRecommendList" parameterType="String"
+		resultType="User">
+		SELECT u.user_id,
+		u.user_name
+		FROM users u
+		WHERE (SUBSTR(
+		u.user_address,
+		INSTR(u.user_address, ' ', 1, 1) + 1,
+		INSTR(u.user_address, ' ', 1, 2) - INSTR(u.user_address, ' ', 1, 1) -
+		1
+		)) = (SELECT
+		SUBSTR(
+		user_address,
+		INSTR(user_address, ' ', 1, 1) + 1,
+		INSTR(user_address, ' ', 1, 2) - INSTR(user_address, ' ', 1, 1) - 1
+		)
+		FROM USERS
+		WHERE user_id = #{loginUserId})
+		AND u.user_id !=
+		#{loginUserId}
+		AND u.user_id NOT IN (SELECT friend_id FROM FRIENDSHIPS
+		WHERE user_id =
+		#{loginUserId})
+		AND u.user_id NOT IN (SELECT user_id
+		FROM FRIENDSHIPS WHERE friend_id =
+		#{loginUserId})
+		AND u.user_id NOT IN
+		(SELECT friend_id FROM REQUESTFRIEND WHERE user_id =
+		#{loginUserId})
+		AND u.user_id NOT IN (SELECT user_id FROM REQUESTFRIEND WHERE
+		friend_id =
+		#{loginUserId})
+		ORDER BY DBMS_RANDOM.VALUE
+		FETCH FIRST 3 ROWS
+		ONLY
+	</select>
+
+
+
+
+
+	<select id="getFriendsDiaryTimeline" parameterType="String"
+		resultType="FriendDiaryProfileDTO">
+		select u.user_id, u.diary_title, TO_CHAR(write_date,
+		'YYYY-MM-DD') "write_date", u.diary_content, f.url_file_path
+		from
+		user_diary u
+		left outer join file_info f
+		ON u.user_id = f.user_id
+		where
+		u.user_id IN (select friend_id from
+		friendships where user_id =
+		#{loginUserId})
+		order by u.write_date desc
+	</select>
+
+
+
+	<select id="getFriendList" parameterType="String"
+		resultType="FriendDTO">
+		select u.user_id, u.user_name, f.url_file_path from users u
+		LEFT OUTER JOIN file_info f
+		ON u.user_id = f.user_id
+		WHERE u.user_id in
+		(select friend_id from
+		friendships where user_id = #{loginUserId})
+		order by u.user_name
+	</select>
+
+
+	<delete id="unfollowFriendOneWay"
+		parameterType="FriendStatusDTO">
+		delete from friendships
+		where user_id = #{loginUserId}
+		and friend_id = #{friendId}
+	</delete>
+
+	<delete id="unfollowFriendTwoWay"
+		parameterType="FriendStatusDTO">
+		delete from friendships
+		where user_id = #{friendId} and
+		friend_id = #{loginUserId}
+	</delete>
+
+
+	<select id="countFriends" parameterType="FriendStatusDTO"
+		resultType="FriendStatusDTO">
+		SELECT friend_id
+		FROM friendships
+		WHERE user_id =
+		#{loginUserId}
+	</select>
+
+	<select id="countFollower" parameterType="String"
+		resultType="int">
+		SELECT (SELECT COUNT(friend_id) FROM FRIENDSHIPS WHERE
+		friend_id=
+		#{loginUserId}) + (SELECT COUNT(user_id) FROM REQUESTFRIEND
+		WHERE
+		user_id= #{loginUserId})
+		FROM dual
+	</select>
+
+	<select id="countFollowing" parameterType="String"
+		resultType="int">
+		SELECT (SELECT COUNT(user_id) FROM FRIENDSHIPS WHERE
+		user_id=
+		#{loginUserId}) + (SELECT COUNT(friend_id) FROM REQUESTFRIEND
+		WHERE
+		friend_id= #{loginUserId})
+		FROM dual
+	</select>
+
+</mapper>					
+
+
+	

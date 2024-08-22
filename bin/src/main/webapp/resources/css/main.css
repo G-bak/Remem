@@ -1,0 +1,1723 @@
+@charset "UTF-8";
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Gaegu&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Gaegu", sans-serif;
+	font-size: 20px;
+}
+
+body {
+	width: 1024px;
+	height: 768px;
+	overflow: auto;
+}
+
+.container {
+	height: 100%;
+	overflow: hidden;
+}
+
+#header {
+	height: 45px;
+	background-color: #c1e0ac;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 15px;
+}
+
+input {
+	outline: none;
+}
+
+input[type="date"] {
+	cursor: pointer;
+}
+
+span {
+	color: #7c531d;
+	font-size: 25px;
+	font-weight: bold;
+	text-shadow: 0px 2px 0 #ffffff;
+}
+
+.icon-container {
+	display: flex;
+	align-items: center;
+}
+
+a {
+	text-decoration: none;
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.fa-user-circle, .fa-user-plus {
+	color: #7c531d;
+	font-size: 26px;
+}
+
+.fa-user-group {
+	color: #7c531d;
+	cursor: pointer;
+}
+
+.fa-user-plus {
+	font-size: 21px;
+	margin-right: 5px;
+}
+
+#home-image {
+	width: 25px;
+	height: 25px;
+}
+
+.unfollow-image {
+	width: 20px;
+	height: 20px;
+}
+
+.btn-unfollow {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+#requestFriend {
+	background: none;
+}
+
+.popup {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+}
+
+.popup_open_close {
+	position: absolute;
+	top: 15px;
+	right: 21px;
+	font-size: 24px;
+	cursor: pointer;
+	background-color: #ccc;
+	border-radius: 4px;
+	width: 60px;
+	height: 35px;
+}
+
+.popup-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	max-width: 530px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	width: 100%;
+	z-index: 99;
+}
+
+.popup_open_content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	z-index: 99;
+	width: 50%;
+	max-width: 500px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#popup-message {
+	margin-top: 19px;
+	font-size: 25px;
+	border: 1px solid silver;
+	border-radius: 8px;
+	height: 160px;
+	padding: 10px;
+	text-align: center;
+}
+
+.Modify-btn {
+	padding: 10px 20px;
+	background: #f3e073;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+#open-accountModify-popup {
+	background-color: #f3e073;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 1em;
+	margin: 10px;
+}
+
+.popup-content h2 {
+	margin: 0;
+	padding: 10px 0;
+	font-size: 1.3rem;
+}
+
+.close-btn, .diary-view-close-btn, .diary-modify-close-btn,
+	.diary-modify-btn, .save-btn {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+#content-capsule {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	position: relative;
+}
+
+.div_a_icon {
+	width: 100%;
+	margin-left: 8px;
+	position: absolute;
+	top: 3%;
+}
+
+#icon_timecapsule {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 85px;
+	height: 40px;
+	border: none;
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	text-align: center;
+	color: #000000;
+}
+
+#timecapsule-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.additional-content {
+	color: #000;
+	background-color: #f6f6f6;
+	width: 189px;
+	height: 225px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	margin: 10px;
+	margin-top: 7%;
+}
+
+.photo_additional {
+	width: 45%;
+	height: 88px;
+	border-radius: 20px;
+	background-image: url('/image/timecapsule_off.png');
+	background-color: forestgreen;
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.additional_date {
+	margin-bottom: 10px;
+	font-size: 19px;
+	text-align: center;
+}
+
+.open_additonal {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.fa-creative-commons-sampling {
+	font-size: 23px;
+}
+
+.date_timecapsule {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 60%;
+	border: 1px solid #00000026;
+	height: 45px;
+	border-radius: 8px;
+}
+
+.input_timecapsule {
+	width: 90%;
+	height: 200px;
+	border: 1px solid #353635c9;
+	padding: 10px;
+	border-radius: 18px;
+	resize: none;
+	overflow: auto;
+	outline: none;
+}
+
+/* 친구신청 확인 팝업 시작 */
+.popupfriendRequest {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+}
+
+.secret-msg {
+	font-size: 0.9rem;
+	color: lightgray;
+}
+
+.popup-friendRequest-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 35%;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	max-width: 500px;
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.popup-friendRequest-close {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+.popup-friendRequest-close:hover, .popup-friendRequest-close:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.friend-request-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	overflow-y: auto;
+}
+
+.friend-request-item {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.friend-request-item:last-child {
+	border-bottom: none;
+}
+
+.friend-request-item p {
+	margin: 0;
+}
+/* 친구신청 확인 팝업 끝 */
+.photo {
+	width: 28%;
+	height: 90px;
+	border-radius: 20px;
+	background-color: #ededed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 99;
+}
+
+.profile {
+	position: absolute;
+	top: 13%;
+	left: 10%;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background-color: #7c531d;
+	z-index: 100;
+	background-size: cover; /* 이미지가 요소를 덮도록 설정 */
+	background-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+}
+
+.profile-container {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.profile-container p {
+	margin-right: 15px;
+}
+
+#fileInput {
+	display: none; /* 화면에서 숨기기 */
+}
+
+.custom-file-button {
+	padding: 2px 9px;
+	font-size: 0.9rem;
+	position: absolute;
+	right: 47%;
+	
+	cursor: pointer;
+	border-radius: 5px;
+	background-color: #c1e0ac;
+	top: 38%;
+}
+
+#fileName {
+	width: 22%;
+	font-size: 0.8rem;
+	position: absolute;
+	right: 24%;
+	top: 39%;
+	overflow-x: auto;
+}
+
+.follower, .following {
+	color: #a34c24cb;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.profile-introduce {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 40px;
+	margin-bottom: 30px;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+.nickname {
+	font-weight: bold;
+}
+
+.profile-id {
+	color: gray;
+}
+
+.ModifyPage {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.addressModify, .passwordModify {
+	width: 45%;
+	height: 40px;
+	font-size: 22px;
+	background-color: #c1e0ac;
+	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+}
+
+.section {
+	height: 946px;
+}
+
+.swiper-wrapper {
+	transform: none;
+}
+
+.swiper-container {
+	height: 100%;
+}
+
+.swiper-leftslide {
+	width: 200px;
+	background-color: #F4F4F9;
+}
+
+.swiper-rightslide {
+	display: none;
+	width: calc(100% - 200px);
+	background-color: white;
+	padding: 20px;
+	overflow: auto;
+}
+
+#main-swiper-rightslide {
+	display: flex;
+	position: relative;
+	width: calc(100% - 200px);
+}
+
+.left-box {
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.h1_post {
+	text-align: center;
+	font-size: 30px
+}
+
+.post_container {
+	width: auto;
+	height: 95%;
+	overflow-y: auto;
+}
+
+.post {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 35px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin: 15px 65px;
+}
+
+.post-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.profile-pic {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.user-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.username {
+	font-weight: bold;
+	margin: 0;
+}
+
+.post-date {
+	font-size: 0.9em;
+	color: #888;
+	margin: 0;
+}
+
+.post-content {
+	margin-bottom: 15px;
+}
+
+.post-content p {
+	margin: 0 0 10px;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.post-image {
+	max-width: 100%;
+	border-radius: 8px;
+}
+
+.post-actions {
+	display: flex;
+	justify-content: space-around;
+}
+
+.post-actions button {
+	background: none;
+	border: none;
+	color: #555;
+	font-size: 1em;
+	cursor: pointer;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.post-actions button:hover {
+	background-color: #f0f0f0;
+}
+
+.post-actions i {
+	margin-right: 5px;
+}
+
+.top-bottom-box {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+}
+
+.top-right-box {
+	background-color: #f4f4f4;
+	border: 1px solid #ddd;
+	padding: 15px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	height: 50%;
+}
+
+.profile-info {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.profile-pics {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	border: 3px solid lightgray;
+	margin: 30px;
+	margin-top: 10%;
+}
+
+.profile-details {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.profile-name {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0;
+	color: #333;
+}
+
+.profile-id {
+	font-size: 0.9em;
+	color: #666;
+	margin: 5px 0;
+}
+
+.last-active {
+	font-size: 0.8em;
+	color: #999;
+}
+
+.friend-id {
+	font-size: 0.8em;
+	color: #999;
+}
+
+.bottom-right-box {
+	background: #f4f4f4;
+	padding: 20px;
+	height: 50%;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+	border: 1px solid #e0e0e0;
+}
+
+.friends-title {
+	font-size: 23px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.scroll_friends_list {
+	height: 85%;
+	overflow-y: auto;
+}
+
+.friends-list {
+	margin: auto;
+	border-radius: 8px;
+	width: 90%;
+	margin-bottom: 7px;
+}
+
+.friend-item {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-radius: 12px;
+	background-color: #ffffff;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.friend-avatar {
+	position: relative;
+	margin-right: 15px;
+	flex-shrink: 0;
+}
+
+.friend-avatar img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 2px solid #d1d1d1;
+}
+
+.friend-info {
+	flex-grow: 1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.btn-img-unfollow {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-right: 5px;
+}
+
+.friend-name {
+	font-size: 18px;
+}
+
+.friend-accept-icon {
+	width: 30px;
+	height: 30px;
+	background-image: url('/image/friend-accept.png');
+	background-color: transparent;
+	border: none;
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+}
+
+.menu-btn {
+	background-color: #F4F4F9;
+	width: 100%;
+	height: 50px;
+	padding: 30px;
+	font-size: 1.1rem;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+	background-color: #2e3a4d56;
+}
+
+.accountModify-popup-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.date_form {
+	display: flex;
+	align-items: center;
+}
+
+.date {
+	margin: 10px;
+	display: block;
+	padding: 10px;
+	border: 1px solid rgb(82 82 82/ 15%);
+	border-radius: 8px;
+}
+
+#btn_account_save, #btn_account_modify {
+	width: 60px;
+	height: 43px;
+	border-radius: 7px;
+}
+
+.date_search {
+	width: 75px;
+	height: 50px;
+	background-color: #f3e073;
+	border-radius: 8px;
+	border: none;
+}
+
+.date-btn {
+	border: none;
+	background-color: #f3e073;
+	width: 50px;
+	height: 50px;
+	border-radius: 8px;
+	margin-left: 5px;
+}
+
+.account-book-container {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.account-book-content {
+	width: 28%;
+	height: 600px;
+	margin-top: 30px;
+	border: 1px solid #ddd;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	background-color: #f4f4f457;
+	border-radius: 8px;
+}
+
+.total-income, .total-spending, .total-income-spending {
+	margin-top: 25px;
+}
+
+.total-income i, .total-spending i, .total-income-spending i {
+	margin-top: 3px;
+}
+
+.total-income p, .total-spending p, .total-income-spending p {
+	font-size: 25px;
+	margin-bottom: 15px;
+}
+
+.total-income input, .total-spending input {
+	border: none;
+	height: 30px;
+	width: 50%;
+	background-color: #d3d3d314;
+	border-radius: 8px;
+	text-align: right;
+}
+
+.income-item {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.account-book-container h1 {
+	text-align: center;
+	font-size: 30px;
+	margin-top: 10px;
+	text-underline-offset: 12px;
+}
+
+.income-items {
+	display: flex;
+	justify-content: space-evenly;
+	color: red;
+}
+
+#footer {
+	position: absolute;
+	width: 100%;
+	height: 38px;
+	background-color: #c1e0ac;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#footer span {
+	color: #7c531d;
+	font-size: 20px;
+	font-weight: bold;
+	text-shadow: 0px 2px 0 #ffffff;
+}
+
+.footer-main {
+	position: absolute;
+	bottom: 0%;
+	right: 10px;
+}
+
+.account-deletion {
+	margin: 5px;
+	color: #7c531d;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.logout {
+	color: #7c531d;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+/* 정민파트 */
+.pagination-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%
+}
+
+.post-container {
+	margin: 0;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	border-radius: 10px;
+	border: 2px solid #d7d7d7;
+	margin: 15px;
+}
+
+.post-title {
+	font-size: 20px;
+}
+
+.post-number {
+	font-size: 15px;
+	padding: 15px;
+}
+
+/* 위에 페이지네이션 */
+.password-popup, .address-popup, .addfriend-popup, .diary-view-popup,
+	.diary-modify-popup {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+}
+
+.address-content, .password-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	max-width: 400px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	align-items: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.password-content {
+	height: 333px;
+}
+
+.address-content {
+	height: 270px;
+}
+
+.addfriend-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	max-width: 500px;
+	padding: 20px;
+	height: 715px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.password-content h2, .address-content h2, .addfriend-content h2,
+	.diary-view-content h2, .diary-modify-content h2 {
+	margin: 0;
+	margin-bottom: 10px;
+	padding: 10px 0;
+}
+
+.password-content p {
+	margin: 0 auto;
+	margin-bottom: 0px;
+}
+
+#sample6_address {
+	width: 350px;
+	margin-left: 30px;
+	border-radius: 8px;
+	border: 1px solid forestgreen;
+}
+
+.frm-modifyAddress-body {
+	display: flex;
+	justify-content: center;
+}
+
+.frm-modifyPassword-body input {
+	margin: 5px;
+	width: 244px;
+	height: 40px;
+	border-radius: 8px;
+	border: 1px solid forestgreen;
+	padding: 12px;
+}
+
+.frm-modifyAddress-footer, .frm-modifyPassword-footer {
+	display: flex;
+	justify-content: center;
+}
+
+button {
+	border: none;
+}
+
+.address, .password {
+	width: 18%;
+	margin-top: 21px;
+	height: 40px;
+	font-size: 22px;
+	background-color: #c1e0ac;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+	
+	cursor: pointer;
+}
+
+.diary-view-content, .diary-modify-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 40%;
+	height: 400px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.diary-view-content .diary-view-close-btn, .diary-modify-content .diary-modify-close-btn,
+	.diary-modify-content .diary-modify-btn {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.diary-view-content h2, .diary-modify-content h2 {
+	margin: 20px;
+}
+
+#frm-view-diary, #frm-modify-diary {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	flex-wrap: wrap;
+}
+
+.date-label {
+	display: flex;
+	justify-content: flex-start;
+	text-align: right; /* 텍스트를 오른쪽 정렬 */
+	width: 100%;
+	align-items: center;
+}
+
+.title-label {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+#frm-view-diary input, #frm-view-diary textarea {
+	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
+}
+
+#frm-view-diary textarea, #frm-modify-diary textarea {
+	resize: none; /* 사용자가 크기 조절 불가 */
+	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+	border: 1px solid lightgray;
+	border-radius: 6px;
+	padding: 10px;
+	margin-top: 20px;
+	outline: none;
+}
+
+#frm-view-diary input, #frm-modify-diary input {
+	border: none;
+	margin-left: 33px;
+	width: 45%;
+	font-size: 0.9rem;
+}
+
+label #diary-title-view, label #diary-title-modify {
+	margin-top: 30px;
+	font-weight: bold;
+	font-size: 1.3rem;
+	width: 100%;
+}
+
+#diary-date-view, #diary-date-modify {
+	color: gray;
+}
+
+#frm-modify-diary #diary-content-modify {
+	border: 1px solid lightgray;
+}
+
+.btns-diary-modify {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 95%;
+}
+/***************************************************************/
+.addfriend-list {
+	/*    height: 150px; */
+	/*    display: flex; */
+	/*    justify-content: flex-start; */
+	/*    flex-direction: column; */
+	/*    align-items: center; */
+	/*    border: 1px lightgray; */
+	height: 170px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-content: center;
+	border: 1px lightgray;
+	flex-wrap: wrap;
+}
+
+.recommendfriend-list {
+	height: 170px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-content: center;
+	border: 1px lightgray;
+	flex-wrap: wrap;
+}
+
+.add-friend-padding {
+	padding-left: 40px;
+	cursor: pointer;
+}
+
+#search-btn {
+	border: none;
+	background-color: white;
+}
+
+#recommend-search-btn {
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.recommend-friend-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#refresh-image {
+	width: 30px;
+	height: 30px;
+}
+
+table {
+	margin: 20px auto;
+}
+
+.image {
+	width: 40px;
+	height: 40px;
+	color: gray;
+	background-color: gray;
+	border-radius: 15px;
+	margin: 5px;
+	margin-right: 10px;
+}
+
+table .fa-user-plus, #search-icon {
+	color: black;
+	margin: 10px;
+	font-size: 20px;
+}
+
+#search-icon{
+	cursor: pointer;
+}
+
+.addfriend-close-btn {
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 25px;
+}
+
+#diary-title, #diary-content {
+	margin: 10px;
+}
+
+.diary-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	margin-top: 20px;
+	align-content: space-between;
+	height: 90%;
+}
+
+.diary-entry-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	width: 100%;
+	margin-top: 15px;
+}
+
+.diary-entry {
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	width: 45%;
+	margin-right: 20px;
+}
+
+.diary-entry h3 {
+	margin: 0 0 10px;
+	font-size: 1.2em;
+}
+
+.diary-entry p {
+	margin: 0;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+.diary-entry .date {
+	font-size: 0.9em;
+	color: #666;
+	margin: 10px;
+}
+
+.diary-date {
+	font-size: 0.8em;
+}
+
+.diary-footer {
+	display: flex;
+	justify-content: right;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.diary-header button {
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+#modify-diary, #remove-diary, #view-diary {
+	width: 100px;
+	background: #ccc;
+	border: none;
+	border-radius: 4px;
+	margin: 10px;
+	padding: 5px 10px;
+	cursor: pointer;
+	font-size: 0.7rem;
+}
+
+.diary-view-content h2, .diary-modify-content h2 {
+	margin: 20px;
+}
+
+#frm-view-diary input, #frm-view-diary textarea {
+	outline: none; /* 클릭 시 보더가 생기지 않도록 함 */
+}
+
+#frm-view-diary textarea, #frm-view-diary textarea {
+	resize: none; /* 사용자가 크기 조절 불가 */
+	overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+}
+
+#frm-view-diary input, #frm-view-diary textarea, #frm-modify-diary input,
+	#frm-modify-diary textarea {
+	border: none;
+	margin: 10px;
+}
+
+/* 혜민 파트 */
+body {
+	width: 100%;
+}
+
+.wrapper {
+	width: 100%;
+	background: #f4f4f4;
+	padding: 25px;
+	border-radius: 6px;
+	height: 100%;
+}
+
+.wrapper header {
+	margin-bottom: 30px;
+	font-size: 50px;
+	font-weight: 700;
+	letter-spacing: 15px;
+	text-align: center;
+	font-family: "Gaegu", sans-serif;
+}
+
+.wrapper #todoList {
+	margin-left: 17%;
+}
+
+.input-container {
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: center;
+}
+
+.input-container input[type="text"] {
+	width: 50%;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+#addTodoButton {
+	padding: 10px;
+	border: none;
+	cursor: pointer;
+	background-color: #b8b8b8;
+	border-radius: 5px;
+}
+
+.checked button:hover {
+	background-color: #2b81dd;
+}
+
+ul {
+	list-style: none;
+	/*  border: 1px solid #ddd;*/
+	border-radius: 8px;
+	width: 65%;
+}
+
+li {
+	display: flex;
+	padding: 8px;
+	border-bottom: 1px solid #dddddd;
+	justify-content: space-between;
+}
+
+li:last-child {
+	border-bottom: none;
+}
+
+.remove-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: none;
+	font-size: 26px;
+	cursor: pointer;
+	text-align: center;
+}
+
+button.remove-btn:hover {
+	background-color: #c82333;
+}
+
+input[type="checkbox"] {
+	width: 20px;
+	accent-color: #383838;
+}
+
+.remove-btn {
+	text-decoration: none; /* 삭제 버튼에 줄이 없도록 기본 설정 */
+}
+
+li.checked .remove-btn {
+	text-decoration: none; /* 체크된 상태에서도 줄이 없도록 설정 */
+}
+
+.checked {
+	text-decoration: line-through; /* 텍스트에 줄을 긋기 */
+}
+
+/* 삭제 버튼의 스타일은 그대로 유지 */
+
+/* ------------------------------------------------------- */
+/* 스크롤바 처리*/
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f0f0f0;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #83836721;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: #f0f0f0;
+}
+
+/* ------------------------------------------------------- */
+
+/* 화면 조정(980px 이하) */
+#main-swiper-rightslide {
+	display: flex;
+	flex-direction: row; /* 기본적으로 가로 배치 */
+}
+
+@media screen and (max-width: 1040px) {
+	.addfriend-content {
+		width: 50%;
+	}
+	.popup-friendRequest-content {
+		width: 40%;
+	}
+	.diary-view-content, .diary-modify-content {
+		width: 50%;
+	}
+	.additional-content {
+		margin-top: 10%;
+	}
+}
+
+@media screen and (max-width: 1030px) {
+	.addfriend-close-btn {
+		margin-top: 5px;
+	}
+	.additional-content {
+		margin-top: 15%;
+	}
+}
+
+@media screen and (max-width: 980px) {
+	#main-swiper-rightslide {
+		flex-direction: column; /* 세로로 배치 */
+		margin-top: 16px;
+	}
+	.top-right-box {
+		width: 100%;
+		height: 260px;
+		margin-bottom: 35px;
+	}
+	.bottom-right-box {
+		height: 224px;
+		width: 100%;
+	}
+	.top-bottom-box {
+		order: 1;
+		display: flex;
+		flex-direction: column;
+		width: 90%;
+		padding: 20px;
+		margin: 0px 65px;
+	}
+	.left-box {
+		order: 2;
+		overflow-y: hidden;
+	}
+	.profile-info img {
+		margin: 14px;
+		width: 100px;
+		height: 100px;
+	}
+	.post_container {
+		max-width: 690px;
+		width: 95%;
+		height: 95%;
+		overflow-y: auto;
+		margin-left: 47px;
+	}
+	.post {
+		background-color: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 35px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		margin: 15px 16px;
+	}
+	.h1_post {
+		margin-left: 60px;
+	}
+	.popup-content {
+		width: 100%;
+		max-width: 480px;
+	}
+	.income-item {
+		font-size: 18px;
+		display: flex;
+		justify-content: center;
+	}
+	.total-income p, .total-spending p, .total-income-spending p {
+		font-size: 22px;
+		margin-bottom: 25px;
+		margin: 0px 14px 23px 16px;
+	}
+	.total-income input, .total-spending input {
+		border: none;
+		height: 30px;
+		width: 36%;
+		background-color: #d3d3d314;
+		border-radius: 8px;
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.total-income {
+		margin-top: 8px;
+	}
+	.total-spending {
+		overflow-y: auto;
+		height: 179px;
+	}
+	.total-income-spending .income-items {
+		margin-top: 8px;
+	}
+	.account-book-container h1 {
+		font-size: 21px;
+	}
+	.account-book-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.account-book-content {
+		height: 249px;
+		width: 100%;
+		margin-top: 20px;
+	}
+	#additional-content {
+		width: 150px;
+		margin-top: 10%;
+	}
+	#fileName {
+		font-size: 0.7rem;
+	}
+	.popup-friendRequest-content {
+		width: 45%;
+	}
+}
+
+@media screen and (max-width: 840px) {
+	#frm-view-diary input, #frm-modify-diary input {
+		margin-left: 15px;
+	}
+	.popup_open_content {
+		width: 55%;
+	}
+	.popup-friendRequest-content {
+		width: 50%;
+	}
+}
+
+/* 태블릿 화면 (768px 이하) */
+@media screen and (max-width: 768px) {
+	#main-swiper-rightslide {
+		flex-direction: column; /* 세로로 배치 */
+		margin-top: 16px;
+	}
+	.top-right-box {
+		height: auto;
+		width: 92%;
+		height: 215px;
+		margin-bottom: 35px;
+	}
+	.bottom-right-box {
+		height: 224px;
+		width: 92%;
+	}
+	.top-bottom-box {
+		order: 1;
+		display: flex;
+		flex-direction: column;
+		max-width: 540px;
+		width: 92%;
+		padding: 20px;
+	}
+	.left-box {
+		order: 2;
+	}
+	body {
+		width: 100%;
+		height: auto;
+		overflow-x: hidden;
+	}
+	#header {
+		flex-direction: row;
+		height: 40px;
+		padding: 10px;
+	}
+	.popup-content, .popup_open_content {
+		max-width: 460px;
+		width: 100%;
+		height: auto;
+		padding: 10px;
+	}
+	.container {
+		height: auto;
+	}
+	.post {
+		margin: 10px 10px;
+		padding: 15px;
+	}
+	.profile-pic {
+		width: 30px;
+		height: 30px;
+	}
+	.profile-info, .profile-details {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.profile-info img {
+		margin: 0;
+		width: 100px;
+		height: 100px;
+	}
+	.addressModify, .passwordModify {
+		width: 40%;
+	}
+	.popup-content .close-btn {
+		margin: 17px 0px 3px 0px;
+	}
+	.popup-friendRequest-content {
+		width: 55%;
+	}
+	.wrapper {
+		padding: 15px;
+	}
+	ul {
+		width: 325px;
+	}
+	.photo {
+		width: 30%;
+		height: 64px;
+	}
+	.income-item {
+		font-size: 18px;
+		display: flex;
+		justify-content: center;
+	}
+	.total-income p, .total-spending p, .total-income-spending p {
+		font-size: 18px;
+		margin-bottom: 25px;
+		margin: 0px 14px 23px 16px;
+	}
+	.total-income input, .total-spending input {
+		border: none;
+		height: 30px;
+		width: 40%;
+		background-color: #d3d3d314;
+		border-radius: 8px;
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.total-income {
+		margin-top: 8px;
+	}
+	.total-spending {
+		overflow-y: auto;
+		height: 135px;
+	}
+	.total-income-spending .income-items {
+		margin-top: 8px;
+	}
+	.account-book-container h1 {
+		font-size: 21px;
+	}
+	.account-book-container {
+		display: flex;
+		flex-direction: column;
+	}
+	.account-book-content {
+		height: 220px;
+		width: 100%;
+		margin-top: 20px;
+	}
+	#additional-content {
+		width: 150px;
+		margin-top: 15%;
+	}
+	.diary-entry {
+		width: 100%;
+	}
+	#frm-view-diary input, #frm-modify-diary input {
+		font-size: 0.8rem;
+		margin-left: 15px;
+	}
+	label #diary-title-view, label #diary-title-modify {
+		font-size: 1.1rem;
+	}
+	.addfriend-content {
+		width: 60%;
+		height: 740px;
+	}
+	.friend-request-list {
+		width: 80%;
+	}
+}
+
+/* 추가 디바이스 특성에 대한 미디어 쿼리 */
+@media ( orientation : portrait) { /* 세로 모드 스타일 */
+}
+
+@media ( orientation : landscape) { /* 가로 모드 스타일 */
+}

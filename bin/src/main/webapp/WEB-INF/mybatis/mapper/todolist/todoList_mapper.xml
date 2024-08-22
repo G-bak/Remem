@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="todoList_mapper">
+	
+	<select id="findTodoListByLoginUserId" parameterType="String" resultType="TodoList">
+		SELECT * FROM ToDoList WHERE user_id = #{loginUserId} ORDER BY todolist_id
+	</select>
+	
+	<insert id="insertTodoList" parameterType="map">
+		INSERT INTO ToDoList
+		VALUES ( (SELECT NVL(MAX(todolist_id), 0)+1 FROM ToDoList), #{loginUserId}, #{todoText}, 'reg')
+	</insert>
+	
+	<select id="findTodoListId" parameterType="map" resultType="int">
+		SELECT todolist_id FROM ToDoList WHERE user_id = #{loginUserId} AND todolist_contents =  #{todoText}
+	</select>
+	
+	<update id="updateTodoListStatus" parameterType="TodoListUpdate">
+		UPDATE ToDoList
+		SET todolist_status = #{todoListStatus}
+		WHERE user_id = #{loginUserId} AND todolist_id = #{todoListId}
+	</update>
+	
+	<delete id="removeTodoListByTodoListId" parameterType="TodoListRemove">
+		DELETE FROM ToDoList
+		WHERE user_id = #{loginUserId} AND todolist_id = #{todoListId}
+	</delete>
+	
+</mapper>					
+
+
+	
