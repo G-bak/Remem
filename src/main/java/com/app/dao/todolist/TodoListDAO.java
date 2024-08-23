@@ -8,13 +8,18 @@ import com.app.dto.todolist.TodoListRemove;
 import com.app.dto.todolist.TodoListUpdate;
 
 public interface TodoListDAO {
+	//userId로 todolist 조회
 	public List<TodoList> findTodoListByLoginUserId(String loginUserId);
 	
+	//todolist 저장
 	public int insertTodoList(HashMap<String, String> paramMap);
 	
+	//todolist id 찾기
 	public int findTodoListId(HashMap<String, String> paramMap);
 	
+	//todolist 상태 변경
 	public int updateTodoListStatus(TodoListUpdate todoListUpdate);
 	
+	//todolist 삭제
 	public int removeTodoListByTodoListId(TodoListRemove todoListRemove);
 }

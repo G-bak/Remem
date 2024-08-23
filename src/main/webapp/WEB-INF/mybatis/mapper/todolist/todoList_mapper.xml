@@ -6,25 +6,30 @@
 
 <mapper namespace="todoList_mapper">
 	
+	<!-- userId로 todolist 조회 -->
 	<select id="findTodoListByLoginUserId" parameterType="String" resultType="TodoList">
 		SELECT * FROM ToDoList WHERE user_id = #{loginUserId} ORDER BY todolist_id
 	</select>
 	
+	<!-- todolist 저장 -->
 	<insert id="insertTodoList" parameterType="map">
 		INSERT INTO ToDoList
-		VALUES ( (SELECT NVL(MAX(todolist_id), 0)+1 FROM ToDoList), #{loginUserId}, #{todoText}, 'reg')
+		VALUES ((SELECT NVL(MAX(todolist_id), 0)+1 FROM ToDoList), #{loginUserId}, #{todoText}, 'reg')
 	</insert>
 	
+	<!-- todolist id 찾기 -->
 	<select id="findTodoListId" parameterType="map" resultType="int">
-		SELECT todolist_id FROM ToDoList WHERE user_id = #{loginUserId} AND todolist_contents =  #{todoText}
+		SELECT todolist_id FROM ToDoList WHERE user_id = #{loginUserId} AND todolist_contents = #{todoText}
 	</select>
 	
+	<!-- todolist 상태 변경 -->
 	<update id="updateTodoListStatus" parameterType="TodoListUpdate">
 		UPDATE ToDoList
 		SET todolist_status = #{todoListStatus}
 		WHERE user_id = #{loginUserId} AND todolist_id = #{todoListId}
 	</update>
 	
+	<!-- todolist 삭제 -->
 	<delete id="removeTodoListByTodoListId" parameterType="TodoListRemove">
 		DELETE FROM ToDoList
 		WHERE user_id = #{loginUserId} AND todolist_id = #{todoListId}

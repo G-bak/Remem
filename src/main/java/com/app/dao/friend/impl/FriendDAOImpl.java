@@ -99,17 +99,7 @@ public class FriendDAOImpl implements FriendDAO {
 		return unfollowResultTwoWay;
 	}
 
-	@Override
-	public List<FriendStatusDTO> countFriends(FriendStatusDTO friendStatusDTO) {
-		 List<FriendStatusDTO> resultList = null;
-	      try {
-	         return sqlSessionTemplate.selectList("friend_mapper.countFriends", friendStatusDTO);
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	         return resultList;
-	      }
-	}
-
+	
 	@Override
 	public int countFollower(String userId) {
 		int result = sqlSessionTemplate.selectOne("friend_mapper.countFollower", userId);

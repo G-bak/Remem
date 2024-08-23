@@ -4,10 +4,13 @@
 	"Http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="timecapsule_mapper">
+	
+	<!-- 타임캡슐 전체 조회 -->
 	<select id="selectAllTimecapsule" resultType="timecapsule">
     	SELECT * FROM TIMECAPSULE order by tc_id
 	</select>
-
+	
+	<!-- 타임캡슐 저장 -->
 	<insert id="saveTimecapsule" parameterType="Timecapsule">
 		INSERT INTO TIMECAPSULE (tc_id, 
 							     tc_user_id,

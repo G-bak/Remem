@@ -47,9 +47,8 @@ public class CalenderController {
     @PostMapping("/calender/selectUserName")
     public ApiResponse<String> selectUserName(@RequestBody Calender request) {
         String userId = request.getUserId();
-        
         String userName = calenderService.selectUserNameByUserId(userId);
-//        System.out.println("User Name: " + userName);
+
 
         // 응답 데이터 작성
         ApiResponse<String> response = new ApiResponse<String>();
@@ -78,16 +77,6 @@ public class CalenderController {
         String calenderTitle = request.getCalenderTitle();
         List<String> friendIdList = request.getFriendId();
         List<String> friendNameList = request.getFriendName();
-//        System.out.println("Friend ID List Size: " + friendIdList.size());
-//        System.out.println("Friend Name List Size: " + friendNameList.size());
-
-//        System.out.println("Data ID: " + dataId);
-//        System.out.println("User ID: " + userId);
-//        System.out.println("Calender Title: " + calenderTitle);
-        
-//        for (int i = 0; i < friendIdList.size(); i++) {
-//            System.out.println("참석자 " + (i + 1) + ": " + friendIdList.get(i));
-//        }
         
         if (friendIdList.size() > 0) {
         	request.setHasFriends("Y");
@@ -107,7 +96,7 @@ public class CalenderController {
         
         friendIdList.add(userId);
         String userName = calenderService.selectUserNameByUserId(userId);
-//        System.out.println("User Name: " + userName);
+
         friendNameList.add(userName);
         for (int i = 0; i < friendIdList.size(); i++) {
         	Map<String, String> friendData = new HashMap<>();
@@ -116,11 +105,6 @@ public class CalenderController {
             friendData.put("friendName", friendNameList.get(i));
             result2 += calenderService.insertCalenderFriends(friendData);
             
-//            if (result2 > 0) {
-//                System.out.println("일정 친구 추가 성공: " + friendNameList.get(i));
-//            } else {
-//                System.out.println("일정 친구 추가 실패: " + friendNameList.get(i));
-//            }
         }
 
         // 응답 데이터 작성
@@ -150,9 +134,6 @@ public class CalenderController {
         String dataId = request.getDataId();
         String readerId = request.getReaderId();
         String diaryContent = request.getDiaryContent();
-//        System.out.println("Data ID: " + dataId);
-//        System.out.println("Reader ID: " + readerId);
-//        System.out.println("Diary Content: " + diaryContent);
 
         int result = 0;
         
@@ -186,14 +167,9 @@ public class CalenderController {
 //    @PostMapping(value = "/calender/loadAllData", produces = "application/json")
     public ApiResponse<String> loadAllData(@RequestBody Calender request) {
         String userId = request.getUserId();
-//        System.out.println("User ID: " + userId);
 
         List<Calender> calenderList = null;
         calenderList = calenderService.selectCalender(request);
-        
-//        if (calenderList != null) {
-//            System.out.println("일정 갯수: " + calenderList.size());
-//        }
         
         // JSON 객체 생성
         JSONObject data = new JSONObject();
@@ -201,7 +177,7 @@ public class CalenderController {
         
         for (int i = 0; i < calenderList.size(); i++) {
         	JSONObject calender = new JSONObject();
-//        	System.out.println("Calender Date: " + calenderList.get(i).getDataId());
+
         	calender.put("calenderDate", calenderList.get(i).getCalenderDate());
         	calender.put("dataId", calenderList.get(i).getDataId());
         	calender.put("calenderTitle", calenderList.get(i).getCalenderTitle());
@@ -242,14 +218,11 @@ public class CalenderController {
         String dataId = request.getDataId();
         String userId = request.getUserId();
 
-//        System.out.println("Data ID: " + dataId);
-//        System.out.println("User ID: " + userId);
-
         // 실제 처리 로직을 추가 (예: 데이터베이스에 저장).
         int result1 = 0;
         int result2 = 0;
         result1 = calenderService.deleteCalender(request);
-//        System.out.println("Result1: " + result1);
+
         if (result1 > 0) {
         	result2 = calenderService.deleteCalenderFriends(request);
         }
@@ -279,14 +252,11 @@ public class CalenderController {
     @PostMapping("/calender/selectFriends")
     public ApiResponse<String> selectFriends(@RequestBody Friends request) {
         String userId = request.getUserId();
-//        System.out.println("User ID: " + userId);
+
 
         List<Friends> friendList = null;
         friendList = calenderService.selectFriends(request);
         
-//        if (friendList != null) {
-//            System.out.println("친구 인원 수: " + friendList.size());
-//        }
         
         // JSON 객체 생성
         JSONObject data = new JSONObject();
@@ -294,7 +264,7 @@ public class CalenderController {
         
         for (int i = 0; i < friendList.size(); i++) {
         	JSONObject friend = new JSONObject();
-//        	System.out.println("Friend ID: " + friendList.get(i).getFriendId());
+
         	friend.put("friendId", friendList.get(i).getFriendId());
         	friend.put("userName", friendList.get(i).getUserName());
         	
@@ -333,26 +303,21 @@ public class CalenderController {
     public ApiResponse<String> showFriendList(@RequestBody CalenderFriends request) {
         String userId = request.getUserId();
         String dataId = request.getDataId();
-//        System.out.println("User ID: " + userId);
-//        System.out.println("Data ID: " + dataId);
 
         List<CalenderFriends> friendList = null;
         friendList = calenderService.showFriendList(request);
         
-//        if (friendList != null) {
-//            System.out.println("친구 인원 수: " + friendList.size());
-//        }
         
         // JSON 객체 생성
         JSONObject data = new JSONObject();
         JSONArray friends = new JSONArray();
         
         for (int i = 0; i < friendList.size(); i++) {
-//        	System.out.println(userId + " | " + friendList.get(i).getFriendId());
+
         	if (!userId.equals(friendList.get(i).getFriendId())) {
-//        		System.out.println("Friend Name: " + friendList.get(i).getFriendName());
+
         		JSONObject friend = new JSONObject();
-//            	System.out.println("Friend ID: " + friendList.get(i).getFriendId());
+
         		friend.put("readerName", friendList.get(i).getReaderName());
             	friend.put("friendId", friendList.get(i).getFriendId());
             	friend.put("friendName", friendList.get(i).getFriendName());
@@ -392,7 +357,6 @@ public class CalenderController {
     @PostMapping("/calender/selectCalenderDetail")
     public ApiResponse<String> selectCalenderDetail(@RequestBody CalenderMemoDiary request) {
         String dataId = request.getDataId();
-//        System.out.println("Data ID: " + dataId);
 
         CalenderMemoDiary calenderDetail = null;
         calenderDetail = calenderService.selectCalenderDetail(request);
@@ -413,7 +377,6 @@ public class CalenderController {
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("data", data);
-//        System.out.println(responseBody);
         
         // 응답 데이터 작성
         ApiResponse<String> response = new ApiResponse<String>();
@@ -445,20 +408,13 @@ public class CalenderController {
         String memoContent = request.getMemoContent();
         String diaryTitle = request.getDiaryTitle();
         String diaryContent = request.getDiaryContent();
-//        System.out.println("Data ID: " + dataId);
-//        System.out.println("Appointment Time: " + appointmentTime);
-//        System.out.println("Memo Content: " + memoContent);
-//        System.out.println("Diary Title: " + diaryTitle);
-//        System.out.println("Diary Content: " + diaryContent);
 
         int result = 0;
         
         if (dataId != null) {
-//        	System.out.println("calenderService.updateCalenderDetail 호출됨");
             result = calenderService.updateCalenderDetail(request);
         }
         
-//        System.out.println("Result: " + result);
         
         // 응답 데이터 작성
         ApiResponse<String> response = new ApiResponse<String>();
@@ -484,10 +440,6 @@ public class CalenderController {
     // @CrossOrigin(origins = "http://127.0.0.1:5501")
 	@PostMapping("/saveMyDiary")
 	public ApiResponse<String> saveMyDiary(@RequestBody UserDiary request) {
-//		System.out.println("User ID: " + request.getUserId());
-//		System.out.println("Write Date: " + request.getWriteDate());
-//		System.out.println("Diary Title: " + request.getDiaryTitle());
-//		System.out.println("Diary Content: " + request.getDiaryContent());
 		
 		String userId = request.getUserId();
 		String writeDate = request.getWriteDate();
@@ -500,10 +452,8 @@ public class CalenderController {
 		if (allPresent) {
 		    result = writeService.insertUserDiary(request);
 		} else {
-//			System.out.println("DB 전송 실패, 파라미터가 NULL 값인지 확인하세요");
+			System.out.println("DB 전송 실패, 파라미터가 NULL 값인지 확인하세요");
 		}
-		
-//		System.out.println("Result: " + result);
 		
 		// 응답 데이터 작성
         ApiResponse<String> response = new ApiResponse<String>();

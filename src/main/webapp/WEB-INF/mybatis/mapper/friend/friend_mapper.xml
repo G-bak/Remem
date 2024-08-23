@@ -5,7 +5,8 @@
 
 
 <mapper namespace="friend_mapper">
-
+	
+	<!-- 사용자 input으로 user 검색 -->
 	<select id="searchFriend" parameterType="String"
 		resultType="UserSearch">
 		SELECT USER_ID, USER_NAME
@@ -18,7 +19,8 @@
 		DBMS_RANDOM.VALUE
 		FETCH FIRST 3 ROWS ONLY
 	</select>
-
+	
+	<!-- 친구인지 아닌지 체크 -->
 	<select id="checkIfFriendOrNot" parameterType="FriendStatusDTO"
 		resultType="int">
 
@@ -50,13 +52,9 @@
 
 		)
 		combined
-
-
 	</select>
 
-
-
-
+	<!-- 친구 신청 -->
 	<insert id="joinRequestFriend" parameterType="FriendStatusDTO">
 		INSERT INTO
 		requestfriend (registration_no, user_id, friend_id)
@@ -66,6 +64,7 @@
 		#{loginUserId})
 	</insert>
 
+	<!-- 친구 신청 확인 -->
 	<select id="confirmRequestFriend" parameterType="String"
 		resultType="User">
 		SELECT r.friend_id user_id, u.USER_NAME FROM users u,
@@ -74,6 +73,7 @@
 		u.user_id
 	</select>
 
+	<!-- 친구 신청 확인 후 친구를 받으면 친구 신청 table에서 삭제 -->
 	<delete id="deleteRequestFriend" parameterType="FriendStatusDTO">
 		DELETE FROM
 		REQUESTFRIEND
@@ -81,6 +81,7 @@
 		#{friendId}
 	</delete>
 
+	<!-- 친구 신청을 받으면 사용자 -> 친구를 friendships table에 insert  -->
 	<insert id="makeFriendsOneWay" parameterType="FriendStatusDTO">
 		INSERT INTO
 		FRIENDSHIPS (registration_no, user_id, friend_id)
@@ -88,11 +89,9 @@
 		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
 		#{loginUserId},
 		#{friendId})
-
-
 	</insert>
 
-
+	<!-- 친구 신청을 받으면 친구 -> 사용자를 friendships table에 insert  -->
 	<insert id="makeFriendsTwoWay" parameterType="FriendStatusDTO">
 
 		INSERT INTO
@@ -101,15 +100,11 @@
 		(NVL((SELECT
 		MAX(registration_no) FROM FRIENDSHIPS), 0) + 1,
 		#{friendId}, #{loginUserId})
-
-
-
-
 	</insert>
 
 
 
-
+	<!-- 친구 추천 리스트 -->
 	<select id="viewRecommendList" parameterType="String"
 		resultType="User">
 		SELECT u.user_id,
@@ -147,10 +142,7 @@
 		ONLY
 	</select>
 
-
-
-
-
+	<!-- 팔로워를 count -->
 	<select id="getFriendsDiaryTimeline" parameterType="String"
 		resultType="FriendDiaryProfileDTO">
 		select u.user_id, u.diary_title, TO_CHAR(write_date,
@@ -165,9 +157,8 @@
 		#{loginUserId})
 		order by u.write_date desc
 	</select>
-
-
-
+	
+	<!-- 팔로잉을 count -->
 	<select id="getFriendList" parameterType="String"
 		resultType="FriendDTO">
 		select u.user_id, u.user_name, f.url_file_path from users u
@@ -179,7 +170,7 @@
 		order by u.user_name
 	</select>
 
-
+	<!-- 친구의 일기를 조회 -->
 	<delete id="unfollowFriendOneWay"
 		parameterType="FriendStatusDTO">
 		delete from friendships
@@ -187,6 +178,7 @@
 		and friend_id = #{friendId}
 	</delete>
 
+	<!-- 친구 목록 조회 -->
 	<delete id="unfollowFriendTwoWay"
 		parameterType="FriendStatusDTO">
 		delete from friendships
@@ -194,15 +186,7 @@
 		friend_id = #{loginUserId}
 	</delete>
 
-
-	<select id="countFriends" parameterType="FriendStatusDTO"
-		resultType="FriendStatusDTO">
-		SELECT friend_id
-		FROM friendships
-		WHERE user_id =
-		#{loginUserId}
-	</select>
-
+	<!-- 친구 삭제 시 사용자 -> 친구를 friendships table에서 삭제 -->
 	<select id="countFollower" parameterType="String"
 		resultType="int">
 		SELECT (SELECT COUNT(friend_id) FROM FRIENDSHIPS WHERE
@@ -212,7 +196,8 @@
 		user_id= #{loginUserId})
 		FROM dual
 	</select>
-
+	
+	<!-- 친구 삭제 시 친구 -> 사용자를 friendships table에서 삭제 -->
 	<select id="countFollowing" parameterType="String"
 		resultType="int">
 		SELECT (SELECT COUNT(user_id) FROM FRIENDSHIPS WHERE

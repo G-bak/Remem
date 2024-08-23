@@ -7,7 +7,6 @@
 
 	<settings>						
 		<setting name="mapUnderscoreToCamelCase" value="true"/>	
-<!-- 				_ 표시 -> CamelCase  userType  맵핑	  -->
 		<setting name="jdbcTypeForNull" value="VARCHAR"/>
 	</settings>						
 							

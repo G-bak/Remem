@@ -34,7 +34,6 @@ public class TodoListController {
 	@ResponseBody
 	@PostMapping("/todoList/register")
 	public int todoListRegisterAjax(@RequestBody HashMap<String, String> paramMap) {
-		// System.out.println(paramMap);	
 		
 		int result = todoListService.insertTodoList(paramMap);
 		int todoListId = 0;
@@ -63,7 +62,7 @@ public class TodoListController {
 	@PostMapping("todoList/remove")
 	@ResponseBody
 	public int removeTodoListAjax(@RequestBody TodoListRemove todoListRemove) {
-		// System.out.println(todoListRemove);
+		
 		int result = todoListService.removeTodoListByTodoListId(todoListRemove);
 		return result;
 	}

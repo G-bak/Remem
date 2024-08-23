@@ -7,8 +7,6 @@ import com.app.dto.timecapsule.TimecapsuleSearch;
 
 public interface TimecapsuleService {
 
-	public Timecapsule selectTimecapsule(TimecapsuleSearch tcs);
-	
 	public int saveTimecapsule(Timecapsule tc);
 	
 	public List<Timecapsule> selectAllTimecapsule();

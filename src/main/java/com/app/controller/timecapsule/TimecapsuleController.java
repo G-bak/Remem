@@ -24,7 +24,7 @@ public class TimecapsuleController {
 	@ResponseBody
 	@PostMapping("/save/Timecapsule")
 	public Timecapsule saveTimecapsule(@RequestBody Timecapsule tc) {
-		// System.out.println(tc);
+		
 		int saveTimecapsule = timecapsuleService.saveTimecapsule(tc);
 		if (saveTimecapsule > 0) {
 			return tc;
@@ -38,7 +38,7 @@ public class TimecapsuleController {
 	@GetMapping("/all/Timecapsules")
 	public List<Timecapsule> getAllTimecapsules() {
 		List<Timecapsule> tcList = timecapsuleService.selectAllTimecapsule();
-		// System.out.println(tcList);
+		
 		return tcList;
 	}
 }

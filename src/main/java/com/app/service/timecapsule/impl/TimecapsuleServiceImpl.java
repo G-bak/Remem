@@ -26,13 +26,6 @@ public class TimecapsuleServiceImpl implements TimecapsuleService{
 	}
 
 	@Override
-	public Timecapsule selectTimecapsule(TimecapsuleSearch tcs) {
-		// TODO Auto-generated method stub
-		Timecapsule tc = timecapsuleDAO.selectTimecapsule(tcs);
-		return tc;
-	}
-
-	@Override
 	public List<Timecapsule> selectAllTimecapsule() {
 		// TODO Auto-generated method stub
 		

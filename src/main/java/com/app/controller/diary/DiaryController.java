@@ -41,26 +41,21 @@ public class DiaryController {
 //	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	@PostMapping("/diary/insertTalkToBotAll")
 	public ApiResponse<String> insertTalkToBotAll(@RequestBody TalkToBotAll request) {
-//		 System.out.println("User ID: " + request.getUserId());
-//		 System.out.println("Room Index: " + request.getRoomIndex());
-//		 System.out.println("Question HTML Code: " + request.getQuestionHtml());
-//		 System.out.println("Chat HTML Code: " + request.getChatHtml());
-//		 System.out.println("Data ID: " + request.getDataId());
+
 		
 		if (request.getDataId() != null) {
 			String dataId = request.getDataId().replace("question-", "");
 			dataId = dataId.replace("-", "_");
 			request.setDataId(dataId);
-//			  System.out.println("Replace Data ID: " + dataId);
 		}			
 		
 		int result = 0;
 		if (request.getChatHtml() == null) {
 			result = diaryService.insertTalkToBotAllByQuestion(request);
 			if (diaryService.createTalkToBot(request)) {
-//				  System.out.println("대화방 테이블 생성, Table ID: " + request.getDataId());
+				  System.out.println("대화방 테이블 생성, Table ID: " + request.getDataId());
 			} else {
-//				  System.out.println("대화방 테이블 생설 실패");
+				  System.out.println("대화방 테이블 생설 실패");
 			}		
 		} else {
 			result = diaryService.updateTalkToBotAllByChat(request);
@@ -87,32 +82,10 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/selectAllData", produces = "application/json")
     public ApiResponse<String> selectAllData(@RequestBody TalkToBotAll request) {
-//         System.out.println("User ID: " + request.getUserId());
         
         List<TalkToBotAll> talkToBotAllList = diaryService.selectTalkToBotAllByUserId(request.getUserId());
         
-        for (int i = 0; i < talkToBotAllList.size(); i++) {
-//        	  System.out.println("User ID: " + talkToBotAllList.get(i).getUserId());
-//        	  System.out.println("Room Index: " + talkToBotAllList.get(i).getRoomIndex());
-//        	  System.out.println("Data ID: " + talkToBotAllList.get(i).getDataId());
-//        	  System.out.println("Question HTML: " + talkToBotAllList.get(i).getQuestionHtml());
-//        	  System.out.println("Chat HTML: " + talkToBotAllList.get(i).getChatHtml());
-        }
-        
         List<List<TalkToBotData>> talkToBotDataList = diaryService.selectAllTalkToBotData(talkToBotAllList);
-        
-       for (int i = 0; i < talkToBotDataList.size(); i++) {
-//    	     System.out.println("Talk To Bot, Table " + (i+1));
-    	   for (int j = 0; j < talkToBotDataList.get(i).size(); j++) {
-//    		     System.out.println("Message No: " + talkToBotDataList.get(i).get(j).getMessageIndex());
-//    		     System.out.println("Data ID: " + talkToBotDataList.get(i).get(j).getDataId());
-//    		     System.out.println("User ID: " + talkToBotDataList.get(i).get(j).getUserId());
-//    		     System.out.println("Room Index: " + talkToBotDataList.get(i).get(j).getRoomIndex());
-//    		     System.out.println("Messsage Index: " + talkToBotDataList.get(i).get(j).getMessageIndex());
-//    		     System.out.println("Bot Answer: " + talkToBotDataList.get(i).get(j).getBotAnswer());
-//    		     System.out.println("User Question: " + talkToBotDataList.get(i).get(j).getUserQuestion());
-    	   }
-       }
        
        ApiResponse<String> response = new ApiResponse<>();
        ApiResponseHeader header = new ApiResponseHeader();
@@ -175,17 +148,11 @@ public class DiaryController {
 //	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	@PostMapping("/diary/PreProcessingData")
 	public ApiResponse<List<UserDiary>> PreProcessingData(@RequestBody ExcludedKeyword request) {
-//		System.out.println("User ID: " + request.getUserId());
-//		  System.out.println("PreProcessingData: ");
-//		  System.out.println("Data ID: " + request.getDataId());
-//		  System.out.println("Room ID: " + request.getRoomId());
-//	      System.out.println("User Message: " + request.getUserMessage());
 	    
 	    if (request.getDataId() != null) {
 			String dataId = request.getDataId().replace("question-", "");
 			dataId = dataId.replace("-", "_");
 			request.setDataId(dataId);
-//			  System.out.println("Replace Data ID: " + dataId);
 		}		
 		
 		// JSON 데이터 생성
@@ -200,12 +167,10 @@ public class DiaryController {
 
 		JSONArray excludedKeywords = new JSONArray();
 		for (ExcludedKeyword keywordObj : excludedKeywordList) {
-//			  System.out.println("keywordObj.getExcludedKeyword(): "+keywordObj.getExcludedKeyword());
 		    excludedKeywords.add(keywordObj.getExcludedKeyword()); // ExcludedKeyword 객체에서 문자열 추출
 		}
 		
 		preProcessingData.put("excludedKeywords", excludedKeywords);
-//		  System.out.println(preProcessingData.toString());
 		
 //		 삭제해야할 키워드 리스트 db에서 가져와서 JSON 객체에 담기
 		// Python 서버 URL
@@ -279,18 +244,11 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/insertTalkToBotData", produces = "application/json")
     public ApiResponse<String> insertTalkToBotData(@RequestBody TalkToBotData request) {
-//         System.out.println("Data ID: " + request.getDataId());
-//		 System.out.println("User ID: " + request.getUserId());
-//		 System.out.println("Room Index: " + request.getRoomIndex());
-//		 System.out.println("Message Index: " + request.getMessageIndex());
-//		 System.out.println("Bot Answer: " + request.getBotAnswer());
-//		 System.out.println("User Question: " + request.getUserQuestion());
         
 		if (request.getDataId() != null) {
 			String dataId = request.getDataId().replace("question-", "");
 			dataId = dataId.replace("-", "_");
 			request.setDataId(dataId);
-//			 System.out.println("Replace Data ID: " + dataId);
 		}		
 
         ApiResponse<String> response = new ApiResponse<>();
@@ -323,10 +281,7 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/dropTable", produces = "application/json")
     public ApiResponse<String> dropTable(@RequestBody TalkToBotAll request) {
-//         System.out.println("Data ID: " + request.getDataId());
-//		 System.out.println("User ID: " + request.getUserId());
-//		 System.out.println("Room Index: " + request.getRoomIndex());
-        
+
 		int result1 = 0;
 		int result2 = 0;
 		int result3 = 0;
@@ -334,13 +289,10 @@ public class DiaryController {
 			String dataId = request.getDataId().replace("question-", "");
 			dataId = dataId.replace("-", "_");
 			request.setDataId(dataId);
-//			 System.out.println("Replace Data ID: " + dataId);
-			
+
 			result1 = diaryService.dropTalkToBot(request);
 			result2 = diaryService.deleteTalkToBotAll(request);
 			result3 = diaryService.deleteExcludedKeywords(request);
-//			 System.out.println("Result 2: " + result2);
-//			 System.out.println("Result 3: " + result3);
 		}		
 
         ApiResponse<String> response = new ApiResponse<>();
@@ -363,19 +315,12 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/insertExcludedKeyword", produces = "application/json")
     public ApiResponse<String> insertExcludedKeyword(@RequestBody ExcludedKeyword request) {
-//    	 System.out.println("User ID: " + request.getUserId());
-//    	 System.out.println("Room ID: " + request.getRoomId());
-//    	 System.out.println("Data Index: " + request.getDataIndex());
-//    	 System.out.println("Message Index: " + request.getMessageIndex());
-//		 System.out.println("Data ID: " + request.getDataId());
-//		 System.out.println("Excluded Keyword: " + request.getExcludedKeyword());
         
 		String dataId = request.getDataId().replace("question-", "");
 		dataId = dataId.replace("-", "_");
 		request.setDataId(dataId);
 		
 		int result = diaryService.InsertExcludedKeyword(request);
-//		 System.out.println(result);
 
         ApiResponse<String> response = new ApiResponse<>();
         ApiResponseHeader header = new ApiResponseHeader();
@@ -397,8 +342,6 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/selectExcludedKeyword", produces = "application/json")
     public ApiResponse<String> selectExcludedKeyword(@RequestBody ExcludedKeyword request) {
-//    	 System.out.println("User ID: " + request.getUserId());
-//    	 System.out.println("Data ID: " + request.getDataId());
         
     	String dataId = request.getDataId().replace("question-", "");
 		dataId = dataId.replace("-", "_");
@@ -407,7 +350,6 @@ public class DiaryController {
     	List<ExcludedKeyword> excludedKeywordList = null;
     	
     	excludedKeywordList = diaryService.selectExcludedKeyword(request);
-//		 System.out.println(excludedKeywordList.size());
 
         ApiResponse<String> response = new ApiResponse<>();
         ApiResponseHeader header = new ApiResponseHeader();
@@ -447,18 +389,11 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/updateTalkToBotData", produces = "application/json")
     public ApiResponse<String> updateTalkToBotData(@RequestBody TalkToBotData request) {
-//    	 System.out.println("# UpdateTalkToBotData: ");
-//         System.out.println("Data ID: " + request.getDataId());
-//		 System.out.println("User ID: " + request.getUserId());
-//		 System.out.println("Room Index: " + request.getRoomIndex());
-//		 System.out.println("Message Index: " + request.getMessageIndex());
-//		 System.out.println("Bot Answer: " + request.getBotAnswer());
         
 		if (request.getDataId() != null) {
 			String dataId = request.getDataId().replace("question-", "");
 			dataId = dataId.replace("-", "_");
 			request.setDataId(dataId);
-//			 System.out.println("Replace Data ID: " + dataId);
 		}		
 
         ApiResponse<String> response = new ApiResponse<>();
@@ -467,7 +402,6 @@ public class DiaryController {
 		int result = 0;
 		if (request.getBotAnswer() != null) {
 			result = diaryService.updateBotAnswer(request);
-//			 System.out.println("Result: " + result);
 			response.setBody(request.getBotAnswer());
 		}
         
@@ -488,15 +422,10 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/deleteExcludedKeyword", produces = "application/json")
     public ApiResponse<String> deleteExcludedKeyword(@RequestBody ExcludedKeyword request) {
-//    	 System.out.println("\n# DeleteExcludedKeyword: ");
-//    	 System.out.println("User ID: " + request.getUserId());
-//    	 System.out.println("Data Id: " + request.getDataId());
-//         System.out.println("Data Index: " + request.getDataIndex());
-        
+
         String dataId = request.getDataId().replace("question-", "");
 		dataId = dataId.replace("-", "_");
 		request.setDataId(dataId);
-//		 System.out.println("Replace Data ID: " + dataId);
         
         ApiResponse<String> response = new ApiResponse<>();
         ApiResponseHeader header = new ApiResponseHeader();
@@ -504,7 +433,6 @@ public class DiaryController {
         int result = 0;
 		if (request.getDataIndex() != null) {
 			result = diaryService.deleteExcludedKeyword(request);
-//			 System.out.println("Result: " + result);
 			response.setBody(String.valueOf(result));
 		}		
 		
@@ -525,20 +453,14 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/selectInsertExcludedKeyword", produces = "application/json")
     public ApiResponse<String> selectInsertExcludedKeyword(@RequestBody ExcludedKeyword request) {
-//    	 System.out.println("\n# SelectDeleteInsertExcludedKeyword: ");
-//    	 System.out.println("User ID: " + request.getUserId());
-//         System.out.println("Data Id: " + request.getDataId());
-//         System.out.println("Data Key: " + request.getDataKey());
         
         String dataId = request.getDataId().replace("question-", "");
 		dataId = dataId.replace("-", "_");
 		request.setDataId(dataId);
-//		 System.out.println("Replace Data ID: " + dataId);
 		
 		String dataKey = request.getDataKey().replace("question-", "");
 		dataKey = dataKey.replace("-", "_");
 		request.setDataKey(dataKey);
-//		 System.out.println("Replace Data Key: " + dataKey);
         
         ApiResponse<String> response = new ApiResponse<>();
         ApiResponseHeader header = new ApiResponseHeader();
@@ -547,7 +469,6 @@ public class DiaryController {
         
 		if (request.getDataId() != null) {
 			excludedKeywordList = diaryService.selectExcludedKeyword(request);
-//			 System.out.println("Excluded Keyword List: " + excludedKeywordList.size());
 		}		
 		
 		int result1 = 0;
@@ -556,7 +477,6 @@ public class DiaryController {
 				excludedKeywordList.get(i).setDataId(request.getDataKey());
 				result1 += diaryService.insertExcludedKeywordNotMessageIndex(excludedKeywordList.get(i));
 			}
-//			 System.out.println("Result1: " + result1);
 		}
 		
         if (excludedKeywordList != null) {
@@ -578,15 +498,10 @@ public class DiaryController {
 //    @CrossOrigin(origins = "http://127.0.0.1:5501")
     @PostMapping(value = "/diary/updateQuestionTitle", produces = "application/json")
     public ApiResponse<String> updateQuestionTitle(@RequestBody TalkToBotAll request) {
-//    	 System.out.println("\n# SelectDeleteInsertExcludedKeyword: ");
-//    	 System.out.println("User ID: " + request.getUserId());
-//         System.out.println("Data Id: " + request.getDataId());
-//         System.out.println("Question Item HTML: " + request.getQuestionHtml());
         
         String dataId = request.getDataId().replace("question-", "");
 		dataId = dataId.replace("-", "_");
 		request.setDataId(dataId);
-//		 System.out.println("Replace Data ID: " + dataId);
         
         ApiResponse<String> response = new ApiResponse<>();
         ApiResponseHeader header = new ApiResponseHeader();
@@ -594,7 +509,6 @@ public class DiaryController {
         int result = 0;
 		if (request.getDataId() != null) {
 			result = diaryService.updateQuestionTitle(request);
-//			 System.out.println("Result " + result);
 		}		
 		
         if (result > 0) {

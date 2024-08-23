@@ -8,57 +8,69 @@
 
 
 
-	
+
+	<!-- 사용자 정보 저장 -->
 	<insert id="saveUser" parameterType="User">
-		INSERT INTO users (USER_ID, USER_NAME, USER_PASSWORD, USER_ADDRESS)
-		VALUES (#{userId}, #{userName}, #{userPassword}, #{userAddress})
+		INSERT INTO users (USER_ID,
+		USER_NAME, USER_PASSWORD, USER_ADDRESS)
+		VALUES (#{userId}, #{userName},
+		#{userPassword}, #{userAddress})
 	</insert>
-	
+
+	<!-- 사용자 로그인 -->
 	<select id="loginUser" parameterType="User" resultType="User">
 		SELECT *
 		FROM users
-		WHERE user_id = #{userId} AND user_password = #{userPassword}
+		WHERE user_id = #{userId} AND user_password =
+		#{userPassword}
 	</select>
 
-	
+	<!-- 사용자 삭제 -->
 	<delete id="removeUser" parameterType="String">
 		DELETE FROM users
-		WHERE user_id = #{userId}
+		WHERE
+		user_id = #{userId}
 	</delete>
-	
+
+	<!-- 사용자 ID로 사용자 조회 -->
 	<select id="findUserById" parameterType="User">
-		SELECT (USER_ID, USER_NAME, USER_PASSWORD, USER_ADDRESS)
+		SELECT USER_ID,
+		USER_NAME, USER_PASSWORD, USER_ADDRESS
 		FROM users
-		WHERE user_id = #{userId} 
+		WHERE user_id =
+		#{userId}
 	</select>
-	
+
+	<!-- 사용자 주소 수정 -->
 	<update id="modifyAddress" parameterType="User">
-    	UPDATE users
-    	SET user_address = #{userAddress}
-    	WHERE user_id = #{userId}
-    </update>
-    
-    <update id="modifyPassword" parameterType="User">
-    	UPDATE users
-    	SET user_password = #{userPassword}
-    	WHERE user_id = #{userId}
-    </update>
-    
-    <select id="checkDuplicatedId" parameterType="String" resultType="int">
-    	SELECT 
-		    CASE 
-		        WHEN COUNT(*) > 0 THEN 1
-		        ELSE -1
-		    END as duplicatedCheck
+		UPDATE users
+		SET user_address = #{userAddress}
+		WHERE user_id = #{userId}
+	</update>
+
+	<!-- 사용자 비밀번호 수정 -->
+	<update id="modifyPassword" parameterType="User">
+		UPDATE users
+		SET user_password = #{userPassword}
+		WHERE user_id = #{userId}
+	</update>
+
+	<!-- 중복된 ID 확인 -->
+	<select id="checkDuplicatedId" parameterType="String"
+		resultType="int">
+		SELECT
+		CASE
+		WHEN COUNT(*) > 0 THEN 1
+		ELSE -1
+		END as duplicatedCheck
 		FROM users
 		WHERE user_id = #{signupId}
-    </select>
-    
-    
+	</select>
 
-	
-	
-	
+
+
+
+
 
 </mapper>					
 

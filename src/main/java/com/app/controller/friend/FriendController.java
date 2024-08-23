@@ -59,8 +59,6 @@ public class FriendController {
 	@PostMapping("/joinRequestFriend")
 	@ResponseBody
 	public int joinRequestFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
-		
-		// System.out.println(friendStatusDTO);
 		int result = friendService.joinRequestFriend(friendStatusDTO);
 
 		return result;
@@ -71,8 +69,7 @@ public class FriendController {
 	@ResponseBody
 	public List<User> confirmRequestFriend(@RequestParam String loginUserId) {
 		List<User> requestFriendList = friendService.confirmRequestFriend(loginUserId);
-		// System.out.println(requestFriendList);
-
+		
 		for (int i = 0; i < requestFriendList.size(); i++) {
 			requestFriendList.get(i)
 					.setUrlFilePath(fileService.findFilePathByUserId(requestFriendList.get(i).getUserId()));
@@ -142,8 +139,6 @@ public class FriendController {
 	@PostMapping("unfollowFriend")
 	@ResponseBody
 	public String unfollowFriend(@RequestBody FriendStatusDTO friendStatusDTO) {
-
-		// System.out.println(friendStatusDTO);
 
 		int unfollowResultOneWay = friendService.unfollowFriendOneWay(friendStatusDTO);
 

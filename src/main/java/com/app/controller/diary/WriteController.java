@@ -40,10 +40,6 @@ public class WriteController {
 	public String diarySave(HttpSession session, UserDiary diary) {
 		String sessionUserId = (String) session.getAttribute("userId");
 		diary.setUserId(sessionUserId);
-		// System.out.println("User ID: " + diary.getUserId());
-		// System.out.println("Diary Title: " + diary.getDiaryTitle());
-		// System.out.println("Write Date: " + diary.getWriteDate());
-		// System.out.println("Diary Content: " + diary.getDiaryContent());
 		
 		String userId = diary.getUserId();
 		String title = diary.getDiaryTitle();
@@ -59,7 +55,6 @@ public class WriteController {
 			System.out.println("DB 전송 실패, 파라미터가 NULL 값인지 확인하세요");
 		}
 		
-		// System.out.println("Result: " + result);
 		
 		if (result > 0) {
 			return "redirect:/main";
@@ -72,14 +67,8 @@ public class WriteController {
 	
 	@PostMapping("/modifyDiary")
 	public String modifyDiary(HttpSession session, UserDiary diary) throws ParseException {
-	    
-		// 폼에서 전달된 diaryId를 그대로 사용
 		
-	    // System.out.println(diary.getDiaryId());
-	    // System.out.println(diary.getDiaryTitle());
-	    // System.out.println(diary.getDiaryContent());
-	    // System.out.println(diary.getWriteDate());
-
+		// 폼에서 전달된 diaryId를 그대로 사용
 
 	    // 일기 수정 작업 수행
 	    int result = writeService.modifyDiary(diary);

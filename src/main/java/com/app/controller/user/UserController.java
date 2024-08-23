@@ -1,6 +1,5 @@
 package com.app.controller.user;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -8,7 +7,6 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.dto.user.RequestUserDTO;
 import com.app.dto.diary.UserDiary;
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.user.User;
@@ -55,16 +52,13 @@ public class UserController {
 
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
-		// System.out.println("test");
+		
 		// 사용자 ID 설정
 		User sessionUser = (User) session.getAttribute("user");
-		// System.out.println(sessionUser);
+		
 		// 변경할 주소 가져오기
-
-//  		// System.out.println(user.getUserAddress());
-
 		String userId = sessionUser.getUserId().toString();
-		// System.out.println("User ID: " + userId);
+		
 		
 		session.setAttribute("userId", userId);
 
@@ -73,15 +67,7 @@ public class UserController {
 		if (userId != null && !userId.isEmpty()) {
 			userDiaryList = writeService.getDiaryListByUserId(userId);
 			session.setAttribute("userDiaryList", userDiaryList);
-
-			// 각 다이어리의 정보를 콘솔에 출력
-			for (UserDiary diary : userDiaryList) {
-				// System.out.println(diary.getDiaryId());
-				// System.out.println(diary.getDiaryTitle());
-				// System.out.println(diary.getDiaryContent());
-				// System.out.println(diary.getWriteDate());
-			}
-
+	
 			// 페이지네이션을 위한 로직
 			int pageSize = 8; // 페이지당 글 개수
 			int totalCount = userDiaryList.size();
@@ -96,34 +82,18 @@ public class UserController {
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("currentPage", page);
             
-            // System.out.println(model.getAttribute("totalPages"));
-            // System.out.println(model.getAttribute("currentPage"));
-            // System.out.println(startIndex);//>=4
-            // System.out.println(totalCount);
-            // System.out.println(totalPages);
         }
         
         // 친구 목록을 가져옴
         FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
         friendStatusDTO.setLoginUserId(userId);
-        List<FriendStatusDTO> friendCountList = friendService.countFriends(friendStatusDTO);
-        
-        // 친구 수를 계산
-        int friendCount = friendCountList.size();
-        // System.out.println("친구 수 : " + friendCount);
-
-        // 모델에 친구 수와 사용자 정보를 추가
-        model.addAttribute("friendCount", friendCount);
-        model.addAttribute("userId", userId);
-        
-        ////팔로잉 팔로워
+       
+        //팔로잉 팔로워
         // 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
         int followerCount = friendService.countFollower(userId);
         int followingCount = friendService.countFollowing(userId);
         
-        // System.out.println("팔로워 수 : " + followerCount);
-        // System.out.println("팔로잉 수 : " + followingCount);
-
+       
         // 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
         model.addAttribute("follower", followerCount);
         model.addAttribute("following", followingCount);
@@ -202,7 +172,7 @@ public class UserController {
 	// 로그인
 	@GetMapping("/user/signin")
 	public String signin(HttpSession session) {
-		// System.out.println(session.getAttribute("user"));
+		
 		return "user/signin";
 	}
 
@@ -220,12 +190,12 @@ public class UserController {
 			String loginUserFilePath = fileService.findFilePathByUserId(loginUser.getUserId());
 			session.setAttribute("filePath", loginUserFilePath);
 
-			// System.out.println(session.getAttribute("user") + "정상");
+			
 
 			return "redirect:/main";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			// System.out.println(session.getAttribute("user") + "오류");
+			
 			return "redirect:/main";
 		}
 	}
@@ -264,11 +234,8 @@ public class UserController {
 	public String modifyAddress(User user, HttpSession session) {
 
 		User sessionUser = (User) session.getAttribute("user");
-		// System.out.println(sessionUser);
+		
 		// 변경할 주소 가져오기
-
-//  		System.out.println(user.getUserAddress());
-
 		sessionUser.setUserAddress(user.getUserAddress());
 
 		int result = userService.modifyAddress(sessionUser);
@@ -332,9 +299,7 @@ public class UserController {
 	@PostMapping("/checkIdDuplicated")
 	public int checkDuplicatedId(@RequestBody Map<String, String> requestData) {
 		String signupId = requestData.get("signupId");
-
-		// System.out.println(signupId);
-
+		
 		int result = userService.checkDuplicatedId(signupId);
 
 		return result;
