@@ -97,14 +97,27 @@ public class FriendServiceImpl implements FriendService {
 	
 	@Override
 	public int countFollower(String userId) {
-		int result = friendDAO.countFollower(userId);
-		return result;
+		try {
+			int result = friendDAO.countFollower(userId);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 	@Override
 	public int countFollowing(String userId) {
-		int result = friendDAO.countFollowing(userId);
-		return result;
+		try {
+			int result = friendDAO.countFollowing(userId);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+
+		
 	}
 
 }
