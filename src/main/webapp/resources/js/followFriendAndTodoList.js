@@ -65,41 +65,56 @@ function getFriendList() {
 			loginUserId: loginUserId
 		},
 		dataType: "JSON",
-		success: function(friendList) {
+		success: function(response) {
 
-			let friendListUl = $('.friends-list');
-			friendListUl.empty();
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			friendList.forEach((friend) => {
+			console.log("getFriendList: " + resultCode);
 
-				if (friend.urlFilePath == null || friend.urlFilePath == '') {
-					friend.urlFilePath = "/uploads/basic_profile.jpg";
-				}
+			if (response && response.header && resultCode == "01") {
+				let friendListUl = $('.friends-list');
+				friendListUl.empty();
+			} else if (response && response.header && resultCode == "00") {
+				let friendList = response.body;
+				let friendListUl = $('.friends-list');
+				friendListUl.empty();
+
+				friendList.forEach((friend) => {
+
+					if (friend.urlFilePath == null || friend.urlFilePath == '') {
+						friend.urlFilePath = "/uploads/basic_profile.jpg";
+					}
 
 
-				let friendListLi = `
-					<li class="friend-item">
-						<div class="friend-avatar">
-							<img src="${friend.urlFilePath}">
-						</div>
-						<div class="friend-info">
-							<div>
-								<p class="friend-name">${friend.userName}</p>
-								<p class="friend-id">@${friend.userId}</p>
-							</div>
-							
-							<div class="btn-img-unfollow">
-								<button class="btn-unfollow" onclick="unfollowFreind('${friend.userId}')"><img class="unfollow-image" src="/image/friend-unfollow.png" alt="친구삭제"></button>
-							</div>
-						</div>
-					</li>
-				`;
+					let friendListLi = `
+									<li class="friend-item">
+										<div class="friend-avatar">
+											<img src="${friend.urlFilePath}">
+										</div>
+										<div class="friend-info">
+											<div>
+												<p class="friend-name">${friend.userName}</p>
+												<p class="friend-id">@${friend.userId}</p>
+											</div>
+											
+											<div class="btn-img-unfollow">
+												<button class="btn-unfollow" onclick="unfollowFreind('${friend.userId}')"><img class="unfollow-image" src="/image/friend-unfollow.png" alt="친구삭제"></button>
+											</div>
+										</div>
+									</li>
+								`;
 
-				friendListUl.append(friendListLi);
-			});
+					friendListUl.append(friendListLi);
+				});
+			} else {
+				console.log("Invalid response header or result code of getFriendList" + resultMsg);
+			}
+
+
 		},
-		error: function() {
-			alert("mainDashBoard 친구목록 로드 에러");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 	});
 
@@ -117,20 +132,31 @@ function unfollowFreind(friendId) {
 				loginUserId: loginUserId,
 				friendId: friendId
 			}),
-			dataType: "text",
-			success: function(unfollowText) {
+			dataType: "JSON",
+			success: function(response) {
+				let resultCode = response.header.resultCode;
+				let resultMsg = response.header.resultMessage;
 
-				alert(unfollowText);
+				console.log("unfollowFriend: " + resultCode);
 
-				//mainDashBoard에서 친구들 일기 타임라인 조회
-				getFriendsDiaryTimeline();
+				if (response && response.header && resultCode == "00") {
+					alert(resultMsg);
 
-				//mainDashBoard에서 친구 목록 조회
-				getFriendList();
+					//mainDashBoard에서 친구들 일기 타임라인 조회
+					getFriendsDiaryTimeline();
+
+					//mainDashBoard에서 친구 목록 조회
+					getFriendList();
+				} else {
+					console.log("Invalid response header or result code of unfollowFriend" + resultMsg);
+				}
+
+
+
 
 			},
-			error: function() {
-				alert("친구 삭제 서버 에러");
+			error: function(error) {
+				console.log("Error: " + error);
 			}
 		});
 	}
@@ -151,51 +177,66 @@ function getFriendsDiaryTimeline() {
 			loginUserId: loginUserId
 		},
 		dataType: "JSON",
-		success: function(friendDiaryProfileList) {
-
+		success: function(response) {
 
 			let timeLineContainer = $('.post_container');
-			timeLineContainer.empty();
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			friendDiaryProfileList.forEach((friendDiaryProfile) => {
-				//DB에 저장된 날짜를 가져와서 변환
-				let dateString = friendDiaryProfile.writeDate;
+			console.log("getFriendsDiaryTimeline: " + resultCode);
 
-				const date = new Date(dateString);
-				const options = { year: 'numeric', month: 'long', day: 'numeric' };
-				const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+			if (response && response.header && resultCode == "01") {
+				timeLineContainer.empty();
+			} else if (response && response.header && resultCode == "00") {
+				let friendDiaryProfileList = response.body;
+				timeLineContainer.empty();
+
+				if (friendDiaryProfileList != null && friendDiaryProfileList.length > 0) {
+					friendDiaryProfileList.forEach((friendDiaryProfile) => {
+						//DB에 저장된 날짜를 가져와서 변환
+						let dateString = friendDiaryProfile.writeDate;
+
+						const date = new Date(dateString);
+						const options = { year: 'numeric', month: 'long', day: 'numeric' };
+						const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
 
 
-				if (friendDiaryProfile.urlFilePath == null || friendDiaryProfile.urlFilePath == '') {
-					friendDiaryProfile.urlFilePath = "/uploads/basic_profile.jpg";
+						if (friendDiaryProfile.urlFilePath == null || friendDiaryProfile.urlFilePath == '') {
+							friendDiaryProfile.urlFilePath = "/uploads/basic_profile.jpg";
+						}
+
+						let friendDiaryTimeline = `
+															<div class="post">
+																<div class="post-header">
+																	<img src="${friendDiaryProfile.urlFilePath}" alt="Profile Picture" class="profile-pic">
+																		<div class="user-info">
+																			<p class="username">@${friendDiaryProfile.userId}</p>
+																			<p class="post-date">${formattedDate}</p>
+																		</div>
+																</div>
+																					
+																<div class="post-content">
+																	<h1>${friendDiaryProfile.diaryTitle}</h1>
+																	<p>${friendDiaryProfile.diaryContent}</p>
+																</div>
+																					
+															</div>
+													`;
+
+
+						timeLineContainer.append(friendDiaryTimeline);
+
+					});
 				}
 
-				let friendDiaryTimeline = `
-						<div class="post">
-							<div class="post-header">
-								<img src="${friendDiaryProfile.urlFilePath}" alt="Profile Picture" class="profile-pic">
-									<div class="user-info">
-										<p class="username">@${friendDiaryProfile.userId}</p>
-										<p class="post-date">${formattedDate}</p>
-									</div>
-							</div>
-												
-							<div class="post-content">
-								<h1>${friendDiaryProfile.diaryTitle}</h1>
-								<p>${friendDiaryProfile.diaryContent}</p>
-							</div>
-												
-						</div>
-				`;
+			} else {
+				console.log("Invalid response header or result code of getFriendsDiaryTimeline" + resultMsg);
+			}
 
-
-				timeLineContainer.append(friendDiaryTimeline);
-
-			});
 
 		},
-		error: function() {
-			alert("일기 타임라인 로드 에러")
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 
 	});
@@ -225,38 +266,61 @@ function viewRecommendList() {
 			loginUserId: loginUserId
 		},
 		dataType: "json",
-		success: function(recommendList) {
-			const recommendFriendListTable = $(".recommendfriend-list");
-			recommendFriendListTable.empty();
+		success: function(response) {
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			if (recommendList != null && recommendList != '') {
-				//tr 동적 추가
-				recommendList.forEach((recommend) => {
+			console.log("viewRecommendList: " + resultCode);
+			if (response && response.header && resultCode == "00") {
+				let recommendList = response.body;
 
-					if (recommend.urlFilePath == null || recommend.urlFilePath == '') {
-						recommend.urlFilePath = "/uploads/basic_profile.jpg";
-					}
+				const recommendFriendListTable = $(".recommendfriend-list");
+				recommendFriendListTable.empty();
 
-					const row = `
-					                <tr>
-					                    <th>
-					                        <div class="image" style="background-image: url('${recommend.urlFilePath}'); background-size: cover; background-position: center;"></div>
-					                    </th>
-					                    <td>${recommend.userId} ${recommend.userName}</td>
-					                    <td><button  class="add-friend-padding"  id="${recommend.userId}" onclick=addFriend('${recommend.userId}') style="background-color: transparent;"><i class="fas fa-user-plus"></i></button></td>
-					                </tr>
-					            `;
-								
-					recommendFriendListTable.append(row);
-				});
+				if (recommendList != null && recommendList.length > 0) {
+					//tr 동적 추가
+					recommendList.forEach((recommend) => {
+
+						if (recommend.urlFilePath == null || recommend.urlFilePath == '') {
+							recommend.urlFilePath = "/uploads/basic_profile.jpg";
+						}
+
+						const row = `
+						    <tr>
+						        <th>
+						            <div class="image"
+						                style="background-image: url('${recommend.urlFilePath}'); background-size: cover; background-position: center;">
+						            </div>
+						        </th>
+						        <td>${recommend.userId} ${recommend.userName}</td>
+						        <td>
+						            <button class="add-friend-padding"
+						                id="${recommend.userId}"
+						                onclick="addFriend('${recommend.userId}')"
+						                style="background-color: transparent;">
+						                <i class="fas fa-user-plus"></i>
+						            </button>
+						        </td>
+						    </tr>
+						`;
+
+						recommendFriendListTable.append(row);
+					});
+				}
+			} else if (resultCode == "01") {
+				console.log("추천할 친구가 없습니다.");
+
+				const recommendFriendListTable = $(".recommendfriend-list");
+				recommendFriendListTable.empty();
+
 			} else {
-				console.log("recommendList is null");
+				console.log("Invalid response header or result code of viewRecommendList" + resultMsg);
 			}
 
 
 		},
-		error: function() {
-			alert("친구추천 에러 발생");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 	});
 }
@@ -280,13 +344,26 @@ $('#requestFriend').click(function() {
 		},
 		success: function(response) {
 
-			checkReceivedFriendRequests(response); //친구 신청리스트 조회
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			$('#friendRequestPopup').show(); //친구신청 팝업
+
+			console.log(`confirmRequestFriend ${resultCode} ${resultMsg}`);
+			
+			if (response && response.header && resultCode == "00") {
+				checkReceivedFriendRequests(response.body); //친구 신청리스트 조회
+
+				$('#friendRequestPopup').show(); //친구신청 팝업
+
+			} else if (response && response.header && resultCode == "01") {
+				$('#friendRequestPopup').show(); //친구신청 팝업
+			} else {
+				console.log("Invalid response header or result code of confirmRequestFriend" + resultMsg);
+			}
 
 		},
-		error: function() {
-			alert("에러발생");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 
 	});
@@ -294,12 +371,12 @@ $('#requestFriend').click(function() {
 });
 
 //친구 신청함 확인
-function checkReceivedFriendRequests(response) {
+function checkReceivedFriendRequests(responseRequestFriendList) {
 	var friendRequestList = $('.friend-request-list'); //ul
 	friendRequestList.empty();
 
-	if (response != null && response != '') {
-		response.forEach((requestFriend) => {
+	if (responseRequestFriendList != null && responseRequestFriendList.length != 0) {
+		responseRequestFriendList.forEach((requestFriend) => {
 
 			if (requestFriend.urlFilePath == null || requestFriend.urlFilePath == '') {
 				requestFriend.urlFilePath = "/uploads/basic_profile.jpg";
@@ -329,20 +406,48 @@ function receiveFriendRequest(friendId) {
 			friendId: friendId
 		}),
 		success: function(response) {
-			alert("친구받기완료!");
-			checkReceivedFriendRequests(response); //친구신청함 비우고 다시 그리기
 
-			//일기 타임라인 재로드
-			getFriendsDiaryTimeline();
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			//친구목록 재로드
-			getFriendList();
 
-			//친구 추천리스트 재로드
-			viewRecommendList();
+			console.log(`receiveFriendRequest ${resultCode} ${resultMsg}`);
+
+			if (response && response.header && resultCode == "01") {
+				alert("친구받기완료!");
+
+				var friendRequestList = $('.friend-request-list'); //ul
+				friendRequestList.empty();
+
+				//일기 타임라인 재로드
+				getFriendsDiaryTimeline();
+
+				//친구목록 재로드
+				getFriendList();
+
+				//친구 추천리스트 재로드
+				viewRecommendList();
+
+			} else if (response && response.header && resultCode == "00") {
+				alert("친구받기완료!");
+
+				checkReceivedFriendRequests(response.body); //친구신청함 비우고 다시 그리기
+
+				//일기 타임라인 재로드
+				getFriendsDiaryTimeline();
+
+				//친구목록 재로드
+				getFriendList();
+
+				//친구 추천리스트 재로드
+				viewRecommendList();
+			} else {
+				console.log("Invalid response header or result code of receiveFriendRequest" + resultMsg);
+			}
+
 		},
-		error: function() {
-			alert("에러발생");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 
 	});
@@ -358,33 +463,52 @@ function fetchTodoList() {
 		data: { loginUserId: loginUserId },
 		dataType: "json",
 		success: function(response) {
-			const todoList = $('#todoList');
-			todoList.empty(); // 기존 리스트를 비움
 
-			response.forEach(todo => {
-				const li = $('<li>').attr('id', todo.todolistId);
-				const checkbox = $('<input>', { type: 'checkbox' }).prop('checked', todo.todolistStatus === 'cmp');
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-				if (checkbox.prop('checked')) li.addClass('checked');
+			if (response && response.header && resultCode == "00") {
+				const todoList = $('#todoList');
+				todoList.empty(); // 기존 리스트를 비움
 
-				checkbox.on('change', function() {
-					handleCheckboxChange(this, li);
-				});
+				let responseTodoList = response.body;
 
-				const textNode = document.createTextNode(todo.todolistContents);
-				const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
-					if (confirm("삭제하시겠습니까?")) {
-						removeTodoItem(li);
-					}
-				});
+				if (responseTodoList != null && responseTodoList.length > 0) {
+					responseTodoList.forEach(todo => {
+						const li = $('<li>').attr('id', todo.todolistId);
+						const checkbox = $('<input>', { type: 'checkbox' }).prop('checked', todo.todolistStatus === 'cmp');
 
-				li.append(checkbox, textNode, removeButton);
-				todoList.append(li);
-				$('#todoInput').val('');
-			});
+						if (checkbox.prop('checked')) li.addClass('checked');
+
+						checkbox.on('change', function() {
+							handleCheckboxChange(this, li);
+						});
+
+						const textNode = document.createTextNode(todo.todolistContents);
+						const removeButton = $('<button>').text('x').addClass('remove-btn').on('click', function() {
+							if (confirm("삭제하시겠습니까?")) {
+								removeTodoItem(li);
+							}
+						});
+
+						li.append(checkbox, textNode, removeButton);
+						todoList.append(li);
+						$('#todoInput').val('');
+					});
+				}
+
+
+			} else if (response && response.header && resultCode == "02") {
+				const todoList = $('#todoList');
+				todoList.empty(); // 기존 리스트를 비움
+
+			} else {
+				console.log(`/todoList/viewAll: ${resultCode} ${resultMsg}`);
+			}
+
 		},
-		error: function() {
-			alert("투두리스트 select 에러 발생");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 	});
 }
@@ -401,9 +525,22 @@ function handleCheckboxChange(checkbox, li) {
 			todoListStatus: status
 		}),
 		contentType: 'application/json; charset=utf-8',
-		success: function() {
-			alert(`db 테이블 todoList_status 상태 ${status} 변경`);
-			li.toggleClass('checked', $(checkbox).prop('checked'));
+		dataType: "json",
+		success: function(response) {
+
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
+
+
+			if (response && response.header && resultCode == "00") {
+				li.toggleClass('checked', $(checkbox).prop('checked'));
+			} else {
+				console.log(`/todoList/checkedOn ${resultCode} ${resultMsg}`);
+			}
+
+
+
+
 		},
 		error: function() {
 			alert("체크박스 상태 변경 에러 발생");
@@ -427,9 +564,18 @@ function addTodo() {
 			loginUserId: loginUserId,
 			todoText: todoText
 		}),
+		dataType: "json",
 		success: function(response) {
 
-			fetchTodoList();
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
+
+			if (response && response.header && resultCode == "00") {
+				fetchTodoList();
+			} else {
+				console.log(`/todoList/register ${resultCode} ${resultMsg}`);
+			}
+
 		},
 		error: function() {
 			alert("에러 발생");
@@ -448,13 +594,21 @@ function removeTodoItem(li) {
 			todoListId: li.attr('id'),
 			loginUserId: loginUserId
 		}),
+		dataType: "json",
 		success: function(response) {
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
 
-			li.remove(); // 체크리스트 삭제
+			if (response && response.header && resultCode == "00") {
+				li.remove(); // 체크리스트 삭제
+			} else {
+				console.log(`/todoList/remove ${resultCode} ${resultMsg}`);
+			}
+
 
 		},
-		error: function() {
-			alert("todoList 삭제 에러 발생");
+		error: function(error) {
+			console.log("Error: " + error);
 		}
 
 	});
@@ -481,11 +635,23 @@ function filterFriends() {
 		}), //사용자 아이디, 사용자 input
 		contentType: 'application/json; charset=utf-8',
 		success: function(response) {
-			displayFriends(response);
-			console.log(response);
+			console.log("searchFriend: " + response.header.resultCode);
+
+			let resultCode = response.header.resultCode;
+			let resultMsg = response.header.resultMessage;
+
+			if (response && response.header && resultCode == "00") {
+				displayFriends(response.body);
+			} else if (resultCode == "02") {
+				const table = $('#addfriend-list');
+				table.empty(); // 기존의 목록을 비움
+			} else {
+				console.log("Invalid response header or result code of searchFriend" + resultMsg);
+			}
+
 		},
 		error: function(error) {
-			alert('에러:', error);
+			console.log("Error: " + error);
 		}
 	});
 
@@ -539,14 +705,27 @@ function addFriend(friendId) {
 				friendId: friendId
 			}),
 			contentType: 'application/json; charset=utf-8',
-			success: function(result) {
-				if (result > 0) {
+			success: function(response) {
+
+				let resultCode = response.header.resultCode;
+				let resultMsg = response.header.resultMessage;
+
+
+				console.log("joinRequestFriend: " + resultCode);
+
+				if (response && response.header && resultCode == '00' && response.body > 0) {
 					alert(friendId + "님에게 친구신청 완료!");
 					$(`button[id="${friendId}"]`).closest('td').remove();
+
+				} else {
+					console.log("Invalid response header or result code of joinRequestFriend" + resultCode + resultMsg);
+
 				}
+
+
 			},
 			error: function(error) {
-				alert('에러:', error);
+				console.error("Error:", error);
 			}
 		});
 	}
