@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.app.dto.diary.UserDiary;
+import com.app.dto.user.User;
 import com.app.service.diary.WriteService;
 
 import java.text.ParseException;
@@ -30,22 +31,29 @@ public class WriteController {
 	
 	@GetMapping("/diaryWrite")
 	public String diaryWrite(HttpSession session) {
-	    // 새로운 세션에 데이터를 설정합니다.
-		session.setAttribute("userId", "user1");
 		
 		return "diary/diaryWrite";
 	}
 	
 	@PostMapping("/diarySave")
 	public String diarySave(HttpSession session, UserDiary diary) {
-		String sessionUserId = (String) session.getAttribute("userId");
-		diary.setUserId(sessionUserId);
+		
+		
+		// 사용자 ID 설정
+		User sessionUser = (User) session.getAttribute("user");
+
+		// 변경할 주소 가져오기
+		String sessionUserId = sessionUser.getUserId().toString();
+
+		session.setAttribute("userId", sessionUserId);
+		diary.setUserId(session.getAttribute("userId").toString());
 		
 		String userId = diary.getUserId();
 		String title = diary.getDiaryTitle();
 		String date = diary.getWriteDate();
 		String content = diary.getDiaryContent();
 		int result = 0;
+		System.out.println(userId);
 
 		boolean allPresent = Stream.of(userId, title, date, content).allMatch(Objects::nonNull);
 

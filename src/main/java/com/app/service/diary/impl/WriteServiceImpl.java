@@ -27,21 +27,39 @@ public class WriteServiceImpl implements WriteService {
 
 	@Override
 	public List<UserDiary> getDiaryListByUserId(String userId) {
-		 List<UserDiary> getDiaryListByUserId = writeDAO.getDiaryListByUserId(userId);
-		 return getDiaryListByUserId;
+		List<UserDiary> diaryList = null;
+		try {
+			 return writeDAO.getDiaryListByUserId(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return diaryList;
+		}
+		 
 	}
-
+	
 	@Override
 	public int modifyDiary(UserDiary diary) {
-		int result = writeDAO.modifyDiary(diary);
-		return result;
+		try {
+			int result = writeDAO.modifyDiary(diary);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 
 	@Override
 	public int deleteDiary(String diaryId) {
-		int result = writeDAO.deleteDiary(diaryId);
-		return result;
+		try {
+			int result = writeDAO.deleteDiary(diaryId);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 }

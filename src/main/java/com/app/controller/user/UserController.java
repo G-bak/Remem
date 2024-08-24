@@ -78,26 +78,28 @@ public class UserController {
 			int endIndex = Math.min(startIndex + pageSize, totalCount);
 			List<UserDiary> pageDiaryList = userDiaryList.subList(startIndex, endIndex);
 
-			// 모델에 필요한 데이터 추가
-			model.addAttribute("userDiaryList", pageDiaryList);
-			model.addAttribute("totalPages", totalPages);
-			model.addAttribute("currentPage", page);
-
-		}
-
-		// 친구 목록을 가져옴
-		FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
-		friendStatusDTO.setLoginUserId(userId);
-
-		// 팔로잉 팔로워
-		// 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
-		int followerCount = friendService.countFollower(userId);
-		int followingCount = friendService.countFollowing(userId);
-
-		// 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
-		model.addAttribute("follower", followerCount);
-		model.addAttribute("following", followingCount);
-		model.addAttribute("userId", userId);
+            // 모델에 필요한 데이터 추가
+            model.addAttribute("userDiaryList", pageDiaryList);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("currentPage", page);
+            
+        }
+        
+        // 친구 목록을 가져옴
+        FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
+        friendStatusDTO.setLoginUserId(userId);
+       
+        // 팔로잉 팔로워
+        // 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
+        int followerCount = friendService.countFollower(userId);
+        int followingCount = friendService.countFollowing(userId);
+        
+       
+        // 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
+        model.addAttribute("follower", followerCount);
+        model.addAttribute("following", followingCount);
+        model.addAttribute("userId", userId);
+        
 
 		return "user/main";
 	}
@@ -191,8 +193,8 @@ public class UserController {
 			return "redirect:/main";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
-
-			return "redirect:/main";
+			
+			return "/user/signin";
 		}
 	}
 
@@ -255,28 +257,28 @@ public class UserController {
 
 			User sessionUser = (User) session.getAttribute("user");
 			if (sessionUser == null) {
-				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
+				//throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
 			}
 
 			// 현재 비밀번호가 일치하는지 확인
 			if (!sessionUser.getUserPassword().equals(currentPassword)) {
-				throw new Exception("현재 비밀번호와 일치하지 않습니다.");
+				//throw new Exception("현재 비밀번호와 일치하지 않습니다.");
 			}
 
 			// 새로운 비밀번호가 현재 비밀번호와 동일하지 않은지 확인
 			if (currentPassword.equals(newPassword)) {
-				throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
+				//throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
 			}
 
 			// 새로운 비밀번호의 유효성 검사
 			if (!Pattern.matches(verifyPassword, newPassword)) {
-				throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
+				//throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
 			}
 
 			sessionUser.setUserPassword(newPassword);
 			int result = userService.modifyPassword(sessionUser);
 			if (result <= 0) {
-				throw new Exception("비밀번호 변경에 실패했습니다.");
+				//throw new Exception("비밀번호 변경에 실패했습니다.");
 			}
 
 			session.setAttribute("user", sessionUser);
@@ -284,7 +286,7 @@ public class UserController {
 
 		} catch (Exception e) {
 
-			model.addAttribute("errorMessage", e.getMessage());
+			//model.addAttribute("errorMessage", e.getMessage());
 			return "redirect:/main";
 
 		}

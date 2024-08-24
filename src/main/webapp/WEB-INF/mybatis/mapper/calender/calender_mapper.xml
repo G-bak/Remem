@@ -3,17 +3,28 @@
 
 <mapper namespace="calender_mapper">
 
+    <!-- 캘린더 데이터를 삽입하는 SQL 문 -->
 	<insert id="insertCalender" parameterType="Calender">
+        <!-- 캘린더 테이블에 새로운 레코드를 삽입합니다. -->
+        <!-- #{dataId}, #{userId}, #{calenderTitle}, #{hasFriends}는 MyBatis가 주어진 객체에서 값을 가져와 SQL에 삽입합니다. -->
 		INSERT INTO calender (data_id, user_id, calender_title, has_friends)
 		VALUES (#{dataId}, #{userId}, #{calenderTitle}, #{hasFriends})
     </insert>
     
+    <!-- 캘린더 친구 데이터를 삽입하는 SQL 문 -->
     <insert id="insertCalenderFriends">
+        <!-- 캘린더 친구 테이블에 새로운 레코드를 삽입합니다. -->
+        <!-- NVL 함수는 MAX(cfno)가 NULL인 경우 0을 반환하고, 그 값에 1을 더해 새로운 cfno 값을 생성합니다. -->
+        <!-- #{dataId}, #{friendId}, #{friendName}는 MyBatis가 주어진 객체에서 값을 가져와 SQL에 삽입합니다. -->
 	    INSERT INTO calender_friends (cfno, data_id, friend_id, friend_name)
 	    VALUES (NVL((SELECT MAX(cfno) FROM calender_friends), 0) + 1, #{dataId}, #{friendId}, #{friendName})
 	</insert>
 
+    <!-- 특정 사용자의 캘린더 데이터를 조회하는 SQL 문 -->
     <select id="selectCalender" parameterType="Calender" resultType="Calender">
+        <!-- 사용자의 ID에 따라 캘린더 테이블에서 데이터를 조회합니다. -->
+        <!-- SUBSTR(data_id, 1, 10)는 data_id에서 첫 10자를 추출하여 calender_date로 반환합니다. -->
+        <!-- 이 쿼리는 주어진 userId와 일치하는 모든 캘린더 데이터를 가져옵니다. -->
     	SELECT 
    			SUBSTR(data_id, 1, 10) AS calender_date, 
    			data_id, user_id, calender_title, has_friends
@@ -21,17 +32,26 @@
 		WHERE user_id = #{userId}
     </select>
     
+    <!-- 캘린더 데이터를 삭제하는 SQL 문 -->
     <delete id="deleteCalender" parameterType="Calender">
+        <!-- 주어진 data_id에 해당하는 캘린더 데이터를 삭제합니다. -->
     	DELETE FROM calender 
 		WHERE data_id = #{dataId}
     </delete>
     
+    <!-- 캘린더 친구 데이터를 삭제하는 SQL 문 -->
     <delete id="deleteCalenderFriends" parameterType="Calender">
+        <!-- 주어진 data_id에 해당하는 모든 친구 데이터를 삭제합니다. -->
     	DELETE FROM calender_friends
 		WHERE data_id = #{dataId}
     </delete>
     
+    <!-- 친구 목록을 조회하는 SQL 문 -->
     <select id="selectFriends" parameterType="Friends" resultType="Friends">
+        <!-- 주어진 userId와 관련된 친구 목록을 조회합니다. -->
+        <!-- WITH 절은 friend_list라는 임시 테이블을 생성합니다. -->
+        <!-- 이 임시 테이블은 주어진 userId와 연결된 친구들의 ID를 조회합니다. -->
+        <!-- 그런 다음 users 테이블과 조인하여 친구의 이름과 ID를 가져옵니다. -->
     	WITH friend_list AS (
 		    SELECT registration_no, friend_id
 		    FROM friendships
@@ -45,11 +65,17 @@
 		ORDER BY friend_list.registration_no
     </select>
     
+    <!-- 사용자 ID로 사용자 이름을 조회하는 SQL 문 -->
     <select id="selectUserNameByUserId" parameterType="String" resultType="String">
+        <!-- 주어진 userId에 해당하는 사용자의 이름을 조회합니다. -->
     	SELECT user_name FROM users WHERE user_id = #{userId}
     </select>
     
+    <!-- 캘린더에 연결된 친구 목록을 조회하는 SQL 문 -->
     <select id="showFriendList" parameterType="CalenderFriends" resultType="CalenderFriends">
+        <!-- 주어진 data_id에 해당하는 친구 목록과 읽는 사람의 이름을 조회합니다. -->
+        <!-- WITH 절은 reader라는 임시 테이블을 생성하며, 이 테이블은 data_id에서 특정 부분을 추출하여 reader_id를 만듭니다. -->
+        <!-- 이 reader_id를 사용하여 users 테이블과 조인하고, 최종적으로 친구 목록을 반환합니다. -->
 		WITH reader AS (
 		    SELECT 
 		        DISTINCT SUBSTR(#{dataId}, 
@@ -70,7 +96,9 @@
 		ORDER BY cfno
     </select>
     
+    <!-- 캘린더의 세부 정보를 조회하는 SQL 문 -->
     <select id="selectCalenderDetail" parameterType="CalenderMemoDiary" resultType="CalenderMemoDiary">
+        <!-- 주어진 data_id에 해당하는 캘린더의 세부 정보를 조회합니다. -->
 	    SELECT 
 		    data_id, reader_id, appointment_time, 
 		    memo_content, diary_title, diary_content
@@ -78,12 +106,17 @@
 		WHERE data_id = #{dataId}
     </select>
     
+    <!-- 캘린더의 세부 정보를 삽입하는 SQL 문 -->
     <insert id="insertCalenderDetail" parameterType="CalenderMemoDiary">
+        <!-- 캘린더 메모 다이어리 테이블에 새로운 세부 정보를 삽입합니다. -->
     	INSERT INTO calender_memo_diary (data_id, reader_id, diary_content)
 		VALUES (#{dataId}, #{readerId}, #{diaryContent})
     </insert>
     
+    <!-- 캘린더의 세부 정보를 업데이트하는 SQL 문 -->
     <update id="updateCalenderDetail" parameterType="CalenderMemoDiary">
+        <!-- 주어진 data_id에 해당하는 캘린더 세부 정보를 업데이트합니다. -->
+        <!-- appointment_time, memo_content, diary_title, diary_content 필드를 업데이트합니다. -->
     	UPDATE calender_memo_diary
 		SET appointment_time = #{appointmentTime},
 		    memo_content = #{memoContent},

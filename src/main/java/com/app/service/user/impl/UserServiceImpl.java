@@ -21,42 +21,79 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int saveUser(User user) {
-		int result = userDAO.saveUser(user);
-		return result;
+		
+		try {
+			int result = userDAO.saveUser(user);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		
 	}
 
 
 	@Override
 	public User loginUser(User user) {
-		User userList = userDAO.loginUser(user);
-		return userList;
+		try {
+			User loginUser = userDAO.loginUser(user);
+			return loginUser;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		
 	}
 
 
 	@Override
 	public int removeUser(String userId) {
-		int result = userDAO.removeUser(userId);
-		return result;
+		try {
+			int result = userDAO.removeUser(userId);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		
 	}
 
 
 	@Override
 	public User findUserById(String userId) {
+		
 		User result = userDAO.findUserById(userId);
 		return result;
+		
 	}
 	
 	@Override
 	public int modifyAddress(User user) {
-		int result = userDAO.modifyAddress(user);
-		return result;
+		try {
+			int result = userDAO.modifyAddress(user);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 
 	@Override
 	public int modifyPassword(User user) {
-		int result = userDAO.modifyPassword(user);
-		return result;
+		try {
+			int result = userDAO.modifyPassword(user);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 
