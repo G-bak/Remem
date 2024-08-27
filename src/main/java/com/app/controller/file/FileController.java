@@ -21,7 +21,10 @@ import com.app.service.file.FileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class FileController {
 
 	@Autowired
@@ -32,8 +35,11 @@ public class FileController {
 	@PostMapping("/upload")
 	public String handleFileUpload(HttpServletRequest request, HttpSession session,
 			RedirectAttributes redirectAttributes) {
+		log.info("파일 업로드 요청 처리 시작 - 세션 ID: {}", session.getId());
+
 		// 파일 업로드 요청인지 확인
 		if (!ServletFileUpload.isMultipartContent(request)) {
+			log.warn("파일 업로드 요청이 아님");
 			redirectAttributes.addFlashAttribute("fileErrorMessage", "파일 업로드 요청이 아닙니다.");
 			return "redirect:/main";
 		}
@@ -44,38 +50,46 @@ public class FileController {
 		try {
 			// 요청에서 파일 항목들을 파싱
 			List<FileItem> items = upload.parseRequest(request);
+			log.info("업로드된 파일 개수: {}", items.size());
 
 			for (FileItem item : items) {
 				if (!item.isFormField()) {
 					String fileName = Paths.get(item.getName()).getFileName().toString(); // 원본 파일 이름 가져오기
+					log.info("파일 이름: {}", fileName);
 
 					// 파일 이름 유효성 검사
 					if (fileName == null || fileName.trim().isEmpty()) {
+						log.warn("잘못된 파일 이름");
 						redirectAttributes.addFlashAttribute("fileErrorMessage", "잘못된 파일 이름입니다.");
 						return "redirect:/main";
 					}
 
 					// 파일 확장자 추출
 					String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
+					log.info("파일 확장자: {}", fileExtension);
 
 					// 파일 확장자 유효성 검사
 					if (fileExtension == null || fileExtension.trim().isEmpty()) {
+						log.warn("파일 확장자가 없음");
 						redirectAttributes.addFlashAttribute("fileErrorMessage", "파일 확장자가 없습니다.");
 						return "redirect:/main";
 					}
 
 					String uuid = UUID.randomUUID().toString(); // UUID 생성
 					String newFileName = uuid + fileExtension; // 새 파일 이름 생성
+					log.info("새 파일 이름: {}", newFileName);
 
 					// 업로드 디렉토리가 존재하지 않으면 생성
 					File uploadDir = new File(UPLOAD_DIRECTORY);
 					if (!uploadDir.exists()) {
+						log.info("업로드 디렉토리가 존재하지 않음, 새로 생성: {}", UPLOAD_DIRECTORY);
 						uploadDir.mkdirs();
 					}
 
 					// 새 파일 경로 생성 후 파일 저장
 					File file = new File(uploadDir, newFileName);
 					item.write(file);
+					log.info("파일 저장 성공: {}", file.getAbsolutePath());
 
 					// 파일의 URL 생성
 					String fileUrl = "/uploads/" + newFileName;
@@ -89,21 +103,26 @@ public class FileController {
 
 					// DB에 프로필 사진이 이미 존재하는지 확인
 					int selectResult = fileservice.selectFileInfo(fileinfo);
+					log.info("프로필 사진 존재 여부: {}", selectResult > 0 ? "기존 프로필 있음" : "새 프로필 설정");
 
 					if (selectResult > 0) {
 						// 기존 프로필 사진이 있으면 업데이트
 						int result = fileservice.updateFileInfo(fileinfo);
 						if (result > 0) {
+							log.info("프로필 사진 업데이트 성공");
 							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 변경 완료 !");
 						} else {
+							log.warn("프로필 사진 업데이트 실패");
 							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 변경 실패");
 						}
 					} else {
 						// 기존 프로필 사진이 없으면 새로 저장
 						int result = fileservice.saveFileInfo(fileinfo);
 						if (result > 0) {
+							log.info("프로필 사진 저장 성공");
 							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 설정 완료 !");
 						} else {
+							log.warn("프로필 사진 저장 실패");
 							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 설정 실패");
 						}
 					}
@@ -112,12 +131,13 @@ public class FileController {
 					String filePath = fileservice.findFileUrlByFileNameUserId(fileinfo);
 					if (filePath != null) {
 						session.setAttribute("filePath", filePath);
+						log.info("파일 경로 세션에 저장: {}", filePath);
 					}
 				}
 			}
 		} catch (Exception e) {
 			// 파일 업로드 중 예외가 발생하면 예외 메시지를 리다이렉트 시 전달
-			e.printStackTrace();
+			log.error("프로필 사진 업로드 중 오류 발생", e);
 			redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 업로드 중 오류가 발생했습니다.");
 		}
 
