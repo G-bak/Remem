@@ -23,8 +23,8 @@ $(document).ready(function() {
 	//로그인한 사용자 프로필 사진 처리
 	if (filePath == null || filePath == '') {
 		//등록된 프로필 사진이 없다면 기본 이미지로 변경
-		$('.profile-pics').attr('src', "/uploads/basic_profile.jpg");
-		$('.profile').css('background-image', 'url(/uploads/basic_profile.jpg)');
+		$('.profile-pics').attr('src', "/image/basic_profile.jpg");
+		$('.profile').css('background-image', 'url("/image/basic_profile.jpg")');
 	}
 
 
@@ -83,7 +83,7 @@ function getFriendList() {
 				friendList.forEach((friend) => {
 
 					if (friend.urlFilePath == null || friend.urlFilePath == '') {
-						friend.urlFilePath = "/uploads/basic_profile.jpg";
+						friend.urlFilePath = "/image/basic_profile.jpg";
 					}
 
 
@@ -202,7 +202,7 @@ function getFriendsDiaryTimeline() {
 
 
 						if (friendDiaryProfile.urlFilePath == null || friendDiaryProfile.urlFilePath == '') {
-							friendDiaryProfile.urlFilePath = "/uploads/basic_profile.jpg";
+							friendDiaryProfile.urlFilePath = "/image/basic_profile.jpg";
 						}
 
 						let friendDiaryTimeline = `
@@ -282,7 +282,7 @@ function viewRecommendList() {
 					recommendList.forEach((recommend) => {
 
 						if (recommend.urlFilePath == null || recommend.urlFilePath == '') {
-							recommend.urlFilePath = "/uploads/basic_profile.jpg";
+							recommend.urlFilePath = "/image/basic_profile.jpg";
 						}
 
 						const row = `
@@ -379,7 +379,7 @@ function checkReceivedFriendRequests(responseRequestFriendList) {
 		responseRequestFriendList.forEach((requestFriend) => {
 
 			if (requestFriend.urlFilePath == null || requestFriend.urlFilePath == '') {
-				requestFriend.urlFilePath = "/uploads/basic_profile.jpg";
+				requestFriend.urlFilePath = "/image/basic_profile.jpg";
 			}
 
 
@@ -494,6 +494,7 @@ function fetchTodoList() {
 						li.append(checkbox, textNode, removeButton);
 						todoList.append(li);
 						$('#todoInput').val('');
+						console.log(`/todoList/remove ${resultCode} ${resultMsg}`);
 					});
 				}
 
@@ -534,6 +535,7 @@ function handleCheckboxChange(checkbox, li) {
 
 			if (response && response.header && resultCode == "00") {
 				li.toggleClass('checked', $(checkbox).prop('checked'));
+				console.log(`/todoList/checkedOn ${resultCode} ${resultMsg}`);
 			} else {
 				console.log(`/todoList/checkedOn ${resultCode} ${resultMsg}`);
 			}
@@ -572,6 +574,7 @@ function addTodo() {
 
 			if (response && response.header && resultCode == "00") {
 				fetchTodoList();
+				console.log(`/todoList/register ${resultCode} ${resultMsg}`);
 			} else {
 				console.log(`/todoList/register ${resultCode} ${resultMsg}`);
 			}
@@ -601,6 +604,7 @@ function removeTodoItem(li) {
 
 			if (response && response.header && resultCode == "00") {
 				li.remove(); // 체크리스트 삭제
+				console.log(`/todoList/remove ${resultCode} ${resultMsg}`);
 			} else {
 				console.log(`/todoList/remove ${resultCode} ${resultMsg}`);
 			}
@@ -671,7 +675,7 @@ function displayFriends(friends) {
 	friends.forEach(friend => {
 
 		if (friend.urlFilePath == null || friend.urlFilePath == '') {
-			friend.urlFilePath = "/uploads/basic_profile.jpg";
+			friend.urlFilePath = "/image/basic_profile.jpg";
 		}
 
 

@@ -51,7 +51,8 @@ public class AccountBookController {
 			} else {
 				apiHeader.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 				apiHeader.setResultMessage("AccountBook not found");
-				log.warn("AccountBook not found for userId: {} and accountDate: {}", paramMap.get("userId"),
+				apiResponse.setBody(null);
+				log.info("AccountBook not found for userId: {} and accountDate: {}", paramMap.get("userId"),
 						paramMap.get("accountDate"));
 			}
 
@@ -81,13 +82,13 @@ public class AccountBookController {
 				apiResponse.setBody(accountBook);
 				log.info("AccountBook saved successfully: {}", accountBook);
 			} else {
-				apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
+				apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				apiHeader.setResultMessage("Failed to save AccountBook");
 				apiResponse.setBody(null);
 				log.warn("Failed to save AccountBook: {}", accountBook);
 			}
 		} catch (Exception e) {
-			apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
+			apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			apiHeader.setResultMessage("Error occurred while saving AccountBook: " + e.getMessage());
 			apiResponse.setBody(null);
 			log.error("Error occurred while saving AccountBook", e);
@@ -112,13 +113,13 @@ public class AccountBookController {
 				apiResponse.setBody(accountBook);
 				log.info("AccountBook modified successfully: {}", accountBook);
 			} else {
-				apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
+				apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				apiHeader.setResultMessage("Failed to modify AccountBook");
 				apiResponse.setBody(null);
 				log.warn("Failed to modify AccountBook: {}", accountBook);
 			}
 		} catch (Exception e) {
-			apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
+			apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			apiHeader.setResultMessage("Error occurred while modifying AccountBook: " + e.getMessage());
 			apiResponse.setBody(null);
 			log.error("Error occurred while modifying AccountBook", e);

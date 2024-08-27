@@ -32,7 +32,8 @@
                TO_CHAR(write_date, 'yyyy-MM-dd') as write_date, 
                diary_content
         FROM user_diary
-        WHERE user_id = #{userId} 
+        WHERE user_id = #{userId}
+        ORDER BY write_date DESC
     </select>
     
     <!-- modifyDiary: 사용자 다이어리를 수정하는 쿼리 -->

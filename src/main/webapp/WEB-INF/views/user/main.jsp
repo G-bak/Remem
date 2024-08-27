@@ -220,7 +220,7 @@ window.onload = function() {
 					<button class="menu-btn" data-target="#content-diary">일기장</button>
 					<button class="menu-btn" onclick="location.href='/calender'">캘린더</button>
 					<button class="menu-btn" type="button" data-target="#content-todo"
-						onclick="deleteSession()">오늘할일</button>
+						onclick="deleteSession()">체크리스트</button>
 					<button class="menu-btn" data-target="#content-budget"
 						onclick="deleteSession()">가계부</button>
 					<button class="menu-btn" data-target="#content-capsule"
@@ -606,13 +606,15 @@ window.onload = function() {
            }).open();
        }
    </script>
-
-	<c:if test="${not empty fileErrorMessage}">
+   
+	<!-- 프로필 사진 업로드시 메세지 -->
+	<c:if test="${not empty fileInfoMessage}">
 		<script type="text/javascript">
-        alert('${fileErrorMessage}');
+        alert('${fileInfoMessage}');
     </script>
 	</c:if>
 	
+	<!-- 비밀번호 변경 실패시 에러메세지 -->
 	<c:if test="${not empty pwErrorMessage}">
 		<script type="text/javascript">
         alert('${pwErrorMessage}');
@@ -624,9 +626,10 @@ window.onload = function() {
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="/js/accountBook.js"></script>
-	<script src="/js/followFriendAndTodoList.js"></script>
-	<script src="/js/userManage.js"></script>
+	<script src="/js/AccountBookAndTimeCapsule.js"></script>
+	<script src="/js/FollowFriendAndTodoList.js"></script>
+	<script src="/js/UserManageAndDiary.js"></script>
+
 </body>
 
 </html>

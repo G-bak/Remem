@@ -48,13 +48,14 @@ public class TimecapsuleController {
 				apiResponse.setBody(tc);
 				log.info("Timecapsule saved successfully: {}", tc);
 			} else {
-				apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
+				apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				apiHeader.setResultMessage("Failed to save Timecapsule");
+				apiResponse.setBody(null);
 				log.warn("Failed to save Timecapsule: {}", tc);
 			}
 
 		} catch (Exception e) {
-			apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
+			apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			apiHeader.setResultMessage("Error occurred while saving Timecapsule: " + e.getMessage());
 			apiResponse.setBody(null);
 			log.error("Error occurred while saving Timecapsule", e);

@@ -40,7 +40,7 @@ public class FileController {
 		// 파일 업로드 요청인지 확인
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			log.warn("파일 업로드 요청이 아님");
-			redirectAttributes.addFlashAttribute("fileErrorMessage", "파일 업로드 요청이 아닙니다.");
+			redirectAttributes.addFlashAttribute("fileInfoMessage", "파일 업로드 요청이 아닙니다.");
 			return "redirect:/main";
 		}
 
@@ -60,7 +60,7 @@ public class FileController {
 					// 파일 이름 유효성 검사
 					if (fileName == null || fileName.trim().isEmpty()) {
 						log.warn("잘못된 파일 이름");
-						redirectAttributes.addFlashAttribute("fileErrorMessage", "잘못된 파일 이름입니다.");
+						redirectAttributes.addFlashAttribute("fileInfoMessage", "잘못된 파일 이름입니다.");
 						return "redirect:/main";
 					}
 
@@ -71,7 +71,7 @@ public class FileController {
 					// 파일 확장자 유효성 검사
 					if (fileExtension == null || fileExtension.trim().isEmpty()) {
 						log.warn("파일 확장자가 없음");
-						redirectAttributes.addFlashAttribute("fileErrorMessage", "파일 확장자가 없습니다.");
+						redirectAttributes.addFlashAttribute("fileInfoMessage", "파일 확장자가 없습니다.");
 						return "redirect:/main";
 					}
 
@@ -110,20 +110,20 @@ public class FileController {
 						int result = fileservice.updateFileInfo(fileinfo);
 						if (result > 0) {
 							log.info("프로필 사진 업데이트 성공");
-							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 변경 완료 !");
+							redirectAttributes.addFlashAttribute("fileInfoMessage", "프로필 사진 변경 완료 !");
 						} else {
 							log.warn("프로필 사진 업데이트 실패");
-							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 변경 실패");
+							redirectAttributes.addFlashAttribute("fileInfoMessage", "프로필 사진 변경 실패");
 						}
 					} else {
 						// 기존 프로필 사진이 없으면 새로 저장
 						int result = fileservice.saveFileInfo(fileinfo);
 						if (result > 0) {
 							log.info("프로필 사진 저장 성공");
-							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 설정 완료 !");
+							redirectAttributes.addFlashAttribute("fileInfoMessage", "프로필 사진 설정 완료 !");
 						} else {
 							log.warn("프로필 사진 저장 실패");
-							redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 설정 실패");
+							redirectAttributes.addFlashAttribute("fileInfoMessage", "프로필 사진 설정 실패");
 						}
 					}
 
@@ -138,7 +138,7 @@ public class FileController {
 		} catch (Exception e) {
 			// 파일 업로드 중 예외가 발생하면 예외 메시지를 리다이렉트 시 전달
 			log.error("프로필 사진 업로드 중 오류 발생", e);
-			redirectAttributes.addFlashAttribute("fileErrorMessage", "프로필 사진 업로드 중 오류가 발생했습니다.");
+			redirectAttributes.addFlashAttribute("fileInfoMessage", "프로필 사진 업로드 중 오류가 발생했습니다.");
 		}
 
 		// 메인 페이지로 리다이렉트
