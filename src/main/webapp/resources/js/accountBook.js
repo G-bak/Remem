@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 	// 사이트 탭 클릭 이벤트
 	$('.menu-btn').on('click', function() {
 		$('#main-swiper-rightslide').hide();
@@ -69,75 +69,89 @@ $(document).ready(function() {
 				tcContent: tcContent
 			}),
 			success: function(response) {
-				if (response) {
-					alert('타임캡슐이 성공적으로 저장되었습니다!');
-					addTimecapsule(response.tcDate, response.tcContent);
+				if (response && response.header && (response.header.resultCode === '00' || response.header.resultCode === '99')) {
+					console.log("Response Code: " + response.header.resultCode);
+					console.log("Response Message: " + response.header.resultMessage);
 
-					//날짜와 내용 리셋
-					$('#date_timecapsule').val('');
-					$('#input_timecapsule').val('');
+					if (response.header.resultCode === '00') {
+						alert('타임캡슐이 성공적으로 저장되었습니다!');
+						addTimecapsule(response.body.tcDate, response.body.tcContent);
 
-					// 팝업창 닫기
-					$('#popup_timecapsule').fadeOut();
+						// 날짜와 내용 리셋
+						$('#date_timecapsule').val('');
+						$('#input_timecapsule').val('');
 
+						// 팝업창 닫기
+						$('#popup_timecapsule').fadeOut();
+					} else {
+						alert('저장에 실패했습니다.');
+						console.log('Failure Reason:', response.header.resultMessage);
+					}
 				} else {
-					alert('저장에 실패했습니다.');
+					console.log("Invalid response header or result code");
 				}
 			},
 			error: function(error) {
-				console.error('저장 중 오류가 발생했습니다.', error);
+				console.error("Error during AJAX request:", error);
 			}
 		});
 	});
 
+
 	// 타임캡슐 열기 버튼 클릭 이벤트
 	$(document).on('click', '.open_additonal', function() {
-		var content = $(this).data('content');
-		var date = $(this).data('date');
+		try {
+			var content = $(this).data('content');
+			var date = $(this).data('date');
 
+			if (!content || !date) {
+				console.error("Content or date is missing.");
+				return;
+			}
 
-		const currentDate = new Date().toISOString().split('T')[0];
+			const currentDate = new Date().toISOString().split('T')[0];
 
-		if (date <= currentDate) {
-			// 팝업 HTML
-
-			var popupHtml =
-				`<div class="popup_html" id="popup_open_timecapsule" 
-				style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 5;">
+			if (date <= currentDate) {
+				// 팝업 HTML
+				var popupHtml =
+					`<div class="popup_html" id="popup_open_timecapsule" 
+                style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 5;">
                     <div class="popup_open_content">
-                       <p style="font-size: 1.3rem;">타임캡슐이 열렸어요!</p>
-					   <p class="secret-msg">아무한테도 말하지 말기 🤫</p>
-                       <p id="popup-message" style="font-size: 1rem;">${content}</p>
-                       <p class="popup_open_close">닫기</p>
+                        <p style="font-size: 1.3rem;">타임캡슐이 열렸어요!</p>
+                        <p class="secret-msg">아무한테도 말하지 말기 🤫</p>
+                        <p id="popup-message" style="font-size: 1rem;">${content}</p>
+                        <p class="popup_open_close">닫기</p>
                     </div>
                 </div>`;
 
-			// 팝업 추가
-			$('body').append(popupHtml);
+				// 팝업 추가
+				$('body').append(popupHtml);
 
-			// 팝업 표시
-			$('#popup_open_timecapsule').fadeIn();
+				// 팝업 표시
+				$('#popup_open_timecapsule').fadeIn();
 
-			// 팝업 닫기 이벤트 핸들러
-			$(document).off('click', '.popup_open_close').on('click', '.popup_open_close', function() {
-				$('#popup_open_timecapsule').fadeOut(function() {
-					$(this).remove();
-				});
-			});
-
-			$(document).off('click', '#popup_open_timecapsule').on('click', '#popup_open_timecapsule', function(e) {
-				if ($(e.target).is('#popup_open_timecapsule')) {
+				// 팝업 닫기 이벤트 핸들러
+				$(document).off('click', '.popup_open_close').on('click', '.popup_open_close', function() {
 					$('#popup_open_timecapsule').fadeOut(function() {
 						$(this).remove();
 					});
-				}
-			});
+				});
 
-
-		} else {
-			alert("지정된 날짜 이후에만 타임캡슐을 열 수 있습니다!");
+				$(document).off('click', '#popup_open_timecapsule').on('click', '#popup_open_timecapsule', function(e) {
+					if ($(e.target).is('#popup_open_timecapsule')) {
+						$('#popup_open_timecapsule').fadeOut(function() {
+							$(this).remove();
+						});
+					}
+				});
+			} else {
+				alert("지정된 날짜 이후에만 타임캡슐을 열 수 있습니다!");
+			}
+		} catch (error) {
+			console.error("An error occurred while opening the time capsule:", error);
 		}
 	});
+
 
 
 
@@ -158,41 +172,53 @@ $(document).ready(function() {
 				accountDate: $('#input-date').val()
 			}),
 			contentType: "application/json; charset=utf-8",
-			success: function(ab) {
-				console.log(ab + "123131");
-				const accountContainer = $('.accountModify-popup-content');
+			success: function(response) {
+				console.log(response);
 
-				// 기존 버튼 제거
-				accountContainer.find('button').remove();
 
-				if (ab == null || ab == '') {
-					accountContainer.append('<button id="btn_account_save">저장</button>');
-					registerSaveButtonHandler(); // 저장 버튼 핸들러 등록
+				if (response && response.header && (response.header.resultCode === '00' || response.header.resultCode === '99')) {
+
+
+					console.log("Response Code: " + response.header.resultCode);
+					console.log("Response Message:", response.header.resultMessage);
+
+					const accountContainer = $('.accountModify-popup-content');
+
+					// 기존 버튼 제거
+					accountContainer.find('button').remove();
+
+					if (response.body == null) {
+						accountContainer.append('<button id="btn_account_save">저장</button>');
+						registerSaveButtonHandler(); // 저장 버튼 핸들러 등록
+					} else {
+						accountContainer.append('<button id="btn_account_modify">수정</button>');
+						registerModifyButtonHandler(); // 수정 버튼 핸들러 등록
+					}
+
+					const accountbook = response.body || {};
+					$('#salary').val(accountbook.salary || '');
+					$('#side-job').val(accountbook.sideJob || '');
+					$('#saving').val(accountbook.saving || '');
+					$('.income-total').text((accountbook.incomeTotal || 0) + ' 원');
+
+					$('#food-expenses').val(accountbook.foodExpenses || '');
+					$('#traffic').val(accountbook.traffic || '');
+					$('#culture').val(accountbook.culture || '');
+					$('#clothing').val(accountbook.clothing || '');
+					$('#beauty').val(accountbook.beauty || '');
+					$('#telecom').val(accountbook.telecom || '');
+					$('#membership-fee').val(accountbook.membershipFee || '');
+					$('#daily-necessity').val(accountbook.dailyNecessity || '');
+					$('#occasions').val(accountbook.occasions || '');
+					$('.spending-total').text((accountbook.spendingTotal || 0) + ' 원');
+					$('#income-spending-total').text((accountbook.incomeSpendingTotal || 0) + ' 원');
 				} else {
-					accountContainer.append('<button id="btn_account_modify">수정</button>');
-					registerModifyButtonHandler(); // 수정 버튼 핸들러 등록
+					console.log("Invalid response header or result code");
 				}
 
-				const accountbook = ab || {};
-				$('#salary').val(accountbook.salary || '');
-				$('#side-job').val(accountbook.sideJob || '');
-				$('#saving').val(accountbook.saving || '');
-				$('.income-total').text((accountbook.incomeTotal || 0) + ' 원');
-
-				$('#food-expenses').val(accountbook.foodExpenses || '');
-				$('#traffic').val(accountbook.traffic || '');
-				$('#culture').val(accountbook.culture || '');
-				$('#clothing').val(accountbook.clothing || '');
-				$('#beauty').val(accountbook.beauty || '');
-				$('#telecom').val(accountbook.telecom || '');
-				$('#membership-fee').val(accountbook.membershipFee || '');
-				$('#daily-necessity').val(accountbook.dailyNecessity || '');
-				$('#occasions').val(accountbook.occasions || '');
-				$('.spending-total').text((accountbook.spendingTotal || 0) + ' 원');
-				$('#income-spending-total').text((accountbook.incomeSpendingTotal || 0) + ' 원');
 			},
 			error: function() {
-				alert('잘못됐어! 다시해줘');
+				console.error("Error:", error);
 			}
 		});
 	});
@@ -207,12 +233,26 @@ function loadAllTimecapsules() {
 		url: '/all/Timecapsules',
 		type: 'GET',
 		success: function(response) {
-			response.forEach(function(tc) {
-				addTimecapsule(tc.tcDate, tc.tcContent);
-			});
+			if (response && response.header && (response.header.resultCode === '00' || response.header.resultCode === '99')) {
+
+
+				console.log("Response Code: " + response.header.resultCode);
+				console.log("Response Message:", response.header.resultMessage);
+				
+				 var timecapsules = response.body;
+				
+				
+				timecapsules.forEach(function(tc) {
+					if (tc.tcDate && tc.tcContent) {
+						addTimecapsule(tc.tcDate, tc.tcContent);
+					} else {
+						console.error("Invalid time capsule data:", tc);
+					}
+				});
+			}
 		},
 		error: function(error) {
-			console.error('타임캡슐을 불러오는 중 오류가 발생했습니다.', error);
+			console.error("Error:", error);
 		}
 	});
 }
@@ -223,6 +263,12 @@ function loadAllTimecapsules() {
 
 // 타임캡슐 추가
 function addTimecapsule(date, content) {
+
+	if (!date || !content) {
+		console.error("Invalid date or content:", date, content);
+		return;
+	}
+
 	const additionalContent = $(
 		`<div class="additional-content">
                 <div class="photo_additional"></div>
@@ -244,6 +290,12 @@ function addTimecapsule(date, content) {
 
 // 타임캡슐 카운트 다운 설정
 function updateTimer(date, targetElement) {
+
+	if (!date || !targetElement) {
+		console.error("Invalid arguments provided to updateTimer.");
+		return;
+	}
+
 	const future = new Date(date).getTime();
 	const now = new Date().getTime();
 	const diff = future - now; //카운트 다운 시간 계산
@@ -300,7 +352,6 @@ function setupPopup(triggerId, popupId, closeId) {
 
 
 
-
 // 가계부 저장
 function saveOrUpdateAccountBook(url, callback) {
 	$.ajax({
@@ -312,7 +363,7 @@ function saveOrUpdateAccountBook(url, callback) {
 			salary: parseFloat($('#salary').val()) || 0,
 			sideJob: parseFloat($('#side-job').val()) || 0,
 			saving: parseFloat($('#saving').val()) || 0,
-			incomeTotal: parseFloat($('.income-total').text()) || 0,
+			incomeTotal: parseFloat($('.income-total').text().replace(/[^0-9.-]/g, '')) || 0,
 			foodExpenses: parseFloat($('#food-expenses').val()) || 0,
 			traffic: parseFloat($('#traffic').val()) || 0,
 			culture: parseFloat($('#culture').val()) || 0,
@@ -322,41 +373,45 @@ function saveOrUpdateAccountBook(url, callback) {
 			membershipFee: parseFloat($('#membership-fee').val()) || 0,
 			dailyNecessity: parseFloat($('#daily-necessity').val()) || 0,
 			occasions: parseFloat($('#occasions').val()) || 0,
-			spendingTotal: parseFloat($('.spending-total').text()) || 0,
-			incomeSpendingTotal: parseFloat($('#income-spending-total').text()) || 0
+			spendingTotal: parseFloat($('.spending-total').text().replace(/[^0-9.-]/g, '')) || 0,
+			incomeSpendingTotal: parseFloat($('#income-spending-total').text().replace(/[^0-9.-]/g, '')) || 0
 		}),
 		contentType: "application/json; charset=utf-8",
-		success: function(savedAccountBook) {
-			console.log("Server response:", savedAccountBook);
+		success: function(response) {
+			console.log("Server response:", response);
+			if (response && response.header && (response.header.resultCode === '00' || response.header.resultCode === '99')) {
 
-			const abs = savedAccountBook || {};
-			const incomeTotal = abs.salary + abs.sideJob + abs.saving;
-			const spendingTotal = abs.foodExpenses + abs.traffic + abs.culture + abs.clothing + abs.beauty +
-				abs.telecom + abs.membershipFee + abs.dailyNecessity + abs.occasions;
-			const incomeSpendingTotal = incomeTotal - spendingTotal;
 
-			$('#salary').val(abs.salary || '');
-			$('#side-job').val(abs.sideJob || '');
-			$('#saving').val(abs.saving || '');
-			$('.income-total').text((incomeTotal || 0) + ' 원');
+				console.log("Response Code: " + response.header.resultCode);
+				console.log("Response Message:", response.header.resultMessage);
 
-			$('#food-expenses').val(abs.foodExpenses || '');
-			$('#traffic').val(abs.traffic || '');
-			$('#culture').val(abs.culture || '');
-			$('#clothing').val(abs.clothing || '');
-			$('#beauty').val(abs.beauty || '');
-			$('#telecom').val(abs.telecom || '');
-			$('#membership-fee').val(abs.membershipFee || '');
-			$('#daily-necessity').val(abs.dailyNecessity || '');
-			$('#occasions').val(abs.occasions || '');
-			$('.spending-total').text((spendingTotal || 0) + ' 원');
-			$('#income-spending-total').text((incomeSpendingTotal || 0) + ' 원');
+				const abs = response.body || {};
+				const incomeTotal = abs.salary + abs.sideJob + abs.saving;
+				const spendingTotal = abs.foodExpenses + abs.traffic + abs.culture + abs.clothing + abs.beauty +
+					abs.telecom + abs.membershipFee + abs.dailyNecessity + abs.occasions;
+				const incomeSpendingTotal = incomeTotal - spendingTotal;
 
-			alert("저장완료");
+				$('#salary').val(abs.salary || '');
+				$('#side-job').val(abs.sideJob || '');
+				$('#saving').val(abs.saving || '');
+				$('.income-total').text((incomeTotal || 0) + ' 원');
 
-			// 콜백 함수 호출 (예: 저장 후 수정 버튼으로 변경)
-			if (typeof callback === 'function') {
-				callback();
+				$('#food-expenses').val(abs.foodExpenses || '');
+				$('#traffic').val(abs.traffic || '');
+				$('#culture').val(abs.culture || '');
+				$('#clothing').val(abs.clothing || '');
+				$('#beauty').val(abs.beauty || '');
+				$('#telecom').val(abs.telecom || '');
+				$('#membership-fee').val(abs.membershipFee || '');
+				$('#daily-necessity').val(abs.dailyNecessity || '');
+				$('#occasions').val(abs.occasions || '');
+				$('.spending-total').text((spendingTotal || 0) + ' 원');
+				$('#income-spending-total').text((incomeSpendingTotal || 0) + ' 원');
+
+				// 콜백 함수 호출 (예: 저장 후 수정 버튼으로 변경)
+				if (typeof callback === 'function') {
+					callback();
+				}
 			}
 		},
 		error: function(xhr, status, error) {
@@ -364,7 +419,6 @@ function saveOrUpdateAccountBook(url, callback) {
 			console.error("Status:", status);
 			console.error("Error:", error);
 			console.error("Response:", xhr.responseText);
-			alert('저장에 실패했습니다. 다시 시도해주세요.');
 		}
 	});
 }

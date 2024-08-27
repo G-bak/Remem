@@ -24,5 +24,8 @@ public class AccountBook {
 	int spendingTotal;	//지출 총 합계
 	
 	int incomeSpendingTotal;	//수입&지출 총 합계
+
+	
+	
 }
 
