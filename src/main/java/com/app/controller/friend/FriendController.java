@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.common.APIResultCode;
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.friend.FriendDTO;
@@ -22,12 +23,9 @@ import com.app.service.friend.FriendService;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Controller
 public class FriendController {
-
-	
 
 	@Autowired
 	FriendService friendService;
@@ -60,21 +58,21 @@ public class FriendController {
 						userSearch.setFriend(friendService.checkIfFriendOrNot(friendStatusDTO));
 						userSearch.setUrlFilePath(fileService.findFilePathByUserId(userSearch.getUserId()));
 					}
-					header.setResultCode("00");
+					header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 					header.setResultMessage("친구 검색이 성공적으로 완료되었습니다.");
 				} else {
 					log.info("검색된 친구가 없음");
-					header.setResultCode("02");
+					header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 					header.setResultMessage("검색된 친구가 없습니다.");
 				}
 			} else {
 				log.warn("로그인된 사용자 ID가 제공되지 않음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_MISSING_PARAMETER);
 				header.setResultMessage("로그인된 사용자 ID가 제공되지 않았습니다.");
 			}
 		} catch (Exception e) {
 			log.error("친구 검색 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 검색 중 오류가 발생하였습니다.");
 		}
 
@@ -98,18 +96,18 @@ public class FriendController {
 
 			if (result > 0) {
 				log.info("친구 신청 성공 - 결과: {}", result);
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("친구 신청이 성공적으로 처리되었습니다.");
 			} else {
 				log.warn("친구 신청 실패");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("친구 신청이 실패했습니다. 다시 시도해 주세요.");
 			}
 
 			apiResponse.setBody(result);
 		} catch (Exception e) {
 			log.error("친구 신청 처리 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 신청 처리 중 오류가 발생했습니다.");
 			apiResponse.setBody(result);
 		}
@@ -136,17 +134,17 @@ public class FriendController {
 				for (User user : requestFriendList) {
 					user.setUrlFilePath(fileService.findFilePathByUserId(user.getUserId()));
 				}
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("친구 신청 목록을 성공적으로 가져왔습니다.");
 			} else {
 				log.info("친구 신청 목록이 없음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 				header.setResultMessage("친구 신청 목록이 없습니다.");
 			}
 
 		} catch (Exception e) {
 			log.error("친구 신청 목록 가져오는 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 신청 목록을 가져오는 중 오류가 발생했습니다.");
 		}
 
@@ -179,21 +177,21 @@ public class FriendController {
 					for (User user : requestFriendList) {
 						user.setUrlFilePath(fileService.findFilePathByUserId(user.getUserId()));
 					}
-					header.setResultCode("00");
+					header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 					header.setResultMessage("친구 요청 처리 후, 가져올 친구 목록이 있습니다.");
 				} else {
 					log.info("친구 목록이 없음");
-					header.setResultCode("01");
+					header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 					header.setResultMessage("친구 요청 처리 후, 가져올 친구 목록이 없습니다.");
 				}
 			} else {
 				log.warn("친구 요청 처리 중 일부 단계 실패");
-				header.setResultCode("02");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("친구 요청 처리 중 일부 단계가 실패했습니다.");
 			}
 		} catch (Exception e) {
 			log.error("친구 요청 처리 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 요청 처리 중 오류가 발생했습니다.");
 		}
 
@@ -220,16 +218,16 @@ public class FriendController {
 				for (User user : recommendList) {
 					user.setUrlFilePath(fileService.findFilePathByUserId(user.getUserId()));
 				}
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("친구 추천 리스트를 성공적으로 가져왔습니다.");
 			} else {
 				log.info("추천할 친구가 없음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 				header.setResultMessage("추천할 친구가 없습니다.");
 			}
 		} catch (Exception e) {
 			log.error("친구 추천 리스트 가져오는 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 추천 리스트를 가져오는 중 오류가 발생했습니다.");
 		}
 
@@ -253,16 +251,16 @@ public class FriendController {
 
 			if (friendDiaryProfileList != null && !friendDiaryProfileList.isEmpty()) {
 				log.info("친구들의 일기 타임라인 가져오기 성공 - 일기 수: {}", friendDiaryProfileList.size());
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("친구들의 일기 타임라인을 성공적으로 가져왔습니다.");
 			} else {
 				log.info("조회할 친구들의 일기가 없음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 				header.setResultMessage("조회할 친구들의 일기가 없습니다.");
 			}
 		} catch (Exception e) {
 			log.error("친구들의 일기 타임라인 가져오는 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구들의 일기 타임라인을 가져오는 중 오류가 발생했습니다.");
 		}
 
@@ -286,16 +284,16 @@ public class FriendController {
 
 			if (friendList != null && !friendList.isEmpty()) {
 				log.info("친구 목록 가져오기 성공 - 친구 수: {}", friendList.size());
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("친구 목록을 성공적으로 가져왔습니다.");
 			} else {
 				log.info("친구 목록이 없음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 				header.setResultMessage("친구 목록이 없습니다.");
 			}
 		} catch (Exception e) {
 			log.error("친구 목록 가져오는 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("친구 목록을 가져오는 중 오류가 발생했습니다.");
 		}
 
@@ -319,18 +317,18 @@ public class FriendController {
 
 			if (unfollowResultOneWay > 0 && unfollowResultTwoWay > 0) {
 				log.info("언팔로우 성공");
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("언팔로우가 성공적으로 완료되었습니다.");
 				apiResponse.setBody("언팔로우가 완료되었습니다.");
 			} else {
 				log.warn("언팔로우 실패");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("언팔로우에 실패했습니다.");
 				apiResponse.setBody("언팔로우 실패");
 			}
 		} catch (Exception e) {
 			log.error("언팔로우 처리 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("언팔로우 처리 중 오류가 발생했습니다.");
 			apiResponse.setBody("언팔로우 실패");
 		}

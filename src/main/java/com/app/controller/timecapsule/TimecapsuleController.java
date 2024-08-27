@@ -13,6 +13,7 @@ import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.timecapsule.Timecapsule;
 import com.app.service.timecapsule.TimecapsuleService;
+import com.app.common.APIResultCode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,78 +21,78 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TimecapsuleController {
 
-    @Autowired
-    TimecapsuleService timecapsuleService;
+	@Autowired
+	TimecapsuleService timecapsuleService;
 
-    // 타임캡슐 저장
-    @ResponseBody
-    @PostMapping("/save/Timecapsule")
-    public ApiResponse<Timecapsule> saveTimecapsule(@RequestBody Timecapsule tc) {
-        ApiResponse<Timecapsule> apiResponse = new ApiResponse<>();
-        ApiResponseHeader apiHeader = new ApiResponseHeader();
+	// 타임캡슐 저장
+	@ResponseBody
+	@PostMapping("/save/Timecapsule")
+	public ApiResponse<Timecapsule> saveTimecapsule(@RequestBody Timecapsule tc) {
+		ApiResponse<Timecapsule> apiResponse = new ApiResponse<>();
+		ApiResponseHeader apiHeader = new ApiResponseHeader();
 
-        try {
-            if (tc == null) {
-                apiHeader.setResultCode("99");
-                apiHeader.setResultMessage("Invalid Timecapsule object");
-                apiResponse.setHeader(apiHeader);
-                log.warn("Invalid Timecapsule object received.");
-                return apiResponse;
-            }
+		try {
+			if (tc == null) {
+				apiHeader.setResultCode(APIResultCode.API_RESULT_INVALID_PARAMETER);
+				apiHeader.setResultMessage("Invalid Timecapsule object");
+				apiResponse.setHeader(apiHeader);
+				log.warn("Invalid Timecapsule object received.");
+				return apiResponse;
+			}
 
-            int saveResult = timecapsuleService.saveTimecapsule(tc);
+			int saveResult = timecapsuleService.saveTimecapsule(tc);
 
-            if (saveResult > 0) {
-                apiHeader.setResultCode("00");
-                apiHeader.setResultMessage("Timecapsule saved successfully");
-                apiResponse.setBody(tc);
-                log.info("Timecapsule saved successfully: {}", tc);
-            } else {
-                apiHeader.setResultCode("99");
-                apiHeader.setResultMessage("Failed to save Timecapsule");
-                log.warn("Failed to save Timecapsule: {}", tc);
-            }
+			if (saveResult > 0) {
+				apiHeader.setResultCode(APIResultCode.API_RESULT_SUCCESS);
+				apiHeader.setResultMessage("Timecapsule saved successfully");
+				apiResponse.setBody(tc);
+				log.info("Timecapsule saved successfully: {}", tc);
+			} else {
+				apiHeader.setResultCode(APIResultCode.API_RESULT_FAILURE);
+				apiHeader.setResultMessage("Failed to save Timecapsule");
+				log.warn("Failed to save Timecapsule: {}", tc);
+			}
 
-        } catch (Exception e) {
-            apiHeader.setResultCode("99");
-            apiHeader.setResultMessage("Error occurred while saving Timecapsule: " + e.getMessage());
-            apiResponse.setBody(null);
-            log.error("Error occurred while saving Timecapsule", e);
-        }
+		} catch (Exception e) {
+			apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
+			apiHeader.setResultMessage("Error occurred while saving Timecapsule: " + e.getMessage());
+			apiResponse.setBody(null);
+			log.error("Error occurred while saving Timecapsule", e);
+		}
 
-        apiResponse.setHeader(apiHeader);
-        return apiResponse;
-    }
+		apiResponse.setHeader(apiHeader);
+		return apiResponse;
+	}
 
-    // 타임캡슐 전체 조회
-    @ResponseBody
-    @GetMapping("/all/Timecapsules")
-    public ApiResponse<List<Timecapsule>> getAllTimecapsules() {
-        ApiResponse<List<Timecapsule>> apiResponse = new ApiResponse<>();
-        ApiResponseHeader apiHeader = new ApiResponseHeader();
+	// 타임캡슐 전체 조회
+	@ResponseBody
+	@GetMapping("/all/Timecapsules")
+	public ApiResponse<List<Timecapsule>> getAllTimecapsules() {
+		ApiResponse<List<Timecapsule>> apiResponse = new ApiResponse<>();
+		ApiResponseHeader apiHeader = new ApiResponseHeader();
 
-        try {
-            List<Timecapsule> tcList = timecapsuleService.selectAllTimecapsule();
+		try {
+			List<Timecapsule> tcList = timecapsuleService.selectAllTimecapsule();
 
-            if (tcList != null && !tcList.isEmpty()) {
-                apiHeader.setResultCode("00");
-                apiHeader.setResultMessage("Timecapsules retrieved successfully");
-                apiResponse.setBody(tcList);
-                log.info("Timecapsules retrieved successfully: {} items", tcList.size());
-            } else {
-                apiHeader.setResultCode("99");
-                apiHeader.setResultMessage("No Timecapsules found");
-                log.info("No Timecapsules found.");
-            }
+			if (tcList != null && !tcList.isEmpty()) {
+				apiHeader.setResultCode(APIResultCode.API_RESULT_SUCCESS);
+				apiHeader.setResultMessage("Timecapsules retrieved successfully");
+				apiResponse.setBody(tcList);
+				log.info("Timecapsules retrieved successfully: {} items", tcList.size());
+			} else {
+				apiHeader.setResultCode(APIResultCode.API_RESULT_NO_DATA);
+				apiHeader.setResultMessage("No Timecapsules found");
+				log.info("No Timecapsules found.");
+			}
 
-        } catch (Exception e) {
-            apiHeader.setResultCode("99");
-            apiHeader.setResultMessage("Error occurred while retrieving Timecapsules: " + e.getMessage());
-            apiResponse.setBody(null);
-            log.error("Error occurred while retrieving Timecapsules", e);
-        }
+		} catch (Exception e) {
+			apiHeader.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
+			apiHeader.setResultMessage("Error occurred while retrieving Timecapsules: " + e.getMessage());
+			apiResponse.setBody(null);
+			log.error("Error occurred while retrieving Timecapsules", e);
+		}
 
-        apiResponse.setHeader(apiHeader);
-        return apiResponse;
-    }
+		apiResponse.setHeader(apiHeader);
+		return apiResponse;
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.common.APIResultCode;
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.todolist.TodoList;
@@ -42,21 +43,21 @@ public class TodoListController {
 				todoList = todoListService.findTodoListByLoginUserId(loginUserId);
 				if (todoList != null && !todoList.isEmpty()) {
 					log.info("조회된 할 일 목록 수: {}", todoList.size());
-					header.setResultCode("00");
+					header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 					header.setResultMessage("할 일 목록 조회가 성공적으로 완료되었습니다.");
 				} else {
 					log.info("조회된 할 일 목록이 없음");
-					header.setResultCode("02");
+					header.setResultCode(APIResultCode.API_RESULT_NO_DATA);
 					header.setResultMessage("조회된 할 일 목록이 없습니다.");
 				}
 			} else {
 				log.warn("로그인된 사용자 ID가 제공되지 않음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_MISSING_PARAMETER);
 				header.setResultMessage("로그인된 사용자 ID가 제공되지 않았습니다.");
 			}
 		} catch (Exception e) {
 			log.error("할 일 목록 조회 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("할 일 목록 조회 중 오류가 발생하였습니다.");
 		}
 
@@ -80,16 +81,16 @@ public class TodoListController {
 			if (result > 0) {
 				todoListId = todoListService.findTodoListId(paramMap);
 				log.info("할 일 등록 성공 - todoListId: {}", todoListId);
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("할 일이 성공적으로 등록되었습니다.");
 			} else {
 				log.warn("할 일 등록 실패");
-				header.setResultCode("02");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("할 일 등록에 실패하였습니다.");
 			}
 		} catch (Exception e) {
 			log.error("할 일 등록 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("할 일 등록 중 오류가 발생하였습니다.");
 		}
 
@@ -111,7 +112,7 @@ public class TodoListController {
 		try {
 			if (paramMap == null || paramMap.isEmpty()) {
 				log.warn("파라미터가 제공되지 않음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_MISSING_PARAMETER);
 				header.setResultMessage("파라미터가 제공되지 않았습니다.");
 				apiResponse.setHeader(header);
 				apiResponse.setBody(result);
@@ -125,7 +126,7 @@ public class TodoListController {
 			if (todoListIdStr == null || loginUserId == null || todoListStatus == null) {
 				log.warn("필수 파라미터 누락 - todoListId: {}, loginUserId: {}, todoListStatus: {}", todoListIdStr, loginUserId,
 						todoListStatus);
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_MISSING_PARAMETER);
 				header.setResultMessage("필수 파라미터가 누락되었습니다.");
 				apiResponse.setHeader(header);
 				apiResponse.setBody(result);
@@ -138,20 +139,20 @@ public class TodoListController {
 
 			if (result > 0) {
 				log.info("할 일 상태 업데이트 성공 - todoListId: {}", todoListId);
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("할 일 상태가 성공적으로 업데이트되었습니다.");
 			} else {
 				log.warn("할 일 상태 업데이트 실패 - todoListId: {}", todoListId);
-				header.setResultCode("02");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("할 일 상태 업데이트에 실패하였습니다.");
 			}
 		} catch (NumberFormatException e) {
 			log.error("숫자 형식 오류 - todoListId: {}", paramMap.get("todoListId"), e);
-			header.setResultCode("03");
+			header.setResultCode(APIResultCode.API_RESULT_INVALID_PARAMETER);
 			header.setResultMessage("할 일 ID가 유효하지 않습니다.");
 		} catch (Exception e) {
 			log.error("할 일 상태 업데이트 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("할 일 상태 업데이트 중 오류가 발생하였습니다.");
 		}
 
@@ -173,7 +174,7 @@ public class TodoListController {
 		try {
 			if (todoListRemove == null) {
 				log.warn("요청 본문이 제공되지 않음");
-				header.setResultCode("01");
+				header.setResultCode(APIResultCode.API_RESULT_MISSING_PARAMETER);
 				header.setResultMessage("요청 본문이 제공되지 않았습니다.");
 				apiResponse.setHeader(header);
 				apiResponse.setBody(result);
@@ -183,16 +184,16 @@ public class TodoListController {
 			result = todoListService.removeTodoListByTodoListId(todoListRemove);
 			if (result > 0) {
 				log.info("할 일 제거 성공 - todoListId: {}", todoListRemove.getTodoListId());
-				header.setResultCode("00");
+				header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 				header.setResultMessage("할 일이 성공적으로 제거되었습니다.");
 			} else {
 				log.warn("할 일 제거 실패 - todoListId: {}", todoListRemove.getTodoListId());
-				header.setResultCode("02");
+				header.setResultCode(APIResultCode.API_RESULT_PROCESSING_ERROR);
 				header.setResultMessage("할 일 제거에 실패하였습니다.");
 			}
 		} catch (Exception e) {
 			log.error("할 일 제거 중 오류 발생", e);
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("할 일 제거 중 오류가 발생하였습니다.");
 		}
 

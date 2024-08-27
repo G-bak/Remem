@@ -498,7 +498,7 @@ function fetchTodoList() {
 				}
 
 
-			} else if (response && response.header && resultCode == "02") {
+			} else if (response && response.header && resultCode == "01") {
 				const todoList = $('#todoList');
 				todoList.empty(); // 기존 리스트를 비움
 
