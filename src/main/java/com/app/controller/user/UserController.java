@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
@@ -279,42 +280,49 @@ public class UserController {
 	// 비밀번호 변경
 	@PostMapping("/user/modifyPassword")
 	public String modifyPassword(HttpSession session, @RequestParam("currentPassword") String currentPassword,
-			@RequestParam("newPassword") String newPassword, Model model) {
+			@RequestParam("newPassword") String newPassword, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			log.info("비밀번호 변경 요청 처리 - 세션 ID: {}", session.getId());
 
 			User sessionUser = (User) session.getAttribute("user");
 			if (sessionUser == null) {
-				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
+				redirectAttributes.addFlashAttribute("pwErrorMessage", "세션에서 사용자를 찾을 수 없습니다.");
+				return "redirect:/main";
 			}
 
 			// 현재 비밀번호가 일치하는지 확인
 			if (!sessionUser.getUserPassword().equals(currentPassword)) {
-				throw new Exception("현재 비밀번호와 일치하지 않습니다.");
+				redirectAttributes.addFlashAttribute("pwErrorMessage", "현재 비밀번호와 일치하지 않습니다.");
+				return "redirect:/main";
 			}
 
 			// 새로운 비밀번호가 현재 비밀번호와 동일하지 않은지 확인
 			if (currentPassword.equals(newPassword)) {
-				throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
+				redirectAttributes.addFlashAttribute("pwErrorMessage", "새 비밀번호는 현재 비밀번호와 달라야 합니다.");
+				return "redirect:/main";
 			}
 
 			// 새로운 비밀번호의 유효성 검사
 			if (!Pattern.matches(verifyPassword, newPassword)) {
-				throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
+				redirectAttributes.addFlashAttribute("pwErrorMessage", "새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
+				return "redirect:/main";
 			}
 
 			sessionUser.setUserPassword(newPassword);
 			int result = userService.modifyPassword(sessionUser);
+			
 			if (result <= 0) {
-				throw new Exception("비밀번호 변경에 실패했습니다.");
+				redirectAttributes.addFlashAttribute("pwErrorMessage", "비밀번호 변경에 실패했습니다.");
+				return "redirect:/main";
 			}
 
 			session.setAttribute("user", sessionUser);
 			log.info("비밀번호 변경 성공 - 사용자 ID: {}", sessionUser.getUserId());
+			redirectAttributes.addFlashAttribute("pwErrorMessage", "비밀번호 변경 성공했습니다.");
 			return "redirect:/main";
 		} catch (Exception e) {
 			log.error("비밀번호 변경 중 오류 발생", e);
-			model.addAttribute("errorMessage", e.getMessage());
+			redirectAttributes.addFlashAttribute("pwErrorMessage", "비밀번호 변경 중 오류 발생");
 			return "redirect:/main";
 		}
 	}

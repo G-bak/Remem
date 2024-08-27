@@ -612,6 +612,12 @@ window.onload = function() {
         alert('${fileErrorMessage}');
     </script>
 	</c:if>
+	
+	<c:if test="${not empty pwErrorMessage}">
+		<script type="text/javascript">
+        alert('${pwErrorMessage}');
+    </script>
+	</c:if>
 
 
 	<script
