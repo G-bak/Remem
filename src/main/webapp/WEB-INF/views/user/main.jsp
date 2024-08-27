@@ -84,8 +84,8 @@ window.onload = function() {
 					style="background-image: url('${sessionScope.filePath}');"></div>
 				<form action="/upload" method="post" enctype="multipart/form-data"
 					onsubmit="return validateForm()">
-					
-					
+
+
 					<label for="fileInput" class="custom-file-button">파일 선택</label> <input
 						type="file" name="file" id="fileInput"> <span
 						id="fileName">파일을 선택하세요</span>
@@ -93,10 +93,10 @@ window.onload = function() {
 					<button type="submit"
 						style="padding: 2px 9px; font-size: 0.9rem; position: absolute; right: 9%; top: 38%; cursor: pointer; border-radius: 5px; background-color: #c1e0ac;">올리기
 					</button>
-					
-					
-					
-					
+
+
+
+
 				</form>
 				<!--             </div> -->
 
@@ -113,7 +113,7 @@ window.onload = function() {
 			<div class="profile-introduce">
 				<p class="nickname">${user.userName}</p>
 				<p class="profile-id">@${user.userId}</p>
-				
+
 			</div>
 			<div class="ModifyPage">
 				<a href="#" class="addressModify" id="open-address-popup">주소 수정</a>
@@ -552,11 +552,11 @@ window.onload = function() {
       var filePath = '${sessionScope.filePath}';
       console.log(filePath + "123");
    </script>
-   
-   
-   
-   
-   <script type="text/javascript">
+
+
+
+
+	<script type="text/javascript">
 	// 주소 변경
    function userAddressPostcode() {
            new daum.Postcode({
@@ -606,10 +606,14 @@ window.onload = function() {
            }).open();
        }
    </script>
-   
-   
-   
-   
+
+	<c:if test="${not empty fileErrorMessage}">
+		<script type="text/javascript">
+        alert('${fileErrorMessage}');
+    </script>
+	</c:if>
+
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="

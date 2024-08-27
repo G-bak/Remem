@@ -180,7 +180,7 @@ $(document).ready(function() {
 		}
 
 		$.ajax({
-			url: 'http://localhost:8080/checkIdDuplicated',
+			url: '/user/checkIdDuplicated',
 			type: "POST",
 			contentType: 'application/json; charset=utf-8',
 			//dataType: 'json', // 응답 형식을 JSON으로 설정
@@ -188,20 +188,26 @@ $(document).ready(function() {
 				signupId: inputId
 			}),
 			success: function(response) {
-				console.log(response);
 
-				if (response === 1) {
-					$('#duplicated-check-result').val(null);
-					$('#p-duplicatedText').text("아이디가 중복됐어~ 다시 입력해줘");
-				} else {
+				let resultCode = response.header.resultCode;
+				let resultMsg = response.header.resultMessage;
+
+
+				if (resultCode == "00") {
 					//value 값 넣어주기
 					$('#duplicated-check-result').val("중복확인완료");
 					$('#p-duplicatedText').text("중복확인 됐어! 회원가입 진행해줘~");
+				} else if (resultCode == "02") {
+					$('#duplicated-check-result').val(null);
+					$('#p-duplicatedText').text("아이디가 중복됐어~ 다시 입력해줘");
+				} else {
+					console.log("Invalid response header or result code of checkIdDuplicated");
+					console.log("checkIdDuplicated: " + resultCode + " " + resultMsg);
 				}
-			},
-			error: function() {
 
-				alert("아이디 중복체크 서버 에러");
+			},
+			error: function(error) {
+				console.log("Error: " + error);
 			}
 		});
 	});

@@ -767,958 +767,961 @@ textarea {
 	</div>
 
 	<script>
-        const userId = '${userId}';
-        let userName;
-        let ajaxResult = false;
+		// 템플릿 문자열에서 userId를 추출합니다.
+		const userId = '${userId}';
+		let userName; // 사용자 이름을 저장할 변수입니다.
+		let ajaxResult = false; // AJAX 요청의 결과를 추적할 변수입니다.
+	
+		selectUserName(); // 사용자 이름을 조회합니다.
+		loadAllData(); // 모든 캘린더 데이터를 로드합니다.
+	
+		let currentYear = 2024; // 현재 연도를 2024로 설정합니다.
+		let currentMonth = 7; // 현재 월을 7로 설정합니다 (JavaScript에서 0이 1월이므로 7은 8월입니다).
+		let selectedDate; // 사용자가 선택한 날짜를 저장할 변수입니다.
+	
+		const holidays = { // 2024년의 공휴일을 정의한 객체입니다.
+		    "2024-01-01": "새해 첫날",
+		    "2024-02-09": "설날연휴",
+		    "2024-02-10": "설날",
+		    "2024-02-11": "설날연휴",
+		    "2024-02-12": "대체공휴일",
+		    "2024-03-01": "삼일절",
+		    "2024-04-10": "22대 국회의원 선거",
+		    "2024-05-05": "어린이날",
+		    "2024-05-06": "대체공휴일",
+		    "2024-05-15": "부처님 오신 날",
+		    "2024-10-09": "한글날",
+		    "2024-06-06": "현충일",
+		    "2024-08-15": "광복절",
+		    "2024-09-16": "추석연휴",
+		    "2024-09-17": "추석",
+		    "2024-09-18": "추석연휴",
+		    "2024-10-03": "개천절",
+		    "2024-12-25": "성탄절"
+		};
+	
+		// 날짜별 일정을 저장할 객체입니다.
+		const schedules = {};
+		// 날짜별 dataId를 저장할 객체입니다.
+		const dataIds = {};
+		// 친구 목록을 저장할 배열입니다.
+		let friendsArray = [];
+		// 선택된 일정의 data-id를 저장할 변수입니다.
+		let selectedEventId = null;
+	
+		// AJAX를 통해 사용자 이름을 가져오는 함수입니다.
+		async function selectUserName() {
+		    // 서버로 전송할 JSON 데이터를 생성합니다.
+		    let selectJsonData = { 'userId': userId };
+		    // JSON 데이터를 문자열로 변환합니다.
+		    let selectJsonDataString = JSON.stringify(selectJsonData);
+	
+		    try {
+		        // AJAX 호출을 통해 사용자 이름을 가져옵니다.
+		        const user = await ajaxSelectUserName(selectJsonDataString);
+		        if (user) {
+		            // 사용자 이름이 있을 경우 저장합니다.
+		            userName = user;
+		        } else {
+		            // 사용자 데이터가 없을 경우 콘솔에 메시지를 출력합니다.
+		            console.log("유저 데이터가 없습니다.");
+		        }
+		    } catch (error) {
+		        // 오류가 발생할 경우 콘솔에 에러 메시지를 출력합니다.
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+		}
+	
+		// 모든 캘린더 데이터를 로드하는 함수입니다.
+		async function loadAllData() {
+		    // 서버로 전송할 JSON 데이터를 생성합니다.
+		    let selectJsonData = { 'userId': userId };
+		    // JSON 데이터를 문자열로 변환합니다.
+		    let selectJsonDataString = JSON.stringify(selectJsonData);
+	
+		    try {
+		        // AJAX 호출을 통해 모든 캘린더 데이터를 가져옵니다.
+		        const calendarArray = await ajaxLoadAllData(selectJsonDataString);
+		        if (calendarArray.length !== 0) {
+		            // 가져온 캘린더 데이터를 순회하면서 처리합니다.
+		            calendarArray.forEach(calender => {
+		                const date = calender.calenderDate; // 일정의 날짜를 가져옵니다.
+		                const title = calender.calenderTitle; // 일정의 제목을 가져옵니다.
+		                const dataId = calender.dataId; // 일정의 dataId를 가져옵니다.
+	
+		                // 해당 날짜에 이미 일정이 존재하는지 확인합니다.
+		                if (!schedules[date]) {
+		                    schedules[date] = []; // 일정 배열을 초기화합니다.
+		                    dataIds[date] = []; // dataId 배열을 초기화합니다.
+		                }
+	
+		                // 일정 제목과 dataId를 해당 날짜의 배열에 추가합니다.
+		                schedules[date].push(title);
+		                dataIds[date].push(dataId);
+		            });
+		        } else {
+		            // 일정 데이터가 없을 경우 콘솔에 메시지를 출력합니다.
+		            console.log("일정 데이터가 없습니다.");
+		        }
+		        // 캘린더를 생성합니다.
+		        generateCalendar(currentYear, currentMonth);
+		    } catch (error) {
+		        // 오류가 발생할 경우 콘솔에 에러 메시지를 출력합니다.
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+		}
+	
+		// 캘린더를 생성하여 화면에 표시하는 함수입니다.
+		function generateCalendar(year, month) {
+		    const calendarDays = document.getElementById('calendar-days');
+		    calendarDays.innerHTML = ''; // 이전에 생성된 캘린더를 초기화합니다.
+	
+		    const monthYearLabel = document.getElementById('monthYear');
+		    // 현재 연도와 월을 표시합니다.
+		    monthYearLabel.textContent = year + "." + ((month + 1).toString().padStart(2, '0'));
+	
+		    const firstDay = new Date(year, month, 1).getDay(); // 해당 월의 첫 번째 날의 요일을 가져옵니다.
+		    const daysInMonth = new Date(year, month + 1, 0).getDate(); // 해당 월의 총 일수를 가져옵니다.
+	
+		    // 첫 번째 요일 전까지 빈 칸을 채웁니다.
+		    for (let i = 0; i < firstDay; i++) {
+		        const emptyDay = document.createElement('div');
+		        calendarDays.appendChild(emptyDay);
+		    }
+	
+		    // 각 날짜를 캘린더에 추가합니다.
+		    for (let i = 1; i <= daysInMonth; i++) {
+		        const dayElement = document.createElement('div');
+		        dayElement.classList.add('day'); // 각 날짜 요소에 'day' 클래스를 추가합니다.
+	
+		        // 날짜 요소에 data-id 속성을 설정합니다.
+		        const dateId = year + "-" + ((month + 1).toString().padStart(2, '0')) + "-" + i.toString().padStart(2, '0');
+		        dayElement.setAttribute('data-id', dateId);
+	
+		        // 주말(토요일, 일요일)을 색상으로 구분합니다.
+		        const currentDayOfWeek = (i + firstDay - 1) % 7;
+		        if (currentDayOfWeek === 0) {
+		            dayElement.classList.add('sunday'); // 일요일일 경우 'sunday' 클래스를 추가합니다.
+		        } else if (currentDayOfWeek === 6) {
+		            dayElement.classList.add('saturday'); // 토요일일 경우 'saturday' 클래스를 추가합니다.
+		        }
+	
+		        // 공휴일인지 확인하고 공휴일이면 표시합니다.
+		        if (holidays[dateId]) {
+		            dayElement.style.color = '#ff4d4d'; // 공휴일인 경우 텍스트 색상을 빨간색으로 설정합니다.
+		            dayElement.classList.add('holiday'); // 'holiday' 클래스를 추가하여 공휴일 스타일을 적용합니다.
+		            dayElement.textContent = holidays[dateId]; // 공휴일의 이름을 텍스트로 표시합니다.
+		        } else {
+		            dayElement.textContent = i; // 공휴일이 아닌 경우 날짜만 표시합니다.
+		        }
+	
+		        // 오늘 날짜인지 확인하여 강조 표시합니다.
+		        const today = new Date();
+		        if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
+		            dayElement.classList.add('today'); // 오늘인 경우 'today' 클래스를 추가하여 강조합니다.
+		        }
+	
+		        // 날짜를 클릭했을 때 일정을 추가하는 모달을 표시하는 이벤트 리스너를 추가합니다.
+		        dayElement.addEventListener('click', function() {
+		            selectedDate = dateId; // 선택된 날짜를 저장합니다.
+		            document.getElementById('scheduleModal').style.display = 'flex'; // 모달을 표시합니다.
+		            document.getElementById('scheduleInput').focus(); // 입력 필드에 포커스를 줍니다.
+		            selectFriends(); // 친구 목록을 불러옵니다.
+		        });
+	
+		        // 해당 날짜에 일정이 있는지 확인하고 일정을 표시합니다.
+		        const scheduleKey = dateId;
+		        if (schedules[scheduleKey]) {
+		            schedules[scheduleKey].forEach((schedule, index) => {
+		                const eventElement = document.createElement('div');
+		                eventElement.classList.add('event'); // 각 일정 요소에 'event' 클래스를 추가합니다.
+		                eventElement.setAttribute('data-id', dataIds[scheduleKey][index]); // 일정에 data-id를 설정합니다.
+		                eventElement.textContent = schedule; // 일정 제목을 텍스트로 표시합니다.
+	
+		                // 일정을 클릭했을 때 일정 상세 모달을 표시하는 이벤트 리스너를 추가합니다.
+		                eventElement.addEventListener('click', function() {
+		                    event.stopPropagation(); // 부모 요소의 클릭 이벤트를 방지합니다.
+		                    document.getElementById('scheduleDetailModal').style.display = 'flex'; // 일정 상세 모달을 표시합니다.
+		                    selectedEventId = eventElement.getAttribute('data-id'); // 선택된 이벤트의 data-id를 저장합니다.
+		                    showFriendList(selectedEventId, dateId); // 해당 일정의 친구 목록을 표시합니다.
+		                });
+	
+		                dayElement.appendChild(eventElement); // 날짜 요소에 일정을 추가합니다.
+		            });
+		        }
+	
+		        calendarDays.appendChild(dayElement); // 날짜 요소를 캘린더에 추가합니다.
+		    }
+		}
+	
+		// 사용 가능한 친구 목록을 선택하는 함수입니다.
+		async function selectFriends() {
+		    // 서버로 보낼 JSON 데이터를 생성합니다.
+		    let selectJsonData = {
+		        'userId': userId
+		    };
+	
+		    // JSON 데이터를 문자열로 변환합니다.
+		    let selectJsonDataString = JSON.stringify(selectJsonData);
+	
+		    try {
+		        // AJAX 호출로 친구 목록을 가져옵니다.
+		        const friends = await ajaxSelectFriends(selectJsonDataString);
+		        if (friends.length !== 0) {
+		            // 전역 변수 friendsArray에 친구 목록을 복사합니다.
+		            friendsArray = [...friends]; // 스프레드 연산자를 사용하여 배열을 복사합니다.
+		            // console.log(friendsArray); // 복사된 친구 목록을 확인할 수 있습니다.
+		        } else {
+		            console.log("친구 데이터가 없습니다."); // 친구 데이터가 없을 경우 로그를 출력합니다.
+		        }
+		    } catch (error) {
+		        // AJAX 요청 중 오류가 발생하면 콘솔에 에러 메시지를 출력합니다.
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+		}
+	
+		// 일정 입력창에 포커스를 맞췄을 때 친구 목록을 보여주는 함수입니다.
+		document.getElementById('scheduleInputFriends').addEventListener('focus', function() {
+		    showAllFriends(); // 처음 클릭 시 전체 친구 목록을 표시합니다.
+		});
+	
+		// 일정 입력창에 텍스트가 입력될 때 자동완성 기능을 제공하는 함수입니다.
+		document.getElementById('scheduleInputFriends').addEventListener('input', function() {
+		    const input = this.value.toLowerCase(); // 입력된 값을 소문자로 변환합니다.
+		    const autocompleteList = document.getElementById('autocompleteFriends');
+		    autocompleteList.innerHTML = ''; // 기존 자동완성 목록을 초기화합니다.
+	
+		    let filteredFriends;
+	
+		    if (input.length > 0) {
+		        // 입력된 값이 있을 경우, 이름이나 ID로 친구 목록을 필터링합니다.
+		        filteredFriends = friendsArray.filter(friend => 
+		            friend.userName.toLowerCase().startsWith(input) || friend.friendId.toLowerCase().startsWith(input)
+		        );
+		    } else {
+		        // 입력된 값이 없을 경우, 모든 친구 목록을 표시합니다.
+		        filteredFriends = friendsArray;
+		    }
+	
+		    if (filteredFriends.length > 0) {
+		        autocompleteList.style.display = 'block'; // 자동완성 목록을 표시합니다.
+		        filteredFriends.forEach(function(friend) {
+		            const item = document.createElement('div');
+		            item.classList.add('autocomplete-item'); // 각 자동완성 항목에 'autocomplete-item' 클래스를 추가합니다.
+		            item.textContent = friend.userName + " (" + friend.friendId + ")"; // 친구 이름과 ID를 표시합니다.
+	
+		            item.addEventListener('click', function() {
+		                // 선택된 친구를 참석자 목록에 추가합니다.
+		                const container = document.getElementById('scheduleModal');
+		                const attendeeContainers = container.querySelectorAll('.calender-friend-container');
+		                const attendeeCount = attendeeContainers.length + 1; // 참석자 번호를 계산합니다.
+	
+		                const attendeeContainer = document.createElement('div');
+		                attendeeContainer.classList.add('calender-friend-container'); // 'calender-friend-container' 클래스를 추가합니다.
+		                attendeeContainer.setAttribute('data-key', friend.friendId); // data-key 속성에 friendId를 저장합니다.
+		                attendeeContainer.innerHTML = '<span class="title">참석자 ' + attendeeCount + ' </span>' +
+		                                                '<span class="name">' + friend.userName + '</span>';
+	
+		                container.insertBefore(attendeeContainer, container.querySelector('.calender-btn-container'));
+	
+		                // 자동완성 목록과 입력 필드를 초기화합니다.
+		                autocompleteList.innerHTML = '';
+		                document.getElementById('scheduleInputFriends').value = '';
+		                autocompleteList.style.display = 'none'; // 선택 후 자동완성 목록을 숨깁니다.
+		            });
+	
+		            autocompleteList.appendChild(item); // 자동완성 항목을 목록에 추가합니다.
+		        });
+		    } else {
+		        autocompleteList.style.display = 'none'; // 필터링된 친구가 없으면 자동완성 목록을 숨깁니다.
+		    }
+		});
+	
+		// 모든 친구를 표시하는 함수입니다.
+		function showAllFriends() {
+		    const autocompleteList = document.getElementById('autocompleteFriends');
+		    autocompleteList.innerHTML = ''; // 기존 자동완성 목록을 초기화합니다.
+	
+		    if (friendsArray.length > 0) {
+		        autocompleteList.style.display = 'block'; // 자동완성 목록을 표시합니다.
+		        friendsArray.forEach(function(friend) {
+		            const item = document.createElement('div');
+		            item.classList.add('autocomplete-item'); // 각 자동완성 항목에 'autocomplete-item' 클래스를 추가합니다.
+		            item.textContent = friend.userName + " (" + friend.friendId + ")"; // 친구 이름과 ID를 표시합니다.
+	
+		            item.addEventListener('click', function() {
+		                // 선택된 친구를 참석자 목록에 추가합니다.
+		                const container = document.getElementById('scheduleModal');
+		                const attendeeContainers = container.querySelectorAll('.calender-friend-container');
+		                const attendeeCount = attendeeContainers.length + 1; // 참석자 번호를 계산합니다.
+	
+		                const attendeeContainer = document.createElement('div');
+		                attendeeContainer.classList.add('calender-friend-container'); // 'calender-friend-container' 클래스를 추가합니다.
+		                attendeeContainer.setAttribute('data-key', friend.friendId); // data-key 속성에 friendId를 저장합니다.
+		                attendeeContainer.innerHTML = '<span class="title">참석자 ' + attendeeCount + ' </span>' +
+		                                                '<span class="name">' + friend.userName + '</span>';
+	
+		                container.insertBefore(attendeeContainer, container.querySelector('.calender-btn-container'));
+	
+		                // 자동완성 목록과 입력 필드를 초기화합니다.
+		                autocompleteList.innerHTML = '';
+		                document.getElementById('scheduleInputFriends').value = '';
+		                autocompleteList.style.display = 'none'; // 선택 후 자동완성 목록을 숨깁니다.
+		            });
+	
+		            autocompleteList.appendChild(item); // 자동완성 항목을 목록에 추가합니다.
+		        });
+		    } else {
+		        autocompleteList.style.display = 'none'; // 친구 목록이 없으면 자동완성 목록을 숨깁니다.
+		    }
+		}
+	
+		// 전역 클릭 이벤트 리스너를 추가하여 자동완성 목록을 관리합니다.
+		document.addEventListener('click', function(event) {
+		    const autocompleteList = document.getElementById('autocompleteFriends');
+		    const inputField = document.getElementById('scheduleInputFriends');
+		    
+		    if (autocompleteList.style.display === 'block' && !inputField.contains(event.target) && !autocompleteList.contains(event.target)) {
+		        // inputField와 autocompleteList 외의 다른 곳을 클릭하면 자동완성 목록을 숨깁니다.
+		        autocompleteList.style.display = 'none';
+		    }
+		});
+	
+		// 선택된 일정의 친구 목록을 보여주는 함수입니다.
+		async function showFriendList(dataId, date) {
+		    let selectJsonData = {
+		        'userId': userId,
+		        'dataId': dataId
+		    };
+	
+		    let selectJsonDataString = JSON.stringify(selectJsonData);
+	
+		    try {
+		        // AJAX 호출을 통해 친구 목록을 가져옵니다.
+		        const friends = await ajaxShowFriendList(selectJsonDataString);
+		        if (friends.length !== 0) {
+		            // 친구 목록을 초기화합니다.
+		            const friendListContainer = document.querySelector('.friend-list-name-box');
+		            friendListContainer.innerHTML = ''; // 기존 친구 목록을 초기화합니다.
+	
+		            // 사용자 이름을 설정합니다.
+		            document.querySelector('.date-text').textContent = date;
+		            document.querySelector('.friend-list-title-box span').textContent = friends[0].readerName;
+		            document.querySelector('.diary-content-box textarea').placeholder = "# " + userName;
+	
+		            // 친구 목록을 동적으로 추가합니다.
+		            friends.forEach(function(friend, index) {
+		                const friendElement = document.createElement('div');
+		                friendElement.innerHTML = '&nbsp;<span class="calender-input-container participant">' +
+		                                        '<span>참석자 ' + (index + 1) + '&nbsp;&nbsp;&nbsp;</span>' +
+		                                        '</span><span class="friend-name">' + friend.friendName + '</span>';
+		                friendListContainer.appendChild(friendElement);
+		            });
+		        } else {
+		            console.log("친구 데이터가 없습니다.");
+		            // 친구 목록을 초기화합니다.
+		            const friendListContainer = document.querySelector('.friend-list-name-box');
+		            friendListContainer.innerHTML = ''; // 기존 친구 목록을 초기화합니다.
+	
+		            // 사용자 이름을 설정합니다.
+		            document.querySelector('.date-text').textContent = date;
+		            document.querySelector('.friend-list-title-box span').textContent = userName;
+		            document.querySelector('.diary-content-box textarea').placeholder = "# " + userName;
+		        }
+		    } catch (error) {
+		        // AJAX 요청 중 오류가 발생하면 콘솔에 에러 메시지를 출력합니다.
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+	
+		    let selectJsonData2 = {
+		        'dataId': dataId
+		    };
+		    let selectJsonDataString2 = JSON.stringify(selectJsonData2);
+	
+		    try {
+		        // AJAX 호출을 통해 캘린더의 세부 정보를 가져옵니다.
+		        const calendarDetailObj = await ajaxSelectCalenderDetail(selectJsonDataString2);
+		        if (calendarDetailObj) {
+		            const calenderDetailContainer = document.getElementById('scheduleDetailModal');
+		            const readerTitleContainer = calenderDetailContainer.querySelector('.friend-list-title-box');
+		            readerTitleContainer.querySelector('span').textContent = calendarDetailObj.readerId; // Reader ID를 설정합니다.
+		            calenderDetailContainer.querySelector('#promiseTime').value = calendarDetailObj.appointmentTime; // 약속 시간을 설정합니다.
+		            calenderDetailContainer.querySelector('#memoContent').value = calendarDetailObj.memoContent; // 메모 내용을 설정합니다.
+		            calenderDetailContainer.querySelector('#diaryTitle').value = calendarDetailObj.diaryTitle; // 다이어리 제목을 설정합니다.
+		            calenderDetailContainer.querySelector('#diaryContent').value = calendarDetailObj.diaryContent; // 다이어리 내용을 설정합니다.
+		        } else {
+		            console.log("일정 상세 정보 추가에 실패하였습니다.");
+		        }
+		    } catch (error) {
+		        // AJAX 요청 중 오류가 발생하면 콘솔에 에러 메시지를 출력합니다.
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+		}
+	
+		// 캘린더의 세부 정보를 삭제하는 함수입니다.
+		async function calenderDetailDelete() {
+		    const dataId = selectedEventId;
+		    const eventElement = document.querySelector('[data-id="' + dataId + '"]');
+	
+		    let deleteJsonData = {
+		        'dataId': dataId,
+		        'userId': userId
+		    };
+	
+		    let deleteJsonDataString = JSON.stringify(deleteJsonData);
+	
+		    if (confirm("일정을 삭제하시겠습니까?")) {
+		        try {
+		            // AJAX 호출을 통해 서버에서 데이터를 삭제합니다.
+		            const ajaxResult = await ajaxDeleteCalender(deleteJsonDataString);
+		            if (ajaxResult) {
+		                document.getElementById('scheduleDetailModal').style.display = 'none'; // 모달을 닫습니다.
+		                eventElement.remove(); // HTML 요소에서 일정을 제거합니다.
+		            } else {
+		                console.log("일정 삭제 실패");
+		            }
+		        } catch (error) {
+		            // AJAX 요청 중 오류가 발생하면 콘솔에 에러 메시지를 출력합니다.
+		            console.error("AJAX 요청 중 오류 발생:", error);
+		        }
+		    }
+		}
+	
+		// 일정 저장 버튼 클릭 시 일정을 저장하는 함수입니다.
+		document.getElementById('saveSchedule').addEventListener('click', saveSchedule);
+	
+		// 일정 저장 함수입니다. 일정 입력창에서 일정을 저장합니다.
+		async function saveSchedule() {
+		    const scheduleInput = document.getElementById('scheduleInput').value;
+		    if (scheduleInput.trim()) {
+		        // 선택된 날짜의 data-id를 가진 요소를 찾습니다.
+		        const dayElement = document.querySelector('.day[data-id=\'' + selectedDate + '\']');
+	
+		        if (!schedules[selectedDate]) {
+		            schedules[selectedDate] = [];
+		        }
+		        schedules[selectedDate].push(scheduleInput);
+	
+		        // 해당 날짜에 일정을 추가합니다.
+		        const eventElement = document.createElement('div');
+		        eventElement.classList.add('event');
+		        eventElement.textContent = scheduleInput;
+	
+		        // 일정에 고유한 data-id를 부여합니다 (userId와 현재 시간을 사용).
+		        const uniqueId = selectedDate + '-' + userId + '-' + new Date().getTime();
+		        eventElement.setAttribute('data-id', uniqueId);
+		        dayElement.appendChild(eventElement);
+	
+		        // 일정 클릭 시 일정 상세 모달창을 표시하는 이벤트 리스너를 추가합니다.
+		        eventElement.addEventListener('click', function(event) {
+		            event.stopPropagation(); // 부모 요소의 클릭 이벤트를 방지합니다.
+		            document.getElementById('scheduleDetailModal').style.display = 'flex';
+		            selectedEventId = eventElement.getAttribute('data-id'); // 선택된 이벤트의 data-id를 저장합니다.
+		            showFriendList(selectedEventId, selectedDate); // 해당 일정의 친구 목록을 표시합니다.
+		        });
+	
+		        document.getElementById('scheduleInput').value = ''; // 입력 필드를 초기화합니다.
+		        document.getElementById('scheduleModal').style.display = 'none'; // 모달을 닫습니다.
+	
+		        let insertJsonData = {
+		            'userId': userId,
+		            'dataId': uniqueId,
+		            'calenderTitle': scheduleInput,
+		            'friendId': [], // 친구 ID 배열을 초기화합니다.
+		            'friendName': [] // 친구 이름 배열을 초기화합니다.
+		        };
+	
+		        const container = document.getElementById('scheduleModal');
+		        const friendsContainers = container.querySelectorAll('.calender-friend-container');
+	
+		        friendsContainers.forEach(function(friendContainer) {
+		            const friendId = friendContainer.getAttribute('data-key'); // data-key에서 friendId를 가져옵니다.
+		            const friendName = friendContainer.querySelector('.name').textContent.trim();
+		            insertJsonData.friendId.push(friendId);
+		            insertJsonData.friendName.push(friendName);
+		        });
+	
+		        let insertJsonDataString = JSON.stringify(insertJsonData);
+	
+		        try {
+		            const ajaxResult = await ajaxInsertCalender(insertJsonDataString);
+		            if (ajaxResult) {
+		                // 일정이 성공적으로 저장되었을 때 처리
+		                const container = document.getElementById('scheduleModal');
+		                const existingAttendees = container.querySelectorAll('.calender-friend-container');
+		                existingAttendees.forEach(function(attendee) {
+		                    attendee.remove(); // 기존 참석자를 모두 제거합니다.
+		                });
+		                let diaryContent = "# " + userName;
+	
+		                // AJAX 요청으로 'calender_memo_diary' 테이블에 기본값을 삽입합니다.
+		                let insertJsonData = {
+		                    'dataId': uniqueId,
+		                    'readerId': userName,
+		                    'diaryContent': diaryContent
+		                };
+		                let insertJsonDataString = JSON.stringify(insertJsonData);
+	
+		                try {
+		                    const ajaxResult = await ajaxInsertCalenderDetail(insertJsonDataString);
+		                    if (!ajaxResult) {
+		                        console.log("일정 상세 정보 추가 실패");
+		                    }
+		                } catch (error) {
+		                    console.error("AJAX 요청 중 오류 발생:", error);
+		                }
+		            } else {
+		                console.log('일정 저장 실패');
+		                // 일정 저장 실패 시 처리
+		                const container = document.getElementById('scheduleModal');
+		                const existingAttendees = container.querySelectorAll('.calender-friend-container');
+		                existingAttendees.forEach(function(attendee) {
+		                    attendee.remove(); // 기존 참석자를 모두 제거합니다.
+		                });
+		            }
+		        } catch (error) {
+		            console.error("AJAX 요청 중 오류 발생:", error);
+		        }
+		    }
+		}
+	
+		// 일정 세부 정보를 업데이트하는 함수입니다.
+		async function updateCalenderDetail(button) {
+		    const calendarDetailContainer = button.closest('#scheduleDetailModal');
+		    const appointmentTime = calendarDetailContainer.querySelector('#promiseTime').value;
+		    const memoContent = calendarDetailContainer.querySelector('#memoContent').value;
+		    const diaryTitle = calendarDetailContainer.querySelector('#diaryTitle').value;
+		    const diaryContent = calendarDetailContainer.querySelector('#diaryContent').value;
+	
+		    // AJAX 요청으로 'calender_memo_diary' 테이블을 업데이트합니다.
+		    let updateJsonData = {
+		        'dataId': selectedEventId,
+		        'appointmentTime': appointmentTime,
+		        'memoContent': memoContent,
+		        'diaryTitle': diaryTitle,
+		        'diaryContent': diaryContent
+		    };
+	
+		    let updateJsonDataString = JSON.stringify(updateJsonData);
+	
+		    try {
+		        const ajaxResult = await ajaxUpdateCalenderDetail(updateJsonDataString);
+		        if (ajaxResult) {
+		            alert("일정 상세 정보가 저장되었습니다");
+		        } else {
+		            console.log("일정 상세 정보 수정 실패");
+		        }
+		    } catch (error) {
+		        console.error("AJAX 요청 중 오류 발생:", error);
+		    }
+		}
+	
+		// 내 일기장에 다이어리를 저장하는 함수입니다.
+		async function saveMyDiary(button) {
+		    const calendarDetailContainer = button.closest('#scheduleDetailModal');
+		    const diaryTitle = calendarDetailContainer.querySelector('#diaryTitle').value;
+		    const diaryContent = calendarDetailContainer.querySelector('#diaryContent').value;
+		    const writeDate = calendarDetailContainer.querySelector('.date-text').textContent;
+	
+		    if (diaryTitle && diaryContent) {
+		        let insertJsonData = {
+		            'userId': userId,
+		            'writeDate': writeDate,
+		            'diaryTitle': diaryTitle,
+		            'diaryContent': diaryContent
+		        };
+	
+		        let insertJsonDataString = JSON.stringify(insertJsonData);
+	
+		        try {
+		            const ajaxResult = await ajaxSaveMyDiary(insertJsonDataString);
+		            if (ajaxResult) {
+		                alert("내 일기장에 추가에 성공하였습니다");
+		            } else {
+		                console.log("내 일기장에 추가에 실패하였습니다");
+		            }
+		        } catch (error) {
+		            console.error("AJAX 요청 중 오류 발생:", error);
+		        }
+		    } else {
+		        alert("일기장의 제목 또는 내용을 모두 작성해주세요");
+		    }
+		}
+	
+		// 일정 추가 모달을 닫는 버튼 클릭 시 모달을 닫는 함수입니다.
+		document.getElementById('closeModal').addEventListener('click', function() {
+		    document.getElementById('scheduleModal').style.display = 'none';
+		    document.getElementById('scheduleInput').value = ''; // 입력 필드를 초기화합니다.
+		});
+	
+		// 일정 상세 모달을 닫는 함수입니다.
+		function calenderDetailColse(button) {
+		    button.closest('#scheduleDetailModal').style.display = 'none';
+		}
+	
+		// 이전 달로 이동하는 함수입니다.
+		document.getElementById('prevMonth').addEventListener('click', function() {
+		    currentMonth--;
+		    if (currentMonth < 0) {
+		        currentMonth = 11;
+		        currentYear--;
+		    }
+		    generateCalendar(currentYear, currentMonth);
+		});
+	
+		// 다음 달로 이동하는 함수입니다.
+		document.getElementById('nextMonth').addEventListener('click', function() {
+		    currentMonth++;
+		    if (currentMonth > 11) {
+		        currentMonth = 0;
+		        currentYear++;
+		    }
+		    generateCalendar(currentYear, currentMonth);
+		});
+	
+		// 캘린더를 삽입하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxInsertCalender(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/insertCalender",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(true); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 모든 데이터를 로드하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxLoadAllData(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/loadAllData",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response && response.header && response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+	
+		                    let responseBody;
+		                    if (typeof response.body === 'string') {
+		                        responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
+		                    } else {
+		                        responseBody = response.body;
+		                    }
+	
+		                    if (responseBody && Array.isArray(responseBody.data.calenders)) {
+		                        resolve(responseBody.data.calenders); // 캘린더 배열을 반환
+		                    } else {
+		                        console.log("No calenders array found in response Body");
+		                        resolve([]); // 캘린더 배열이 없으면 빈 배열 반환
+		                    }
+		                } else {
+		                    console.log("Invalid response header or result code");
+		                    resolve([]); // 올바른 응답이 아니면 빈 배열 반환
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 캘린더를 삭제하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxDeleteCalender(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/deleteCalender",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(true); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 친구 목록을 조회하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxSelectFriends(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/selectFriends",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response && response.header && response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+	
+		                    let responseBody;
+		                    if (typeof response.body === 'string') {
+		                        responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
+		                    } else {
+		                        responseBody = response.body;
+		                    }
+	
+		                    if (responseBody && Array.isArray(responseBody.data.friends)) {
+		                        resolve(responseBody.data.friends); // 친구 배열을 반환
+		                    } else {
+		                        console.log("No friends array found in response Body");
+		                        resolve([]); // 친구 배열이 없으면 빈 배열 반환
+		                    }
+		                } else {
+		                    console.log("Invalid response header or result code");
+		                    resolve([]); // 올바른 응답이 아니면 빈 배열 반환
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 친구 목록을 조회하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxShowFriendList(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/showFriendList",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response && response.header && response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+	
+		                    let responseBody;
+		                    if (typeof response.body === 'string') {
+		                        responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
+		                    } else {
+		                        responseBody = response.body;
+		                    }
+	
+		                    if (responseBody && Array.isArray(responseBody.data.friends)) {
+		                        resolve(responseBody.data.friends); // 친구 배열을 반환
+		                    } else {
+		                        console.log("No friends array found in response Body");
+		                        resolve([]); // 친구 배열이 없으면 빈 배열 반환
+		                    }
+		                } else {
+		                    console.log("Invalid response header or result code");
+		                    resolve([]); // 올바른 응답이 아니면 빈 배열 반환
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 사용자 이름을 조회하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxSelectUserName(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/selectUserName",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(response.body); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 캘린더 세부 정보를 조회하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxSelectCalenderDetail(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/selectCalenderDetail",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+	
+		                    let responseBody;
+		                    if (typeof response.body === 'string') {
+		                        responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
+		                    } else {
+		                        responseBody = response.body;
+		                    }
+		                    resolve(responseBody.data.calenderInfo); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 캘린더 세부 정보를 삽입하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxInsertCalenderDetail(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/insertCalenderDetail",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(true); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 캘린더 세부 정보를 업데이트하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxUpdateCalenderDetail(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/calender/updateCalenderDetail",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(true); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
+	
+		// 내 일기장에 다이어리를 저장하는 AJAX 요청을 처리하는 함수입니다.
+		function ajaxSaveMyDiary(JsonData) {
+		    return new Promise((resolve, reject) => {
+		        $.ajax({
+		            type: "POST",
+		            url: "http://localhost:8080/saveMyDiary",
+		            headers: {
+		                "Content-Type": "application/json;charset=UTF-8"
+		            },
+		            dataType: 'json',
+		            data: JsonData,
+		            success: function (response) {
+		                if (response.header.resultCode === '00') {
+		                    console.log("Response Code: " + response.header.resultCode);
+		                    console.log("Response Message:", response.header.resultMessage);
+		                    resolve(true); // 성공 시 프로미스 해결
+		                } else {
+		                    console.log("Result Code: " + response.header.resultCode);
+		                    console.log("Result Message:", response.header.resultMessage);
+		                    resolve(false); // 실패 시 프로미스 해결
+		                }
+		            },
+		            error: function (error) {
+		                console.error("Error:", error);
+		                reject(error); // 오류 시 프로미스 거부
+		            }
+		        });
+		    });
+		}
 
-        selectUserName();
-        loadAllData();
-
-        let currentYear = 2024;
-        let currentMonth = 7; // 8월 (0부터 시작하므로 7)
-        let selectedDate; // 선택된 날짜를 저장할 변수
-
-        const holidays = {
-            "2024-01-01": "새해 첫날",
-            "2024-02-09": "설날연휴",
-            "2024-02-10": "설날",
-            "2024-02-11": "설날연휴",
-            "2024-02-12": "대체공휴일",
-            "2024-03-01": "삼일절",
-            "2024-04-10": "22대 국회의원 선거",
-            "2024-05-05": "어린이날",
-            "2024-05-06": "대체공휴일",
-            "2024-05-15": "부처님 오신 날",
-            "2024-10-09": "한글날",
-            "2024-06-06": "현충일",
-            "2024-08-15": "광복절",
-            "2024-09-16": "추석연휴",
-            "2024-09-17": "추석",
-            "2024-09-18": "추석연휴",
-            "2024-10-03": "개천절",
-            "2024-10-09": "한글날",
-            "2024-12-25": "성탄절"
-        };
-
-        // 기타 초기화
-        const schedules = {};
-         // dataId를 저장할 객체 추가
-        const dataIds = {};
-         // 전역 변수로 빈 배열 선언
-        let friendsArray = [];
-         // 클릭한 일정의 data-id를 저장할 변수
-        let selectedEventId = null;
-
-        async function selectUserName() {
-            let selectJsonData = {
-                'userId': userId
-            };
-
-            let selectJsonDataString = JSON.stringify(selectJsonData);
-
-            try {
-                const user = await ajaxSelectUserName(selectJsonDataString);
-                // console.log("User: " + user);
-                if (user) {
-                    userName = user;
-                } else {
-                    console.log("유저 데이터가 없습니다.");
-                }
-            } catch (error) {
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-        }
-
-        async function loadAllData() {
-            let selectJsonData = {
-                'userId': userId
-            };
-
-            let selectJsonDataString = JSON.stringify(selectJsonData);
-
-            try {
-                const calendarArray = await ajaxLoadAllData(selectJsonDataString);
-                if (calendarArray.length !== 0) {
-                    calendarArray.forEach(calender => {
-                        const date = calender.calenderDate;
-                        const title = calender.calenderTitle;
-                        const dataId = calender.dataId;
-
-                        // 해당 날짜에 이미 일정이 존재하는 경우 배열에 추가, 아니면 새로운 배열 생성
-                        if (!schedules[date]) {
-                            schedules[date] = [];
-                            dataIds[date] = []; // 날짜별로 dataId를 저장할 배열 생성
-                        }
-
-                        schedules[date].push(title);
-                        dataIds[date].push(dataId); // dataId 추가
-                    });
-                } else {
-                    console.log("일정 데이터가 없습니다.");
-                }
-                // 현재 월 표시
-                generateCalendar(currentYear, currentMonth);
-            } catch (error) {
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-        }
-
-        // 캘린더 생성 시 일정 표시
-        function generateCalendar(year, month) {
-            const calendarDays = document.getElementById('calendar-days');
-            calendarDays.innerHTML = ''; // 이전 내용을 초기화
-
-            const monthYearLabel = document.getElementById('monthYear');
-            monthYearLabel.textContent = year + "." + ((month + 1).toString().padStart(2, '0')); // 월을 두 자리로 표시
-
-            const firstDay = new Date(year, month, 1).getDay(); // 해당 월의 첫 날의 요일
-            const daysInMonth = new Date(year, month + 1, 0).getDate(); // 해당 월의 일 수
-
-            // 빈 칸 채우기
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDay = document.createElement('div');
-                calendarDays.appendChild(emptyDay);
-            }
-
-            // 날짜 추가
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayElement = document.createElement('div');
-                dayElement.classList.add('day');
-
-                // data-id 속성에 해당 날짜를 설정
-                const dateId = year + "-" + ((month + 1).toString().padStart(2, '0')) + "-" + i.toString().padStart(2, '0');
-                dayElement.setAttribute('data-id', dateId);
-
-                // 주말에 색상 적용
-                const currentDayOfWeek = (i + firstDay - 1) % 7;
-                if (currentDayOfWeek === 0) {
-                    dayElement.classList.add('sunday');
-                } else if (currentDayOfWeek === 6) {
-                    dayElement.classList.add('saturday');
-                }
-
-                // 공휴일 확인 및 표시
-                if (holidays[dateId]) {
-                    dayElement.style.color = '#ff4d4d'; // 공휴일 글씨 색 빨간색
-                    dayElement.classList.add('holiday'); // 공휴일 스타일 적용
-                    dayElement.textContent = holidays[dateId]; // 공휴일 이름으로 변경
-                } else {
-                    dayElement.textContent = i;
-                }
-
-                // 오늘 날짜 강조
-                const today = new Date();
-                if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
-                    dayElement.classList.add('today');
-                }
-
-                // 날짜 클릭 시 일정 추가 모달 표시
-                dayElement.addEventListener('click', function() {
-                    selectedDate = dateId; // 선택된 날짜를 저장
-                    document.getElementById('scheduleModal').style.display = 'flex'; // 모달 열기
-                    document.getElementById('scheduleInput').focus(); // 입력창에 포커스
-                    selectFriends();
-                });
-
-                // 일정이 있는 경우 표시
-                const scheduleKey = dateId;
-                if (schedules[scheduleKey]) {
-                    schedules[scheduleKey].forEach((schedule, index) => {
-                        const eventElement = document.createElement('div');
-                        eventElement.classList.add('event');
-                        eventElement.setAttribute('data-id', dataIds[scheduleKey][index]); // 해당하는 dataId를 설정
-                        eventElement.textContent = schedule;
-
-                        // 클릭 이벤트에 핸들러 연결
-                        eventElement.addEventListener('click', function() {
-                            event.stopPropagation(); // 부모 요소 클릭 이벤트 방지
-                            document.getElementById('scheduleDetailModal').style.display = 'flex';
-                            selectedEventId = eventElement.getAttribute('data-id');
-                            showFriendList(selectedEventId, dateId);
-                        });
-
-                        dayElement.appendChild(eventElement);
-                    });
-                }
-
-                calendarDays.appendChild(dayElement);
-            }
-        }
-
-        async function selectFriends() {
-            let selectJsonData = {
-                'userId': userId
-            };
-
-            let selectJsonDataString = JSON.stringify(selectJsonData);
-
-            try {
-                const friends = await ajaxSelectFriends(selectJsonDataString);
-                if (friends.length !== 0) {
-                    // 전역 변수 friendsArray에 복사
-                    friendsArray = [...friends]; // 스프레드 연산자를 사용하여 배열 복사
-                    // console.log(friendsArray);
-                } else {
-                    console.log("친구 데이터가 없습니다.");
-                }
-            } catch (error) {
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-        }
-
-        document.getElementById('scheduleInputFriends').addEventListener('focus', function() {
-            showAllFriends(); // 처음 클릭 시 전체 친구 목록 표시
-        });
-
-        document.getElementById('scheduleInputFriends').addEventListener('input', function() {
-            const input = this.value.toLowerCase(); // 입력된 값을 소문자로 변환
-            const autocompleteList = document.getElementById('autocompleteFriends');
-            autocompleteList.innerHTML = ''; // 기존 리스트 초기화
-
-            let filteredFriends;
-
-            if (input.length > 0) {
-                // 입력값이 있을 때는 필터링된 친구 목록 표시 (이름 또는 ID로 검색)
-                filteredFriends = friendsArray.filter(friend => 
-                    friend.userName.toLowerCase().startsWith(input) || friend.friendId.toLowerCase().startsWith(input)
-                );
-            } else {
-                // 입력값이 없을 때는 모든 친구 목록 표시
-                filteredFriends = friendsArray;
-            }
-
-            if (filteredFriends.length > 0) {
-                autocompleteList.style.display = 'block';
-                filteredFriends.forEach(function(friend) {
-                    const item = document.createElement('div');
-                    item.classList.add('autocomplete-item');
-                    item.textContent = friend.userName + " (" + friend.friendId + ")";
-
-                    item.addEventListener('click', function() {
-                        // 선택된 친구를 참석자 목록에 추가
-                        const container = document.getElementById('scheduleModal');
-                        const attendeeContainers = container.querySelectorAll('.calender-friend-container');
-                        const attendeeCount = attendeeContainers.length + 1; // 참석자 번호 계산
-
-                        const attendeeContainer = document.createElement('div');
-                        attendeeContainer.classList.add('calender-friend-container');
-                        attendeeContainer.setAttribute('data-key', friend.friendId); // friendId를 data-key에 저장
-                        attendeeContainer.innerHTML = '<span class="title">참석자 ' + attendeeCount + ' </span>' +
-                                                        '<span class="name">' + friend.userName + '</span>';
-
-                        container.insertBefore(attendeeContainer, container.querySelector('.calender-btn-container'));
-
-                        // 자동완성 리스트 및 입력 필드 초기화
-                        autocompleteList.innerHTML = '';
-                        document.getElementById('scheduleInputFriends').value = '';
-                        autocompleteList.style.display = 'none'; // 선택 후 리스트 숨김
-                    });
-
-                    autocompleteList.appendChild(item);
-                });
-            } else {
-                autocompleteList.style.display = 'none'; // 필터링된 친구가 없으면 리스트 숨김
-            }
-        });
-
-        function showAllFriends() {
-            const autocompleteList = document.getElementById('autocompleteFriends');
-            autocompleteList.innerHTML = ''; // 기존 리스트 초기화
-
-            if (friendsArray.length > 0) {
-                autocompleteList.style.display = 'block';
-                friendsArray.forEach(function(friend) {
-                    const item = document.createElement('div');
-                    item.classList.add('autocomplete-item');
-                    item.textContent = friend.userName + " (" + friend.friendId + ")";
-
-                    item.addEventListener('click', function() {
-                        // 선택된 친구를 참석자 목록에 추가
-                        const container = document.getElementById('scheduleModal');
-                        const attendeeContainers = container.querySelectorAll('.calender-friend-container');
-                        const attendeeCount = attendeeContainers.length + 1; // 참석자 번호 계산
-
-                        const attendeeContainer = document.createElement('div');
-                        attendeeContainer.classList.add('calender-friend-container');
-                        attendeeContainer.setAttribute('data-key', friend.friendId); // friendId를 data-key에 저장
-                        attendeeContainer.innerHTML = '<span class="title">참석자 ' + attendeeCount + ' </span>' +
-                                                        '<span class="name">' + friend.userName + '</span>';
-
-                        container.insertBefore(attendeeContainer, container.querySelector('.calender-btn-container'));
-
-                        // 자동완성 리스트 및 입력 필드 초기화
-                        autocompleteList.innerHTML = '';
-                        document.getElementById('scheduleInputFriends').value = '';
-                        autocompleteList.style.display = 'none'; // 선택 후 리스트 숨김
-                    });
-
-                    autocompleteList.appendChild(item);
-                });
-            } else {
-                autocompleteList.style.display = 'none'; // 친구 목록이 없으면 리스트 숨김
-            }
-        }
-
-        // 전역 클릭 이벤트 리스너 추가
-        document.addEventListener('click', function(event) {
-            const autocompleteList = document.getElementById('autocompleteFriends');
-            const inputField = document.getElementById('scheduleInputFriends');
-            
-            if (autocompleteList.style.display === 'block' && !inputField.contains(event.target) && !autocompleteList.contains(event.target)) {
-                // inputField와 autocompleteList 외의 다른 곳을 클릭하면 자동완성 목록 숨김
-                autocompleteList.style.display = 'none';
-            }
-        });
-
-        async function showFriendList(dataId, date) {
-            let selectJsonData = {
-                'userId': userId,
-                'dataId': dataId
-            };
-
-            let selectJsonDataString = JSON.stringify(selectJsonData);
-
-            try {
-                const friends = await ajaxShowFriendList(selectJsonDataString);
-                if (friends.length !== 0) {
-                    // 친구 목록 초기화
-                    const friendListContainer = document.querySelector('.friend-list-name-box');
-                    friendListContainer.innerHTML = ''; // 기존 친구 목록 초기화
-
-                    // 사용자 이름 설정
-                    document.querySelector('.date-text').textContent = date;
-                    document.querySelector('.friend-list-title-box span').textContent = friends[0].readerName;
-                    document.querySelector('.diary-content-box textarea').placeholder = "# " + userName;
-
-                    // 친구 목록을 동적으로 추가
-                    friends.forEach(function(friend, index) {
-                        const friendElement = document.createElement('div');
-                        friendElement.innerHTML = '&nbsp;<span class="calender-input-container participant">' +
-                                                '<span>참석자 ' + (index + 1) + '&nbsp;&nbsp;&nbsp;</span>' +
-                                                '</span><span class="friend-name">' + friend.friendName + '</span>';
-                        friendListContainer.appendChild(friendElement);
-                    });
-                } else {
-                    console.log("친구 데이터가 없습니다.");
-                    // 친구 목록 초기화
-                    const friendListContainer = document.querySelector('.friend-list-name-box');
-                    friendListContainer.innerHTML = ''; // 기존 친구 목록 초기화
-
-                    // 사용자 이름 설정
-                    document.querySelector('.date-text').textContent = date;
-                    document.querySelector('.friend-list-title-box span').textContent = userName;
-                    document.querySelector('.diary-content-box textarea').placeholder = "# " + userName;
-                }
-            } catch (error) {
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-
-            let selectJsonData2 = {
-                'dataId': dataId
-            };
-            let selectJsonDataString2 = JSON.stringify(selectJsonData2);
-    
-            try {
-                // AJAX 요청이 성공하면 해당 키워드를 다른 질문 항목으로 이동합니다.
-                const calendarDetailObj = await ajaxSelectCalenderDetail(selectJsonDataString2);
-                if (calendarDetailObj) {
-                    const calenderDetailContainer = document.getElementById('scheduleDetailModal');
-                    // console.log(calenderDetailContainer);
-                    // console.log("Data ID: " + calendarDetailObj.dataId);
-                    const readerTitleContainer = calenderDetailContainer.querySelector('.friend-list-title-box');
-                    readerTitleContainer.querySelector('span').textContent = calendarDetailObj.readerId;
-                    // console.log("Reader ID: " + calendarDetailObj.readerId);
-                    calenderDetailContainer.querySelector('#promiseTime').value = calendarDetailObj.appointmentTime;
-                    // console.log("Appointment Time: " + calendarDetailObj.appointmentTime);
-                    calenderDetailContainer.querySelector('#memoContent').value = calendarDetailObj.memoContent;
-                    // console.log("Memo Content: " + calendarDetailObj.memoContent);
-                    calenderDetailContainer.querySelector('#diaryTitle').value = calendarDetailObj.diaryTitle;
-                    // console.log("Diary Title: " + calendarDetailObj.diaryTitle);
-                    calenderDetailContainer.querySelector('#diaryContent').value = calendarDetailObj.diaryContent;
-                    // console.log("Diary Content: " + calendarDetailObj.diaryContent);
-                } else {
-                    console.log("일정 상세 정보 추가에 실패하였습니다.");
-                }
-            } catch (error) {
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-        }
-
-        async function calenderDetailDelete() {
-            const dataId = selectedEventId;
-            const eventElement = document.querySelector('[data-id="' + dataId + '"]');
-
-            let deleteJsonData = {
-                'dataId': dataId,
-                'userId': userId
-            };
-
-            let deleteJsonDataString = JSON.stringify(deleteJsonData);
-
-            if (confirm("일정을 삭제하시겠습니까?")) {
-                // AJAX 요청을 통해 서버에서 데이터 삭제
-                try {
-                    // AJAX 요청이 성공하면 질문 항목을 질문 목록에 추가합니다.
-                    const ajaxResult = await ajaxDeleteCalender(deleteJsonDataString);
-                    if (ajaxResult) {
-                        // console.log("일정이 성공적으로 삭제되었습니다.");
-                        document.getElementById('scheduleDetailModal').style.display = 'none';
-                        eventElement.remove(); // HTML 요소 삭제
-                    } else {
-                        console.log("일정 삭제 실패: " + response.header.resultMessage);
-                    }
-                } catch (error) {
-                    // AJAX 요청 중 오류가 발생한 경우, 콘솔에 에러 메시지를 출력합니다.
-                    console.error("AJAX 요청 중 오류 발생:", error);
-                }
-            }
-        }
-
-        // 일정 저장 버튼 클릭 시
-        document.getElementById('saveSchedule').addEventListener('click', saveSchedule);
-
-        // 입력 필드에서 Enter 키를 누를 때 일정 추가
-        // document.getElementById('scheduleInput').addEventListener('keypress', function(event) {
-        //     if (event.key === 'Enter') {
-        //         saveSchedule();
-        //     }
-        // });
-
-        // 일정 저장 함수 (공통으로 사용)
-        async function saveSchedule() {
-            const scheduleInput = document.getElementById('scheduleInput').value;
-            if (scheduleInput.trim()) {
-                // 선택된 날짜의 data-id 값을 가진 요소 찾기
-                const dayElement = document.querySelector('.day[data-id=\'' + selectedDate + '\']');
-
-                if (!schedules[selectedDate]) {
-                    schedules[selectedDate] = [];
-                }
-                schedules[selectedDate].push(scheduleInput);
-
-                // 해당 날짜에 일정 추가
-                const eventElement = document.createElement('div');
-                eventElement.classList.add('event');
-                eventElement.textContent = scheduleInput;
-
-                // 일정에 고유한 data-id 부여 (userId + 현재 시간 밀리초)
-                const uniqueId = selectedDate + '-' + userId + '-' + new Date().getTime();
-                eventElement.setAttribute('data-id', uniqueId);
-                dayElement.appendChild(eventElement);
-
-                // 일정 클릭 시 일정 상세 모달창 표시
-                eventElement.addEventListener('click', function(event) {
-                    event.stopPropagation(); // 부모 요소 클릭 이벤트 방지
-                    document.getElementById('scheduleDetailModal').style.display = 'flex';
-                    selectedEventId = eventElement.getAttribute('data-id');
-                    showFriendList(selectedEventId, selectedDate);
-                });
-
-                document.getElementById('scheduleInput').value = ''; // 입력 필드 초기화
-                document.getElementById('scheduleModal').style.display = 'none'; // 모달 닫기
-
-                let insertJsonData = {
-                    'userId': userId,
-                    'dataId': uniqueId,
-                    'calenderTitle': scheduleInput,
-                    'friendId': [], // friends 배열을 먼저 정의합니다.
-                    'friendName': [] // friends 배열을 먼저 정의합니다.
-                };
-
-                const container = document.getElementById('scheduleModal');
-                const friendsContainers = container.querySelectorAll('.calender-friend-container');
-
-                friendsContainers.forEach(function(friendContainer) {
-                    const friendId = friendContainer.getAttribute('data-key'); // data-key에서 friendId 가져오기
-                    const friendName = friendContainer.querySelector('.name').textContent.trim();
-                    insertJsonData.friendId.push(friendId);
-                    insertJsonData.friendName.push(friendName);
-                });
-
-                let insertJsonDataString = JSON.stringify(insertJsonData);
-
-                try {
-                    const ajaxResult = await ajaxInsertCalender(insertJsonDataString);
-                    if (ajaxResult) {
-                        // console.log('일정 저장 성공');
-                        // 참석자 목록 초기화
-                        const container = document.getElementById('scheduleModal');
-                        const existingAttendees = container.querySelectorAll('.calender-friend-container');
-                        existingAttendees.forEach(function(attendee) {
-                            attendee.remove(); // 기존 참석자 모두 제거
-                        });
-                        let diaryContent = "# " + userName;
-                        
-                        // AJAX 요청('calender_memo_diary' 테이블에 기본값 insert)
-                        let insertJsonData = {
-                            'dataId': uniqueId,
-                            'readerId': userName,
-                            'diaryContent': diaryContent
-                        };
-                        let insertJsonDataString = JSON.stringify(insertJsonData);
-
-                        try {
-                            // AJAX 요청이 성공하면 질문 항목을 질문 목록에 추가합니다.
-                            const ajaxResult = await ajaxInsertCalenderDetail(insertJsonDataString);
-                            if (ajaxResult) {
-
-                            } else {
-                                // console.log("일정 상세 정보 추가 실패: " + response.header.resultMessage);
-                            }
-                        } catch (error) {
-                            // AJAX 요청 중 오류가 발생한 경우, 콘솔에 에러 메시지를 출력합니다.
-                            console.error("AJAX 요청 중 오류 발생:", error);
-                        }
-
-                    } else {
-                        // console.log('일정 저장 실패');
-                        // 참석자 목록 초기화
-                        const container = document.getElementById('scheduleModal');
-                        const existingAttendees = container.querySelectorAll('.calender-friend-container');
-                        existingAttendees.forEach(function(attendee) {
-                            attendee.remove(); // 기존 참석자 모두 제거
-                        });
-                    }
-                } catch (error) {
-                    console.error("AJAX 요청 중 오류 발생:", error);
-                }
-            }
-        }
-
-        async function updateCalenderDetail(button) {
-            const calendarDetailContainer = button.closest('#scheduleDetailModal');
-            const appointmentTime = calendarDetailContainer.querySelector('#promiseTime').value;
-            const memoContent = calendarDetailContainer.querySelector('#memoContent').value;
-            const diaryTitle = calendarDetailContainer.querySelector('#diaryTitle').value;
-            const diaryContent = calendarDetailContainer.querySelector('#diaryContent').value;
-
-            // AJAX 요청('calender_memo_diary' 테이블에 기본값 update)
-            let updateJsonData = {
-                'dataId': selectedEventId,
-                'appointmentTime': appointmentTime,
-                'memoContent': memoContent,
-                'diaryTitle': diaryTitle,
-                'diaryContent': diaryContent
-            };
-
-            let updateJsonDataString = JSON.stringify(updateJsonData);
-
-            try {
-                // AJAX 요청이 성공하면 질문 항목을 질문 목록에 추가합니다.
-                const ajaxResult = await ajaxUpdateCalenderDetail(updateJsonDataString);
-                if (ajaxResult) {
-                    alert("일정 상세 정보가 저장되었습니다");
-                } else {
-                    // console.log("일정 상세 정보 수정 실패: " + response.header.resultMessage);
-                }
-            } catch (error) {
-                // AJAX 요청 중 오류가 발생한 경우, 콘솔에 에러 메시지를 출력합니다.
-                console.error("AJAX 요청 중 오류 발생:", error);
-            }
-        }
-
-        async function saveMyDiary(button) {
-            const calendarDetailContainer = button.closest('#scheduleDetailModal');
-            const diaryTitle = calendarDetailContainer.querySelector('#diaryTitle').value;
-            const diaryContent = calendarDetailContainer.querySelector('#diaryContent').value;
-            const writeDate = calendarDetailContainer.querySelector('.date-text').textContent;
-
-            if (diaryTitle && diaryContent) {
-                let insertJsonData = {
-                    'userId': userId,
-                    'writeDate': writeDate,
-                    'diaryTitle': diaryTitle,
-                    'diaryContent': diaryContent
-                };
-
-                let insertJsonDataString = JSON.stringify(insertJsonData);
-
-                try {
-                    const ajaxResult = await ajaxSaveMyDiary(insertJsonDataString);
-                    if (ajaxResult) {
-                        alert("내 일기장에 추가에 성공하였습니다");
-                    } else {
-                        // console.log("내 일기장에 추가에 실패하였습니다");
-                    }
-                } catch (error) {
-                    // AJAX 요청 중 오류가 발생한 경우, 콘솔에 에러 메시지를 출력합니다.
-                    console.error("AJAX 요청 중 오류 발생:", error);
-                }
-            } else {
-                alert("일기장의 제목 또는 내용을 모두 작성해주세요");
-            }
-            
-        }
-
-        // 일정 추가 모달 닫기 버튼 클릭 시
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('scheduleModal').style.display = 'none';
-            document.getElementById('scheduleInput').value = ''; // 입력 필드 초기화
-        });
-
-        // 일정 상세 모달 닫기 버튼 클릭 시
-        function calenderDetailColse(button) {
-            button.closest('#scheduleDetailModal').style.display = 'none';
-        }
-
-        // 이전 달로 이동
-        document.getElementById('prevMonth').addEventListener('click', function() {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            generateCalendar(currentYear, currentMonth);
-        });
-
-        // 다음 달로 이동
-        document.getElementById('nextMonth').addEventListener('click', function() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generateCalendar(currentYear, currentMonth);
-        });
-
-        function ajaxInsertCalender(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/insertCalender",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(true); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxLoadAllData(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/loadAllData",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        // console.log("AJAX Response:", response); // 응답 데이터 확인
-                        if (response && response.header && response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-    
-                            let responseBody;
-                            if (typeof response.body === 'string') {
-                                responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
-                            } else {
-                                responseBody = response.body;
-                            }
-    
-                            if (responseBody && Array.isArray(responseBody.data.calenders)) {
-                                // console.log("calenders Array:", responseBody.data.calenders);
-                                resolve(responseBody.data.calenders); // 키워드 배열을 반환
-                            } else {
-                                console.log("No calenders array found in response Body");
-                                resolve([]); // 키워드 배열이 없으면 빈 배열 반환
-                            }
-                        } else {
-                            console.log("Invalid response header or result code");
-                            resolve([]); // 올바른 응답이 아니면 빈 배열 반환
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxDeleteCalender(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/deleteCalender",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(true); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxSelectFriends(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/selectFriends",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        // console.log("AJAX Response:", response); // 응답 데이터 확인
-                        if (response && response.header && response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-    
-                            let responseBody;
-                            if (typeof response.body === 'string') {
-                                responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
-                            } else {
-                                responseBody = response.body;
-                            }
-    
-                            if (responseBody && Array.isArray(responseBody.data.friends)) {
-                                // console.log("friends Array:", responseBody.data.friends);
-                                resolve(responseBody.data.friends); // 키워드 배열을 반환
-                            } else {
-                                console.log("No friends array found in response Body");
-                                resolve([]); // 키워드 배열이 없으면 빈 배열 반환
-                            }
-                        } else {
-                            console.log("Invalid response header or result code");
-                            resolve([]); // 올바른 응답이 아니면 빈 배열 반환
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxShowFriendList(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/showFriendList",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        // console.log("AJAX Response:", response); // 응답 데이터 확인
-                        if (response && response.header && response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-    
-                            let responseBody;
-                            if (typeof response.body === 'string') {
-                                responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
-                            } else {
-                                responseBody = response.body;
-                            }
-    
-                            if (responseBody && Array.isArray(responseBody.data.friends)) {
-                                // console.log("friends Array:", responseBody.data.friends);
-                                resolve(responseBody.data.friends); // 키워드 배열을 반환
-                            } else {
-                                console.log("No friends array found in response Body");
-                                resolve([]); // 키워드 배열이 없으면 빈 배열 반환
-                            }
-                        } else {
-                            console.log("Invalid response header or result code");
-                            resolve([]); // 올바른 응답이 아니면 빈 배열 반환
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxSelectUserName(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/selectUserName",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(response.body); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxSelectCalenderDetail(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/selectCalenderDetail",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-
-                            let responseBody;
-                                if (typeof response.body === 'string') {
-                                    responseBody = JSON.parse(response.body); // 문자열을 객체로 변환
-                                } else {
-                                    responseBody = response.body;
-                                }
-                            resolve(responseBody.data.calenderInfo); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxInsertCalenderDetail(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/insertCalenderDetail",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(true); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxUpdateCalenderDetail(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/calender/updateCalenderDetail",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(true); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
-
-        function ajaxSaveMyDiary(JsonData) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/saveMyDiary",
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8"
-                    },
-                    dataType: 'json',
-                    data: JsonData,
-                    success: function (response) {
-                        if (response.header.resultCode === '00') {
-                            console.log("Response Code: " + response.header.resultCode);
-                            console.log("Response Message:", response.header.resultMessage);
-                            resolve(true); // 성공 시 프로미스 해결
-                        } else {
-                            console.log("Result Code: " + response.header.resultCode);
-                            console.log("Result Message:", response.header.resultMessage);
-                            resolve(false); // 실패 시 프로미스 해결
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        reject(error); // 오류 시 프로미스 거부
-                    }
-                });
-            });
-        }
     </script>
 </body>
 </html>

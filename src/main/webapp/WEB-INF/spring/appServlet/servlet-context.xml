@@ -57,7 +57,7 @@
 			<exclude-mapping path="/css/**" />
 			<exclude-mapping path="/image/**" />
 			<exclude-mapping path="/js/**" />
-			<exclude-mapping path="/checkIdDuplicated" />
+			
 
 			<beans:bean class="com.app.interceptor.LoginInterceptor">
 			</beans:bean>

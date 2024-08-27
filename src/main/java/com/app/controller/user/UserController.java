@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.api.ApiResponse;
+import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.diary.UserDiary;
 import com.app.dto.friend.FriendStatusDTO;
 import com.app.dto.user.User;
@@ -52,14 +54,13 @@ public class UserController {
 
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
-		
+
 		// 사용자 ID 설정
 		User sessionUser = (User) session.getAttribute("user");
-		
+
 		// 변경할 주소 가져오기
 		String userId = sessionUser.getUserId().toString();
-		
-		
+
 		session.setAttribute("userId", userId);
 
 		// 다이어리 목록 가져오기
@@ -67,7 +68,7 @@ public class UserController {
 		if (userId != null && !userId.isEmpty()) {
 			userDiaryList = writeService.getDiaryListByUserId(userId);
 			session.setAttribute("userDiaryList", userDiaryList);
-	
+
 			// 페이지네이션을 위한 로직
 			int pageSize = 8; // 페이지당 글 개수
 			int totalCount = userDiaryList.size();
@@ -88,7 +89,7 @@ public class UserController {
         FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
         friendStatusDTO.setLoginUserId(userId);
        
-        //팔로잉 팔로워
+        // 팔로잉 팔로워
         // 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
         int followerCount = friendService.countFollower(userId);
         int followingCount = friendService.countFollowing(userId);
@@ -100,18 +101,17 @@ public class UserController {
         model.addAttribute("userId", userId);
         
 
-        return "user/main";
-    }
-
+		return "user/main";
+	}
 
 	// 회원가입
 	@GetMapping("/user/signup")
 	public String signup(Model model) {
-		
+
 		// 만약 사용자 입력값이 모델에 없다면 빈 User 객체를 모델에 추가
-	    if (!model.containsAttribute("user")) {
-	        model.addAttribute("user", new User());
-	    }
+		if (!model.containsAttribute("user")) {
+			model.addAttribute("user", new User());
+		}
 
 		return "user/signup";
 	}
@@ -131,18 +131,18 @@ public class UserController {
 			return "redirect:/user/signin";
 		} catch (Exception e) {
 			// 예외 발생 시 입력값과 에러 메시지를 모델에 추가
-	        model.addAttribute("user", user);
+			model.addAttribute("user", user);
 			model.addAttribute("errorMessage", e.getMessage());
-			
-			 // 예외 메시지에 따라 특정 필드를 비움
-	        if (e.getMessage().contains("비밀번호")) {
-	            user.setUserPassword(null); // 비밀번호 필드를 비움
-	        } else if (e.getMessage().contains("이름")) {
-	            user.setUserName(null); // 이름 필드를 비움
-	        } else if (e.getMessage().contains("아이디")) {
-	            user.setUserId(null); // 아이디 필드를 비움
-	        }
-			
+
+			// 예외 메시지에 따라 특정 필드를 비움
+			if (e.getMessage().contains("비밀번호")) {
+				user.setUserPassword(null); // 비밀번호 필드를 비움
+			} else if (e.getMessage().contains("이름")) {
+				user.setUserName(null); // 이름 필드를 비움
+			} else if (e.getMessage().contains("아이디")) {
+				user.setUserId(null); // 아이디 필드를 비움
+			}
+
 			return "user/signup";
 		}
 	}
@@ -172,7 +172,7 @@ public class UserController {
 	// 로그인
 	@GetMapping("/user/signin")
 	public String signin(HttpSession session) {
-		
+
 		return "user/signin";
 	}
 
@@ -190,13 +190,11 @@ public class UserController {
 			String loginUserFilePath = fileService.findFilePathByUserId(loginUser.getUserId());
 			session.setAttribute("filePath", loginUserFilePath);
 
-			
-
 			return "redirect:/main";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			
-			return "redirect:/main";
+			return "/user/signin";
 		}
 	}
 
@@ -234,7 +232,7 @@ public class UserController {
 	public String modifyAddress(User user, HttpSession session) {
 
 		User sessionUser = (User) session.getAttribute("user");
-		
+
 		// 변경할 주소 가져오기
 		sessionUser.setUserAddress(user.getUserAddress());
 
@@ -259,28 +257,28 @@ public class UserController {
 
 			User sessionUser = (User) session.getAttribute("user");
 			if (sessionUser == null) {
-				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
+				//throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
 			}
 
 			// 현재 비밀번호가 일치하는지 확인
 			if (!sessionUser.getUserPassword().equals(currentPassword)) {
-				throw new Exception("현재 비밀번호와 일치하지 않습니다.");
+				//throw new Exception("현재 비밀번호와 일치하지 않습니다.");
 			}
 
 			// 새로운 비밀번호가 현재 비밀번호와 동일하지 않은지 확인
 			if (currentPassword.equals(newPassword)) {
-				throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
+				//throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
 			}
 
 			// 새로운 비밀번호의 유효성 검사
 			if (!Pattern.matches(verifyPassword, newPassword)) {
-				throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
+				//throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
 			}
 
 			sessionUser.setUserPassword(newPassword);
 			int result = userService.modifyPassword(sessionUser);
 			if (result <= 0) {
-				throw new Exception("비밀번호 변경에 실패했습니다.");
+				//throw new Exception("비밀번호 변경에 실패했습니다.");
 			}
 
 			session.setAttribute("user", sessionUser);
@@ -288,7 +286,7 @@ public class UserController {
 
 		} catch (Exception e) {
 
-			model.addAttribute("errorMessage", e.getMessage());
+			//model.addAttribute("errorMessage", e.getMessage());
 			return "redirect:/main";
 
 		}
@@ -296,15 +294,56 @@ public class UserController {
 
 	// 아이디 중복체크 ajax
 	@ResponseBody
-	@PostMapping("/checkIdDuplicated")
-	public int checkDuplicatedId(@RequestBody Map<String, String> requestData) {
-		String signupId = requestData.get("signupId");
-		
-		int result = userService.checkDuplicatedId(signupId);
+	@PostMapping("/user/checkIdDuplicated")
+	public ApiResponse<Integer> checkDuplicatedId(@RequestBody Map<String, String> requestData) {
+		ApiResponse<Integer> apiResponse = new ApiResponse<>();
+		ApiResponseHeader header = new ApiResponseHeader();
+		int result = 0;
 
-		return result;
+		try {
+			// 요청 데이터와 signupId의 유효성 검사
+			if (requestData != null && !requestData.isEmpty()) {
+				String signupId = requestData.get("signupId");
+
+				if (signupId != null && !signupId.isEmpty()) {
+					// 아이디 중복 체크
+					result = userService.checkDuplicatedId(signupId);
+				} else {
+					// signupId가 비어 있는 경우
+					header.setResultCode("01");
+					header.setResultMessage("아이디가 입력되지 않았습니다.");
+					apiResponse.setHeader(header);
+					apiResponse.setBody(result);
+					return apiResponse;
+				}
+			} else {
+				// requestData가 null이거나 비어 있는 경우
+				header.setResultCode("01");
+				header.setResultMessage("잘못된 요청입니다.");
+				apiResponse.setHeader(header);
+				apiResponse.setBody(result);
+				return apiResponse;
+			}
+
+			// 결과에 따른 응답 설정
+			if (result == 0) {
+				header.setResultCode("00");
+				header.setResultMessage("중복체크가 완료되었습니다. 사용가능");
+			} else {
+				header.setResultCode("02");
+				header.setResultMessage("중복된 아이디가 존재합니다.");
+			}
+		} catch (Exception e) {
+			// 예외 처리
+			header.setResultCode("99");
+			header.setResultMessage("서버 오류가 발생했습니다.");
+			e.printStackTrace(); // 예외 로그를 기록 (필요에 따라 로깅 프레임워크를 사용)
+		}
+
+		apiResponse.setHeader(header);
+		apiResponse.setBody(result);
+
+		return apiResponse;
 	}
-
-	
 
 }
