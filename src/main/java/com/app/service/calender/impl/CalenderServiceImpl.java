@@ -31,7 +31,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int insertCalender(Calender calender) {
         try {
-            // log.info("캘린더 삽입 중: {}", calender);
+            log.info("캘린더 삽입 중: {}", calender);
             return calenderDAO.insertCalender(calender);
         } catch (Exception e) {
             log.error("캘린더 삽입 오류: {}", calender, e);
@@ -48,7 +48,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int insertCalenderFriends(Map<String, String> friendData) {
         try {
-            // log.info("캘린더 친구 삽입 중: {}", friendData);
+            log.info("캘린더 친구 삽입 중: {}", friendData);
             return calenderDAO.insertCalenderFriends(friendData);
         } catch (Exception e) {
             log.error("캘린더 친구 삽입 오류: {}", friendData, e);
@@ -65,7 +65,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public List<Calender> selectCalender(Calender calender) {
         try {
-            // log.info("캘린더 조회 중: {}", calender);
+            log.info("캘린더 조회 중: {}", calender);
             return calenderDAO.selectCalender(calender);
         } catch (Exception e) {
             log.error("캘린더 조회 오류: {}", calender, e);
@@ -82,7 +82,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int deleteCalender(Calender request) {
         try {
-            // log.info("캘린더 삭제 중: {}", request);
+            log.info("캘린더 삭제 중: {}", request);
             return calenderDAO.deleteCalender(request);
         } catch (Exception e) {
             log.error("캘린더 삭제 오류: {}", request, e);
@@ -99,7 +99,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int deleteCalenderFriends(Calender request) {
         try {
-            // log.info("캘린더 친구 삭제 중: {}", request);
+            log.info("캘린더 친구 삭제 중: {}", request);
             return calenderDAO.deleteCalenderFriends(request);
         } catch (Exception e) {
             log.error("캘린더 친구 삭제 오류: {}", request, e);
@@ -116,7 +116,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public List<Friends> selectFriends(Friends request) {
         try {
-            // log.info("친구 리스트 조회 중: {}", request);
+            log.info("친구 리스트 조회 중: {}", request);
             return calenderDAO.selectFriends(request);
         } catch (Exception e) {
             log.error("친구 리스트 조회 오류: {}", request, e);
@@ -133,7 +133,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public String selectUserNameByUserId(String userId) {
         try {
-            // log.info("사용자 ID로 사용자 이름 조회 중: {}", userId);
+            log.info("사용자 ID로 사용자 이름 조회 중: {}", userId);
             return calenderDAO.selectUserNameByUserId(userId);
         } catch (Exception e) {
             log.error("사용자 ID로 사용자 이름 조회 오류: {}", userId, e);
@@ -150,7 +150,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public List<CalenderFriends> showFriendList(CalenderFriends request) {
         try {
-            // log.info("캘린더 친구 리스트 조회 중: {}", request);
+            log.info("캘린더 친구 리스트 조회 중: {}", request);
             return calenderDAO.showFriendList(request);
         } catch (Exception e) {
             log.error("캘린더 친구 리스트 조회 오류: {}", request, e);
@@ -167,7 +167,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public CalenderMemoDiary selectCalenderDetail(CalenderMemoDiary request) {
         try {
-            // log.info("캘린더 세부 정보 조회 중: {}", request);
+            log.info("캘린더 세부 정보 조회 중: {}", request);
             return calenderDAO.selectCalenderDetail(request);
         } catch (Exception e) {
             log.error("캘린더 세부 정보 조회 오류: {}", request, e);
@@ -184,7 +184,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int insertCalenderDetail(CalenderMemoDiary request) {
         try {
-            // log.info("캘린더 세부 정보 삽입 중: {}", request);
+            log.info("캘린더 세부 정보 삽입 중: {}", request);
             return calenderDAO.insertCalenderDetail(request);
         } catch (Exception e) {
             log.error("캘린더 세부 정보 삽입 오류: {}", request, e);
@@ -201,7 +201,7 @@ public class CalenderServiceImpl implements CalenderService {
     @Override
     public int updateCalenderDetail(CalenderMemoDiary request) {
         try {
-            // log.info("캘린더 세부 정보 업데이트 중: {}", request);
+            log.info("캘린더 세부 정보 업데이트 중: {}", request);
             return calenderDAO.updateCalenderDetail(request);
         } catch (Exception e) {
             log.error("캘린더 세부 정보 업데이트 오류: {}", request, e);

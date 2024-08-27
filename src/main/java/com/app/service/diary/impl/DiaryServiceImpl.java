@@ -30,7 +30,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int insertTalkToBotAllByQuestion(TalkToBotAll talkToBotAll) {
 		try {
-			// log.info("질문 기반 대화 데이터 삽입 시도: {}", talkToBotAll);
+			log.info("질문 기반 대화 데이터 삽입 시도: {}", talkToBotAll);
 			return diaryDAO.insertTalkToBotAllByQuestion(talkToBotAll);
 		} catch (Exception e) {
 			log.error("질문 기반 대화 데이터 삽입 실패: {}", talkToBotAll, e);
@@ -47,7 +47,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int updateTalkToBotAllByChat(TalkToBotAll talkToBotAll) {
 		try {
-			// log.info("채팅 기반 대화 데이터 업데이트 시도: {}", talkToBotAll);
+			log.info("채팅 기반 대화 데이터 업데이트 시도: {}", talkToBotAll);
 			return diaryDAO.updateTalkToBotAllByChat(talkToBotAll);
 		} catch (Exception e) {
 			log.error("채팅 기반 대화 데이터 업데이트 실패: {}", talkToBotAll, e);
@@ -65,7 +65,7 @@ public class DiaryServiceImpl implements DiaryService {
 	public List<TalkToBotAll> selectTalkToBotAllByUserId(String userId) {
 		List<TalkToBotAll> talkToBotAllList = null;
 		try {
-			// log.info("사용자 ID로 대화 데이터 조회 시도: userId={}", userId);
+			log.info("사용자 ID로 대화 데이터 조회 시도: userId={}", userId);
 			return diaryDAO.selectTalkToBotAllByUserId(userId);
 		} catch (Exception e) {
 			log.error("사용자 ID로 대화 데이터 조회 실패: userId={}", userId, e);
@@ -83,7 +83,7 @@ public class DiaryServiceImpl implements DiaryService {
 	public List<List<TalkToBotData>> selectAllTalkToBotData(List<TalkToBotAll> talkToBotAllList) {
 		List<List<TalkToBotData>> talkToBotDataList = null;
 		try {
-			// log.info("대화 데이터 리스트의 세부 정보 조회 시도");
+			log.info("대화 데이터 리스트의 세부 정보 조회 시도");
 			return diaryDAO.selectAllTalkToBotData(talkToBotAllList);
 		} catch (Exception e) {
 			log.error("대화 데이터 리스트의 세부 정보 조회 실패", e);
@@ -100,7 +100,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public boolean createTalkToBot(TalkToBotAll talkToBotAll) {
 		try {
-			// log.info("대화방 테이블 생성 시도: {}", talkToBotAll);
+			log.info("대화방 테이블 생성 시도: {}", talkToBotAll);
 			return diaryDAO.createTalkToBot(talkToBotAll);
 		} catch (Exception e) {
 			log.error("대화방 테이블 생성 실패: {}", talkToBotAll, e);
@@ -117,7 +117,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int insertUserQuestion(TalkToBotData talkToBotData) {
 		try {
-			// log.info("사용자 질문 데이터 삽입 시도: {}", talkToBotData);
+			log.info("사용자 질문 데이터 삽입 시도: {}", talkToBotData);
 			return diaryDAO.insertUserQuestion(talkToBotData);
 		} catch (Exception e) {
 			log.error("사용자 질문 데이터 삽입 실패: {}", talkToBotData, e);
@@ -134,7 +134,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int insertBotAnswer(TalkToBotData talkToBotData) {
 		try {
-			// log.info("Bot 답변 데이터 삽입 시도: {}", talkToBotData);
+			log.info("Bot 답변 데이터 삽입 시도: {}", talkToBotData);
 			return diaryDAO.insertBotAnswer(talkToBotData);
 		} catch (Exception e) {
 			log.error("Bot 답변 데이터 삽입 실패: {}", talkToBotData, e);
@@ -152,7 +152,7 @@ public class DiaryServiceImpl implements DiaryService {
 	public List<ExcludedKeyword> selectExcludedKeywordsByRoomIdMessageIndex(ExcludedKeyword excludedKeyword) {
 		List<ExcludedKeyword> keywordList = null;
 		try {
-			// log.info("제외할 키워드 조회 시도: {}", excludedKeyword);
+			log.info("제외할 키워드 조회 시도: {}", excludedKeyword);
 			keywordList = diaryDAO.selectExcludedKeywordsByRoomIdMessageIndex(excludedKeyword);
 			return keywordList;
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class DiaryServiceImpl implements DiaryService {
 	public List<UserDiary> selectDiaryListByKeyword(String processData, String userId) {
 		List<UserDiary> diaryList = null;
 		try {
-			// log.info("키워드로 다이어리 리스트 조회 시도: keyword={}, userId={}", processData, userId);
+			log.info("키워드로 다이어리 리스트 조회 시도: keyword={}, userId={}", processData, userId);
 			diaryList = diaryDAO.selectDiaryListByKeyword(processData, userId);
 			return diaryList;
         } catch (Exception e) {
@@ -190,7 +190,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int dropTalkToBot(TalkToBotAll request) {
 		try {
-			// log.info("대화방 테이블 삭제 시도: {}", request);
+			log.info("대화방 테이블 삭제 시도: {}", request);
 			return diaryDAO.dropTalkToBot(request);
 		} catch (Exception e) {
 			log.error("대화방 테이블 삭제 실패: {}", request, e);
@@ -207,7 +207,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int deleteTalkToBotAll(TalkToBotAll request) {
 		try {
-			// log.info("모든 대화 데이터 삭제 시도: {}", request);
+			log.info("모든 대화 데이터 삭제 시도: {}", request);
 			return diaryDAO.deleteTalkToBotAll(request);
 		} catch (Exception e) {
 			log.error("모든 대화 데이터 삭제 실패: {}", request, e);
@@ -224,7 +224,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int InsertExcludedKeyword(ExcludedKeyword request) {
 		try {
-			// log.info("제외할 키워드 추가 시도: {}", request);
+			log.info("제외할 키워드 추가 시도: {}", request);
 			return diaryDAO.InsertExcludedKeyword(request);
 		} catch (Exception e) {
 			log.error("제외할 키워드 추가 실패: {}", request, e);
@@ -242,7 +242,7 @@ public class DiaryServiceImpl implements DiaryService {
 	public List<ExcludedKeyword> selectExcludedKeyword(ExcludedKeyword request) {
 		List<ExcludedKeyword> excludedKeywordList = null;
 		try {
-			// log.info("제외할 키워드 조회 시도: {}", request);
+			log.info("제외할 키워드 조회 시도: {}", request);
 			return diaryDAO.selectExcludedKeyword(request);
 		} catch (Exception e) {
 			log.error("제외할 키워드 조회 실패: {}", request, e);
@@ -259,7 +259,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int deleteExcludedKeywords(TalkToBotAll request) {
 		try {
-			// log.info("모든 제외 키워드 삭제 시도: {}", request);
+			log.info("모든 제외 키워드 삭제 시도: {}", request);
 			return diaryDAO.deleteExcludedKeywords(request);
 		} catch (Exception e) {
 			log.error("모든 제외 키워드 삭제 실패: {}", request, e);
@@ -276,7 +276,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int updateBotAnswer(TalkToBotData talkToBotData) {
 		try {
-			// log.info("Bot 답변 데이터 업데이트 시도: {}", talkToBotData);
+			log.info("Bot 답변 데이터 업데이트 시도: {}", talkToBotData);
 			return diaryDAO.updateBotAnswer(talkToBotData);
 		} catch (Exception e) {
 			log.error("Bot 답변 데이터 업데이트 실패: {}", talkToBotData, e);
@@ -293,7 +293,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int deleteExcludedKeyword(ExcludedKeyword request) {
 		try {
-			// log.info("특정 키워드 삭제 시도: {}", request);
+			log.info("특정 키워드 삭제 시도: {}", request);
 			return diaryDAO.deleteExcludedKeyword(request);
 		} catch (Exception e) {
 			log.error("특정 키워드 삭제 실패: {}", request, e);
@@ -310,7 +310,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int insertExcludedKeywordNotMessageIndex(ExcludedKeyword request) {
 		try {
-			// log.info("메시지 인덱스 제외 키워드 삽입 시도: {}", request);
+			log.info("메시지 인덱스 제외 키워드 삽입 시도: {}", request);
 			return diaryDAO.insertExcludedKeywordNotMessageIndex(request);
 		} catch (Exception e) {
 			log.error("메시지 인덱스 제외 키워드 삽입 실패: {}", request, e);
@@ -327,7 +327,7 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public int updateQuestionTitle(TalkToBotAll request) {
 		try {
-			// log.info("Bot 질문 제목 수정 시도: {}", request);
+			log.info("Bot 질문 제목 수정 시도: {}", request);
 			return diaryDAO.updateQuestionTitle(request);
 		} catch (Exception e) {
 			log.error("Bot 질문 제목 수정 실패: {}", request, e);

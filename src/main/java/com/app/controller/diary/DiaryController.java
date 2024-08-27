@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.app.common.APIResultCode;
 import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.diary.ExcludedKeyword;
@@ -89,11 +90,11 @@ public class DiaryController {
 		// 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
 		if (result > 0) {
 			log.info("대화 데이터 삽입 또는 업데이트 성공");
-			header.setResultCode("00");
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 			header.setResultMessage("Table: Talk_To_Bot_ALL, 데이터 저장 성공");
 		} else {
 			log.info("대화 데이터 삽입 또는 업데이트 실패");
-			header.setResultCode("99");
+			header.setResultCode(APIResultCode.API_RESULT_FAILURE);
 			header.setResultMessage("SQL 오류 >> Table: Talk_To_Bot_ALL, 데이터 저장 실패");
 		}
 		
@@ -166,13 +167,13 @@ public class DiaryController {
         // 조회된 데이터가 없는 경우와 있는 경우에 따라 응답 헤더를 설정
         if (talkToBotAllList == null || talkToBotAllList.isEmpty()) {
             log.info("대화 데이터 없음 또는 조회 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("No data found");
             response.setHeader(header);
             response.setBody(responseBody.toString());
         } else {
             log.info("대화 데이터 조회 성공: {}개의 데이터", talkToBotAllList.size());
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Talk_To_Bot_ALL, " + talkToBotAllList.size() + "개의 데이터 불러오기 성공");
             response.setHeader(header);
             response.setBody(responseBody.toString());
@@ -267,7 +268,7 @@ public class DiaryController {
 		// 다이어리 리스트가 비어 있지 않으면 성공 코드와 메시지를 설정합니다.
 		if (diaryList != null) {
 			log.info("데이터 전처리 및 다이어리 조회 성공");
-			header.setResultCode("00");
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
 			header.setResultMessage("데이터 전처리 결과 및 다이어리 조회 성공");
 			apiResponse.setHeader(header);  // 응답 헤더 설정
 			apiResponse.setBody(diaryList);  // 응답 본문에 다이어리 리스트 설정
@@ -318,11 +319,11 @@ public class DiaryController {
         // 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result == 0) {
         	log.info("대화 데이터 삽입 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: Talk_To_Bot, 데이터 저장 실패");
         } else {
         	log.info("대화 데이터 삽입 성공");
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Talk_To_Bot, 유저 및 봇 대화 데이터 저장 성공");
         }
         
@@ -362,11 +363,11 @@ public class DiaryController {
         // 두 번째 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result2 == 0) {
         	log.info("대화 데이터 삭제 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: Talk_To_Bot, 삭제 실패");
         } else {
         	log.info("대화 데이터 삭제 성공");
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Talk_To_Bot, 삭제 성공");
         }
         response.setBody(String.valueOf(result1));  // 응답 본문에 첫 번째 결과 설정
@@ -399,11 +400,11 @@ public class DiaryController {
         // 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result == 0) {
         	log.info("키워드 추가 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: EXCLUDED_KEYWORDS, 데이터 추가 실패");
         } else {
         	log.info("키워드 추가 성공");
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: EXCLUDED_KEYWORDS, 데이터 추가 성공");
         }
         response.setBody(String.valueOf(result));  // 응답 본문에 결과 설정
@@ -453,13 +454,13 @@ public class DiaryController {
         // 키워드 리스트가 비어 있으면 실패 코드를 설정하고, 그렇지 않으면 성공 코드를 설정
         if (excludedKeywordList == null || excludedKeywordList.isEmpty()) {
         	log.info("키워드 데이터 없음 또는 조회 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("No data found");
             response.setHeader(header);  // 응답 객체에 헤더를 설정
             response.setBody(responseBody.toString());  // 응답 본문 설정
         } else {
         	log.info("키워드 데이터 조회 성공: {}개의 데이터", excludedKeywordList.size());
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Talk_To_Bot_ALL, " + excludedKeywordList.size() + "개의 데이터 불러오기 성공");
             response.setHeader(header);  // 응답 객체에 헤더를 설정
             response.setBody(responseBody.toString());  // 응답 본문 설정
@@ -499,11 +500,11 @@ public class DiaryController {
         // 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result == 0) {
         	log.info("대화 데이터 업데이트 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: Talk_To_Bot, 데이터 저장 실패");
         } else {
         	log.info("대화 데이터 업데이트 성공");
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Talk_To_Bot, 유저 및 봇 대화 데이터 저장 성공");
         }
         
@@ -541,11 +542,11 @@ public class DiaryController {
         // 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result == 0) {
         	log.info("키워드 삭제 실패");
-            header.setResultCode("99");
+            header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: Excluded_Keyword, 데이터 삭제 실패");
         } else {
         	log.info("키워드 삭제 성공");
-            header.setResultCode("00");
+            header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Excluded_Keyword, 데이터 삭제 성공");
         }
         
@@ -597,12 +598,12 @@ public class DiaryController {
         // 키워드 리스트가 비어 있지 않으면 성공 코드를 설정하고, 그렇지 않으면 실패 코드를 설정
         if (excludedKeywordList != null) {
         	log.info("키워드 조회 및 추가 성공");
-        	header.setResultCode("00");
+        	header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: Excluded_Keyword, 데이터 불러오기 및 저장 성공");
             response.setBody(String.valueOf(result1));  // 응답 본문에 결과 설정
         } else {
         	log.info("키워드 조회 또는 추가 실패");
-        	header.setResultCode("99");
+        	header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: Excluded_Keyword, 데이터 불러오기 또는 저장 실패");
             response.setBody(String.valueOf(result1));  // 응답 본문에 결과 설정
         }
@@ -640,12 +641,12 @@ public class DiaryController {
         // 결과에 따라 응답 헤더의 코드와 메시지를 설정합니다.
         if (result > 0) {
         	log.info("질문 제목 수정 성공");
-        	header.setResultCode("00");
+        	header.setResultCode(APIResultCode.API_RESULT_SUCCESS);
             header.setResultMessage("Table: talk_to_bot_all, 질문 제목 수정 성공");
             response.setBody(String.valueOf(result));  // 응답 본문에 결과 설정
         } else {
         	log.info("질문 제목 수정 실패");
-        	header.setResultCode("99");
+        	header.setResultCode(APIResultCode.API_RESULT_FAILURE);
             header.setResultMessage("SQL 오류 >> Table: talk_to_bot_all, 질문 제목 수정 실패");
             response.setBody(String.valueOf(result));  // 응답 본문에 결과 설정
         }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;  // POST 요청을 �
 import org.springframework.web.bind.annotation.RequestBody;  // 요청 본문을 매핑하는 어노테이션
 import org.springframework.web.bind.annotation.ResponseBody;  // 응답 본문을 매핑하는 어노테이션
 
+import com.app.common.APIResultCode;
 import com.app.dto.api.ApiResponse;  // API 응답을 위한 객체
 import com.app.dto.api.ApiResponseHeader;  // API 응답 헤더를 위한 객체
 import com.app.dto.calender.Calender;  // 캘린더 DTO 객체
@@ -70,11 +71,11 @@ public class CalenderController {
         
         if (userName != null) {
             log.info("사용자 이름 조회 성공: {}", userName);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: Users, 유저 데이터 불러오기 성공");  // 성공 메시지 설정
 		} else {
             log.info("사용자 이름 조회 실패: userId={}", userId);  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: Users, 유저 데이터 불러오기 실패");  // 실패 메시지 설정
 		}
 
@@ -96,8 +97,8 @@ public class CalenderController {
         String dataId = request.getDataId();  // 요청 객체에서 데이터 ID 추출
         String userId = request.getUserId();  // 요청 객체에서 사용자 ID 추출
         String calenderTitle = request.getCalenderTitle();  // 요청 객체에서 캘린더 제목 추출
-        List<String> friendIdList = request.getFriendId();  // 요청 객체에서 친구 ID 리스트 추출
-        List<String> friendNameList = request.getFriendName();  // 요청 객체에서 친구 이름 리스트 추출
+        List<String> friendIdList = request.getFriendIdList();  // 요청 객체에서 친구 ID 리스트 추출
+        List<String> friendNameList = request.getFriendNameList();  // 요청 객체에서 친구 이름 리스트 추출
         
         if (friendIdList.size() > 0) {
         	request.setHasFriends("Y");  // 친구가 있는 경우 "Y"로 설정
@@ -134,11 +135,11 @@ public class CalenderController {
         
         if (result1 > 0) {
             log.info("캘린더 및 친구 데이터 삽입 성공: {}", result1);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender, 데이터 저장 성공");  // 성공 메시지 설정
 		} else {
             log.info("캘린더 및 친구 데이터 삽입 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender, 데이터 저장 실패");  // 실패 메시지 설정
 		}
 
@@ -174,11 +175,11 @@ public class CalenderController {
         
         if (result > 0) {
             log.info("캘린더 세부 정보 삽입 성공: {}", result);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender_memo_diary, 데이터 저장 성공: " + result);  // 성공 메시지 설정
 		} else {
             log.info("캘린더 세부 정보 삽입 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender_memo_diary, 데이터 저장 실패");  // 실패 메시지 설정
 		}
 
@@ -228,12 +229,12 @@ public class CalenderController {
         
         if (calenderList != null) {
             log.info("모든 캘린더 데이터 로드 성공: {}", calenderList.size());  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender, 불러온 데이터 갯수: " + calenderList.size());  // 성공 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         } else {
             log.info("캘린더 데이터 없음 또는 로드 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender, 데이터 불러오기 실패 또는 데이터 없음");  // 실패 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         }
@@ -272,11 +273,11 @@ public class CalenderController {
         
         if (result1 > 0) {
             log.info("캘린더 삭제 성공, 포함된 친구 삭제 성공: {}", result2);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender, 데이터 삭제 성공");  // 성공 메시지 설정
 		} else {
             log.info("캘린더 삭제 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender, 데이터 삭제 실패");  // 실패 메시지 설정
 		}
 
@@ -324,12 +325,12 @@ public class CalenderController {
         
         if (friendList != null) {
             log.info("친구 데이터 조회 성공: {}", friendList.size());  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: friend_list, 불러온 데이터 갯수: " + friendList.size());  // 성공 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         } else {
             log.info("친구 데이터 조회 실패 또는 데이터 없음");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: friend_list, 데이터 불러오기 실패 또는 데이터 없음");  // 실패 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         }
@@ -384,12 +385,12 @@ public class CalenderController {
         
         if (friendList != null) {
             log.info("캘린더 친구 목록 조회 성공: {}명", friendList.size()-1);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender_friends, 불러온 데이터 갯수: " + friendList.size());  // 성공 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         } else {
             log.info("캘린더 친구 목록 조회 실패 또는 데이터 없음");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender_friends, 데이터 불러오기 실패 또는 데이터 없음");  // 실패 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         }
@@ -437,12 +438,12 @@ public class CalenderController {
         
         if (calenderDetail != null) {
             log.info("캘린더 세부 정보 조회 성공");  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender_memo_diary, 일정 상세 데이터 불러오기 성공");  // 성공 메시지 설정
 			response.setBody(responseBody.toString());  // 응답 본문 설정
         } else {
             log.info("캘린더 세부 정보 조회 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender_memo_diary, 일정 상세 데이터 불러오기 실패");  // 실패 메시지 설정
 			response.setBody(null);  // 응답 본문 설정 (실패 시)
         }
@@ -482,11 +483,11 @@ public class CalenderController {
         
         if (result > 0) {
             log.info("캘린더 세부 정보 업데이트 성공: {}", result);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: calender_memo_diary, 데이터 수정 성공: " + result);  // 성공 메시지 설정
 		} else {
             log.info("캘린더 세부 정보 업데이트 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: calender_memo_diary, 데이터 수정 실패");  // 실패 메시지 설정
 		}
 
@@ -529,11 +530,11 @@ public class CalenderController {
         
         if (result > 0) {
             log.info("다이어리 데이터 저장 성공: {}", result);  // 로깅 (주석 처리)
-			header.setResultCode("00");  // 성공 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 성공 코드 설정
 			header.setResultMessage("Table: user_diary, 데이터 저장 성공: " + result);  // 성공 메시지 설정
 		} else {
             log.info("다이어리 데이터 저장 실패");  // 로깅 (주석 처리)
-			header.setResultCode("99");  // 실패 코드 설정
+			header.setResultCode(APIResultCode.API_RESULT_SUCCESS);  // 실패 코드 설정
 			header.setResultMessage("SQL 오류 >> Table: user_diary, 데이터 저장 실패");  // 실패 메시지 설정
 		}
 

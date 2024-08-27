@@ -970,7 +970,7 @@ textarea {
 		        if (friends.length !== 0) {
 		            // 전역 변수 friendsArray에 친구 목록을 복사합니다.
 		            friendsArray = [...friends]; // 스프레드 연산자를 사용하여 배열을 복사합니다.
-		            // console.log(friendsArray); // 복사된 친구 목록을 확인할 수 있습니다.
+		            (friendsArray); // 복사된 친구 목록을 확인할 수 있습니다.
 		        } else {
 		            console.log("친구 데이터가 없습니다."); // 친구 데이터가 없을 경우 로그를 출력합니다.
 		        }

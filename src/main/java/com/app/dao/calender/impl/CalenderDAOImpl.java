@@ -31,7 +31,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int insertCalender(Calender calender) {
 		try {
-			// log.info("캘린더 삽입 중: {}", calender);
+			log.info("캘린더 삽입 중: {}", calender);
 			return sqlSessionTemplate.insert("calender_mapper.insertCalender", calender);
 		} catch (Exception e) {
 			log.error("캘린더 삽입 오류: {}", calender, e);
@@ -48,7 +48,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int insertCalenderFriends(Map<String, String> friendData) {
 		try {
-			// log.info("캘린더 친구 삽입 중: {}", friendData);
+			log.info("캘린더 친구 삽입 중: {}", friendData);
 			return sqlSessionTemplate.insert("calender_mapper.insertCalenderFriends", friendData);
 		} catch (Exception e) {
 			log.error("캘린더 친구 삽입 오류: {}", friendData, e);
@@ -66,7 +66,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	public List<Calender> selectCalender(Calender calender) {
 		List<Calender> calenderList = null;
 		try {
-			// log.info("캘린더 조회 중: {}", calender);
+			log.info("캘린더 조회 중: {}", calender);
 			return sqlSessionTemplate.selectList("calender_mapper.selectCalender", calender);
 		} catch (Exception e) {
 			log.error("캘린더 조회 오류: {}", calender, e);
@@ -83,7 +83,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int deleteCalender(Calender request) {
 		try {
-			// log.info("캘린더 삭제 중: {}", request);
+			log.info("캘린더 삭제 중: {}", request);
 			return sqlSessionTemplate.delete("calender_mapper.deleteCalender", request);
 		} catch (Exception e) {
 			log.error("캘린더 삭제 오류: {}", request, e);
@@ -100,7 +100,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int deleteCalenderFriends(Calender request) {
 		try {
-			// log.info("캘린더 친구 삭제 중: {}", request);
+			log.info("캘린더 친구 삭제 중: {}", request);
 			return sqlSessionTemplate.delete("calender_mapper.deleteCalenderFriends", request);
 		} catch (Exception e) {
 			log.error("캘린더 친구 삭제 오류: {}", request, e);
@@ -118,7 +118,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	public List<Friends> selectFriends(Friends request) {
 		List<Friends> friendList = null;
 		try {
-			// log.info("친구 리스트 조회 중: {}", request);
+			log.info("친구 리스트 조회 중: {}", request);
 			return sqlSessionTemplate.selectList("calender_mapper.selectFriends", request);
 		} catch (Exception e) {
 			log.error("친구 리스트 조회 오류: {}", request, e);
@@ -135,7 +135,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public String selectUserNameByUserId(String userId) {
 		try {
-			// log.info("사용자 ID로 사용자 이름 조회 중: {}", userId);
+			log.info("사용자 ID로 사용자 이름 조회 중: {}", userId);
 			return sqlSessionTemplate.selectOne("calender_mapper.selectUserNameByUserId", userId);
 		} catch (Exception e) {
 			log.error("사용자 ID로 사용자 이름 조회 오류: {}", userId, e);
@@ -153,7 +153,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	public List<CalenderFriends> showFriendList(CalenderFriends request) {
 		List<CalenderFriends> friendList = null;
 		try {
-			// log.info("캘린더 친구 리스트 조회 중: {}", request);
+			log.info("캘린더 친구 리스트 조회 중: {}", request);
 			return sqlSessionTemplate.selectList("calender_mapper.showFriendList", request);
 		} catch (Exception e) {
 			log.error("캘린더 친구 리스트 조회 오류: {}", request, e);
@@ -171,7 +171,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	public CalenderMemoDiary selectCalenderDetail(CalenderMemoDiary request) {
 		CalenderMemoDiary calenderDetail = null;
 		try {
-			// log.info("캘린더 세부 정보 조회 중: {}", request);
+			log.info("캘린더 세부 정보 조회 중: {}", request);
 			return sqlSessionTemplate.selectOne("calender_mapper.selectCalenderDetail", request);
 		} catch (Exception e) {
 			log.error("캘린더 세부 정보 조회 오류: {}", request, e);
@@ -188,7 +188,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int insertCalenderDetail(CalenderMemoDiary request) {
 		try {
-			// log.info("캘린더 세부 정보 삽입 중: {}", request);
+			log.info("캘린더 세부 정보 삽입 중: {}", request);
 			return sqlSessionTemplate.insert("calender_mapper.insertCalenderDetail", request);
 		} catch (Exception e) {
 			log.error("캘린더 세부 정보 삽입 오류: {}", request, e);
@@ -205,7 +205,7 @@ public class CalenderDAOImpl implements CalenderDAO {
 	@Override
 	public int updateCalenderDetail(CalenderMemoDiary request) {
 		try {
-			// log.info("캘린더 세부 정보 업데이트 중: {}", request);
+			log.info("캘린더 세부 정보 업데이트 중: {}", request);
 			return sqlSessionTemplate.update("calender_mapper.updateCalenderDetail", request);
 		} catch (Exception e) {
 			log.error("캘린더 세부 정보 업데이트 오류: {}", request, e);

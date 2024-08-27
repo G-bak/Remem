@@ -843,7 +843,7 @@ textarea {
                 const chatArray = Array.from(chatContainers);
                 // 현재 채팅창의 인덱스를 구합니다.
                 const roomIndex = chatArray.indexOf(chatContainer) + 1;
-                // console.log("Room Index: " + roomIndex);
+                ("Room Index: " + roomIndex);
         
                 // 사용자가 입력한 질문(메시지)을 가져옵니다.
                 const userQuestion = chatContainer
@@ -857,7 +857,7 @@ textarea {
                     // 유저 메세지의 인덱스를 구합니다.
                     const userMessages = chatContainer.querySelectorAll('.chat-message.user');
                     let userMessageIndex = userMessages.length + 1;
-                    // console.log("User message index: " + userMessageIndex);
+                    ("User message index: " + userMessageIndex);
         
                     // 사용자 질문을 HTML로 생성합니다.
                     const userQuestionHTML = '<span>' + safeUserQuestion + '</span><img class="icon' +
@@ -982,7 +982,7 @@ textarea {
                                     const botMessageIndex = Array
                                         .from(botMessages)
                                         .indexOf(botAnswerHTML) + 1;
-                                    // console.log("Bot message index: " + botMessageIndex);
+                                    ("Bot message index: " + botMessageIndex);
         
                                     // 봇의 응답 메시지를 데이터베이스에 저장하기 위한 AJAX 요청 데이터를 준비합니다.
                                     let insertBotJsonData = {
@@ -998,7 +998,7 @@ textarea {
                                         // 봇의 응답 메시지를 데이터베이스에 저장하는 AJAX 요청을 실행합니다.
                                         const ajaxResultBot = await ajaxInsertBotAnswer(insertBotJsonDataString);
                                         if (ajaxResultBot) {
-                                            // console.log("봇 대답 HTML 요소 추가에 성공하였습니다.");
+                                            ("봇 대답 HTML 요소 추가에 성공하였습니다.");
                                         } else {
                                             console.log("봇 대답 HTML 요소 추가에 실패하였습니다.");
                                         }
@@ -1107,29 +1107,23 @@ textarea {
             async function deleteKeyword(button) {
                 // 삭제할 키워드의 고유 인덱스를 가져옵니다.
                 const dataIndex = button.getAttribute('data-index');
-                // console.log(dataIndex);
                 let chatContainer = button.closest('.chat-container');
-                // console.log(chatContainer);
                 // 삭제할 키워드가 속한 채팅 컨테이너의 ID를 가져옵니다.
                 const dataId = chatContainer.id;
-                // console.log(dataId);
                 // 삭제할 키워드가 포함된 봇의 메시지를 가져옵니다.
                 let chatMessageBot = button.closest('.chat-message.bot');
-                // console.log(chatMessageBot);
                 // 삭제할 키워드가 포함된 <span> 요소를 가져옵니다.
                 let spanElement = button.closest('span');
-                // console.log(spanElement);
                 let keyword = '';
                 if (spanElement) {
                     // <span> 내의 <em> 요소를 찾아서 키워드를 가져옵니다.
                     let emElement = spanElement.querySelector('em');
                     if (emElement) {
                         keyword = emElement.textContent;
-                        // console.log(keyword);
+                        (keyword);
                     }
                 }
                 const chatBody = chatMessageBot.closest('.chat-body');
-                // console.log(chatBody);
                 // 해당 채팅창 내의 모든 봇 메시지를 배열로 만듭니다.
                 const botMessageArray = Array
                     .prototype
@@ -1141,13 +1135,11 @@ textarea {
                     });
                 // 메시지의 인덱스를 구합니다.
                 const messageIndex = botMessageArray.indexOf(chatMessageBot) + 1;
-                // console.log("Message Index: " + messageIndex);
                 const chatContainers = document.querySelectorAll('.chat-container');
                 const chatArray = Array.from(chatContainers);
                 // 채팅창의 인덱스를 구합니다.
                 const roomIndex = chatArray.indexOf(chatContainer) + 1;
-                // console.log("Room Index: " + roomIndex);
-        
+                
                 // 제외할 키워드를 데이터베이스에 저장하기 위한 AJAX 요청 데이터를 준비합니다.
                 let insertJsonData = {
                     'userId': userId,
@@ -1165,17 +1157,14 @@ textarea {
                     if (ajaxResult) {
                         // 삭제된 키워드에 해당하는 사용자 질문을 추출합니다.
                         const chatMessageUser = chatMessageBot.previousElementSibling;
-                        // console.log("chatMessageUser: " + chatMessageUser);
                         const userQuestionElement = chatMessageUser.querySelector('span');
                         const userQuestion = userQuestionElement.textContent;
-                        // console.log("userQuestion: " + userQuestion);
         
                         // 재검색 함수 호출
                         insertJsonData.userQuestion = userQuestion;
                         sendAgainMessage(insertJsonData, chatMessageBot);
                         // 학습 탭 내부 키워드를 추가합니다.
                         const questionList = document.querySelector('.questions-list');
-                        // console.log(questionList);
                     }
                 } catch (error) {
                     console.error("AJAX 요청 중 오류 발생:", error);
@@ -1186,7 +1175,6 @@ textarea {
             // 사용자가 특정 키워드를 삭제한 후, 다시 검색하여 결과를 업데이트하는 함수입니다.
             async function sendAgainMessage(data, chatMessageBot) {
                 const chatContainer = document.getElementById(data.dataId);
-                // console.log(chatContainer);
                 const chatContainers = document.querySelectorAll('.chat-container');
                 const chatArray = Array.from(chatContainers);
         
@@ -1270,7 +1258,6 @@ textarea {
                         botAnswerHTML.innerHTML = botMessageHTML;
                         // 기존 봇 메시지에 새로운 내용을 덮어씁니다.
                         chatMessageBot.innerHTML = botAnswerHTML.innerHTML;
-                        // console.log(chatMessageBot.innerHTML);
         
                         const chatBody = chatContainer.querySelector('.chat-body');
                         // 새로운 봇 메시지가 보이도록 스크롤을 조정합니다.
@@ -1290,7 +1277,6 @@ textarea {
                             // 봇의 응답 메시지를 데이터베이스에 업데이트하는 AJAX 요청을 실행합니다.
                             const ajaxResultBot = await ajaxUpdateBotAnswer(updateBotJsonDataString);
                             if (ajaxResultBot) {
-                                // console.log("봇 대답 HTML 요소 추가에 성공하였습니다.");
                             } else {
                                 console.log("봇 대답 HTML 요소 추가에 실패하였습니다.");
                             }
@@ -1313,13 +1299,12 @@ textarea {
             async function deleteQuestion(button) {
                 // 질문 항목 전체를 감싸는 요소를 가져옵니다.
                 const questionList = button.closest('.questions-list');
-                // console.log(questionList);
                 const questionItem = button.closest('.question-item');
                 // 질문창의 인덱스를 구합니다.
                 const questionItems = questionList.querySelectorAll('.question-item');
                 const questionItemArray = Array.from(questionItems);
                 const roomIndex = questionItemArray.indexOf(questionItem) + 1;
-                // console.log("Room Index: " + roomIndex);
+                ("Room Index: " + roomIndex);
         
                 // 삭제할 질문 항목의 data-id 속성 값을 가져옵니다.
                 const questionItemDataId = questionItem.getAttribute("data-id");
@@ -1467,7 +1452,7 @@ textarea {
             async function toggleLearningMenu(button) {
                 // 클릭된 버튼의 부모 요소인 질문 항목을 가져옵니다.
                 const questionItem = button.closest('.question-item');
-                // console.log(questionItem);
+                (questionItem);
                 const moving = questionItem.querySelector('.moving');
                 if (moving) {
                     questionItem
@@ -1478,7 +1463,7 @@ textarea {
         
                 // 질문 탭에 data-id 속성 값을 가져옵니다.
                 const dataId = questionItem.getAttribute("data-id");
-                // console.log("Data ID: " + dataId);
+                ("Data ID: " + dataId);
         
                 // 학습 메뉴를 표시하기 위한 AJAX 요청 데이터를 준비합니다.
                 let selectJsonData = {
@@ -1490,7 +1475,7 @@ textarea {
                 try {
                     // AJAX 요청을 통해 키워드 목록을 가져옵니다.
                     const keywordArray = await ajaxSelectExcludedKeyword(selectJsonDataString);
-                    // console.log("Response Keyword Array:", keywordArray); // 응답 데이터 확인
+                    ("Response Keyword Array:", keywordArray); // 응답 데이터 확인
         
                     // 기존의 learning 요소를 찾습니다.
                     let learning = questionItem.querySelector('.learning');
@@ -1589,7 +1574,7 @@ textarea {
                 try {
                     // AJAX 요청을 통해 제외 키워드 목록을 가져옵니다.
                     const keywordArray = await ajaxSelectExcludedKeyword(selectJsonDataString);
-                    // console.log("Response Keyword Array:", keywordArray); // 응답 데이터 확인
+                    ("Response Keyword Array:", keywordArray); // 응답 데이터 확인
         
                     // 키워드가 없으면 질문 목록 추가를 종료합니다.
                     if (keywordArray.length != 0) {
@@ -1602,7 +1587,7 @@ textarea {
                                 questionItemTitleArr.push(item);
                             }
                         );
-                        // console.log("Question Item Title Arr: " + questionItemTitleArr);
+                        ("Question Item Title Arr: " + questionItemTitleArr);
         
                         let moving = questionItem.querySelector('.moving');
                         if (questionItemTitleArr.length === 0) {
@@ -1622,7 +1607,7 @@ textarea {
                         let questionItemTitle = '';
         
                         questionItemTitleArr.forEach(function (item) {
-                            // console.log(item);
+                            (item);
                             questionItemTitle += '<button data-key=' + item.getAttribute('data-id') + ' onclick="moveExcludedKey' +
                                     'word(this)">' + item
                                 .querySelector('span')
@@ -1686,7 +1671,7 @@ textarea {
                 // 클릭된 질문 항목을 가져옵니다.
                 const questionItem = button.closest('.question-item');
                 const dataId = questionItem.getAttribute('data-id');
-                // console.log("Data ID: " + dataId);
+                ("Data ID: " + dataId);
                 let questionHtml = questionItem.innerHTML;
                 const learning = questionItem.querySelector('.learning');
                 const moving = questionItem.querySelector('.moving');
@@ -1718,7 +1703,7 @@ textarea {
                         if (newName.trim()) { // 입력값이 비어 있지 않으면 텍스트를 변경합니다.
                             questionItem.firstChild.textContent = newName;
                             questionHtml = questionItem.innerHTML;
-                            // console.log("Question Item HTML: " + questionHtml);
+                            ("Question Item HTML: " + questionHtml);
         
                             // 질문 제목을 데이터베이스에 업데이트하기 위한 AJAX 요청 데이터를 준비합니다.
                             let updateJsonData = {
@@ -1732,7 +1717,7 @@ textarea {
                                 // AJAX 요청을 통해 질문 제목을 업데이트합니다.
                                 const ajaxResult = await ajaxUpdateQuestionTitle(updateJsonDataString);
                                 if (ajaxResult) {
-                                    // console.log("제목 수정에 성공하였습니다.");
+                                    ("제목 수정에 성공하였습니다.");
                                 } else {
                                     console.log("제목 수정에 실패하였습니다.");
                                 }
@@ -1787,7 +1772,7 @@ textarea {
                         dataType: 'json',
                         data: selectJsonDataString,
                         success: function (response) {
-                            // console.log("AJAX Response:", response); // 응답 데이터 확인
+                            ("AJAX Response:", response); // 응답 데이터 확인
         
                             if (response && response.header && response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
@@ -1801,7 +1786,7 @@ textarea {
                                 }
         
                                 if (responseBody && Array.isArray(responseBody.data)) {
-                                    // console.log("Data Array:", responseBody.data);
+                                    ("Data Array:", responseBody.data);
                                     resolve(responseBody.data); // data 배열을 반환
                                 } else {
                                     console.log("No data array found in response body");
@@ -1898,12 +1883,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Result Body:", response.body);
+                                ("Result Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -1931,12 +1916,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -1964,12 +1949,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(response); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Result Body:", response.body);
+                                ("Result Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -1997,12 +1982,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -2030,12 +2015,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -2060,7 +2045,7 @@ textarea {
                         dataType: 'json',
                         data: JsonData,
                         success: function (response) {
-                            // console.log("AJAX Response:", response); // 응답 데이터 확인
+                            ("AJAX Response:", response); // 응답 데이터 확인
         
                             if (response && response.header && response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
@@ -2074,7 +2059,7 @@ textarea {
                                 }
         
                                 if (responseBody && Array.isArray(responseBody.data.keywordArray)) {
-                                    // console.log("Keyword Array:", responseBody.data.keywordArray);
+                                    ("Keyword Array:", responseBody.data.keywordArray);
                                     resolve(responseBody.data.keywordArray); // 키워드 배열을 반환
                                 } else {
                                     console.log("No keywordArray array found in response Body");
@@ -2109,12 +2094,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -2142,12 +2127,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -2175,12 +2160,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
@@ -2208,12 +2193,12 @@ textarea {
                             if (response.header.resultCode === '00') {
                                 console.log("Response Code: " + response.header.resultCode);
                                 console.log("Response Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(true); // 성공 시 프로미스 해결
                             } else {
                                 console.log("Result Code: " + response.header.resultCode);
                                 console.log("Result Message:", response.header.resultMessage);
-                                // console.log("Response Body:", response.body);
+                                ("Response Body:", response.body);
                                 resolve(false); // 실패 시 프로미스 해결
                             }
                         },
