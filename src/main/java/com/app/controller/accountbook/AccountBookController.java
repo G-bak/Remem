@@ -14,6 +14,9 @@ import com.app.dto.api.ApiResponse;
 import com.app.dto.api.ApiResponseHeader;
 import com.app.service.accountBook.AccountBookService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class AccountBookController {
 
@@ -32,6 +35,7 @@ public class AccountBookController {
 				apiHeader.setResultCode("99");
 				apiHeader.setResultMessage("Missing required parameters: userId or accountDate");
 				apiResponse.setHeader(apiHeader);
+				log.warn("Missing required parameters: userId or accountDate");
 				return apiResponse;
 			}
 
@@ -42,14 +46,19 @@ public class AccountBookController {
 				apiHeader.setResultCode("00");
 				apiHeader.setResultMessage("AccountBook retrieved successfully");
 				apiResponse.setBody(accountBook);
+				log.info("AccountBook retrieved successfully: {}", accountBook);
 			} else {
 				apiHeader.setResultCode("99");
 				apiHeader.setResultMessage("AccountBook not found");
+				log.warn("AccountBook not found for userId: {} and accountDate: {}", paramMap.get("userId"),
+						paramMap.get("accountDate"));
 			}
 
 		} catch (Exception e) {
 			apiHeader.setResultCode("99");
 			apiHeader.setResultMessage("Error occurred while retrieving AccountBook: " + e.getMessage());
+			apiResponse.setBody(null);
+			log.error("Error occurred while retrieving AccountBook", e);
 		}
 
 		apiResponse.setHeader(apiHeader);
@@ -69,15 +78,18 @@ public class AccountBookController {
 				apiHeader.setResultCode("00");
 				apiHeader.setResultMessage("AccountBook saved successfully");
 				apiResponse.setBody(accountBook);
+				log.info("AccountBook saved successfully: {}", accountBook);
 			} else {
 				apiHeader.setResultCode("99");
 				apiHeader.setResultMessage("Failed to save AccountBook");
 				apiResponse.setBody(null);
+				log.warn("Failed to save AccountBook: {}", accountBook);
 			}
 		} catch (Exception e) {
 			apiHeader.setResultCode("99");
 			apiHeader.setResultMessage("Error occurred while saving AccountBook: " + e.getMessage());
 			apiResponse.setBody(null);
+			log.error("Error occurred while saving AccountBook", e);
 		}
 
 		apiResponse.setHeader(apiHeader);
@@ -97,19 +109,21 @@ public class AccountBookController {
 				apiHeader.setResultCode("00");
 				apiHeader.setResultMessage("AccountBook modified successfully");
 				apiResponse.setBody(accountBook);
+				log.info("AccountBook modified successfully: {}", accountBook);
 			} else {
 				apiHeader.setResultCode("99");
 				apiHeader.setResultMessage("Failed to modify AccountBook");
 				apiResponse.setBody(null);
+				log.warn("Failed to modify AccountBook: {}", accountBook);
 			}
 		} catch (Exception e) {
 			apiHeader.setResultCode("99");
 			apiHeader.setResultMessage("Error occurred while modifying AccountBook: " + e.getMessage());
 			apiResponse.setBody(null);
+			log.error("Error occurred while modifying AccountBook", e);
 		}
 
 		apiResponse.setHeader(apiHeader);
 		return apiResponse;
 	}
-
 }
