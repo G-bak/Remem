@@ -23,91 +23,107 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class WriteController {
+
 	@Autowired
 	WriteService writeService;
-	
+
 	@GetMapping("/diaryWrite")
 	public String diaryWrite(HttpSession session) {
-		
+		log.info("diaryWrite 호출됨 - 세션 ID: {}", session.getId());
 		return "diary/diaryWrite";
 	}
-	
+
 	@PostMapping("/diarySave")
 	public String diarySave(HttpSession session, UserDiary diary) {
-		
-		
-		// 사용자 ID 설정
-		User sessionUser = (User) session.getAttribute("user");
+		log.info("diarySave 호출됨 - 세션 ID: {}, 일기 제목: {}", session.getId(), diary.getDiaryTitle());
 
-		// 변경할 주소 가져오기
-		String sessionUserId = sessionUser.getUserId().toString();
+		try {
+			// 사용자 ID 설정
+			User sessionUser = (User) session.getAttribute("user");
+			if (sessionUser == null) {
+				log.warn("세션에 사용자 정보가 없음");
+				return "redirect:/diaryWrite";
+			}
 
-		session.setAttribute("userId", sessionUserId);
-		diary.setUserId(session.getAttribute("userId").toString());
-		
-		String userId = diary.getUserId();
-		String title = diary.getDiaryTitle();
-		String date = diary.getWriteDate();
-		String content = diary.getDiaryContent();
-		int result = 0;
-		System.out.println(userId);
+			// 변경할 주소 가져오기
+			String sessionUserId = sessionUser.getUserId().toString();
+			session.setAttribute("userId", sessionUserId);
+			diary.setUserId(sessionUserId);
 
-		boolean allPresent = Stream.of(userId, title, date, content).allMatch(Objects::nonNull);
+			String userId = diary.getUserId();
+			String title = diary.getDiaryTitle();
+			String date = diary.getWriteDate();
+			String content = diary.getDiaryContent();
+			int result = 0;
 
-		if (allPresent) {
-		    result = writeService.insertUserDiary(diary);
-		} else {
-			System.out.println("DB 전송 실패, 파라미터가 NULL 값인지 확인하세요");
-		}
-		
-		
-		if (result > 0) {
-			return "redirect:/main";
-		} else {
+			boolean allPresent = Stream.of(userId, title, date, content).allMatch(Objects::nonNull);
+
+			if (allPresent) {
+				result = writeService.insertUserDiary(diary);
+				log.info("일기 저장 성공 - 사용자 ID: {}", userId);
+			} else {
+				log.warn("DB 전송 실패, 파라미터에 NULL 값이 있음 - 사용자 ID: {}, 제목: {}, 날짜: {}, 내용: {}", userId, title, date,
+						content);
+			}
+
+			if (result > 0) {
+				return "redirect:/main";
+			} else {
+				return "redirect:/diaryWrite";
+			}
+		} catch (Exception e) {
+			log.error("일기 저장 중 오류 발생", e);
 			return "redirect:/diaryWrite";
 		}
 	}
-	
 
-	
 	@PostMapping("/modifyDiary")
 	public String modifyDiary(HttpSession session, UserDiary diary) throws ParseException {
-		
-		// 폼에서 전달된 diaryId를 그대로 사용
+		log.info("modifyDiary 호출됨 - 세션 ID: {}, 일기 ID: {}", session.getId(), diary.getDiaryId());
 
-	    // 일기 수정 작업 수행
-	    int result = writeService.modifyDiary(diary);
+		try {
+			// 일기 수정 작업 수행
+			int result = writeService.modifyDiary(diary);
 
-	    if (result > 0) {
-	        System.out.println("일기 수정 성공");
-	    } else {
-	        System.out.println("일기 수정 실패");
-	    }
+			if (result > 0) {
+				log.info("일기 수정 성공 - 일기 ID: {}", diary.getDiaryId());
+			} else {
+				log.warn("일기 수정 실패 - 일기 ID: {}", diary.getDiaryId());
+			}
 
-	    // 세션에 수정된 일기 저장
-	    session.setAttribute("diary", diary);
+			// 세션에 수정된 일기 저장
+			session.setAttribute("diary", diary);
 
-	    return "redirect:/main";
+			return "redirect:/main";
+		} catch (Exception e) {
+			log.error("일기 수정 중 오류 발생", e);
+			return "redirect:/diaryWrite";
+		}
 	}
-	
+
 	@RequestMapping("/deleteDiary")
-	public String deleteDiary(HttpSession session, @RequestParam("diaryId") String diaryId) throws ParseException {
-	    
-		// URL 쿼리 파라미터로 전송된 diaryId 값을 받아서 사용
-	    
-	    // 일기 삭제 작업 수행
-	    int result = writeService.deleteDiary(diaryId);
+	public String deleteDiary(HttpSession session, @RequestParam("diaryId") String diaryId) {
+		log.info("deleteDiary 호출됨 - 세션 ID: {}, 일기 ID: {}", session.getId(), diaryId);
 
-	    if (result > 0) {
-	        System.out.println("일기 삭제 성공");
-	    } else {
-	        System.out.println("일기 삭제 실패");
-	    }
+		try {
+			// 일기 삭제 작업 수행
+			int result = writeService.deleteDiary(diaryId);
 
-	    return "redirect:/main";
+			if (result > 0) {
+				log.info("일기 삭제 성공 - 일기 ID: {}", diaryId);
+			} else {
+				log.warn("일기 삭제 실패 - 일기 ID: {}", diaryId);
+			}
+
+			return "redirect:/main";
+		} catch (Exception e) {
+			log.error("일기 삭제 중 오류 발생", e);
+			return "redirect:/main";
+		}
 	}
-	
 }

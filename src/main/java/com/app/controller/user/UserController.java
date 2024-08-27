@@ -26,7 +26,10 @@ import com.app.service.diary.WriteService;
 import com.app.service.friend.FriendService;
 import com.app.service.user.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j // Lombok을 사용한 Logger 자동 생성
 public class UserController {
 
 	@Autowired
@@ -49,24 +52,28 @@ public class UserController {
 
 	@GetMapping("/startpage")
 	public String startpage() {
+		log.info("startpage 호출됨");
 		return "user/startpage";
 	}
 
 	@GetMapping("/main")
 	public String main(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+		try {
+			log.info("main 페이지 호출됨 - 세션 ID: {}, 페이지: {}", session.getId(), page);
 
-		// 사용자 ID 설정
-		User sessionUser = (User) session.getAttribute("user");
+			// 사용자 ID 설정
+			User sessionUser = (User) session.getAttribute("user");
 
-		// 변경할 주소 가져오기
-		String userId = sessionUser.getUserId().toString();
+			if (sessionUser == null) {
+				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
+			}
 
-		session.setAttribute("userId", userId);
+			// 변경할 주소 가져오기
+			String userId = sessionUser.getUserId().toString();
+			session.setAttribute("userId", userId);
 
-		// 다이어리 목록 가져오기
-		List<UserDiary> userDiaryList = null;
-		if (userId != null && !userId.isEmpty()) {
-			userDiaryList = writeService.getDiaryListByUserId(userId);
+			// 다이어리 목록 가져오기
+			List<UserDiary> userDiaryList = writeService.getDiaryListByUserId(userId);
 			session.setAttribute("userDiaryList", userDiaryList);
 
 			// 페이지네이션을 위한 로직
@@ -78,28 +85,30 @@ public class UserController {
 			int endIndex = Math.min(startIndex + pageSize, totalCount);
 			List<UserDiary> pageDiaryList = userDiaryList.subList(startIndex, endIndex);
 
-            // 모델에 필요한 데이터 추가
-            model.addAttribute("userDiaryList", pageDiaryList);
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("currentPage", page);
-            
-        }
-        
-        // 친구 목록을 가져옴
-        FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
-        friendStatusDTO.setLoginUserId(userId);
-       
-        // 팔로잉 팔로워
-        // 로그인한 사용자의 ID로 팔로워 및 팔로잉 수를 가져옴
-        int followerCount = friendService.countFollower(userId);
-        int followingCount = friendService.countFollowing(userId);
-        
-       
-        // 모델에 팔로워 및 팔로잉 수 , 사용자 아이디 추가
-        model.addAttribute("follower", followerCount);
-        model.addAttribute("following", followingCount);
-        model.addAttribute("userId", userId);
-        
+			// 모델에 필요한 데이터 추가
+			model.addAttribute("userDiaryList", pageDiaryList);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("currentPage", page);
+
+			// 친구 목록을 가져옴
+			FriendStatusDTO friendStatusDTO = new FriendStatusDTO();
+			friendStatusDTO.setLoginUserId(userId);
+
+			// 팔로잉 팔로워
+			int followerCount = friendService.countFollower(userId);
+			int followingCount = friendService.countFollowing(userId);
+
+			model.addAttribute("follower", followerCount);
+			model.addAttribute("following", followingCount);
+			model.addAttribute("userId", userId);
+
+			log.info("메인 페이지 로드 성공 - 사용자 ID: {}", userId);
+
+		} catch (Exception e) {
+			log.error("메인 페이지 로드 중 오류 발생", e);
+			model.addAttribute("errorMessage", "메인 페이지를 불러오는 중 오류가 발생했습니다.");
+			return "user/startpage";
+		}
 
 		return "user/main";
 	}
@@ -107,6 +116,7 @@ public class UserController {
 	// 회원가입
 	@GetMapping("/user/signup")
 	public String signup(Model model) {
+		log.info("signup 페이지 호출됨");
 
 		// 만약 사용자 입력값이 모델에 없다면 빈 User 객체를 모델에 추가
 		if (!model.containsAttribute("user")) {
@@ -119,17 +129,21 @@ public class UserController {
 	@PostMapping("/user/signup")
 	public String signupAction(Model model, User user) {
 		try {
+			log.info("회원가입 요청 처리 - 사용자 ID: {}", user.getUserId());
+
 			// 유효성 검사
 			validateUserInput(user);
 
 			int result = userService.saveUser(user);
 			if (result <= 0) {
-				throw new Exception("Sign up failed.");
-
+				throw new Exception("회원가입에 실패했습니다.");
 			}
 
+			log.info("회원가입 성공 - 사용자 ID: {}", user.getUserId());
 			return "redirect:/user/signin";
 		} catch (Exception e) {
+			log.error("회원가입 중 오류 발생", e);
+
 			// 예외 발생 시 입력값과 에러 메시지를 모델에 추가
 			model.addAttribute("user", user);
 			model.addAttribute("errorMessage", e.getMessage());
@@ -148,23 +162,24 @@ public class UserController {
 	}
 
 	// 유효성 검사 메서드
-	// validateUserInput 메서드는 사용자의 입력을 검증하고, 입력이 올바르지 않으면 예외를 발생시킴.
 	private void validateUserInput(User user) throws Exception {
-		if (!Pattern.matches(verifyId, user.getUserId())) { // user.getUserId() 값이 verifyId를 만족하지 않으면 예외처리
+		if (!Pattern.matches(verifyId, user.getUserId())) {
+			log.warn("아이디 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
 			throw new Exception("아이디 형식이 올바르지 않습니다. 4-20자의 영문자와 숫자만 사용 가능합니다.");
 		}
 
-		if (!Pattern.matches(verifyName, user.getUserName())) { // user.getUserName() 값이 verifyName를 만족하지 않으면 예외처리
+		if (!Pattern.matches(verifyName, user.getUserName())) {
+			log.warn("이름 형식이 올바르지 않음 - 사용자 이름: {}", user.getUserName());
 			throw new Exception("이름 형식이 올바르지 않습니다. 2-15자의 한글 또는 영문자만 사용 가능합니다.");
 		}
 
-		if (!Pattern.matches(verifyPassword, user.getUserPassword())) { // user.getUserPassword() 값이 verifyPassword를
-																		// 만족하지 않으면 예외처리
+		if (!Pattern.matches(verifyPassword, user.getUserPassword())) {
+			log.warn("비밀번호 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
 			throw new Exception("비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
 		}
 
-		if (!Pattern.matches(verifyAddress, user.getUserAddress())) { // user.getUserAddress() 값이 verifyAddress를 만족하지
-																		// 않으면 예외처리
+		if (!Pattern.matches(verifyAddress, user.getUserAddress())) {
+			log.warn("주소 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
 			throw new Exception("주소는 5-50자 사이여야 합니다.");
 		}
 	}
@@ -172,13 +187,15 @@ public class UserController {
 	// 로그인
 	@GetMapping("/user/signin")
 	public String signin(HttpSession session) {
-
+		log.info("signin 페이지 호출됨 - 세션 ID: {}", session.getId());
 		return "user/signin";
 	}
 
 	@PostMapping("/user/signin")
 	public String signinAction(User user, HttpSession session, Model model) {
 		try {
+			log.info("로그인 요청 처리 - 사용자 ID: {}", user.getUserId());
+
 			User loginUser = userService.loginUser(user);
 			if (loginUser == null) {
 				throw new Exception("아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -190,10 +207,11 @@ public class UserController {
 			String loginUserFilePath = fileService.findFilePathByUserId(loginUser.getUserId());
 			session.setAttribute("filePath", loginUserFilePath);
 
+			log.info("로그인 성공 - 사용자 ID: {}", user.getUserId());
 			return "redirect:/main";
 		} catch (Exception e) {
+			log.error("로그인 중 오류 발생", e);
 			model.addAttribute("errorMessage", e.getMessage());
-			
 			return "/user/signin";
 		}
 	}
@@ -201,6 +219,7 @@ public class UserController {
 	// 로그아웃
 	@RequestMapping("/user/logout")
 	public String logout(HttpSession session) {
+		log.info("로그아웃 요청 처리 - 세션 ID: {}", session.getId());
 		session.invalidate();
 		return "redirect:/startpage";
 	}
@@ -209,6 +228,8 @@ public class UserController {
 	@RequestMapping("/user/removeUser")
 	public String removeUser(HttpSession session, Model model) {
 		try {
+			log.info("회원 탈퇴 요청 처리 - 세션 ID: {}", session.getId());
+
 			User sessionUser = (User) session.getAttribute("user");
 			if (sessionUser == null) {
 				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
@@ -220,8 +241,10 @@ public class UserController {
 			}
 
 			session.invalidate();
+			log.info("회원 탈퇴 성공 - 사용자 ID: {}", sessionUser.getUserId());
 			return "redirect:/startpage";
 		} catch (Exception e) {
+			log.error("회원 탈퇴 중 오류 발생", e);
 			model.addAttribute("errorMessage", e.getMessage());
 			return "user/main";
 		}
@@ -230,23 +253,27 @@ public class UserController {
 	// 주소변경
 	@PostMapping("/user/modifyAddress")
 	public String modifyAddress(User user, HttpSession session) {
+		try {
+			log.info("주소 변경 요청 처리 - 사용자 ID: {}", user.getUserId());
 
-		User sessionUser = (User) session.getAttribute("user");
+			User sessionUser = (User) session.getAttribute("user");
 
-		// 변경할 주소 가져오기
-		sessionUser.setUserAddress(user.getUserAddress());
+			// 변경할 주소 가져오기
+			sessionUser.setUserAddress(user.getUserAddress());
 
-		int result = userService.modifyAddress(sessionUser);
+			int result = userService.modifyAddress(sessionUser);
+			if (result > 0) {
+				log.info("주소 변경 성공 - 사용자 ID: {}", sessionUser.getUserId());
+			} else {
+				log.warn("주소 변경 실패 - 사용자 ID: {}", sessionUser.getUserId());
+			}
 
-		if (result > 0) {
-			System.out.println("성공");
-		} else {
-			System.out.println("실패");
+			session.setAttribute("user", sessionUser);
+			return "redirect:/main";
+		} catch (Exception e) {
+			log.error("주소 변경 중 오류 발생", e);
+			return "redirect:/main";
 		}
-
-		session.setAttribute("user", sessionUser);
-
-		return "redirect:/main";
 	}
 
 	// 비밀번호 변경
@@ -254,41 +281,41 @@ public class UserController {
 	public String modifyPassword(HttpSession session, @RequestParam("currentPassword") String currentPassword,
 			@RequestParam("newPassword") String newPassword, Model model) {
 		try {
+			log.info("비밀번호 변경 요청 처리 - 세션 ID: {}", session.getId());
 
 			User sessionUser = (User) session.getAttribute("user");
 			if (sessionUser == null) {
-				//throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
+				throw new Exception("세션에서 사용자를 찾을 수 없습니다.");
 			}
 
 			// 현재 비밀번호가 일치하는지 확인
 			if (!sessionUser.getUserPassword().equals(currentPassword)) {
-				//throw new Exception("현재 비밀번호와 일치하지 않습니다.");
+				throw new Exception("현재 비밀번호와 일치하지 않습니다.");
 			}
 
 			// 새로운 비밀번호가 현재 비밀번호와 동일하지 않은지 확인
 			if (currentPassword.equals(newPassword)) {
-				//throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
+				throw new Exception("새 비밀번호는 현재 비밀번호와 달라야 합니다.");
 			}
 
 			// 새로운 비밀번호의 유효성 검사
 			if (!Pattern.matches(verifyPassword, newPassword)) {
-				//throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
+				throw new Exception("새 비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
 			}
 
 			sessionUser.setUserPassword(newPassword);
 			int result = userService.modifyPassword(sessionUser);
 			if (result <= 0) {
-				//throw new Exception("비밀번호 변경에 실패했습니다.");
+				throw new Exception("비밀번호 변경에 실패했습니다.");
 			}
 
 			session.setAttribute("user", sessionUser);
+			log.info("비밀번호 변경 성공 - 사용자 ID: {}", sessionUser.getUserId());
 			return "redirect:/main";
-
 		} catch (Exception e) {
-
-			//model.addAttribute("errorMessage", e.getMessage());
+			log.error("비밀번호 변경 중 오류 발생", e);
+			model.addAttribute("errorMessage", e.getMessage());
 			return "redirect:/main";
-
 		}
 	}
 
@@ -301,6 +328,8 @@ public class UserController {
 		int result = 0;
 
 		try {
+			log.info("아이디 중복 체크 요청 처리 - 요청 데이터: {}", requestData);
+
 			// 요청 데이터와 signupId의 유효성 검사
 			if (requestData != null && !requestData.isEmpty()) {
 				String signupId = requestData.get("signupId");
@@ -310,6 +339,7 @@ public class UserController {
 					result = userService.checkDuplicatedId(signupId);
 				} else {
 					// signupId가 비어 있는 경우
+					log.warn("아이디가 입력되지 않음");
 					header.setResultCode("01");
 					header.setResultMessage("아이디가 입력되지 않았습니다.");
 					apiResponse.setHeader(header);
@@ -318,6 +348,7 @@ public class UserController {
 				}
 			} else {
 				// requestData가 null이거나 비어 있는 경우
+				log.warn("잘못된 요청 데이터");
 				header.setResultCode("01");
 				header.setResultMessage("잘못된 요청입니다.");
 				apiResponse.setHeader(header);
@@ -329,15 +360,17 @@ public class UserController {
 			if (result == 0) {
 				header.setResultCode("00");
 				header.setResultMessage("중복체크가 완료되었습니다. 사용가능");
+				log.info("아이디 중복 체크 완료 - 사용 가능");
 			} else {
 				header.setResultCode("02");
 				header.setResultMessage("중복된 아이디가 존재합니다.");
+				log.warn("아이디 중복 - 사용 불가");
 			}
 		} catch (Exception e) {
 			// 예외 처리
+			log.error("아이디 중복 체크 중 오류 발생", e);
 			header.setResultCode("99");
 			header.setResultMessage("서버 오류가 발생했습니다.");
-			e.printStackTrace(); // 예외 로그를 기록 (필요에 따라 로깅 프레임워크를 사용)
 		}
 
 		apiResponse.setHeader(header);
