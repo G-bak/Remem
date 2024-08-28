@@ -251,7 +251,7 @@ function loadAllTimecapsules() {
                   }
                });
             } else {
-               console.error("Invalid timecapsules data:", timecapsules);
+               console.error("Invalid timecapsules data");
             }
          } else {
             console.log("Response Code: " + response.header.resultCode);

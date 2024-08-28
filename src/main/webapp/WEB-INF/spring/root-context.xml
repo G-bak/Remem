@@ -13,17 +13,6 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<!-- Bean 객체로 등록 -->
-	<!-- UserDAO userDAO = new UserDAOImpl(); -->
-	<!-- <bean id="userDAO" class="com.app.dao.user.impl.UserDAOImpl"></bean> -->
-
-	<!-- UserService userService = new UserServiceImpl(userDAO); -->
-	<!-- <bean id="userService" class="com.app.service.user.impl.UserServiceImpl"> -->
-	<!-- 생성자를 통한 의존성 주입 -->
-	<!-- <constructor-arg ref="userDAO"></constructor-arg> -->
-	<!-- setter 를 통한 의존성 주입 -->
-	<!-- <property name="userDAO" ref="userDAO"></property> -->
-	<!-- </bean> -->
 
 	<bean class="org.apache.commons.dbcp2.BasicDataSource" id="data_source">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
@@ -44,13 +33,5 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<context:component-scan base-package="com.app.service"></context:component-scan>
 	<context:component-scan base-package="com.app.dao"></context:component-scan>
-	
-	
-	
-	
-<!-- 	<bean id="sampleScheduler" class="com.app.scheduler.DailySalesScheduler" /> -->
-<!-- 	<task:scheduler id="mainScheduler" pool-size="10" /> -->
-<!-- 	<task:executor id="mainTaskExecutor" pool-size="10" /> -->
-<!-- 	<task:annotation-driven executor="mainTaskExecutor" scheduler="mainScheduler" /> -->
 
 </beans>
