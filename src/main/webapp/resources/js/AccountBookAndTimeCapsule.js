@@ -229,7 +229,6 @@ $(document).ready(function() {
 
 
 
-// 전체 타임캡슐 조회
 function loadAllTimecapsules() {
    $.ajax({
       url: '/all/Timecapsules',
@@ -237,24 +236,27 @@ function loadAllTimecapsules() {
       success: function(response) {
          if (response && response.header && (response.header.resultCode === '00' || response.header.resultCode === '01')) {
 
-
             console.log("Response Code: " + response.header.resultCode);
             console.log("Response Message:", response.header.resultMessage);
             
-             var timecapsules = response.body;
+            var timecapsules = response.body;
             
-            
-            timecapsules.forEach(function(tc) {
-               if (tc.tcDate && tc.tcContent) {
-                  addTimecapsule(tc.tcDate, tc.tcContent);
-               } else {
-                  console.error("Invalid time capsule data:", tc);
-               }
-            });
+            // response.body가 유효한 배열인지 확인
+            if (Array.isArray(timecapsules)) {
+               timecapsules.forEach(function(tc) {
+                  if (tc.tcDate && tc.tcContent) {
+                     addTimecapsule(tc.tcDate, tc.tcContent);
+                  } else {
+                     console.error("Invalid time capsule data:", tc);
+                  }
+               });
+            } else {
+               console.error("Invalid timecapsules data:", timecapsules);
+            }
          } else {
-			 console.log("Response Code: " + response.header.resultCode);
+            console.log("Response Code: " + response.header.resultCode);
             console.log("Response Message:", response.header.resultMessage);
-		 }
+         }
       },
       error: function(error) {
          console.error("Error:", error);
