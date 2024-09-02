@@ -165,23 +165,19 @@ public class UserController {
 	// 유효성 검사 메서드
 	private void validateUserInput(User user) throws Exception {
 		if (!Pattern.matches(verifyId, user.getUserId())) {
-			log.warn("아이디 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
-			throw new Exception("아이디 형식이 올바르지 않습니다. 4-20자의 영문자와 숫자만 사용 가능합니다.");
+			log.warn("아이디 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());	
 		}
 
 		if (!Pattern.matches(verifyName, user.getUserName())) {
 			log.warn("이름 형식이 올바르지 않음 - 사용자 이름: {}", user.getUserName());
-			throw new Exception("이름 형식이 올바르지 않습니다. 2-15자의 한글 또는 영문자만 사용 가능합니다.");
 		}
 
 		if (!Pattern.matches(verifyPassword, user.getUserPassword())) {
 			log.warn("비밀번호 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
-			throw new Exception("비밀번호는 4-20자이어야 하며, 최소 하나의 문자와 숫자를 포함해야 합니다.");
 		}
 
 		if (!Pattern.matches(verifyAddress, user.getUserAddress())) {
 			log.warn("주소 형식이 올바르지 않음 - 사용자 ID: {}", user.getUserId());
-			throw new Exception("주소는 5-50자 사이여야 합니다.");
 		}
 	}
 
